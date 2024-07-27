@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://c3ys4badrjjgc"]
+
+[ext_resource type="Script" path="res://Scenes/Weapons/Primary/Revolver/revolver.gd" id="1_71ky4"]
+
+[node name="Revolver" type="Node2D"]
+script = ExtResource("1_71ky4")
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+color = Color(1, 0, 0, 1)
+polygon = PackedVector2Array(0, -10, 0, 10, 20, 0)
+
+[node name="ShootCooldown" type="Timer" parent="."]
+wait_time = 0.5
+
+[connection signal="timeout" from="ShootCooldown" to="." method="_on_shoot_cooldown_timeout"]
