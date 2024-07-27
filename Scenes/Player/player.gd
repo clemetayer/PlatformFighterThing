@@ -10,6 +10,7 @@ extends CharacterBody2D
 ##### VARIABLES #####
 #---- CONSTANTS -----
 const SPEED = 300.0
+const TARGET_SPEED = 300.0 # px/s
 const JUMP_VELOCITY = -400.0
 
 #---- EXPORTS -----
@@ -24,7 +25,9 @@ var _gravity : float = ProjectSettings.get_setting("physics/2d/default_gravity")
 var _direction := Vector2.ZERO
 
 #==== ONREADY ====
-# onready var onready_var # Optionnal comment
+@onready var FLOOR_ACCELERATION = 30.0 * ProjectSettings.get_setting("physics/common/physics_ticks_per_second") # px/s² # Kind of a constant, that's why it is in all caps
+@onready var AIR_ACCELERATION = 15.0 * ProjectSettings.get_setting("physics/common/physics_ticks_per_second") # px/s² # Kind of a constant, that's why it is in all caps
+
 
 ##### PROCESSING #####
 # Called when the object is initialized.
@@ -53,11 +56,8 @@ func _physics_process(delta):
 		velocity.y = JUMP_VELOCITY
 
 	# Get the input direction and handle the movement/deceleration.
-	if _direction.x:
-		velocity.x = _direction.x * SPEED * delta
-	else:
-		velocity.x = move_toward(velocity.x, 0, SPEED)
-
+	var acceleration = FLOOR_ACCELERATION if is_on_floor() else AIR_ACCELERATION
+	velocity.x = move_toward(velocity.x, _direction.x * TARGET_SPEED, acceleration * delta)
 	move_and_slide()
 
 ##### PUBLIC METHODS #####
@@ -70,6 +70,7 @@ func _handle_inputs() -> void:
 	_handle_direction_inputs()
 
 func _handle_direction_inputs() -> void:
+	_direction = Vector2.ZERO
 	if Input.is_action_pressed("left"):
 		_direction.x -= 1
 	if Input.is_action_pressed("right"):

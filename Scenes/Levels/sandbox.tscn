@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://fgxha8wl55pa" path="res://Scenes/Player/player.tscn" id="1_6otmx"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1ev16"]
-size = Vector2(2000, 20)
+size = Vector2(2000, 40)
 
 [node name="Sandbox" type="Node2D"]
 
