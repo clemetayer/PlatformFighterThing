@@ -9,9 +9,8 @@ extends CharacterBody2D
 
 ##### VARIABLES #####
 #---- CONSTANTS -----
-const SPEED = 300.0
-const TARGET_SPEED = 300.0 # px/s
-const JUMP_VELOCITY = -400.0
+const TARGET_SPEED = 500.0 # px/s
+const JUMP_VELOCITY = -600.0
 
 #---- EXPORTS -----
 # export(int) var EXPORT_NAME # Optionnal comment
@@ -25,8 +24,8 @@ var _gravity : float = ProjectSettings.get_setting("physics/2d/default_gravity")
 var _direction := Vector2.ZERO
 
 #==== ONREADY ====
-@onready var FLOOR_ACCELERATION = 30.0 * ProjectSettings.get_setting("physics/common/physics_ticks_per_second") # px/s² # Kind of a constant, that's why it is in all caps
-@onready var AIR_ACCELERATION = 15.0 * ProjectSettings.get_setting("physics/common/physics_ticks_per_second") # px/s² # Kind of a constant, that's why it is in all caps
+@onready var FLOOR_ACCELERATION = 50.0 * ProjectSettings.get_setting("physics/common/physics_ticks_per_second") # px/s² # Kind of a constant, that's why it is in all caps
+@onready var AIR_ACCELERATION = 25.0 * ProjectSettings.get_setting("physics/common/physics_ticks_per_second") # px/s² # Kind of a constant, that's why it is in all caps
 
 
 ##### PROCESSING #####
