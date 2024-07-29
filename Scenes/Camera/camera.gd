@@ -9,7 +9,7 @@ extends Camera2D
 
 ##### VARIABLES #####
 #---- CONSTANTS -----
-const ZOOM_OFFSET := Vector2i.ONE * 1000
+const ZOOM_OFFSET := Vector2i.ONE * 100
 
 #---- EXPORTS -----
 @export var PLAYERS : Array[NodePath]
@@ -60,8 +60,8 @@ func _get_best_zoom() -> float:
 	DebugInterface.set_debug_text("Screen size offset", screen_size_offset)
 	var best_zoom := Vector2.ZERO
 	DebugInterface.set_debug_text("Pos diff", Vector2(min_pos.x - max_pos.x, min_pos.y - max_pos.y))
-	best_zoom.x = max(abs(min_pos.x - max_pos.x)/screen_size_offset.x,1)
-	best_zoom.y = max(abs(min_pos.y - max_pos.y)/screen_size_offset.y,1)
+	best_zoom.x = max(abs(min_pos.x - max_pos.x)/(screen_size_offset.x/2),1)
+	best_zoom.y = max(abs(min_pos.y - max_pos.y)/(screen_size_offset.y/2),1)
 	return 1/max(best_zoom.x, best_zoom.y)
 
 func _get_global_min_max_pos() -> Dictionary:
