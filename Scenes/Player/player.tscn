@@ -1,7 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://fgxha8wl55pa"]
+[gd_scene load_steps=5 format=3 uid="uid://fgxha8wl55pa"]
 
 [ext_resource type="Script" path="res://Scenes/Player/player.gd" id="1_b1dbg"]
-[ext_resource type="PackedScene" uid="uid://c3ys4badrjjgc" path="res://Scenes/Weapons/Primary/Revolver/revolver.tscn" id="2_jnu6d"]
 [ext_resource type="Texture2D" uid="uid://btcmiq31qee7d" path="res://Scenes/Player/CharacterBody.png" id="2_pi5cj"]
 [ext_resource type="Texture2D" uid="uid://dy0q7mppvj7j1" path="res://Scenes/Player/CharacterOutline.png" id="3_b0wk1"]
 
@@ -26,5 +25,3 @@ texture = ExtResource("3_b0wk1")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_fylq6")
-
-[node name="Revolver" parent="." instance=ExtResource("2_jnu6d")]
