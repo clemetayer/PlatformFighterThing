@@ -5,5 +5,5 @@ class_name SingleInputRecord
 ##### VARIABLES #####
 #---- STANDARD -----
 #==== PUBLIC ====
-var action : String
+var action : ActionHandlerBase.actions
 var state : ActionHandlerBase.states

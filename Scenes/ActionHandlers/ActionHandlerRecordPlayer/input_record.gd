@@ -6,4 +6,4 @@ class_name InputRecord
 #---- STANDARD -----
 #==== PUBLIC ====
 var inputs : Array[FrameInputRecord] = []
-var final_frame_time := 0
+var final_frame_time := 0.0

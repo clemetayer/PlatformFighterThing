@@ -57,7 +57,7 @@ func _physics_process(delta):
 		velocity.y = 0
 
 	# Handle jump.
-	if ActionHandlerBase.is_just_active(onready_paths.action_handler.jump) and is_on_floor():
+	if _is_action_just_active(ActionHandlerBase.actions.JUMP) and is_on_floor():
 		velocity.y = JUMP_VELOCITY
 
 	# Get the input direction and handle the movement/deceleration.
@@ -77,19 +77,28 @@ func _handle_inputs() -> void:
 
 func _handle_direction_inputs() -> void:
 	_direction = Vector2.ZERO
-	if ActionHandlerBase.is_active(onready_paths.action_handler.left):
+	if _is_action_active(ActionHandlerBase.actions.LEFT):
 		_direction.x -= 1
-	if ActionHandlerBase.is_active(onready_paths.action_handler.right):
+	if _is_action_active(ActionHandlerBase.actions.RIGHT):
 		_direction.x += 1
-	if ActionHandlerBase.is_active(onready_paths.action_handler.up):
+	if _is_action_active(ActionHandlerBase.actions.UP):
 		_direction.y -= 1
-	if ActionHandlerBase.is_active(onready_paths.action_handler.down):
+	if _is_action_active(ActionHandlerBase.actions.DOWN):
 		_direction.y += 1
 	onready_paths.primary_weapon.aim(_direction)
 
 func _handle_fire() -> void:
-	if ActionHandlerBase.is_just_active(onready_paths.action_handler.fire):
+	if _is_action_just_active(ActionHandlerBase.actions.FIRE):
 		onready_paths.primary_weapon.fire()
+
+# mostly to improve readability
+func _is_action_active(action : ActionHandlerBase.actions) -> bool:
+	return ActionHandlerBase.is_active(onready_paths.action_handler.get_action_state(action))
+
+# mostly to improve readability
+func _is_action_just_active(action : ActionHandlerBase.actions) -> bool:
+	return ActionHandlerBase.is_just_active(onready_paths.action_handler.get_action_state(action))
+
 
 ##### SIGNAL MANAGEMENT #####
 # Functions that should be triggered when a specific signal is received

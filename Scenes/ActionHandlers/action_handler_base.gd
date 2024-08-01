@@ -4,18 +4,24 @@ class_name ActionHandlerBase
 
 ##### ENUMS #####
 enum states {INACTIVE, JUST_ACTIVE, ACTIVE, JUST_INACTIVE}
+enum actions {JUMP, UP, DOWN, LEFT, RIGHT, FIRE}
 
 ##### VARIABLES #####
 #---- STANDARD -----
-#==== PUBLIC ====
-var jump := states.INACTIVE
-var left := states.INACTIVE
-var right := states.INACTIVE
-var up := states.INACTIVE
-var down := states.INACTIVE
-var fire := states.INACTIVE
+#==== PRIVATE ====
+var _action_states := {
+	actions.JUMP : states.INACTIVE,
+	actions.UP : states.INACTIVE,
+	actions.DOWN : states.INACTIVE,
+	actions.LEFT : states.INACTIVE,
+	actions.RIGHT : states.INACTIVE,
+	actions.FIRE : states.INACTIVE,
+}
 
 ##### PUBLIC METHODS #####
+func get_action_state(action : actions) -> states:
+	return _action_states[action]
+
 # convenient method to quickly check if an action is active or not since JUST_ACTIVE has priority over ACTIVE
 static func is_active(action : states) -> bool:
 	return action == states.ACTIVE or action == states.JUST_ACTIVE

@@ -6,4 +6,4 @@ class_name FrameInputRecord
 #---- STANDARD -----
 #==== PUBLIC ====
 var inputs : Array[SingleInputRecord] = []
-var frame_time : float
+var frame_time := 0.0

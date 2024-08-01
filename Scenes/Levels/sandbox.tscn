@@ -12,6 +12,9 @@ size = Vector2(2000, 40)
 position = Vector2(-242, -226)
 ACTION_HANDLER = 1
 
+[node name="Ennemy" parent="." instance=ExtResource("2_s78v1")]
+ACTION_HANDLER = 2
+
 [node name="StaticBody2D" type="StaticBody2D" parent="." groups=["static_obstacle"]]
 collision_mask = 7
 

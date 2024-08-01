@@ -5,12 +5,12 @@ class_name ActionHandlerInput
 ##### PROCESSING #####
 # Called every frame. 'delta' is the elapsed time since the previous frame. Remove the "_" to use it.
 func _process(_delta):
-	jump = _generic_get_action_state("jump")
-	left = _generic_get_action_state("left")
-	right = _generic_get_action_state("right")
-	up = _generic_get_action_state("up")
-	down = _generic_get_action_state("down")
-	fire = _generic_get_action_state("fire")
+	_action_states[actions.JUMP] = _generic_get_action_state("jump")
+	_action_states[actions.LEFT] = _generic_get_action_state("left")
+	_action_states[actions.RIGHT] = _generic_get_action_state("right")
+	_action_states[actions.UP] = _generic_get_action_state("up")
+	_action_states[actions.DOWN] = _generic_get_action_state("down")
+	_action_states[actions.FIRE] = _generic_get_action_state("fire")
 
 ##### PROTECTED METHODS #####
 func _generic_get_action_state(input_action : String) -> states:
@@ -23,9 +23,9 @@ func _generic_get_action_state(input_action : String) -> states:
 	return states.INACTIVE
 
 func _debug_show_states() -> void:
-	DebugInterface.set_debug_text("jump",jump)
-	DebugInterface.set_debug_text("left",left)
-	DebugInterface.set_debug_text("right",right)
-	DebugInterface.set_debug_text("up",up)
-	DebugInterface.set_debug_text("down",down)
-	DebugInterface.set_debug_text("fire",fire)
+	DebugInterface.set_debug_text("jump",_action_states[actions.JUMP])
+	DebugInterface.set_debug_text("left",_action_states[actions.LEFT])
+	DebugInterface.set_debug_text("right",_action_states[actions.RIGHT])
+	DebugInterface.set_debug_text("up",_action_states[actions.UP])
+	DebugInterface.set_debug_text("down",_action_states[actions.DOWN])
+	DebugInterface.set_debug_text("fire",_action_states[actions.FIRE])
