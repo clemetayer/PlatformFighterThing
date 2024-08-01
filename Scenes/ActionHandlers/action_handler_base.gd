@@ -18,10 +18,10 @@ var fire := states.INACTIVE
 ##### PUBLIC METHODS #####
 # convenient method to quickly check if an action is active or not since JUST_ACTIVE has priority over ACTIVE
 static func is_active(action : states) -> bool:
-    return action == states.ACTIVE or action == states.JUST_ACTIVE
+	return action == states.ACTIVE or action == states.JUST_ACTIVE
 
 static func is_just_active(action: states) -> bool:
-    return action == states.JUST_ACTIVE
+	return action == states.JUST_ACTIVE
 
 static func is_just_inactive(action: states) -> bool:
-    return action == states.JUST_INACTIVE
+	return action == states.JUST_INACTIVE
