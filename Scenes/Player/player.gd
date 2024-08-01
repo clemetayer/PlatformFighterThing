@@ -13,7 +13,8 @@ const TARGET_SPEED = 500.0 # px/s
 const JUMP_VELOCITY = -600.0
 
 #---- EXPORTS -----
-# export(int) var EXPORT_NAME # Optionnal comment
+@export var ACTION_HANDLER : StaticActionHandlerStrategy.handlers
+@export var PRIMARY_WEAPON : StaticPrimaryWeaponHandler.weapons
 
 #---- STANDARD -----
 #==== PUBLIC ====
@@ -24,6 +25,10 @@ var _gravity : float = ProjectSettings.get_setting("physics/2d/default_gravity")
 var _direction := Vector2.ZERO
 
 #==== ONREADY ====
+@onready var onready_paths := {
+	"action_handler":StaticActionHandlerStrategy.get_handler(ACTION_HANDLER),
+	"primary_weapon":StaticPrimaryWeaponHandler.get_weapon(PRIMARY_WEAPON)
+}
 @onready var FLOOR_ACCELERATION = 50.0 * ProjectSettings.get_setting("physics/common/physics_ticks_per_second") # px/s² # Kind of a constant, that's why it is in all caps
 @onready var AIR_ACCELERATION = 25.0 * ProjectSettings.get_setting("physics/common/physics_ticks_per_second") # px/s² # Kind of a constant, that's why it is in all caps
 
@@ -35,7 +40,8 @@ func _init():
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass
+	add_child(onready_paths.action_handler)
+	add_child(onready_paths.primary_weapon)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame. Remove the "_" to use it.
 func _process(_delta):
@@ -51,7 +57,7 @@ func _physics_process(delta):
 		velocity.y = 0
 
 	# Handle jump.
-	if Input.is_action_just_pressed("jump") and is_on_floor():
+	if ActionHandlerBase.is_just_active(onready_paths.action_handler.jump) and is_on_floor():
 		velocity.y = JUMP_VELOCITY
 
 	# Get the input direction and handle the movement/deceleration.
@@ -67,17 +73,23 @@ func _physics_process(delta):
 ##### PROTECTED METHODS #####
 func _handle_inputs() -> void:
 	_handle_direction_inputs()
+	_handle_fire()
 
 func _handle_direction_inputs() -> void:
 	_direction = Vector2.ZERO
-	if Input.is_action_pressed("left"):
+	if ActionHandlerBase.is_active(onready_paths.action_handler.left):
 		_direction.x -= 1
-	if Input.is_action_pressed("right"):
+	if ActionHandlerBase.is_active(onready_paths.action_handler.right):
 		_direction.x += 1
-	if Input.is_action_pressed("up"):
+	if ActionHandlerBase.is_active(onready_paths.action_handler.up):
 		_direction.y -= 1
-	if Input.is_action_pressed("down"):
+	if ActionHandlerBase.is_active(onready_paths.action_handler.down):
 		_direction.y += 1
+	onready_paths.primary_weapon.aim(_direction)
+
+func _handle_fire() -> void:
+	if ActionHandlerBase.is_just_active(onready_paths.action_handler.fire):
+		onready_paths.primary_weapon.fire()
 
 ##### SIGNAL MANAGEMENT #####
 # Functions that should be triggered when a specific signal is received
