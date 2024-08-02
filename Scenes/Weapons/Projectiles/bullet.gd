@@ -11,6 +11,7 @@ extends Area2D
 #---- CONSTANTS -----
 const SPEED := 1000.0 # px/s
 const DAMAGE := 10.0
+const KNOCKBACK := 5.0
 
 #---- EXPORTS -----
 # export(int) var EXPORT_NAME # Optionnal comment
@@ -20,7 +21,7 @@ const DAMAGE := 10.0
 var current_owner # the current "owner" of the bullet (i.e, the last thing that either spawned it, reflected it, etc.)
 
 #==== PRIVATE ====
-# var _private_var # Optionnal comment
+var _direction := Vector2.ZERO
 
 #==== ONREADY ====
 # onready var onready_var # Optionnal comment
@@ -36,8 +37,8 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame. Remove the "_" to use it.
 func _process(delta):
-	var direction = Vector2.RIGHT.rotated(rotation).normalized()
-	position += direction * SPEED * delta
+	_direction = Vector2.RIGHT.rotated(rotation).normalized()
+	position += _direction * SPEED * delta
 
 ##### PUBLIC METHODS #####
 # Methods that are intended to be "visible" to other nodes or scripts
@@ -57,6 +58,7 @@ func _on_area_entered(area):
 
 func _on_body_entered(body):
 	if body.is_in_group("player") and current_owner != body and body.has_method("hurt"):
-		body.hurt(DAMAGE)
+		body.hurt(DAMAGE, KNOCKBACK, _direction)
+		queue_free()
 	elif body.is_in_group("static_obstacle"): 
 		queue_free()

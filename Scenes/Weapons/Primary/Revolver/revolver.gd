@@ -16,7 +16,7 @@ const PROJECTILE_SCENE_PATH := "res://Scenes/Weapons/Projectiles/bullet.tscn"
 
 #---- STANDARD -----
 #==== PUBLIC ====
-# var public_var # Optionnal comment
+var projectile_owner = null # the owner of the projectile that will spawn, i.e : the player with the weapon
 
 #==== PRIVATE ====
 var _on_cooldown := false
@@ -62,6 +62,7 @@ func aim(direction : Vector2) -> void:
 ##### PROTECTED METHODS #####
 func _spawn_projectile() -> void:
 	var projectile = load(PROJECTILE_SCENE_PATH).instantiate()
+	projectile.current_owner = projectile_owner
 	projectile.global_position = global_position
 	projectile.rotation = rotation
 	get_tree().current_scene.add_child(projectile)

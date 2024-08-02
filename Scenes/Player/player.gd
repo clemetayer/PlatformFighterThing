@@ -1,5 +1,5 @@
 extends CharacterBody2D
-# docstring
+# player script
 
 ##### SIGNALS #####
 # Node signals
@@ -23,11 +23,14 @@ const JUMP_VELOCITY = -600.0
 #==== PRIVATE ====
 var _gravity : float = ProjectSettings.get_setting("physics/2d/default_gravity")
 var _direction := Vector2.ZERO
+var _damage := 0.0
+var _additional_vector := Vector2.ZERO # external forces that can have an effect on the player and needs to be added to the velocity on the next physics frame
 
 #==== ONREADY ====
 @onready var onready_paths := {
 	"action_handler":StaticActionHandlerStrategy.get_handler(ACTION_HANDLER),
-	"primary_weapon":StaticPrimaryWeaponHandler.get_weapon(PRIMARY_WEAPON)
+	"primary_weapon":StaticPrimaryWeaponHandler.get_weapon(PRIMARY_WEAPON),
+	"damage_label":$"Damage"
 }
 @onready var FLOOR_ACCELERATION = 50.0 * ProjectSettings.get_setting("physics/common/physics_ticks_per_second") # px/s² # Kind of a constant, that's why it is in all caps
 @onready var AIR_ACCELERATION = 25.0 * ProjectSettings.get_setting("physics/common/physics_ticks_per_second") # px/s² # Kind of a constant, that's why it is in all caps
@@ -42,6 +45,8 @@ func _init():
 func _ready():
 	add_child(onready_paths.action_handler)
 	add_child(onready_paths.primary_weapon)
+	onready_paths.primary_weapon.projectile_owner = self
+	onready_paths.damage_label.text = "%f" % _damage
 
 # Called every frame. 'delta' is the elapsed time since the previous frame. Remove the "_" to use it.
 func _process(_delta):
@@ -49,7 +54,7 @@ func _process(_delta):
 
 func _physics_process(delta):
 	_handle_inputs()
-	
+
 	# Add the gravity.
 	if not is_on_floor():
 		velocity.y += _gravity * delta
@@ -63,12 +68,18 @@ func _physics_process(delta):
 	# Get the input direction and handle the movement/deceleration.
 	var acceleration = FLOOR_ACCELERATION if is_on_floor() else AIR_ACCELERATION
 	velocity.x = move_toward(velocity.x, _direction.x * TARGET_SPEED, acceleration * delta)
+
+	# Adds the additional vector
+	velocity += _additional_vector
+	_additional_vector = Vector2.ZERO
+
 	move_and_slide()
 
 ##### PUBLIC METHODS #####
-# Methods that are intended to be "visible" to other nodes or scripts
-# func public_method(arg : int) -> void:
-#     pass
+func hurt(damage : float, knockback : float, direction : Vector2) -> void:
+	_damage += damage
+	onready_paths.damage_label.text = "%f" % _damage
+	_additional_vector += direction.normalized() * _damage * knockback
 
 ##### PROTECTED METHODS #####
 func _handle_inputs() -> void:
