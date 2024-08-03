@@ -1,5 +1,7 @@
+# tool
 extends Area2D
-# A default bullet
+# class_name Class
+# docstring
 
 ##### SIGNALS #####
 # Node signals
@@ -9,22 +11,23 @@ extends Area2D
 
 ##### VARIABLES #####
 #---- CONSTANTS -----
-const SPEED := 1000.0 # px/s
-const DAMAGE := 10.0
-const KNOCKBACK := 10.0
+# const constant = 10 # Optionnal comment
 
 #---- EXPORTS -----
-# export(int) var EXPORT_NAME # Optionnal comment
+@export var BASE_HEALTH := 5000 
+@export var BOUNCE_BACK_DIRECTION := Vector2.RIGHT
 
 #---- STANDARD -----
 #==== PUBLIC ====
-var current_owner # the current "owner" of the bullet (i.e, the last thing that either spawned it, reflected it, etc.)
+# var public_var # Optionnal comment
 
 #==== PRIVATE ====
-var _direction := Vector2.ZERO
+var _health = BASE_HEALTH
 
 #==== ONREADY ====
-# onready var onready_var # Optionnal comment
+@onready var onready_paths := {
+	"health_label":$"Label"
+}
 
 ##### PROCESSING #####
 # Called when the object is initialized.
@@ -33,12 +36,11 @@ func _init():
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass
+	onready_paths.health_label.text = "%f" % _health
 
 # Called every frame. 'delta' is the elapsed time since the previous frame. Remove the "_" to use it.
-func _process(delta):
-	_direction = Vector2.RIGHT.rotated(rotation).normalized()
-	position += _direction * SPEED * delta
+func _process(_delta):
+	pass
 
 ##### PUBLIC METHODS #####
 # Methods that are intended to be "visible" to other nodes or scripts
@@ -51,14 +53,15 @@ func _process(delta):
 #     pass
 
 ##### SIGNAL MANAGEMENT #####
-# Functions that should be triggered when a specific signal is received
-func _on_area_entered(area):
-	# TODO
-	pass
-
 func _on_body_entered(body):
-	if body.is_in_group("player") and current_owner != body and body.has_method("hurt"):
-		body.hurt(DAMAGE, KNOCKBACK, _direction)
-		queue_free()
-	elif body.is_in_group("static_obstacle"): 
-		queue_free()
+	if body.is_in_group("player"):
+		if BOUNCE_BACK_DIRECTION.x != 0:
+			_health -= abs(body.velocity.x)
+		elif BOUNCE_BACK_DIRECTION.y != 0:
+			_health -= abs(body.velocity.y)
+		if _health <= 0:
+			queue_free()
+		else:
+			onready_paths.health_label.text = "%f" % _health
+			if body.has_method("bounce_back"):
+				body.bounce_back(BOUNCE_BACK_DIRECTION)

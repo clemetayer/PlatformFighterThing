@@ -81,6 +81,12 @@ func hurt(damage : float, knockback : float, direction : Vector2) -> void:
 	onready_paths.damage_label.text = "%f" % _damage
 	_additional_vector += direction.normalized() * _damage * knockback
 
+func bounce_back(direction : Vector2) -> void:
+	if direction.x != 0:
+		velocity.x = -velocity.x
+	elif direction.y != 0:
+		velocity.y = -velocity.y
+
 ##### PROTECTED METHODS #####
 func _handle_inputs() -> void:
 	_handle_direction_inputs()
