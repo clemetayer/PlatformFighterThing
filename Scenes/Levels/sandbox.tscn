@@ -18,9 +18,11 @@ size = Vector2(2000, 40)
 [node name="Player" parent="." instance=ExtResource("2_s78v1")]
 position = Vector2(-242, -226)
 ACTION_HANDLER = 1
+MOVEMENT_BONUS_HANDLER = 1
 
 [node name="Ennemy" parent="." instance=ExtResource("2_s78v1")]
 ACTION_HANDLER = 2
+MOVEMENT_BONUS_HANDLER = 1
 
 [node name="DestructibleWalls" type="Node2D" parent="."]
 

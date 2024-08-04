@@ -15,25 +15,26 @@ const JUMP_VELOCITY = -600.0
 #---- EXPORTS -----
 @export var ACTION_HANDLER : StaticActionHandlerStrategy.handlers
 @export var PRIMARY_WEAPON : StaticPrimaryWeaponHandler.weapons
+@export var MOVEMENT_BONUS_HANDLER : StaticMovementBonusHandler.handlers
 
 #---- STANDARD -----
 #==== PUBLIC ====
-# var public_var # Optionnal comment
+var direction := Vector2.ZERO
 
 #==== PRIVATE ====
 var _gravity : float = ProjectSettings.get_setting("physics/2d/default_gravity")
-var _direction := Vector2.ZERO
 var _damage := 0.0
 var _additional_vector := Vector2.ZERO # external forces that can have an effect on the player and needs to be added to the velocity on the next physics frame
 
 #==== ONREADY ====
+@onready var FLOOR_ACCELERATION = 50.0 * ProjectSettings.get_setting("physics/common/physics_ticks_per_second") # px/s² # Kind of a constant, that's why it is in all caps
+@onready var AIR_ACCELERATION = 25.0 * ProjectSettings.get_setting("physics/common/physics_ticks_per_second") # px/s² # Kind of a constant, that's why it is in all caps
 @onready var onready_paths := {
 	"action_handler":StaticActionHandlerStrategy.get_handler(ACTION_HANDLER),
 	"primary_weapon":StaticPrimaryWeaponHandler.get_weapon(PRIMARY_WEAPON),
+	"movement_bonus":StaticMovementBonusHandler.get_handler(MOVEMENT_BONUS_HANDLER),
 	"damage_label":$"Damage"
 }
-@onready var FLOOR_ACCELERATION = 50.0 * ProjectSettings.get_setting("physics/common/physics_ticks_per_second") # px/s² # Kind of a constant, that's why it is in all caps
-@onready var AIR_ACCELERATION = 25.0 * ProjectSettings.get_setting("physics/common/physics_ticks_per_second") # px/s² # Kind of a constant, that's why it is in all caps
 
 
 ##### PROCESSING #####
@@ -45,6 +46,8 @@ func _init():
 func _ready():
 	add_child(onready_paths.action_handler)
 	add_child(onready_paths.primary_weapon)
+	add_child(onready_paths.movement_bonus)
+	onready_paths.movement_bonus.player = self
 	onready_paths.primary_weapon.projectile_owner = self
 	onready_paths.damage_label.text = "%f" % _damage
 
@@ -67,7 +70,7 @@ func _physics_process(delta):
 
 	# Get the input direction and handle the movement/deceleration.
 	var acceleration = FLOOR_ACCELERATION if is_on_floor() else AIR_ACCELERATION
-	velocity.x = move_toward(velocity.x, _direction.x * TARGET_SPEED, acceleration * delta)
+	velocity.x = move_toward(velocity.x, direction.x * TARGET_SPEED, acceleration * delta)
 
 	# Adds the additional vector
 	velocity += _additional_vector
@@ -76,37 +79,41 @@ func _physics_process(delta):
 	move_and_slide()
 
 ##### PUBLIC METHODS #####
-func hurt(damage : float, knockback : float, direction : Vector2) -> void:
+func hurt(damage : float, knockback : float, kb_direction : Vector2) -> void:
 	_damage += damage
 	onready_paths.damage_label.text = "%f" % _damage
-	_additional_vector += direction.normalized() * _damage * knockback
+	_additional_vector += kb_direction.normalized() * _damage * knockback
 
-func bounce_back(direction : Vector2) -> void:
-	if direction.x != 0:
-		velocity.x = direction.x
-	elif direction.y != 0:
-		velocity.y = direction.y
+func bounce_back(bounce_direction : Vector2) -> void:
+	if bounce_direction.x != 0:
+		velocity.x = bounce_direction.x
+	elif bounce_direction.y != 0:
+		velocity.y = bounce_direction.y
 
 ##### PROTECTED METHODS #####
 func _handle_inputs() -> void:
 	_handle_direction_inputs()
 	_handle_fire()
+	_handle_movement_bonus()
 
 func _handle_direction_inputs() -> void:
-	_direction = Vector2.ZERO
+	direction = Vector2.ZERO
 	if _is_action_active(ActionHandlerBase.actions.LEFT):
-		_direction.x -= 1
+		direction.x -= 1
 	if _is_action_active(ActionHandlerBase.actions.RIGHT):
-		_direction.x += 1
+		direction.x += 1
 	if _is_action_active(ActionHandlerBase.actions.UP):
-		_direction.y -= 1
+		direction.y -= 1
 	if _is_action_active(ActionHandlerBase.actions.DOWN):
-		_direction.y += 1
-	onready_paths.primary_weapon.aim(_direction)
+		direction.y += 1
+	onready_paths.primary_weapon.aim(direction)
 
 func _handle_fire() -> void:
 	if _is_action_just_active(ActionHandlerBase.actions.FIRE):
 		onready_paths.primary_weapon.fire()
+
+func _handle_movement_bonus() -> void:
+	onready_paths.movement_bonus.state = onready_paths.action_handler.get_action_state(ActionHandlerBase.actions.MOVEMENT_BONUS)
 
 # mostly to improve readability
 func _is_action_active(action : ActionHandlerBase.actions) -> bool:

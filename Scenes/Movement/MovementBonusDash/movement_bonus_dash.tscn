@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://cj7gldqg3okbr"]
+
+[ext_resource type="Script" path="res://Scenes/Movement/MovementBonusDash/movement_bonus_dash.gd" id="1_eshou"]
+
+[node name="MovementBonusDash" type="Node"]
+script = ExtResource("1_eshou")
