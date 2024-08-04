@@ -83,9 +83,9 @@ func hurt(damage : float, knockback : float, direction : Vector2) -> void:
 
 func bounce_back(direction : Vector2) -> void:
 	if direction.x != 0:
-		velocity.x = -velocity.x
+		velocity.x = direction.x
 	elif direction.y != 0:
-		velocity.y = -velocity.y
+		velocity.y = direction.y
 
 ##### PROTECTED METHODS #####
 func _handle_inputs() -> void:
