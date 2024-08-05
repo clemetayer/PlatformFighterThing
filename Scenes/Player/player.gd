@@ -33,7 +33,8 @@ var _additional_vector := Vector2.ZERO # external forces that can have an effect
 	"action_handler":StaticActionHandlerStrategy.get_handler(ACTION_HANDLER),
 	"primary_weapon":StaticPrimaryWeaponHandler.get_weapon(PRIMARY_WEAPON),
 	"movement_bonus":StaticMovementBonusHandler.get_handler(MOVEMENT_BONUS_HANDLER),
-	"damage_label":$"Damage"
+	"damage_label":$"Damage",
+	"parry_area":$"ParryArea"
 }
 
 
@@ -95,6 +96,7 @@ func _handle_inputs() -> void:
 	_handle_direction_inputs()
 	_handle_fire()
 	_handle_movement_bonus()
+	_handle_parry()
 
 func _handle_direction_inputs() -> void:
 	direction = Vector2.ZERO
@@ -114,6 +116,10 @@ func _handle_fire() -> void:
 
 func _handle_movement_bonus() -> void:
 	onready_paths.movement_bonus.state = onready_paths.action_handler.get_action_state(ActionHandlerBase.actions.MOVEMENT_BONUS)
+
+func _handle_parry() -> void:
+	if _is_action_just_active(ActionHandlerBase.actions.PARRY):
+		onready_paths.parry_area.parry()
 
 # mostly to improve readability
 func _is_action_active(action : ActionHandlerBase.actions) -> bool:
