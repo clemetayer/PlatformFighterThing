@@ -4,3 +4,8 @@
 
 [node name="MovementBonusDash" type="Node"]
 script = ExtResource("1_eshou")
+
+[node name="ReloadDashTimer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="timeout" from="ReloadDashTimer" to="." method="_on_reload_dash_timer_timeout"]
