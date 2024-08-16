@@ -57,7 +57,7 @@ func parry() -> void:
 
 ##### SIGNAL MANAGEMENT #####
 func _on_area_entered(area):
-	if area.is_in_group("hitbox") and _parrying:
+	if area.is_in_group("projectile") and _parrying:
 		onready_paths.parry_timer.stop()
 		_can_parry = true
 		_parrying = false

@@ -16,6 +16,7 @@ const JUMP_VELOCITY = -600.0
 @export var ACTION_HANDLER : StaticActionHandlerStrategy.handlers
 @export var PRIMARY_WEAPON : StaticPrimaryWeaponHandler.weapons
 @export var MOVEMENT_BONUS_HANDLER : StaticMovementBonusHandler.handlers
+@export var POWERUP_HANDLER : StaticPowerupHandler.handlers
 
 #---- STANDARD -----
 #==== PUBLIC ====
@@ -25,6 +26,7 @@ var direction := Vector2.ZERO
 var _gravity : float = ProjectSettings.get_setting("physics/2d/default_gravity")
 var _damage := 0.0
 var _additional_vector := Vector2.ZERO # external forces that can have an effect on the player and needs to be added to the velocity on the next physics frame
+var _can_use_powerup := true
 
 #==== ONREADY ====
 @onready var FLOOR_ACCELERATION = 50.0 * ProjectSettings.get_setting("physics/common/physics_ticks_per_second") # px/s² # Kind of a constant, that's why it is in all caps
@@ -34,7 +36,8 @@ var _additional_vector := Vector2.ZERO # external forces that can have an effect
 	"primary_weapon":StaticPrimaryWeaponHandler.get_weapon(PRIMARY_WEAPON),
 	"movement_bonus":StaticMovementBonusHandler.get_handler(MOVEMENT_BONUS_HANDLER),
 	"damage_label":$"Damage",
-	"parry_area":$"ParryArea"
+	"parry_area":$"ParryArea",
+	"powerup_cooldown":$"UsePowerupCooldown"
 }
 
 
@@ -97,6 +100,7 @@ func _handle_inputs() -> void:
 	_handle_fire()
 	_handle_movement_bonus()
 	_handle_parry()
+	_handle_powerup()
 
 func _handle_direction_inputs() -> void:
 	direction = Vector2.ZERO
@@ -121,6 +125,14 @@ func _handle_parry() -> void:
 	if _is_action_just_active(ActionHandlerBase.actions.PARRY):
 		onready_paths.parry_area.parry()
 
+func _handle_powerup() -> void:
+	if _is_action_just_active(ActionHandlerBase.actions.POWERUP) and _can_use_powerup:
+		var powerup = StaticPowerupHandler.get_powerup(POWERUP_HANDLER)
+		powerup.global_position = self.global_position
+		get_tree().current_scene.add_child(powerup)
+		_can_use_powerup = false
+		onready_paths.powerup_cooldown.start()
+
 # mostly to improve readability
 func _is_action_active(action : ActionHandlerBase.actions) -> bool:
 	return ActionHandlerBase.is_active(onready_paths.action_handler.get_action_state(action))
@@ -132,3 +144,5 @@ func _is_action_just_active(action : ActionHandlerBase.actions) -> bool:
 
 ##### SIGNAL MANAGEMENT #####
 # Functions that should be triggered when a specific signal is received
+func _on_use_powerup_cooldown_timeout():
+	_can_use_powerup = true

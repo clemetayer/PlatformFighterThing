@@ -4,7 +4,7 @@ class_name ActionHandlerBase
 
 ##### ENUMS #####
 enum states {INACTIVE, JUST_ACTIVE, ACTIVE, JUST_INACTIVE}
-enum actions {JUMP, UP, DOWN, LEFT, RIGHT, FIRE, MOVEMENT_BONUS, PARRY}
+enum actions {JUMP, UP, DOWN, LEFT, RIGHT, FIRE, MOVEMENT_BONUS, PARRY, POWERUP}
 
 ##### VARIABLES #####
 #---- STANDARD -----
@@ -18,6 +18,7 @@ var _action_states := {
 	actions.FIRE : states.INACTIVE,
 	actions.MOVEMENT_BONUS : states.INACTIVE,
 	actions.PARRY : states.INACTIVE,
+	actions.POWERUP : states.INACTIVE
 }
 
 ##### PUBLIC METHODS #####

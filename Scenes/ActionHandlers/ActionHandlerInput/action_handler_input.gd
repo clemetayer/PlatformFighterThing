@@ -13,6 +13,7 @@ func _process(_delta):
 	_action_states[actions.FIRE] = _generic_get_action_state("fire")
 	_action_states[actions.MOVEMENT_BONUS] = _generic_get_action_state("movement_bonus")
 	_action_states[actions.PARRY] = _generic_get_action_state("parry")
+	_action_states[actions.POWERUP] = _generic_get_action_state("powerup")
 
 ##### PROTECTED METHODS #####
 func _generic_get_action_state(input_action : String) -> states:
@@ -33,3 +34,4 @@ func _debug_show_states() -> void:
 	DebugInterface.set_debug_text("fire",_action_states[actions.FIRE])
 	DebugInterface.set_debug_text("movement_bonus",_action_states[actions.MOVEMENT_BONUS])
 	DebugInterface.set_debug_text("parry",_action_states[actions.PARRY])
+	DebugInterface.set_debug_text("powerup",_action_states[actions.POWERUP])

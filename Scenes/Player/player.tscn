@@ -62,6 +62,11 @@ texture = ExtResource("3_b0wk1")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_fylq6")
 
+[node name="UsePowerupCooldown" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+
 [connection signal="area_entered" from="ParryArea" to="ParryArea" method="_on_area_entered"]
 [connection signal="timeout" from="ParryArea/ParryTimer" to="ParryArea" method="_on_parry_timer_timeout"]
 [connection signal="timeout" from="ParryArea/LockoutTimer" to="ParryArea" method="_on_lockout_timer_timeout"]
+[connection signal="timeout" from="UsePowerupCooldown" to="." method="_on_use_powerup_cooldown_timeout"]

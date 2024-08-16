@@ -93,6 +93,7 @@ func _listen_to_inputs() -> void:
 	_action_states[actions.FIRE] = _generic_get_action_state("fire")
 	_action_states[actions.MOVEMENT_BONUS] = _generic_get_action_state("movement_bonus")
 	_action_states[actions.PARRY] = _generic_get_action_state("parry")
+	_action_states[actions.POWERUP] = _generic_get_action_state("powerup")
 
 func _generic_get_action_state(input_action : String) -> states:
 	if Input.is_action_just_pressed(input_action):
