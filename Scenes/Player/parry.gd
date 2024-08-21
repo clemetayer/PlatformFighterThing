@@ -2,7 +2,7 @@ extends Area2D
 # script for the parry system
 
 ##### SIGNALS #####
-# Node signals
+signal parried
 
 ##### ENUMS #####
 # enumerations
@@ -63,6 +63,7 @@ func _on_area_entered(area):
 		_parrying = false
 		monitoring = false
 		area.parried(_owner)
+		emit_signal("parried")
 
 func _on_lockout_timer_timeout():
 	_can_parry = true
