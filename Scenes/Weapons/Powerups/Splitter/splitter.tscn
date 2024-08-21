@@ -1,0 +1,30 @@
+[gd_scene load_steps=3 format=3 uid="uid://cto1bewda5gwm"]
+
+[ext_resource type="Script" path="res://Scenes/Weapons/Powerups/Splitter/splitter.gd" id="1_tp6dn"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_06q05"]
+size = Vector2(64, 64)
+
+[node name="Splitter" type="Node2D"]
+script = ExtResource("1_tp6dn")
+
+[node name="Hitbox" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 12
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+shape = SubResource("RectangleShape2D_06q05")
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(-32, -8, -32, 8, -8, 8, -8, 32, 8, 32, 8, 8, 32, 8, 32, -8, 8, -8, 8, -32, -8, -32, -8, -8)
+
+[node name="KeepTimer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+autostart = true
+
+[connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]
+[connection signal="area_exited" from="Hitbox" to="." method="_on_hitbox_area_exited"]
+[connection signal="body_entered" from="Hitbox" to="." method="_on_hitbox_body_entered"]
+[connection signal="body_exited" from="Hitbox" to="." method="_on_hitbox_body_exited"]
+[connection signal="timeout" from="KeepTimer" to="." method="_on_keep_timer_timeout"]
