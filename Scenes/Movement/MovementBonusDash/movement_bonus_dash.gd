@@ -1,5 +1,6 @@
 extends MovementBonusBase
 # Simple dash as a movement bonus
+# FIXME : by shooting, then dashing, then parrying, you can parry your own bullet, but this can be a feature, it is kind of cool
 
 ##### SIGNALS #####
 # Node signals
@@ -24,7 +25,8 @@ var _dashes_available := MAX_DASHES
 
 #==== ONREADY ====
 @onready var onready_paths := {
-	"reload_timer":$"ReloadDashTimer"
+	"reload_timer":$"ReloadDashTimer",
+	"dash_particles":$"DashParticles"
 }
 
 ##### PROCESSING #####
@@ -41,6 +43,7 @@ func _process(_delta):
 	if ActionHandlerBase.is_just_active(state) and _dashes_available > 0:
 		player.velocity = player.direction.normalized() * DASH_VELOCITY
 		_dashes_available -= 1
+		_emit_particles()
 		if onready_paths.reload_timer.is_stopped():
 			onready_paths.reload_timer.start()
 
@@ -52,6 +55,13 @@ func _process(_delta):
 ##### PROTECTED METHODS #####
 func _print_dashes_available() -> void:
 	print("dashes available = %d" % _dashes_available)
+
+func _emit_particles() -> void:
+	var particles_dir = Vector3(-player.direction.normalized().x, -player.direction.normalized().y,0)
+	onready_paths.dash_particles.process_material.angle_min = rad_to_deg(-player.direction.normalized().angle())
+	onready_paths.dash_particles.process_material.angle_max = rad_to_deg(-player.direction.normalized().angle())
+	onready_paths.dash_particles.process_material.direction = particles_dir
+	onready_paths.dash_particles.emitting = true
 
 ##### SIGNAL MANAGEMENT #####
 func _on_reload_dash_timer_timeout():
