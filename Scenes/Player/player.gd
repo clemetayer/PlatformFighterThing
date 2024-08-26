@@ -17,6 +17,11 @@ const JUMP_VELOCITY = -600.0
 @export var PRIMARY_WEAPON : StaticPrimaryWeaponHandler.weapons
 @export var MOVEMENT_BONUS_HANDLER : StaticMovementBonusHandler.handlers
 @export var POWERUP_HANDLER : StaticPowerupHandler.handlers
+@export var player := 1 :
+	set(id):
+		player = id
+		# Give authority over the player input to the appropriate peer.
+		$InputSynchronizer.set_multiplayer_authority(id)
 
 #---- STANDARD -----
 #==== PUBLIC ====
@@ -32,12 +37,12 @@ var _can_use_powerup := true
 @onready var FLOOR_ACCELERATION = 50.0 * ProjectSettings.get_setting("physics/common/physics_ticks_per_second") # px/s² # Kind of a constant, that's why it is in all caps
 @onready var AIR_ACCELERATION = 25.0 * ProjectSettings.get_setting("physics/common/physics_ticks_per_second") # px/s² # Kind of a constant, that's why it is in all caps
 @onready var onready_paths := {
-	"action_handler":StaticActionHandlerStrategy.get_handler(ACTION_HANDLER),
 	"primary_weapon":StaticPrimaryWeaponHandler.get_weapon(PRIMARY_WEAPON),
 	"movement_bonus":StaticMovementBonusHandler.get_handler(MOVEMENT_BONUS_HANDLER),
 	"damage_label":$"Damage",
 	"parry_area":$"ParryArea",
-	"powerup_cooldown":$"UsePowerupCooldown"
+	"powerup_cooldown":$"UsePowerupCooldown",
+	"multiplayer_sync":$"InputSynchronizer"
 }
 
 
@@ -48,7 +53,7 @@ func _init():
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	add_child(onready_paths.action_handler)
+	onready_paths.multiplayer_sync.set_action_handler(ACTION_HANDLER)
 	add_child(onready_paths.primary_weapon)
 	add_child(onready_paths.movement_bonus)
 	onready_paths.movement_bonus.player = self
@@ -119,7 +124,8 @@ func _handle_fire() -> void:
 		onready_paths.primary_weapon.fire()
 
 func _handle_movement_bonus() -> void:
-	onready_paths.movement_bonus.state = onready_paths.action_handler.get_action_state(ActionHandlerBase.actions.MOVEMENT_BONUS)
+	if onready_paths.multiplayer_sync.action_states.has(ActionHandlerBase.actions.MOVEMENT_BONUS):
+		onready_paths.movement_bonus.state = onready_paths.multiplayer_sync.action_states.get(ActionHandlerBase.actions.MOVEMENT_BONUS)
 
 func _handle_parry() -> void:
 	if _is_action_just_active(ActionHandlerBase.actions.PARRY):
@@ -135,12 +141,15 @@ func _handle_powerup() -> void:
 
 # mostly to improve readability
 func _is_action_active(action : ActionHandlerBase.actions) -> bool:
-	return ActionHandlerBase.is_active(onready_paths.action_handler.get_action_state(action))
+	if onready_paths.multiplayer_sync.action_states.has(action):
+		return ActionHandlerBase.is_active(onready_paths.multiplayer_sync.action_states.get(action))
+	return false
 
 # mostly to improve readability
 func _is_action_just_active(action : ActionHandlerBase.actions) -> bool:
-	return ActionHandlerBase.is_just_active(onready_paths.action_handler.get_action_state(action))
-
+	if onready_paths.multiplayer_sync.action_states.has(action):
+		return ActionHandlerBase.is_just_active(onready_paths.multiplayer_sync.action_states.get(action))
+	return false
 
 ##### SIGNAL MANAGEMENT #####
 # Functions that should be triggered when a specific signal is received

@@ -1,17 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://c6n5fe1aeus84"]
+[gd_scene load_steps=4 format=3 uid="uid://c6n5fe1aeus84"]
 
-[ext_resource type="PackedScene" uid="uid://dkw6jv53ps3ut" path="res://Scenes/DestructibleWalls/destructible_wall.tscn" id="2_fe1qi"]
+[ext_resource type="PackedScene" uid="uid://dxbuxns20inrw" path="res://Scenes/Levels/sandbox_level.tscn" id="2_0jv4q"]
 [ext_resource type="Script" path="res://Scenes/Camera/camera.gd" id="2_rm84w"]
 [ext_resource type="PackedScene" uid="uid://fgxha8wl55pa" path="res://Scenes/Player/player.tscn" id="2_s78v1"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_5h837"]
-size = Vector2(50, 1048)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_48khs"]
-size = Vector2(2600, 50)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_1ev16"]
-size = Vector2(2000, 40)
 
 [node name="Sandbox" type="Node2D"]
 
@@ -25,45 +16,8 @@ position = Vector2(156, -137)
 ACTION_HANDLER = 2
 MOVEMENT_BONUS_HANDLER = 1
 
-[node name="DestructibleWalls" type="Node2D" parent="."]
-
-[node name="Left" parent="DestructibleWalls" instance=ExtResource("2_fe1qi")]
-position = Vector2(-1300, 0)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="DestructibleWalls/Left"]
-shape = SubResource("RectangleShape2D_5h837")
-
-[node name="Right" parent="DestructibleWalls" instance=ExtResource("2_fe1qi")]
-position = Vector2(1300, 0)
-BOUNCE_BACK_DIRECTION = Vector2(-1, 0)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="DestructibleWalls/Right"]
-shape = SubResource("RectangleShape2D_5h837")
-
-[node name="Up" parent="DestructibleWalls" instance=ExtResource("2_fe1qi")]
-position = Vector2(0, -512)
-BOUNCE_BACK_DIRECTION = Vector2(0, 1)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="DestructibleWalls/Up"]
-shape = SubResource("RectangleShape2D_48khs")
-
-[node name="Down" parent="DestructibleWalls" instance=ExtResource("2_fe1qi")]
-position = Vector2(0, 512)
-BOUNCE_BACK_DIRECTION = Vector2(0, -1)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="DestructibleWalls/Down"]
-shape = SubResource("RectangleShape2D_48khs")
-
-[node name="StaticBody2D" type="StaticBody2D" parent="." groups=["static_obstacle"]]
-collision_mask = 7
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
-shape = SubResource("RectangleShape2D_1ev16")
-
-[node name="Polygon2D" type="Polygon2D" parent="StaticBody2D"]
-color = Color(0, 1, 0, 1)
-polygon = PackedVector2Array(-1000, 20, -1000, -20, 1000, -20, 1000, 20)
-
 [node name="Camera2D" type="Camera2D" parent="."]
 script = ExtResource("2_rm84w")
-PLAYERS = Array[NodePath]([NodePath("../Player")])
+PLAYERS = Array[NodePath]([NodePath("../Player"), NodePath("../Ennemy")])
+
+[node name="Level" parent="." instance=ExtResource("2_0jv4q")]

@@ -36,7 +36,9 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame. Remove the "_" to use it.
 func _process(_delta):
 	global_position = _get_average_position()
-	zoom = Vector2.ONE * _get_best_zoom()
+	var best_zoom = _get_best_zoom()
+	if best_zoom > 0 :
+		zoom = Vector2.ONE * best_zoom
 	DebugInterface.set_debug_text("Best zoom", _get_best_zoom())
 
 ##### PUBLIC METHODS #####
@@ -48,7 +50,8 @@ func _process(_delta):
 func _get_average_position() -> Vector2:
 	var sum = Vector2.ZERO
 	for player in PLAYERS:
-		sum += get_node(player).global_position
+		if player != null:
+			sum += get_node(player).global_position
 	return sum / PLAYERS.size()
 
 func _get_best_zoom() -> float:
@@ -84,4 +87,3 @@ func _get_global_min_max_pos() -> Dictionary:
 
 ##### SIGNAL MANAGEMENT #####
 # Functions that should be triggered when a specific signal is received
-

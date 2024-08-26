@@ -1,6 +1,6 @@
-extends Node2D
-class_name MovementBonusBase
-# Base class for movement bonuses (literally does nothing here)
+extends Node
+# class_name Class
+# Sandbox, but in multiplayer
 
 ##### SIGNALS #####
 # Node signals
@@ -10,21 +10,22 @@ class_name MovementBonusBase
 
 ##### VARIABLES #####
 #---- CONSTANTS -----
-# const constant = 10 # Optionnal comment
+const SANDBOX_LEVEL_PATH := "res://Scenes/Levels/MultiplayerSandbox/multiplayer_sandbox_level.tscn"
 
 #---- EXPORTS -----
 # export(int) var EXPORT_NAME # Optionnal comment
 
 #---- STANDARD -----
 #==== PUBLIC ====
-var state := ActionHandlerBase.states.INACTIVE
-var player : CharacterBody2D = null
+# var public_var # Optionnal comment
 
 #==== PRIVATE ====
 # var _private_var # Optionnal comment
 
 #==== ONREADY ====
-# onready var onready_var # Optionnal comment
+@onready var onready_paths := {
+	"level":$"Level"
+}
 
 ##### PROCESSING #####
 # Called when the object is initialized.
@@ -45,9 +46,19 @@ func _process(_delta):
 #     pass
 
 ##### PROTECTED METHODS #####
-# Methods that are intended to be used exclusively by this scripts
-# func _private_method(arg):
-#     pass
+# Call this function deferred and only on the main authority (server).
+func _change_level(scene: PackedScene):
+	# Remove old level if any.
+	var level = onready_paths.level
+	for c in level.get_children():
+		level.remove_child(c)
+		c.queue_free()
+	# Add new level.
+	level.add_child(scene.instantiate())
 
 ##### SIGNAL MANAGEMENT #####
-# Functions that should be triggered when a specific signal is received
+func _on_p_2p_multiplayer_menu_start_multiplayer_game():
+	# Only change level on the server.
+	# Clients will instantiate the level via the spawner.
+	if multiplayer.is_server():
+		_change_level.call_deferred(load(SANDBOX_LEVEL_PATH))
