@@ -1,8 +1,16 @@
-[gd_scene load_steps=4 format=3 uid="uid://bcutwe1n0qeui"]
+[gd_scene load_steps=5 format=3 uid="uid://bcutwe1n0qeui"]
 
 [ext_resource type="Script" path="res://Scenes/Camera/camera.gd" id="1_f4nrw"]
 [ext_resource type="Script" path="res://Scenes/Levels/MultiplayerSandbox/multiplayer_sandbox_level.gd" id="1_m1jj4"]
 [ext_resource type="PackedScene" uid="uid://dxbuxns20inrw" path="res://Scenes/Levels/sandbox_level.tscn" id="1_wk6vc"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_5injc"]
+properties/0/path = NodePath("Camera2D:PLAYERS")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath("Camera2D:enabled")
+properties/1/spawn = true
+properties/1/replication_mode = 1
 
 [node name="MultiplayerSandboxLevel" type="Node2D"]
 script = ExtResource("1_m1jj4")
@@ -18,3 +26,6 @@ script = ExtResource("1_f4nrw")
 _spawnable_scenes = PackedStringArray("res://Scenes/Player/player.tscn")
 spawn_path = NodePath("../Players")
 spawn_limit = 2
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_5injc")

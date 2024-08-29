@@ -17,6 +17,7 @@ const JUMP_VELOCITY = -600.0
 @export var PRIMARY_WEAPON : StaticPrimaryWeaponHandler.weapons
 @export var MOVEMENT_BONUS_HANDLER : StaticMovementBonusHandler.handlers
 @export var POWERUP_HANDLER : StaticPowerupHandler.handlers
+@export var DAMAGE := 0.0
 @export var player := 1 :
 	set(id):
 		player = id
@@ -29,7 +30,6 @@ var direction := Vector2.ZERO
 
 #==== PRIVATE ====
 var _gravity : float = ProjectSettings.get_setting("physics/2d/default_gravity")
-var _damage := 0.0
 var _additional_vector := Vector2.ZERO # external forces that can have an effect on the player and needs to be added to the velocity on the next physics frame
 var _can_use_powerup := true
 
@@ -58,7 +58,7 @@ func _ready():
 	add_child(onready_paths.movement_bonus)
 	onready_paths.movement_bonus.player = self
 	onready_paths.primary_weapon.projectile_owner = self
-	onready_paths.damage_label.text = "%f" % _damage
+	onready_paths.damage_label.text = "%f" % DAMAGE
 
 # Called every frame. 'delta' is the elapsed time since the previous frame. Remove the "_" to use it.
 func _process(_delta):
@@ -88,10 +88,10 @@ func _physics_process(delta):
 	move_and_slide()
 
 ##### PUBLIC METHODS #####
-func hurt(damage : float, knockback : float, kb_direction : Vector2) -> void:
-	_damage += damage
-	onready_paths.damage_label.text = "%f" % _damage
-	_additional_vector += kb_direction.normalized() * _damage * knockback
+func hurt(p_damage : float, knockback : float, kb_direction : Vector2) -> void:
+	DAMAGE += p_damage
+	onready_paths.damage_label.text = "%f" % DAMAGE
+	_additional_vector += kb_direction.normalized() * DAMAGE * knockback
 
 func bounce_back(bounce_direction : Vector2) -> void:
 	if bounce_direction.x != 0:

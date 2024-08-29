@@ -14,7 +14,7 @@ extends MultiplayerSynchronizer
 
 #---- STANDARD -----
 #==== PUBLIC ====
-var action_states : Dictionary
+@export var action_states : Dictionary
 
 #==== PRIVATE ====
 # var _private_var # Optionnal comment
