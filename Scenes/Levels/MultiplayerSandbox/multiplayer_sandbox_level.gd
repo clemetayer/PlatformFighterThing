@@ -69,6 +69,9 @@ func add_player(id: int):
 	character.name = str(id)
 	# Set action handler
 	character.ACTION_HANDLER = StaticActionHandlerStrategy.handlers.INPUT
+	character.MOVEMENT_BONUS_HANDLER = StaticMovementBonusHandler.handlers.DASH
+	character.POWERUP_HANDLER = StaticPowerupHandler.handlers.SPLITTER
+	character.PRIMARY_WEAPON = StaticPrimaryWeaponHandler.weapons.REVOLVER
 	onready_paths.players.add_child(character, true)
 	onready_paths.camera.PLAYERS.append(onready_paths.camera.get_path_to(character))
 

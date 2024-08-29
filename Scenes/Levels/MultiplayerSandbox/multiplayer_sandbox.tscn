@@ -17,6 +17,10 @@ spawn_limit = 1
 _spawnable_scenes = PackedStringArray("res://Scenes/Weapons/Projectiles/bullet.tscn")
 spawn_path = NodePath("..")
 
+[node name="PowerupSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("res://Scenes/Weapons/Powerups/Splitter/splitter.tscn")
+spawn_path = NodePath("..")
+
 [node name="P2PMultiplayerMenu" parent="." instance=ExtResource("1_fili2")]
 
 [connection signal="start_multiplayer_game" from="P2PMultiplayerMenu" to="." method="_on_p_2p_multiplayer_menu_start_multiplayer_game"]
