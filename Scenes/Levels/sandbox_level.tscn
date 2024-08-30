@@ -21,12 +21,18 @@ position = Vector2(-1300, 0)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DestructibleWalls/Left"]
 shape = SubResource("RectangleShape2D_5h837")
 
+[node name="Texture" type="Polygon2D" parent="DestructibleWalls/Left"]
+polygon = PackedVector2Array(-25, -530, 25, -530, 25, 530, -25, 530)
+
 [node name="Right" parent="DestructibleWalls" instance=ExtResource("1_8kcxf")]
 position = Vector2(1300, 0)
 BOUNCE_BACK_DIRECTION = Vector2(-1, 0)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DestructibleWalls/Right"]
 shape = SubResource("RectangleShape2D_5h837")
+
+[node name="Texture" type="Polygon2D" parent="DestructibleWalls/Right"]
+polygon = PackedVector2Array(-25, -530, 25, -530, 25, 530, -25, 530)
 
 [node name="Up" parent="DestructibleWalls" instance=ExtResource("1_8kcxf")]
 position = Vector2(0, -512)
@@ -35,12 +41,18 @@ BOUNCE_BACK_DIRECTION = Vector2(0, 1)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DestructibleWalls/Up"]
 shape = SubResource("RectangleShape2D_48khs")
 
+[node name="Texture" type="Polygon2D" parent="DestructibleWalls/Up"]
+polygon = PackedVector2Array(-1300, -25, -1300, 25, 1300, 25, 1300, -25)
+
 [node name="Down" parent="DestructibleWalls" instance=ExtResource("1_8kcxf")]
 position = Vector2(0, 512)
 BOUNCE_BACK_DIRECTION = Vector2(0, -1)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DestructibleWalls/Down"]
 shape = SubResource("RectangleShape2D_48khs")
+
+[node name="Texture" type="Polygon2D" parent="DestructibleWalls/Down"]
+polygon = PackedVector2Array(-1300, -25, -1300, 25, 1300, 25, 1300, -25)
 
 [node name="StaticBody2D" type="StaticBody2D" parent="." groups=["static_obstacle"]]
 collision_mask = 7
