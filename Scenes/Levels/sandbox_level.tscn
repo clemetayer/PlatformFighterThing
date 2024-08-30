@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://dxbuxns20inrw"]
+[gd_scene load_steps=7 format=3 uid="uid://dxbuxns20inrw"]
 
 [ext_resource type="PackedScene" uid="uid://dkw6jv53ps3ut" path="res://Scenes/DestructibleWalls/destructible_wall.tscn" id="1_8kcxf"]
+[ext_resource type="PackedScene" uid="uid://bc175bcim437d" path="res://Scenes/LevelBounds/level_bounds.tscn" id="2_aiy0h"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5h837"]
 size = Vector2(50, 1048)
@@ -10,6 +11,9 @@ size = Vector2(2600, 50)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1ev16"]
 size = Vector2(2000, 40)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ku8y4"]
+size = Vector2(2700, 1150)
 
 [node name="Level" type="Node2D"]
 
@@ -63,3 +67,8 @@ shape = SubResource("RectangleShape2D_1ev16")
 [node name="Polygon2D" type="Polygon2D" parent="StaticBody2D"]
 color = Color(0, 1, 0, 1)
 polygon = PackedVector2Array(-1000, 20, -1000, -20, 1000, -20, 1000, 20)
+
+[node name="LevelBounds" parent="." instance=ExtResource("2_aiy0h")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LevelBounds"]
+shape = SubResource("RectangleShape2D_ku8y4")

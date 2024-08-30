@@ -99,6 +99,12 @@ func bounce_back(bounce_direction : Vector2) -> void:
 	elif bounce_direction.y != 0:
 		velocity.y = bounce_direction.y
 
+func respawn() -> void:
+	global_position = Vector2.ZERO
+	velocity = Vector2.ZERO
+	DAMAGE = 0
+	onready_paths.damage_label.text = "%f" % DAMAGE
+
 ##### PROTECTED METHODS #####
 func _handle_inputs() -> void:
 	_handle_direction_inputs()
