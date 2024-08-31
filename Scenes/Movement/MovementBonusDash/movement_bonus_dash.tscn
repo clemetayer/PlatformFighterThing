@@ -37,6 +37,7 @@ one_shot = true
 explosiveness = 0.64
 
 [node name="ReloadDashTimer" type="Timer" parent="."]
+wait_time = 2.0
 one_shot = true
 
 [connection signal="timeout" from="ReloadDashTimer" to="." method="_on_reload_dash_timer_timeout"]
