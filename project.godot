@@ -11,6 +11,7 @@ config_version=5
 [application]
 
 config/name="PlatformFighterThing"
+run/main_scene="res://Scenes/Levels/MultiplayerSandbox/multiplayer_sandbox.tscn"
 config/features=PackedStringArray("4.3", "GL Compatibility")
 config/icon="res://icon.svg"
 
@@ -21,6 +22,10 @@ DebugInterface="*res://Utils/Debug/debug_interface.tscn"
 [editor]
 
 script/templates_search_path="res://Utils/ScriptTemplates"
+
+[global_group]
+
+static_obstacle=""
 
 [input]
 

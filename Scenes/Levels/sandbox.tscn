@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=3 uid="uid://c6n5fe1aeus84"]
 
-[ext_resource type="PackedScene" uid="uid://dxbuxns20inrw" path="res://Scenes/Levels/sandbox_level.tscn" id="2_0jv4q"]
 [ext_resource type="Script" path="res://Scenes/Camera/camera.gd" id="2_rm84w"]
 [ext_resource type="PackedScene" uid="uid://fgxha8wl55pa" path="res://Scenes/Player/player.tscn" id="2_s78v1"]
+[ext_resource type="PackedScene" uid="uid://b1lft1oovl50b" path="res://Scenes/Levels/Level1/level_1.tscn" id="3_aamca"]
 
 [node name="Sandbox" type="Node2D"]
 
@@ -20,4 +20,5 @@ MOVEMENT_BONUS_HANDLER = 1
 script = ExtResource("2_rm84w")
 PLAYERS = Array[NodePath]([NodePath("../Player"), NodePath("../Ennemy")])
 
-[node name="Level" parent="." instance=ExtResource("2_0jv4q")]
+[node name="Level1" parent="." instance=ExtResource("3_aamca")]
+position = Vector2(106, 151)
