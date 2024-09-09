@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://Scenes/Camera/camera.gd" id="2_rm84w"]
 [ext_resource type="PackedScene" uid="uid://fgxha8wl55pa" path="res://Scenes/Player/player.tscn" id="2_s78v1"]
-[ext_resource type="PackedScene" uid="uid://b1lft1oovl50b" path="res://Scenes/Levels/Level1/level_1.tscn" id="3_aamca"]
+[ext_resource type="PackedScene" uid="uid://b1lft1oovl50b" path="res://Scenes/Levels/Level1/level_1_map.tscn" id="3_aamca"]
 
 [node name="Sandbox" type="Node2D"]
 
@@ -21,4 +21,3 @@ script = ExtResource("2_rm84w")
 PLAYERS = Array[NodePath]([NodePath("../Player"), NodePath("../Ennemy")])
 
 [node name="Level1" parent="." instance=ExtResource("3_aamca")]
-position = Vector2(106, 151)
