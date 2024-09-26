@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://fgxha8wl55pa"]
+[gd_scene load_steps=15 format=3 uid="uid://fgxha8wl55pa"]
 
 [ext_resource type="Script" path="res://Scenes/Player/player.gd" id="1_b1dbg"]
 [ext_resource type="Script" path="res://Scenes/Player/parry.gd" id="2_avuuq"]
@@ -68,6 +68,36 @@ tracks/1/keys = {
 "values": [Color(1, 1, 1, 0.607843)]
 }
 
+[sub_resource type="Animation" id="Animation_8vk0k"]
+resource_name = "hitstun"
+length = 0.3
+loop_mode = 1
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprites/Flash:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprites/Flash:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
 [sub_resource type="Animation" id="Animation_vhsup"]
 resource_name = "parry"
 length = 0.15
@@ -100,6 +130,7 @@ tracks/1/keys = {
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_2b586"]
 _data = {
 "RESET": SubResource("Animation_r421c"),
+"hitstun": SubResource("Animation_8vk0k"),
 "parry": SubResource("Animation_vhsup")
 }
 
@@ -177,8 +208,12 @@ script = ExtResource("5_b3kqx")
 wait_time = 3.0
 one_shot = true
 
+[node name="Hitstun" type="Timer" parent="."]
+one_shot = true
+
 [connection signal="area_entered" from="ParryArea" to="ParryArea" method="_on_area_entered"]
 [connection signal="parried" from="ParryArea" to="AnimationPlayer" method="_on_parry_area_parried"]
 [connection signal="timeout" from="ParryArea/ParryTimer" to="ParryArea" method="_on_parry_timer_timeout"]
 [connection signal="timeout" from="ParryArea/LockoutTimer" to="ParryArea" method="_on_lockout_timer_timeout"]
 [connection signal="timeout" from="UsePowerupCooldown" to="." method="_on_use_powerup_cooldown_timeout"]
+[connection signal="timeout" from="Hitstun" to="." method="_on_hitstun_timeout"]

@@ -9,8 +9,10 @@ extends CharacterBody2D
 
 ##### VARIABLES #####
 #---- CONSTANTS -----
-const TARGET_SPEED = 500.0 # px/s
-const JUMP_VELOCITY = -600.0
+const TARGET_SPEED := 500.0 # px/s
+const JUMP_VELOCITY := -600.0
+const MAX_HITSTUN_TIME := 3 # s
+const MAX_HITSTUN_DAMAGE := 999 # damage points
 
 #---- EXPORTS -----
 @export var ACTION_HANDLER : StaticActionHandlerStrategy.handlers
@@ -32,6 +34,8 @@ var direction := Vector2.ZERO
 var _gravity : float = ProjectSettings.get_setting("physics/2d/default_gravity")
 var _additional_vector := Vector2.ZERO # external forces that can have an effect on the player and needs to be added to the velocity on the next physics frame
 var _can_use_powerup := true
+var _velocity_buffer := [Vector2.ZERO,Vector2.ZERO,Vector2.ZERO] # 3 frames velocity buffer for the bounce effect, workaround to avoid the collision reset when colliding
+var _hitstunned := false
 
 #==== ONREADY ====
 @onready var FLOOR_ACCELERATION = 50.0 * ProjectSettings.get_setting("physics/common/physics_ticks_per_second") # px/s² # Kind of a constant, that's why it is in all caps
@@ -42,7 +46,9 @@ var _can_use_powerup := true
 	"damage_label":$"Damage",
 	"parry_area":$"ParryArea",
 	"powerup_cooldown":$"UsePowerupCooldown",
-	"multiplayer_sync":$"InputSynchronizer"
+	"multiplayer_sync":$"InputSynchronizer",
+	"hitstun_timer": $"Hitstun",
+	"animation_player": $"AnimationPlayer"
 }
 
 
@@ -66,6 +72,7 @@ func _process(_delta):
 
 func _physics_process(delta):
 	_handle_inputs()
+	print_if_name("Opponent","process velocity = %s, previous_frames_velocity = %s" % [velocity, _velocity_buffer])
 
 	# Add the gravity.
 	if not is_on_floor():
@@ -84,14 +91,27 @@ func _physics_process(delta):
 	# Adds the additional vector
 	velocity += _additional_vector
 	_additional_vector = Vector2.ZERO
+	
+	# Store the previous velocity
+	# Note : might create a bug since this does not save the "real" velocity, 
+	#        but allows the additionnal vector to not be discarded when bouncing on obstacles
+	_buffer_velocity()
 
+	# Bounce back on obstacles
+	if _hitstunned:
+		_bounce_on_obstacles()
+
+	# Move
 	move_and_slide()
+
+
 
 ##### PUBLIC METHODS #####
 func hurt(p_damage : float, knockback : float, kb_direction : Vector2) -> void:
 	DAMAGE += p_damage
 	onready_paths.damage_label.text = "%f" % DAMAGE
 	_additional_vector += kb_direction.normalized() * DAMAGE * knockback
+	_start_hitstun()
 
 func bounce_back(bounce_direction : Vector2) -> void:
 	if bounce_direction.x != 0:
@@ -145,6 +165,27 @@ func _handle_powerup() -> void:
 		_can_use_powerup = false
 		onready_paths.powerup_cooldown.start()
 
+func _bounce_on_obstacles() -> void:
+	var obs_normal = _get_average_collision_normal()
+	if obs_normal != Vector2.ZERO:
+		print_if_name("Opponent","normal = %s; velocity = %s" % [obs_normal, _velocity_buffer[1]])
+		velocity = _velocity_buffer[1].bounce(obs_normal)
+		print_if_name("Opponent","velocity after = %s" % velocity)
+
+func _get_average_collision_normal() -> Vector2:
+	var collision_count = get_slide_collision_count()
+	print_if_name("Opponent","collision count = %s" % collision_count)
+	if collision_count == 0 :
+		return Vector2.ZERO
+	var normal_sum = Vector2.ZERO
+	for col_idx in collision_count:
+		normal_sum += get_slide_collision(col_idx).get_normal()
+	return (normal_sum / collision_count).normalized()
+
+func _buffer_velocity() -> void:
+	_velocity_buffer.pop_back()
+	_velocity_buffer.push_front(velocity)
+
 # mostly to improve readability
 func _is_action_active(action : ActionHandlerBase.actions) -> bool:
 	if onready_paths.multiplayer_sync.action_states.has(action):
@@ -157,7 +198,29 @@ func _is_action_just_active(action : ActionHandlerBase.actions) -> bool:
 		return ActionHandlerBase.is_just_active(onready_paths.multiplayer_sync.action_states.get(action))
 	return false
 
+func _start_hitstun() -> void:
+	var x = min(MAX_HITSTUN_DAMAGE, DAMAGE)/MAX_HITSTUN_DAMAGE
+	var time = _cubic_ease_out(x) * MAX_HITSTUN_TIME
+	onready_paths.hitstun_timer.start(time)
+	onready_paths.animation_player.play("hitstun")
+	_hitstunned = true
+
+# https://easings.net/#easeOutCubic
+func _cubic_ease_out(x : float) -> float:
+	return min(1.0, abs(1 - pow(1 - x, 3)))
+
 ##### SIGNAL MANAGEMENT #####
 # Functions that should be triggered when a specific signal is received
 func _on_use_powerup_cooldown_timeout():
 	_can_use_powerup = true
+
+
+func _on_hitstun_timeout() -> void:
+	_hitstunned = false
+	onready_paths.animation_player.stop()
+	onready_paths.animation_player.play("RESET")
+
+##### DEBUG #####
+func print_if_name(p_name: String, message : String) -> void:
+	if name == p_name:
+		print(message)
