@@ -50,14 +50,7 @@ func fire() -> void:
 		onready_paths.shoot_cooldown_timer.start()
 
 func aim(direction : Vector2) -> void:
-	if direction.y == -1:
-		rotation = -PI/2
-	elif direction.y == 1:
-		rotation = PI/2
-	elif direction.x == -1:
-		rotation = PI
-	elif direction.x == 1:
-		rotation = 0
+	rotation = direction.angle()
 
 ##### PROTECTED METHODS #####
 func _spawn_projectile() -> void:

@@ -72,7 +72,6 @@ func _process(_delta):
 
 func _physics_process(delta):
 	_handle_inputs()
-	print_if_name("Opponent","process velocity = %s, previous_frames_velocity = %s" % [velocity, _velocity_buffer])
 
 	# Add the gravity.
 	if not is_on_floor():
@@ -168,13 +167,10 @@ func _handle_powerup() -> void:
 func _bounce_on_obstacles() -> void:
 	var obs_normal = _get_average_collision_normal()
 	if obs_normal != Vector2.ZERO:
-		print_if_name("Opponent","normal = %s; velocity = %s" % [obs_normal, _velocity_buffer[1]])
 		velocity = _velocity_buffer[1].bounce(obs_normal)
-		print_if_name("Opponent","velocity after = %s" % velocity)
 
 func _get_average_collision_normal() -> Vector2:
 	var collision_count = get_slide_collision_count()
-	print_if_name("Opponent","collision count = %s" % collision_count)
 	if collision_count == 0 :
 		return Vector2.ZERO
 	var normal_sum = Vector2.ZERO
@@ -219,8 +215,3 @@ func _on_hitstun_timeout() -> void:
 	_hitstunned = false
 	onready_paths.animation_player.stop()
 	onready_paths.animation_player.play("RESET")
-
-##### DEBUG #####
-func print_if_name(p_name: String, message : String) -> void:
-	if name == p_name:
-		print(message)
