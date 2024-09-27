@@ -34,7 +34,6 @@ var direction := Vector2.ZERO
 var _gravity : float = ProjectSettings.get_setting("physics/2d/default_gravity")
 var _additional_vector := Vector2.ZERO # external forces that can have an effect on the player and needs to be added to the velocity on the next physics frame
 var _can_use_powerup := true
-var _velocity_buffer := [Vector2.ZERO,Vector2.ZERO,Vector2.ZERO] # 3 frames velocity buffer for the bounce effect, workaround to avoid the collision reset when colliding
 var _hitstunned := false
 
 #==== ONREADY ====
@@ -90,11 +89,6 @@ func _physics_process(delta):
 	# Adds the additional vector
 	velocity += _additional_vector
 	_additional_vector = Vector2.ZERO
-	
-	# Store the previous velocity
-	# Note : might create a bug since this does not save the "real" velocity, 
-	#        but allows the additionnal vector to not be discarded when bouncing on obstacles
-	_buffer_velocity()
 
 	# Bounce back on obstacles
 	if _hitstunned:
@@ -167,7 +161,7 @@ func _handle_powerup() -> void:
 func _bounce_on_obstacles() -> void:
 	var obs_normal = _get_average_collision_normal()
 	if obs_normal != Vector2.ZERO:
-		velocity = _velocity_buffer[1].bounce(obs_normal)
+		velocity = velocity.bounce(obs_normal)
 
 func _get_average_collision_normal() -> Vector2:
 	var collision_count = get_slide_collision_count()
@@ -177,10 +171,6 @@ func _get_average_collision_normal() -> Vector2:
 	for col_idx in collision_count:
 		normal_sum += get_slide_collision(col_idx).get_normal()
 	return (normal_sum / collision_count).normalized()
-
-func _buffer_velocity() -> void:
-	_velocity_buffer.pop_back()
-	_velocity_buffer.push_front(velocity)
 
 # mostly to improve readability
 func _is_action_active(action : ActionHandlerBase.actions) -> bool:
