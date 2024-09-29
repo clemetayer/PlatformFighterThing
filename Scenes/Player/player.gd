@@ -30,6 +30,7 @@ const MAX_HITSTUN_DAMAGE := 999 # damage points
 #---- STANDARD -----
 #==== PUBLIC ====
 var direction := Vector2.ZERO
+var velocity_buffer := [Vector2.ZERO, Vector2.ZERO, Vector2.ZERO] # 3 frame buffer for the velocity. Usefull to keep track of the velocity when elements are going too fast
 
 #==== PRIVATE ====
 var _gravity : float = ProjectSettings.get_setting("physics/2d/default_gravity") * WEIGHT
@@ -76,7 +77,7 @@ func _physics_process(delta):
 	# Add the gravity.
 	if not is_on_floor():
 		velocity.y += _gravity * delta
-	else:
+	elif velocity.y > 0 and is_on_floor(): # to bounce back on horizontal destroyable walls
 		velocity.y = 0
 
 	# Handle jump.
@@ -97,6 +98,9 @@ func _physics_process(delta):
 
 	# Move
 	move_and_slide()
+
+	# Buffer the velocity 
+	_buffer_velocity()
 
 
 ##### PUBLIC METHODS #####
@@ -194,6 +198,10 @@ func _start_hitstun() -> void:
 # https://easings.net/#easeOutCubic
 func _cubic_ease_out(x : float) -> float:
 	return min(1.0, abs(1 - pow(1 - x, 3)))
+
+func _buffer_velocity() -> void:
+	velocity_buffer.pop_back()
+	velocity_buffer.push_front(velocity)
 
 ##### SIGNAL MANAGEMENT #####
 # Functions that should be triggered when a specific signal is received

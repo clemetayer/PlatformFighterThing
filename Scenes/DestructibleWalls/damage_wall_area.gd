@@ -1,6 +1,6 @@
 @tool
-extends ColorRect
-# utility script to automatically control the size of the moving pattern 
+extends Area2D
+# Area to detect the collision with the player
 
 ##### SIGNALS #####
 # Node signals
@@ -10,9 +10,10 @@ extends ColorRect
 
 ##### VARIABLES #####
 #---- CONSTANTS -----
-# const constant := 10 # Optionnal comment
+const OFFSET := 32 # in pixels
 
 #---- EXPORTS -----
+# export(int) var EXPORT_NAME # Optionnal comment
 
 #---- STANDARD -----
 #==== PUBLIC ====
@@ -23,6 +24,7 @@ extends ColorRect
 
 #==== ONREADY ====
 @onready var tilemap := $".."
+@onready var collision_shape := $"CollisionShape2D"
 
 ##### PROCESSING #####
 # Called when the object is initialized.
@@ -46,9 +48,8 @@ func _process(_delta):
 ##### PROTECTED METHODS #####
 func _update_size() -> void:
 	var tilemap_rect = tilemap.get_used_rect()
-	size = tilemap_rect.size * 64
-	position = tilemap_rect.position * 64
-	material.set_shader_parameter("fract_size",tilemap_rect.size)
+	position = tilemap_rect.position * 64 + tilemap_rect.size * 64 / 2
+	collision_shape.shape.size = tilemap_rect.size * 64 + Vector2i.ONE * OFFSET
 
 ##### SIGNAL MANAGEMENT #####
 # Functions that should be triggered when a specific signal is received
