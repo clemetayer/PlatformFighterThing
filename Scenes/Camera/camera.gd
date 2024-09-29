@@ -10,6 +10,7 @@ extends Camera2D
 ##### VARIABLES #####
 #---- CONSTANTS -----
 const ZOOM_OFFSET := Vector2i.ONE * 100
+const ZOOM_BASE_MULTIPLIER := 0.75 # change this to correct the zoom or dezoom
 
 #---- EXPORTS -----
 @export var PLAYERS : Array[NodePath]
@@ -38,7 +39,7 @@ func _process(_delta):
 	global_position = _get_average_position()
 	var best_zoom = _get_best_zoom()
 	if best_zoom > 0 :
-		zoom = Vector2.ONE * best_zoom
+		zoom = Vector2.ONE * best_zoom * ZOOM_BASE_MULTIPLIER
 	DebugInterface.set_debug_text("Best zoom", _get_best_zoom())
 
 ##### PUBLIC METHODS #####

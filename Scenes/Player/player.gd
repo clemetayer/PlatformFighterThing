@@ -9,8 +9,9 @@ extends CharacterBody2D
 
 ##### VARIABLES #####
 #---- CONSTANTS -----
-const TARGET_SPEED := 500.0 # px/s
-const JUMP_VELOCITY := -600.0
+const TARGET_SPEED := 1000.0 # px/s
+const JUMP_VELOCITY := -1200.0
+const WEIGHT := 2.5 # multiplier for the gravity
 const MAX_HITSTUN_TIME := 3 # s
 const MAX_HITSTUN_DAMAGE := 999 # damage points
 
@@ -31,7 +32,7 @@ const MAX_HITSTUN_DAMAGE := 999 # damage points
 var direction := Vector2.ZERO
 
 #==== PRIVATE ====
-var _gravity : float = ProjectSettings.get_setting("physics/2d/default_gravity")
+var _gravity : float = ProjectSettings.get_setting("physics/2d/default_gravity") * WEIGHT
 var _additional_vector := Vector2.ZERO # external forces that can have an effect on the player and needs to be added to the velocity on the next physics frame
 var _can_use_powerup := true
 var _hitstunned := false
@@ -96,7 +97,6 @@ func _physics_process(delta):
 
 	# Move
 	move_and_slide()
-
 
 
 ##### PUBLIC METHODS #####
@@ -199,7 +199,6 @@ func _cubic_ease_out(x : float) -> float:
 # Functions that should be triggered when a specific signal is received
 func _on_use_powerup_cooldown_timeout():
 	_can_use_powerup = true
-
 
 func _on_hitstun_timeout() -> void:
 	_hitstunned = false

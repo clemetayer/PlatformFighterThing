@@ -10,7 +10,7 @@ extends MovementBonusBase
 
 ##### VARIABLES #####
 #---- CONSTANTS -----
-const DASH_VELOCITY := 1500
+const DASH_VELOCITY := 1800
 const MAX_DASHES := 3
 
 #---- EXPORTS -----
