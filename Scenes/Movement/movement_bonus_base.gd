@@ -18,7 +18,7 @@ class_name MovementBonusBase
 #---- STANDARD -----
 #==== PUBLIC ====
 var state := ActionHandlerBase.states.INACTIVE
-var player : CharacterBody2D = null
+var player : Node2D = null
 
 #==== PRIVATE ====
 # var _private_var # Optionnal comment

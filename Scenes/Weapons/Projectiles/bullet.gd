@@ -43,8 +43,8 @@ func _process(delta):
 	position += _direction * _speed * delta
 
 ##### PUBLIC METHODS #####
-func parried(owner : CharacterBody2D) -> void:
-	current_owner = owner
+func parried(p_owner : Node2D) -> void:
+	current_owner = p_owner
 	rotation += PI
 	_direction = Vector2.RIGHT.rotated(rotation).normalized()
 	_speed *= 2

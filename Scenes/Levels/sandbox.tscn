@@ -1,9 +1,15 @@
-[gd_scene load_steps=5 format=4 uid="uid://c6n5fe1aeus84"]
+[gd_scene load_steps=6 format=4 uid="uid://c6n5fe1aeus84"]
 
 [ext_resource type="Script" path="res://Scenes/Camera/camera.gd" id="2_rm84w"]
 [ext_resource type="PackedScene" uid="uid://fgxha8wl55pa" path="res://Scenes/Player/player.tscn" id="2_s78v1"]
 [ext_resource type="PackedScene" uid="uid://b1lft1oovl50b" path="res://Scenes/Levels/Level1/level_1_map.tscn" id="3_aamca"]
 [ext_resource type="PackedScene" uid="uid://7t50cs5is77n" path="res://Scenes/DestructibleWalls/destructible_wall.tscn" id="3_tnlv1"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_1t753"]
+resource_local_to_scene = true
+friction = 0.0
+rough = true
+bounce = 0.05
 
 [node name="Sandbox" type="Node2D"]
 
@@ -13,6 +19,9 @@ ACTION_HANDLER = 1
 MOVEMENT_BONUS_HANDLER = 1
 
 [node name="Opponent" parent="." instance=ExtResource("2_s78v1")]
+position = Vector2(0, -200)
+physics_material_override = SubResource("PhysicsMaterial_1t753")
+continuous_cd = 1
 ACTION_HANDLER = 2
 MOVEMENT_BONUS_HANDLER = 1
 

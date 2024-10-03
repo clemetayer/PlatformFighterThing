@@ -10,7 +10,7 @@ extends MovementBonusBase
 
 ##### VARIABLES #####
 #---- CONSTANTS -----
-const DASH_VELOCITY := 1800
+const DASH_FORCE := 1800
 const MAX_DASHES := 3
 
 #---- EXPORTS -----
@@ -41,7 +41,7 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame. Remove the "_" to use it.
 func _process(_delta):
 	if ActionHandlerBase.is_just_active(state) and _dashes_available > 0:
-		player.velocity = player.direction.normalized() * DASH_VELOCITY
+		player.override_velocity(player.direction.normalized() * DASH_FORCE)
 		_dashes_available -= 1
 		_emit_particles()
 		if onready_paths.reload_timer.is_stopped():

@@ -7,7 +7,7 @@ const WALL_COLOR_GRADIENT_RES_PATH := "res://Scenes/DestructibleWalls/wall_color
 
 #---- EXPORTS -----
 @export var BASE_HEALTH := 5000 
-@export var BOUNCE_BACK_FORCE := 1500
+@export var BOUNCE_BACK_FORCE := 2500
 @export var BOUNCE_BACK_DIRECTION := Vector2.RIGHT
 
 #---- STANDARD -----
@@ -25,6 +25,7 @@ var _velocity_buffer := {
 @onready var onready_paths := {
 	"respawn_timer": $"RespawnTimer",
 	"buffer_timer": $"VelocityBufferTimer",
+	"freeze_timer": $"FreezePlayerTimer",
 	"damage_wall_area": $"DamageWallArea"
 }
 
@@ -66,8 +67,6 @@ func _get_max_velocity_in_buffer(velocity_buffer : Array) -> Vector2:
 func _buffer_player_velocity(body : Node2D, velocity: Vector2) -> void:
 	_velocity_buffer.velocity = velocity
 	_velocity_buffer.body = body
-	onready_paths.buffer_timer.start()
-
 
 ##### SIGNAL MANAGEMENT #####
 func _on_area_entered(area):
@@ -80,17 +79,23 @@ func _on_respawn_timer_timeout() -> void:
 	_toggle_activated(true)
 
 func _on_damage_wall_area_body_entered(body: Node2D) -> void:
-	if body.is_in_group("player"):
+	if body.is_in_group("player") and collision_enabled:
 		var max_velocity = _get_max_velocity_in_buffer(body.velocity_buffer)
 		_remove_health_by_velocity(max_velocity)
+		body.toggle_freeze(true)
+		onready_paths.freeze_timer.start()
+		_buffer_player_velocity(body, max_velocity)
 		if health <= 0:
-			_toggle_activated(false)
 			onready_paths.respawn_timer.start()
-			_buffer_player_velocity(body, max_velocity)
-		else:
-			body.bounce_back(BOUNCE_BACK_DIRECTION * BOUNCE_BACK_FORCE)
+			_toggle_activated(false)
 
-func _on_velocity_buffer_timer_timeout() -> void:
-	_velocity_buffer.body.velocity = _velocity_buffer.velocity
+func _on_freeze_player_timer_timeout() -> void:
+	var body = _velocity_buffer.body
+	_velocity_buffer.body.toggle_freeze(false)
+	if health <= 0:
+		_velocity_buffer.body.override_velocity(_velocity_buffer.velocity)
+	else:
+		_velocity_buffer.body.override_velocity(BOUNCE_BACK_DIRECTION * BOUNCE_BACK_FORCE)
 	_velocity_buffer.body = Node2D
 	_velocity_buffer.velocity = Vector2.ZERO
+		

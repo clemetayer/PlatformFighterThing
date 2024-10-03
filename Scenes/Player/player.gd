@@ -1,4 +1,4 @@
-extends CharacterBody2D
+extends RigidBody2D
 # player script
 
 ##### SIGNALS #####
@@ -11,9 +11,11 @@ extends CharacterBody2D
 #---- CONSTANTS -----
 const TARGET_SPEED := 1000.0 # px/s
 const JUMP_VELOCITY := -1200.0
-const WEIGHT := 2.5 # multiplier for the gravity
 const MAX_HITSTUN_TIME := 3 # s
 const MAX_HITSTUN_DAMAGE := 999 # damage points
+const MAX_FLOOR_ANGLE := PI/4
+const NORMAL_BOUNCE = 0.05
+const HITSTUN_BOUNCE = 1
 
 #---- EXPORTS -----
 @export var ACTION_HANDLER : StaticActionHandlerStrategy.handlers
@@ -29,18 +31,20 @@ const MAX_HITSTUN_DAMAGE := 999 # damage points
 
 #---- STANDARD -----
 #==== PUBLIC ====
+var velocity := Vector2.ZERO
 var direction := Vector2.ZERO
 var velocity_buffer := [Vector2.ZERO, Vector2.ZERO, Vector2.ZERO] # 3 frame buffer for the velocity. Usefull to keep track of the velocity when elements are going too fast
 
 #==== PRIVATE ====
-var _gravity : float = ProjectSettings.get_setting("physics/2d/default_gravity") * WEIGHT
-var _additional_vector := Vector2.ZERO # external forces that can have an effect on the player and needs to be added to the velocity on the next physics frame
 var _can_use_powerup := true
 var _hitstunned := false
+var _frozen := false
+var _velocity_override := Vector2.ZERO
+var _additional_vector := Vector2.ZERO # external forces that can have an effect on the player and needs to be added to the velocity on the next physics frame
 
 #==== ONREADY ====
-@onready var FLOOR_ACCELERATION = 50.0 * ProjectSettings.get_setting("physics/common/physics_ticks_per_second") # px/s² # Kind of a constant, that's why it is in all caps
-@onready var AIR_ACCELERATION = 25.0 * ProjectSettings.get_setting("physics/common/physics_ticks_per_second") # px/s² # Kind of a constant, that's why it is in all caps
+@onready var FLOOR_ACCELERATION = 100.0 * ProjectSettings.get_setting("physics/common/physics_ticks_per_second") # px/s² # Kind of a constant, that's why it is in all caps
+@onready var AIR_ACCELERATION = 50.0 * ProjectSettings.get_setting("physics/common/physics_ticks_per_second") # px/s² # Kind of a constant, that's why it is in all caps
 @onready var onready_paths := {
 	"primary_weapon":StaticPrimaryWeaponHandler.get_weapon(PRIMARY_WEAPON),
 	"movement_bonus":StaticMovementBonusHandler.get_handler(MOVEMENT_BONUS_HANDLER),
@@ -49,7 +53,8 @@ var _hitstunned := false
 	"powerup_cooldown":$"UsePowerupCooldown",
 	"multiplayer_sync":$"InputSynchronizer",
 	"hitstun_timer": $"Hitstun",
-	"animation_player": $"AnimationPlayer"
+	"animation_player": $"AnimationPlayer",
+	"floor_detector":$"FloorDetector"
 }
 
 
@@ -71,36 +76,40 @@ func _ready():
 func _process(_delta):
 	pass
 
-func _physics_process(delta):
+func _integrate_forces(state: PhysicsDirectBodyState2D):
+
+	if not _frozen:
+		velocity = state.get_linear_velocity()
+		var delta = state.get_step()
+		
+		# override the velocity if needed
+		if _velocity_override != Vector2.ZERO:
+			velocity = _velocity_override
+			_velocity_override = Vector2.ZERO
+
+		var is_on_floor = _is_on_floor()
+
+		# Handle jump
+		if _is_action_just_active(ActionHandlerBase.actions.JUMP) and is_on_floor:
+			velocity.y = JUMP_VELOCITY
+		
+		# Adds the additional vector
+		velocity += _additional_vector
+		_additional_vector = Vector2.ZERO
+
+		# Get the input direction and handle the movement/deceleration.
+		var acceleration = FLOOR_ACCELERATION if is_on_floor else AIR_ACCELERATION
+		velocity.x = move_toward(velocity.x, direction.x * TARGET_SPEED, acceleration * delta)
+		
+
+		# sets the velocity
+		state.set_linear_velocity(velocity)
+
+		# Buffer the velocity 
+		_buffer_velocity(velocity)
+
+func _physics_process(_delta):
 	_handle_inputs()
-
-	# Add the gravity.
-	if not is_on_floor():
-		velocity.y += _gravity * delta
-	elif velocity.y > 0 and is_on_floor(): # to bounce back on horizontal destroyable walls
-		velocity.y = 0
-
-	# Handle jump.
-	if _is_action_just_active(ActionHandlerBase.actions.JUMP) and is_on_floor():
-		velocity.y = JUMP_VELOCITY
-
-	# Get the input direction and handle the movement/deceleration.
-	var acceleration = FLOOR_ACCELERATION if is_on_floor() else AIR_ACCELERATION
-	velocity.x = move_toward(velocity.x, direction.x * TARGET_SPEED, acceleration * delta)
-
-	# Adds the additional vector
-	velocity += _additional_vector
-	_additional_vector = Vector2.ZERO
-
-	# Bounce back on obstacles
-	if _hitstunned:
-		_bounce_on_obstacles()
-
-	# Move
-	move_and_slide()
-
-	# Buffer the velocity 
-	_buffer_velocity()
 
 
 ##### PUBLIC METHODS #####
@@ -110,17 +119,25 @@ func hurt(p_damage : float, knockback : float, kb_direction : Vector2) -> void:
 	_additional_vector += kb_direction.normalized() * DAMAGE * knockback
 	_start_hitstun()
 
-func bounce_back(bounce_direction : Vector2) -> void:
-	if bounce_direction.x != 0:
-		velocity.x = bounce_direction.x
-	elif bounce_direction.y != 0:
-		velocity.y = bounce_direction.y
 
 func respawn() -> void:
 	global_position = Vector2.ZERO
-	velocity = Vector2.ZERO
+	# velocity = Vector2.ZERO
 	DAMAGE = 0
 	onready_paths.damage_label.text = "%f" % DAMAGE
+
+func override_velocity(velocity_override : Vector2) -> void:
+	_velocity_override += velocity_override
+
+func stop_hitstun() -> void:
+	if _hitstunned:
+		onready_paths.hitstun_timer.stop()
+		_on_hitstun_timeout()
+
+func toggle_freeze(active : bool) -> void:
+	freeze = active
+	_frozen = active
+	sleeping = active
 
 ##### PROTECTED METHODS #####
 func _handle_inputs() -> void:
@@ -162,19 +179,11 @@ func _handle_powerup() -> void:
 		_can_use_powerup = false
 		onready_paths.powerup_cooldown.start()
 
-func _bounce_on_obstacles() -> void:
-	var obs_normal = _get_average_collision_normal()
-	if obs_normal != Vector2.ZERO:
-		velocity = velocity.bounce(obs_normal)
-
-func _get_average_collision_normal() -> Vector2:
-	var collision_count = get_slide_collision_count()
-	if collision_count == 0 :
-		return Vector2.ZERO
-	var normal_sum = Vector2.ZERO
-	for col_idx in collision_count:
-		normal_sum += get_slide_collision(col_idx).get_normal()
-	return (normal_sum / collision_count).normalized()
+func _is_on_floor() -> bool:
+	if onready_paths.floor_detector.is_colliding():
+		var collision_normal = onready_paths.floor_detector.get_collision_normal()
+		return collision_normal.angle_to(Vector2.RIGHT) <= MAX_FLOOR_ANGLE or collision_normal.angle_to(Vector2.LEFT) <= MAX_FLOOR_ANGLE
+	return false
 
 # mostly to improve readability
 func _is_action_active(action : ActionHandlerBase.actions) -> bool:
@@ -193,15 +202,16 @@ func _start_hitstun() -> void:
 	var time = _cubic_ease_out(x) * MAX_HITSTUN_TIME
 	onready_paths.hitstun_timer.start(time)
 	onready_paths.animation_player.play("hitstun")
+	physics_material_override.bounce = HITSTUN_BOUNCE
 	_hitstunned = true
 
 # https://easings.net/#easeOutCubic
 func _cubic_ease_out(x : float) -> float:
 	return min(1.0, abs(1 - pow(1 - x, 3)))
 
-func _buffer_velocity() -> void:
+func _buffer_velocity(vel_to_buffer : Vector2) -> void:
 	velocity_buffer.pop_back()
-	velocity_buffer.push_front(velocity)
+	velocity_buffer.push_front(vel_to_buffer)
 
 ##### SIGNAL MANAGEMENT #####
 # Functions that should be triggered when a specific signal is received
@@ -210,5 +220,6 @@ func _on_use_powerup_cooldown_timeout():
 
 func _on_hitstun_timeout() -> void:
 	_hitstunned = false
+	physics_material_override.bounce = NORMAL_BOUNCE
 	onready_paths.animation_player.stop()
 	onready_paths.animation_player.play("RESET")

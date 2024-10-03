@@ -162,6 +162,9 @@ wait_time = 20.0
 wait_time = 0.05
 one_shot = true
 
+[node name="FreezePlayerTimer" type="Timer" parent="."]
+one_shot = true
+
 [node name="DamageWallArea" type="Area2D" parent="."]
 collision_mask = 2
 script = ExtResource("6_d5y80")
@@ -171,4 +174,5 @@ shape = SubResource("RectangleShape2D_iceyh")
 
 [connection signal="timeout" from="RespawnTimer" to="." method="_on_respawn_timer_timeout"]
 [connection signal="timeout" from="VelocityBufferTimer" to="." method="_on_velocity_buffer_timer_timeout"]
+[connection signal="timeout" from="FreezePlayerTimer" to="." method="_on_freeze_player_timer_timeout"]
 [connection signal="body_entered" from="DamageWallArea" to="." method="_on_damage_wall_area_body_entered"]
