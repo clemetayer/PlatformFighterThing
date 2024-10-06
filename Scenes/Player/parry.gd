@@ -61,7 +61,7 @@ func _on_area_entered(area):
 		onready_paths.parry_timer.stop()
 		_can_parry = true
 		_parrying = false
-		monitoring = false
+		set_deferred("monitoring", false)
 		area.parried(_owner)
 		emit_signal("parried")
 

@@ -131,9 +131,9 @@ func stop_hitstun() -> void:
 		_on_hitstun_timeout()
 
 func toggle_freeze(active : bool) -> void:
-	freeze = active
+	set_deferred("freeze", active)
+	set_deferred("sleeping", active)
 	_frozen = active
-	sleeping = active
 
 ##### PROTECTED METHODS #####
 func _handle_inputs() -> void:

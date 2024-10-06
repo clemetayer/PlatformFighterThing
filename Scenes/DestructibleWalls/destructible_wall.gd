@@ -51,8 +51,8 @@ func _update_texture_color() -> void:
 func _toggle_activated(active : bool) -> void:
 	visible = active
 	collision_enabled = active
-	onready_paths.damage_wall_area.monitoring = active
-	onready_paths.damage_wall_area.monitorable = active
+	onready_paths.damage_wall_area.set_deferred("monitoring", active)
+	onready_paths.damage_wall_area.set_deferred("monitorable", active)
 
 func _get_max_velocity_in_buffer(velocity_buffer : Array) -> Vector2:
 	var max_vel = velocity_buffer[0]
