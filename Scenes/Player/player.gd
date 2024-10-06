@@ -2,14 +2,14 @@ extends RigidBody2D
 # player script
 
 ##### SIGNALS #####
-# Node signals
+signal killed(id : int)
 
 ##### ENUMS #####
 # enumerations
 
 ##### VARIABLES #####
 #---- CONSTANTS -----
-const TARGET_SPEED := 1000.0 # px/s
+const TARGET_SPEED := 750.0 # px/s
 const JUMP_VELOCITY := -1200.0
 const MAX_HITSTUN_TIME := 3 # s
 const MAX_HITSTUN_DAMAGE := 999 # damage points
@@ -18,11 +18,9 @@ const NORMAL_BOUNCE = 0.05
 const HITSTUN_BOUNCE = 1
 
 #---- EXPORTS -----
-@export var ACTION_HANDLER : StaticActionHandlerStrategy.handlers
-@export var PRIMARY_WEAPON : StaticPrimaryWeaponHandler.weapons
-@export var MOVEMENT_BONUS_HANDLER : StaticMovementBonusHandler.handlers
-@export var POWERUP_HANDLER : StaticPowerupHandler.handlers
+@export var CONFIG : PlayerConfig
 @export var DAMAGE := 0.0
+@export var scene_player_id := 0 # id corresponding to the player in the scene its in. Different from the multiplayer id
 @export var player := 1 :
 	set(id):
 		player = id
@@ -46,8 +44,8 @@ var _additional_vector := Vector2.ZERO # external forces that can have an effect
 @onready var FLOOR_ACCELERATION = 100.0 * ProjectSettings.get_setting("physics/common/physics_ticks_per_second") # px/s² # Kind of a constant, that's why it is in all caps
 @onready var AIR_ACCELERATION = 50.0 * ProjectSettings.get_setting("physics/common/physics_ticks_per_second") # px/s² # Kind of a constant, that's why it is in all caps
 @onready var onready_paths := {
-	"primary_weapon":StaticPrimaryWeaponHandler.get_weapon(PRIMARY_WEAPON),
-	"movement_bonus":StaticMovementBonusHandler.get_handler(MOVEMENT_BONUS_HANDLER),
+	"primary_weapon":StaticPrimaryWeaponHandler.get_weapon(CONFIG.PRIMARY_WEAPON),
+	"movement_bonus":StaticMovementBonusHandler.get_handler(CONFIG.MOVEMENT_BONUS_HANDLER),
 	"damage_label":$"Damage",
 	"parry_area":$"ParryArea",
 	"powerup_cooldown":$"UsePowerupCooldown",
@@ -65,7 +63,7 @@ func _init():
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	onready_paths.multiplayer_sync.set_action_handler(ACTION_HANDLER)
+	onready_paths.multiplayer_sync.set_action_handler(CONFIG.ACTION_HANDLER)
 	add_child(onready_paths.primary_weapon)
 	add_child(onready_paths.movement_bonus)
 	onready_paths.movement_bonus.player = self
@@ -121,10 +119,8 @@ func hurt(p_damage : float, knockback : float, kb_direction : Vector2) -> void:
 
 
 func respawn() -> void:
-	global_position = Vector2.ZERO
-	# velocity = Vector2.ZERO
-	DAMAGE = 0
-	onready_paths.damage_label.text = "%f" % DAMAGE
+	emit_signal("killed",player)
+	queue_free()
 
 func override_velocity(velocity_override : Vector2) -> void:
 	_velocity_override += velocity_override
@@ -173,7 +169,7 @@ func _handle_parry() -> void:
 
 func _handle_powerup() -> void:
 	if _is_action_just_active(ActionHandlerBase.actions.POWERUP) and _can_use_powerup:
-		var powerup = StaticPowerupHandler.get_powerup(POWERUP_HANDLER)
+		var powerup = StaticPowerupHandler.get_powerup(CONFIG.POWERUP_HANDLER)
 		powerup.global_position = self.global_position
 		get_tree().current_scene.add_child(powerup)
 		_can_use_powerup = false

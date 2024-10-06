@@ -51,7 +51,7 @@ func _process(_delta):
 func _get_average_position() -> Vector2:
 	var sum = Vector2.ZERO
 	for player in PLAYERS:
-		if player != null:
+		if player != null and get_node_or_null(player) != null:
 			sum += get_node(player).global_position
 	return sum / PLAYERS.size()
 
@@ -72,15 +72,16 @@ func _get_global_min_max_pos() -> Dictionary:
 	var min := Vector2.INF
 	var max := Vector2.ZERO
 	for player_path in PLAYERS:
-		var player = get_node(player_path)
-		if player.global_position.x < min.x:
-			min.x = player.global_position.x
-		if player.global_position.y < min.y:
-			min.y = player.global_position.y
-		if player.global_position.x > max.x:
-			max.x = player.global_position.x
-		if player.global_position.y > max.y:
-			max.y = player.global_position.y
+		if player_path != null and get_node_or_null(player_path) != null:
+			var player = get_node(player_path)
+			if player.global_position.x < min.x:
+				min.x = player.global_position.x
+			if player.global_position.y < min.y:
+				min.y = player.global_position.y
+			if player.global_position.x > max.x:
+				max.x = player.global_position.x
+			if player.global_position.y > max.y:
+				max.y = player.global_position.y
 	return {
 		"min": min,
 		"max": max

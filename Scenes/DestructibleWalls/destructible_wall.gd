@@ -7,7 +7,7 @@ const WALL_COLOR_GRADIENT_RES_PATH := "res://Scenes/DestructibleWalls/wall_color
 
 #---- EXPORTS -----
 @export var BASE_HEALTH := 5000 
-@export var BOUNCE_BACK_FORCE := 2500
+@export var BOUNCE_BACK_FORCE := 1750
 @export var BOUNCE_BACK_DIRECTION := Vector2.RIGHT
 
 #---- STANDARD -----
