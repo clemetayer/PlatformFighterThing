@@ -25,7 +25,7 @@ var _players_data := {}
 
 #==== ONREADY ====
 @onready var onready_paths := {
-	"camera": $"Camera2D"
+	"camera": $"Camera"
 }
 
 ##### PROCESSING #####

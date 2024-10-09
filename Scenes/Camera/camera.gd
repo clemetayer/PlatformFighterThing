@@ -9,6 +9,11 @@ extends Camera2D
 
 ##### VARIABLES #####
 #---- CONSTANTS -----
+const SCREEN_SHAKE_PRESETS := {
+	CameraEffects.CAMERA_SHAKE_INTENSITY.LIGHT: "res://Scenes/Camera/ScreenShakePreset/light.tres",
+	CameraEffects.CAMERA_SHAKE_INTENSITY.MEDIUM: "res://Scenes/Camera/ScreenShakePreset/medium.tres",
+	CameraEffects.CAMERA_SHAKE_INTENSITY.HIGH: "res://Scenes/Camera/ScreenShakePreset/high.tres"
+}
 const ZOOM_OFFSET := Vector2i.ONE * 100
 const ZOOM_BASE_MULTIPLIER := 0.75 # change this to correct the zoom or dezoom
 
@@ -23,7 +28,9 @@ const ZOOM_BASE_MULTIPLIER := 0.75 # change this to correct the zoom or dezoom
 # var _private_var # Optionnal comment
 
 #==== ONREADY ====
-# onready var onready_var # Optionnal comment
+@onready var onready_paths := {
+	"shaker": $"Shaker"
+}
 
 ##### PROCESSING #####
 # Called when the object is initialized.
@@ -32,7 +39,7 @@ func _init():
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass
+	CameraEffects.connect("start_camera_shake",_on_start_camera_shake)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame. Remove the "_" to use it.
 func _process(_delta):
@@ -88,4 +95,7 @@ func _get_global_min_max_pos() -> Dictionary:
 	}
 
 ##### SIGNAL MANAGEMENT #####
-# Functions that should be triggered when a specific signal is received
+func _on_start_camera_shake(duration : float, intensity : CameraEffects.CAMERA_SHAKE_INTENSITY) -> void:
+	onready_paths.shaker.set_duration(duration)
+	onready_paths.shaker.set_shaker_preset(load(SCREEN_SHAKE_PRESETS[intensity]))
+	onready_paths.shaker.play_shake()
