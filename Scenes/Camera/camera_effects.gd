@@ -34,9 +34,8 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame. Remove the "_" to use it.
 func _process(_delta):
-	if Input.is_action_just_pressed("test_key_util"):
-		emit_signal("start_camera_shake", 0.5, CAMERA_SHAKE_INTENSITY.HIGH)
-
+	pass
+	
 ##### PUBLIC METHODS #####
 
 		

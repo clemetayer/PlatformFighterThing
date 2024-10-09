@@ -4,6 +4,8 @@ extends TileMapLayer
 ##### VARIABLES #####
 #---- CONSTANTS -----
 const WALL_COLOR_GRADIENT_RES_PATH := "res://Scenes/DestructibleWalls/wall_color_gradient.tres"
+const DAMAGE_WALL_TRESHOLDS := [0,1500,3000]
+# 0 - 1500 : light, 1500 - 3000 : medium, 3000 - inf : high
 
 #---- EXPORTS -----
 @export var BASE_HEALTH := 5000 
@@ -40,8 +42,10 @@ func _ready():
 func _remove_health_by_velocity(velocity: Vector2) -> void:
 	if BOUNCE_BACK_DIRECTION.x != 0:
 		health -= abs(velocity.x)
+		_shake_camera_by_velocity(velocity.x)
 	elif BOUNCE_BACK_DIRECTION.y != 0:
 		health -= abs(velocity.y)
+		_shake_camera_by_velocity(velocity.y)
 	_update_texture_color()
 
 func _update_texture_color() -> void:
@@ -67,6 +71,20 @@ func _get_max_velocity_in_buffer(velocity_buffer : Array) -> Vector2:
 func _buffer_player_velocity(body : Node2D, velocity: Vector2) -> void:
 	_velocity_buffer.velocity = velocity
 	_velocity_buffer.body = body
+
+func _shake_camera_by_velocity(velocity : float) -> void:
+	var camera_shake = _get_shake_type_by_velocity(abs(velocity))
+	CameraEffects.emit_signal("start_camera_shake",1,camera_shake)
+
+func _get_shake_type_by_velocity(velocity : float) -> CameraEffects.CAMERA_SHAKE_INTENSITY:
+	if FunctionUtils.in_between(velocity,DAMAGE_WALL_TRESHOLDS[0], DAMAGE_WALL_TRESHOLDS[1]):
+		return CameraEffects.CAMERA_SHAKE_INTENSITY.LIGHT
+	elif FunctionUtils.in_between(velocity,DAMAGE_WALL_TRESHOLDS[1], DAMAGE_WALL_TRESHOLDS[2]):
+		return CameraEffects.CAMERA_SHAKE_INTENSITY.MEDIUM
+	elif velocity > DAMAGE_WALL_TRESHOLDS[2]:
+		return CameraEffects.CAMERA_SHAKE_INTENSITY.HIGH
+	# should not go here
+	return CameraEffects.CAMERA_SHAKE_INTENSITY.LIGHT
 
 ##### SIGNAL MANAGEMENT #####
 func _on_area_entered(area):
