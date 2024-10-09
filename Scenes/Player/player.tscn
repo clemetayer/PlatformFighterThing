@@ -1,9 +1,10 @@
-[gd_scene load_steps=16 format=3 uid="uid://fgxha8wl55pa"]
+[gd_scene load_steps=18 format=3 uid="uid://fgxha8wl55pa"]
 
 [ext_resource type="Script" path="res://Scenes/Player/player.gd" id="1_b1dbg"]
 [ext_resource type="Script" path="res://Scenes/Player/parry.gd" id="2_avuuq"]
 [ext_resource type="Texture2D" uid="uid://btcmiq31qee7d" path="res://Scenes/Player/CharacterBody.png" id="2_pi5cj"]
 [ext_resource type="Texture2D" uid="uid://dy0q7mppvj7j1" path="res://Scenes/Player/CharacterOutline.png" id="3_b0wk1"]
+[ext_resource type="Script" path="res://Scenes/Player/bounce_area.gd" id="4_d6e7m"]
 [ext_resource type="Script" path="res://Scenes/Player/AnimationPlayer.gd" id="5_b3kqx"]
 [ext_resource type="Script" path="res://Scenes/Player/input_synchronizer.gd" id="5_uow23"]
 
@@ -46,6 +47,9 @@ size = Vector2(64, 64)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7ohtq"]
 size = Vector2(150, 150)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qh2ge"]
+size = Vector2(100, 100)
 
 [sub_resource type="Animation" id="Animation_r421c"]
 length = 0.001
@@ -176,6 +180,15 @@ one_shot = true
 wait_time = 0.5
 one_shot = true
 
+[node name="BounceArea" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 3
+script = ExtResource("4_d6e7m")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BounceArea"]
+shape = SubResource("RectangleShape2D_qh2ge")
+disabled = true
+
 [node name="Damage" type="Label" parent="."]
 anchors_preset = 8
 anchor_left = 0.5
@@ -228,5 +241,6 @@ collision_mask = 3
 [connection signal="parried" from="ParryArea" to="AnimationPlayer" method="_on_parry_area_parried"]
 [connection signal="timeout" from="ParryArea/ParryTimer" to="ParryArea" method="_on_parry_timer_timeout"]
 [connection signal="timeout" from="ParryArea/LockoutTimer" to="ParryArea" method="_on_lockout_timer_timeout"]
+[connection signal="body_entered" from="BounceArea" to="BounceArea" method="_on_body_entered"]
 [connection signal="timeout" from="UsePowerupCooldown" to="." method="_on_use_powerup_cooldown_timeout"]
 [connection signal="timeout" from="Hitstun" to="." method="_on_hitstun_timeout"]

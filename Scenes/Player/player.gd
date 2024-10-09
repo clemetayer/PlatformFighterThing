@@ -48,6 +48,7 @@ var _additional_vector := Vector2.ZERO # external forces that can have an effect
 	"movement_bonus":StaticMovementBonusHandler.get_handler(CONFIG.MOVEMENT_BONUS_HANDLER),
 	"damage_label":$"Damage",
 	"parry_area":$"ParryArea",
+	"bounce_area":$"BounceArea",
 	"powerup_cooldown":$"UsePowerupCooldown",
 	"multiplayer_sync":$"InputSynchronizer",
 	"hitstun_timer": $"Hitstun",
@@ -199,6 +200,7 @@ func _start_hitstun() -> void:
 	onready_paths.hitstun_timer.start(time)
 	onready_paths.animation_player.play("hitstun")
 	physics_material_override.bounce = HITSTUN_BOUNCE
+	onready_paths.bounce_area.toggle_active(true)
 	_hitstunned = true
 
 # https://easings.net/#easeOutCubic
@@ -216,6 +218,7 @@ func _on_use_powerup_cooldown_timeout():
 
 func _on_hitstun_timeout() -> void:
 	_hitstunned = false
+	onready_paths.bounce_area.toggle_active(false)
 	physics_material_override.bounce = NORMAL_BOUNCE
 	onready_paths.animation_player.stop()
 	onready_paths.animation_player.play("RESET")
