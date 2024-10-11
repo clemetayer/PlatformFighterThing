@@ -10,7 +10,7 @@ extends PowerupBase
 
 ##### VARIABLES #####
 #---- CONSTANTS -----
-# const constant = 10 # Optionnal comment
+const MAX_CONTACTS := 3
 
 #---- EXPORTS -----
 # export(int) var EXPORT_NAME # Optionnal comment
@@ -21,6 +21,7 @@ extends PowerupBase
 
 #==== PRIVATE ====
 var _whitelist := [] # to avoid duplicating too much (with the fresh new projectiles for instance)
+var _contacts_count := 0
 
 #==== ONREADY ====
 # onready var onready_var # Optionnal comment
@@ -49,19 +50,21 @@ func _process(_delta):
 #     pass
 
 ##### SIGNAL MANAGEMENT #####
-func _on_keep_timer_timeout():
-	queue_free()
-
 func _on_hitbox_area_entered(area):
 	if area.is_in_group("projectile") and not _whitelist.has(area):
 		var duplicate = area.duplicate()
-		get_tree().current_scene.add_child(duplicate)
+		duplicate.current_owner = area.current_owner
+		get_tree().current_scene.call_deferred("add_child",duplicate)
 		area.rotate(PI/4)
 		duplicate.rotate(-PI/4)
 		duplicate._direction = Vector2.RIGHT.rotated(duplicate.rotation).normalized()
 		area._direction = Vector2.RIGHT.rotated(area.rotation).normalized()
 		_whitelist.append(area)
 		_whitelist.append(duplicate)
+	if _contacts_count <= MAX_CONTACTS:
+		_contacts_count += 1
+	else:
+		queue_free()
 		
 
 func _on_hitbox_body_entered(body):

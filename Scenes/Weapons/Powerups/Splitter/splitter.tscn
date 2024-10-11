@@ -6,7 +6,6 @@
 size = Vector2(64, 64)
 
 [node name="Splitter" type="Node2D"]
-scale = Vector2(0.75, 0.75)
 script = ExtResource("1_tp6dn")
 
 [node name="Hitbox" type="Area2D" parent="."]
@@ -19,13 +18,7 @@ shape = SubResource("RectangleShape2D_06q05")
 [node name="Polygon2D" type="Polygon2D" parent="."]
 polygon = PackedVector2Array(-32, -8, -32, 8, -8, 8, -8, 32, 8, 32, 8, 8, 32, 8, 32, -8, 8, -8, 8, -32, -8, -32, -8, -8)
 
-[node name="KeepTimer" type="Timer" parent="."]
-wait_time = 5.0
-one_shot = true
-autostart = true
-
 [connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]
 [connection signal="area_exited" from="Hitbox" to="." method="_on_hitbox_area_exited"]
 [connection signal="body_entered" from="Hitbox" to="." method="_on_hitbox_body_entered"]
 [connection signal="body_exited" from="Hitbox" to="." method="_on_hitbox_body_exited"]
-[connection signal="timeout" from="KeepTimer" to="." method="_on_keep_timer_timeout"]
