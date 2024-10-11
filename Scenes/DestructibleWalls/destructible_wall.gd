@@ -74,7 +74,7 @@ func _buffer_player_velocity(body : Node2D, velocity: Vector2) -> void:
 
 func _shake_camera_by_velocity(velocity : float) -> void:
 	var camera_shake = _get_shake_type_by_velocity(abs(velocity))
-	CameraEffects.emit_signal("start_camera_shake",1,camera_shake)
+	CameraEffects.emit_signal_start_camera_shake(1,camera_shake, CameraEffects.CAMERA_SHAKE_PRIORITY.HIGH)
 
 func _get_shake_type_by_velocity(velocity : float) -> CameraEffects.CAMERA_SHAKE_INTENSITY:
 	if FunctionUtils.in_between(velocity,DAMAGE_WALL_TRESHOLDS[0], DAMAGE_WALL_TRESHOLDS[1]):

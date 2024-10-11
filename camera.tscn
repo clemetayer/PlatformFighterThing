@@ -16,3 +16,5 @@ duration = 2.0
 fade_in = 0.0122591
 fade_out = 0.329877
 shakerPreset = ExtResource("3_snhs0")
+
+[connection signal="shake_finished" from="Shaker" to="." method="_on_shaker_shake_finished"]

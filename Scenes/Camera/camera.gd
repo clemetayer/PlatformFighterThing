@@ -25,7 +25,7 @@ const ZOOM_BASE_MULTIPLIER := 0.75 # change this to correct the zoom or dezoom
 # var public_var # Optionnal comment
 
 #==== PRIVATE ====
-# var _private_var # Optionnal comment
+var _current_shake_priority := CameraEffects.CAMERA_SHAKE_PRIORITY.NONE
 
 #==== ONREADY ====
 @onready var onready_paths := {
@@ -95,7 +95,15 @@ func _get_global_min_max_pos() -> Dictionary:
 	}
 
 ##### SIGNAL MANAGEMENT #####
-func _on_start_camera_shake(duration : float, intensity : CameraEffects.CAMERA_SHAKE_INTENSITY) -> void:
-	onready_paths.shaker.set_duration(duration)
-	onready_paths.shaker.set_shaker_preset(load(SCREEN_SHAKE_PRESETS[intensity]))
-	onready_paths.shaker.play_shake()
+func _on_start_camera_shake(duration : float, intensity : CameraEffects.CAMERA_SHAKE_INTENSITY, priority: CameraEffects.CAMERA_SHAKE_PRIORITY) -> void:
+	if priority >= _current_shake_priority:
+		if onready_paths.shaker.is_playing:
+			onready_paths.shaker.force_stop_shake()
+		onready_paths.shaker.set_duration(duration)
+		onready_paths.shaker.set_shaker_preset(load(SCREEN_SHAKE_PRESETS[intensity]))
+		onready_paths.shaker.play_shake()
+		_current_shake_priority = priority
+
+
+func _on_shaker_shake_finished() -> void:
+	_current_shake_priority = CameraEffects.CAMERA_SHAKE_PRIORITY.NONE
