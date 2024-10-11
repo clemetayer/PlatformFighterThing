@@ -10,8 +10,8 @@ extends Area2D
 ##### VARIABLES #####
 #---- CONSTANTS -----
 const SPEED := 1100.0 # px/s
-const DAMAGE := 10.0
-const KNOCKBACK := 10.0
+const DAMAGE := 15.0
+const KNOCKBACK := 20.0
 
 #---- EXPORTS -----
 # export(int) var EXPORT_NAME # Optionnal comment
