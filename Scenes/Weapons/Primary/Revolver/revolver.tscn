@@ -10,6 +10,6 @@ color = Color(1, 0, 0, 1)
 polygon = PackedVector2Array(0, -10, 0, 10, 20, 0)
 
 [node name="ShootCooldown" type="Timer" parent="."]
-wait_time = 0.25
+wait_time = 0.33
 
 [connection signal="timeout" from="ShootCooldown" to="." method="_on_shoot_cooldown_timeout"]
