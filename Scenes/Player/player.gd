@@ -72,6 +72,7 @@ func _ready():
 	onready_paths.primary_weapon.projectile_owner = self
 	onready_paths.damage_label.text = "%f" % DAMAGE
 	onready_paths.sprites.load_sprite_preset(CONFIG.SPRITE_CUSTOMIZATION)
+	SceneUtils.connect("toggle_scene_freeze", _on_SceneUtils_toggle_scene_freeze)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame. Remove the "_" to use it.
 func _process(_delta):
@@ -109,7 +110,8 @@ func _integrate_forces(state: PhysicsDirectBodyState2D):
 		_buffer_velocity(velocity)
 
 func _physics_process(_delta):
-	_handle_inputs()
+	if not _frozen:
+		_handle_inputs()
 
 
 ##### PUBLIC METHODS #####
@@ -223,3 +225,6 @@ func _on_hitstun_timeout() -> void:
 	physics_material_override.bounce = NORMAL_BOUNCE
 	onready_paths.animation_player.stop()
 	onready_paths.animation_player.play("RESET")
+
+func _on_SceneUtils_toggle_scene_freeze(value: bool) -> void:
+	toggle_freeze(value)

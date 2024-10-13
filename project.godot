@@ -22,6 +22,7 @@ Logger="*res://addons/gs_logger/logger.gd"
 RuntimeConfig="*res://Utils/Config/runtime_config.gd"
 CameraEffects="*res://Scenes/Camera/camera_effects.gd"
 Shaker="*res://addons/shaker/src/Shaker.gd"
+SceneUtils="*res://Utils/scene_utils.gd"
 
 [editor]
 

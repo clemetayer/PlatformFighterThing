@@ -25,6 +25,7 @@ var _direction := Vector2.ZERO
 var _speed := SPEED
 var _damage := DAMAGE
 var _knockback := KNOCKBACK
+var _freeze := false
 
 #==== ONREADY ====
 # onready var onready_var # Optionnal comment
@@ -36,11 +37,13 @@ func _init():
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	SceneUtils.connect("toggle_scene_freeze", _on_SceneUtils_toggle_scene_freeze)
 	_direction = Vector2.RIGHT.rotated(rotation).normalized()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame. Remove the "_" to use it.
 func _process(delta):
-	position += _direction * _speed * delta
+	if not _freeze:
+		position += _direction * _speed * delta
 
 ##### PUBLIC METHODS #####
 func parried(p_owner : Node2D) -> void:
@@ -67,3 +70,6 @@ func _on_body_entered(body):
 		queue_free()
 	elif body.is_in_group("static_obstacle"): 
 		queue_free()
+
+func _on_SceneUtils_toggle_scene_freeze(value : bool) -> void:
+	_freeze = value
