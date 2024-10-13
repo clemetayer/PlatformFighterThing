@@ -76,22 +76,22 @@ func _get_best_zoom() -> float:
 	return 1/max(best_zoom.x, best_zoom.y)
 
 func _get_global_min_max_pos() -> Dictionary:
-	var min := Vector2.INF
-	var max := Vector2.ZERO
+	var min_pos := Vector2.INF
+	var max_pos := Vector2.ZERO
 	for player_path in PLAYERS:
 		if player_path != null and get_node_or_null(player_path) != null:
 			var player = get_node(player_path)
-			if player.global_position.x < min.x:
-				min.x = player.global_position.x
-			if player.global_position.y < min.y:
-				min.y = player.global_position.y
-			if player.global_position.x > max.x:
-				max.x = player.global_position.x
-			if player.global_position.y > max.y:
-				max.y = player.global_position.y
+			if player.global_position.x < min_pos.x:
+				min_pos.x = player.global_position.x
+			if player.global_position.y < min_pos.y:
+				min_pos.y = player.global_position.y
+			if player.global_position.x > max_pos.x:
+				max_pos.x = player.global_position.x
+			if player.global_position.y > max_pos.y:
+				max_pos.y = player.global_position.y
 	return {
-		"min": min,
-		"max": max
+		"min": min_pos,
+		"max": max_pos
 	}
 
 ##### SIGNAL MANAGEMENT #####

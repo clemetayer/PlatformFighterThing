@@ -53,7 +53,8 @@ var _additional_vector := Vector2.ZERO # external forces that can have an effect
 	"multiplayer_sync":$"InputSynchronizer",
 	"hitstun_timer": $"Hitstun",
 	"animation_player": $"AnimationPlayer",
-	"floor_detector":$"FloorDetector"
+	"floor_detector":$"FloorDetector",
+	"sprites": $"Sprites"
 }
 
 
@@ -70,13 +71,13 @@ func _ready():
 	onready_paths.movement_bonus.player = self
 	onready_paths.primary_weapon.projectile_owner = self
 	onready_paths.damage_label.text = "%f" % DAMAGE
+	onready_paths.sprites.load_sprite_preset(CONFIG.SPRITE_CUSTOMIZATION)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame. Remove the "_" to use it.
 func _process(_delta):
 	pass
 
 func _integrate_forces(state: PhysicsDirectBodyState2D):
-
 	if not _frozen:
 		velocity = state.get_linear_velocity()
 		var delta = state.get_step()

@@ -8,3 +8,4 @@ class_name PlayerConfig
 @export var PRIMARY_WEAPON : StaticPrimaryWeaponHandler.weapons
 @export var MOVEMENT_BONUS_HANDLER : StaticMovementBonusHandler.handlers
 @export var POWERUP_HANDLER : StaticPowerupHandler.handlers
+@export var SPRITE_CUSTOMIZATION : SpriteCustomizationResource

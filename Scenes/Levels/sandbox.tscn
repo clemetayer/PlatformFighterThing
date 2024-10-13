@@ -1,10 +1,12 @@
-[gd_scene load_steps=10 format=4 uid="uid://c6n5fe1aeus84"]
+[gd_scene load_steps=12 format=4 uid="uid://c6n5fe1aeus84"]
 
 [ext_resource type="Script" path="res://Scenes/Levels/sandbox.gd" id="1_qb6qp"]
 [ext_resource type="Script" path="res://Scenes/Player/player_config.gd" id="2_dqptm"]
 [ext_resource type="PackedScene" uid="uid://b1lft1oovl50b" path="res://Scenes/Levels/Level1/level_1_map.tscn" id="3_aamca"]
+[ext_resource type="Resource" uid="uid://cjhu8g1x67rga" path="res://Scenes/Player/SpriteCustomizationPresets/player_1.tres" id="3_l6xsw"]
 [ext_resource type="PackedScene" uid="uid://7t50cs5is77n" path="res://Scenes/DestructibleWalls/destructible_wall.tscn" id="3_tnlv1"]
 [ext_resource type="PackedScene" uid="uid://ew7gedlm3n8" path="res://camera.tscn" id="3_vqkxr"]
+[ext_resource type="Resource" uid="uid://d0wmbs41fu82y" path="res://Scenes/Player/SpriteCustomizationPresets/player_2.tres" id="4_rttf8"]
 [ext_resource type="PackedScene" uid="uid://bc175bcim437d" path="res://Scenes/LevelBounds/level_bounds.tscn" id="5_qmna8"]
 
 [sub_resource type="Resource" id="Resource_rnqq8"]
@@ -13,6 +15,7 @@ ACTION_HANDLER = 1
 PRIMARY_WEAPON = 0
 MOVEMENT_BONUS_HANDLER = 1
 POWERUP_HANDLER = 0
+SPRITE_CUSTOMIZATION = ExtResource("3_l6xsw")
 
 [sub_resource type="Resource" id="Resource_bkyka"]
 script = ExtResource("2_dqptm")
@@ -20,6 +23,7 @@ ACTION_HANDLER = 2
 PRIMARY_WEAPON = 0
 MOVEMENT_BONUS_HANDLER = 1
 POWERUP_HANDLER = 0
+SPRITE_CUSTOMIZATION = ExtResource("4_rttf8")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8pjd0"]
 size = Vector2(3232, 1764)

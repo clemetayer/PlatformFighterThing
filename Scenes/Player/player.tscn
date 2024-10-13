@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://fgxha8wl55pa"]
+[gd_scene load_steps=19 format=3 uid="uid://fgxha8wl55pa"]
 
 [ext_resource type="Script" path="res://Scenes/Player/player.gd" id="1_b1dbg"]
 [ext_resource type="Script" path="res://Scenes/Player/parry.gd" id="2_avuuq"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://dy0q7mppvj7j1" path="res://Scenes/Player/CharacterOutline.png" id="3_b0wk1"]
 [ext_resource type="Script" path="res://Scenes/Player/bounce_area.gd" id="4_d6e7m"]
 [ext_resource type="Script" path="res://Scenes/Player/AnimationPlayer.gd" id="5_b3kqx"]
+[ext_resource type="Script" path="res://Scenes/Player/sprites.gd" id="5_f7agn"]
 [ext_resource type="Script" path="res://Scenes/Player/input_synchronizer.gd" id="5_uow23"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_cl61g"]
@@ -206,6 +207,7 @@ horizontal_alignment = 1
 
 [node name="Sprites" type="Node2D" parent="."]
 scale = Vector2(0.33, 0.33)
+script = ExtResource("5_f7agn")
 
 [node name="Body" type="Sprite2D" parent="Sprites"]
 modulate = Color(0, 1, 1, 1)
