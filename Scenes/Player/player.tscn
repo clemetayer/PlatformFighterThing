@@ -16,27 +16,39 @@ rough = true
 bounce = 0.05
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_igkwr"]
-properties/0/path = NodePath(".:position")
+properties/0/path = NodePath(".:player")
 properties/0/spawn = true
-properties/0/replication_mode = 1
-properties/1/path = NodePath(".:player")
+properties/0/replication_mode = 0
+properties/1/path = NodePath(".:DAMAGE")
 properties/1/spawn = true
-properties/1/replication_mode = 0
-properties/2/path = NodePath(".:DAMAGE")
+properties/1/replication_mode = 1
+properties/2/path = NodePath(".:scene_player_id")
 properties/2/spawn = true
 properties/2/replication_mode = 1
 properties/3/path = NodePath(".:ACTION_HANDLER")
 properties/3/spawn = true
 properties/3/replication_mode = 1
-properties/4/path = NodePath(".:POWERUP_HANDLER")
+properties/4/path = NodePath(".:PRIMARY_WEAPON")
 properties/4/spawn = true
 properties/4/replication_mode = 1
-properties/5/path = NodePath(".:PRIMARY_WEAPON")
+properties/5/path = NodePath(".:MOVEMENT_BONUS_HANDLER")
 properties/5/spawn = true
 properties/5/replication_mode = 1
-properties/6/path = NodePath(".:MOVEMENT_BONUS_HANDLER")
+properties/6/path = NodePath(".:POWERUP_HANDLER")
 properties/6/spawn = true
 properties/6/replication_mode = 1
+properties/7/path = NodePath("Sprites/Body:modulate")
+properties/7/spawn = true
+properties/7/replication_mode = 1
+properties/8/path = NodePath("Sprites/Outline:modulate")
+properties/8/spawn = true
+properties/8/replication_mode = 1
+properties/9/path = NodePath(".:linear_velocity")
+properties/9/spawn = true
+properties/9/replication_mode = 1
+properties/10/path = NodePath(".:position")
+properties/10/spawn = true
+properties/10/replication_mode = 1
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_wpobp"]
 properties/0/path = NodePath("InputSynchronizer:action_states")
@@ -109,35 +121,6 @@ tracks/1/keys = {
 "values": [true]
 }
 
-[sub_resource type="Animation" id="Animation_a1bgp"]
-resource_name = "parrying"
-length = 0.15
-step = 0.05
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprites/Flash:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.15),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 0.784314), Color(1, 1, 1, 0)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Sprites/Flash:visible")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-
 [sub_resource type="Animation" id="Animation_vhsup"]
 resource_name = "parry_lockout"
 length = 0.5
@@ -165,6 +148,35 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Color(0.509286, 0.509286, 0.509286, 0.784314)]
+}
+
+[sub_resource type="Animation" id="Animation_a1bgp"]
+resource_name = "parrying"
+length = 0.15
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprites/Flash:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0.784314), Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprites/Flash:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_2b586"]
@@ -256,8 +268,8 @@ texture = ExtResource("2_pi5cj")
 libraries = {
 "": SubResource("AnimationLibrary_2b586")
 }
-next/parrying = &"RESET"
 next/parry_lockout = &"RESET"
+next/parrying = &"RESET"
 script = ExtResource("5_b3kqx")
 
 [node name="UsePowerupCooldown" type="Timer" parent="."]

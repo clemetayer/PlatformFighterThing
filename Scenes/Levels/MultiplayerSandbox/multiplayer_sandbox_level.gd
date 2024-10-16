@@ -10,20 +10,23 @@ extends Node2D
 ##### VARIABLES #####
 #---- CONSTANTS -----
 const PLAYER_SCENE_PATH := "res://Scenes/Player/player.tscn"
+const RESPAWN_TIME := 1 # seconds
+const SPAWN_POINT := Vector2(0, -200)
 
 #---- EXPORTS -----
-# export(int) var EXPORT_NAME # Optionnal comment
+@export var player_configs : Array[PlayerConfig]
 
 #---- STANDARD -----
 #==== PUBLIC ====
 # var public_var # Optionnal comment
 
 #==== PRIVATE ====
-# var _private_var # Optionnal comment
+var _players_data := {}
+var _scene_player_id_cnt := 0
 
 #==== ONREADY ====
 @onready var onready_paths := {
-	"camera": $"Camera2D",
+	"camera": $"Camera",
 	"players": $"Players"
 }
 
@@ -63,18 +66,40 @@ func _process(_delta):
 
 ##### PROTECTED METHODS #####
 func add_player(id: int):
+	_add_player_data(
+		_scene_player_id_cnt, 
+		load("res://Scenes/Levels/MultiplayerSandbox/default_player_config.tres"),
+		id
+	)
+	_spawn_player(_scene_player_id_cnt)
+	_scene_player_id_cnt += 1
+
+func _spawn_player(player_idx : int) -> void:
 	var character = preload(PLAYER_SCENE_PATH).instantiate()
 	# Set player id.
-	character.player = id
-	character.name = str(id)
-	# Set action handler
-	character.ACTION_HANDLER = StaticActionHandlerStrategy.handlers.INPUT
-	character.MOVEMENT_BONUS_HANDLER = StaticMovementBonusHandler.handlers.DASH
-	character.POWERUP_HANDLER = StaticPowerupHandler.handlers.SPLITTER
-	character.PRIMARY_WEAPON = StaticPrimaryWeaponHandler.weapons.REVOLVER
+	character.player = _players_data[player_idx].multi_id
+	character.scene_player_id = player_idx
+	character.name = str(_players_data[player_idx].multi_id)
+	# Set character configs
+	character.CONFIG = _players_data[player_idx].config
+	var sprite_color : SpriteCustomizationResource
+	if player_idx == 0 :
+		sprite_color = load("res://Scenes/Player/SpriteCustomizationPresets/player_1.tres")
+	else:
+		sprite_color = load("res://Scenes/Player/SpriteCustomizationPresets/player_2.tres")
+	character.CONFIG.SPRITE_CUSTOMIZATION = sprite_color
+	character.global_position = SPAWN_POINT
+	character.connect("killed",_on_player_killed)
 	onready_paths.players.add_child(character, true)
 	onready_paths.camera.PLAYERS.append(onready_paths.camera.get_path_to(character))
 
+func _add_player_data(player_idx : int, config : PlayerConfig, multi_id : int) -> void:
+	_players_data[player_idx] = {
+		"lives_left":3,
+		"camera_id":player_idx,
+		"config":config,
+		"multi_id": multi_id
+	}
 
 func del_player(id: int):
 	if not onready_paths.players.has_node(str(id)):
@@ -82,4 +107,8 @@ func del_player(id: int):
 	onready_paths.players.get_node(str(id)).queue_free()
 
 ##### SIGNAL MANAGEMENT #####
-# Functions that should be triggered when a specific signal is received
+func _on_player_killed(player_idx : int) -> void:
+	_players_data[player_idx].lives_left -= 1
+	Logger.info("player %s has %s lives left" % [player_idx, _players_data[player_idx].lives_left])
+	await get_tree().create_timer(RESPAWN_TIME).timeout
+	_spawn_player(player_idx)

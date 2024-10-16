@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="PlayerConfig" load_steps=2 format=3 uid="uid://cshygdc28v5e7"]
+
+[ext_resource type="Script" path="res://Scenes/Player/player_config.gd" id="1_tg3bl"]
+
+[resource]
+script = ExtResource("1_tg3bl")
+ACTION_HANDLER = 1
+PRIMARY_WEAPON = 0
+MOVEMENT_BONUS_HANDLER = 1
+POWERUP_HANDLER = 0

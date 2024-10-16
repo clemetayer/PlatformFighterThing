@@ -20,6 +20,11 @@ const HITSTUN_BOUNCE = 1
 #---- EXPORTS -----
 @export var CONFIG : PlayerConfig
 @export var DAMAGE := 0.0
+#==== MOSTLY FOR MULTIPLAYER PURPOSES ====
+@export var ACTION_HANDLER : StaticActionHandlerStrategy.handlers
+@export var PRIMARY_WEAPON : StaticPrimaryWeaponHandler.weapons
+@export var MOVEMENT_BONUS_HANDLER : StaticMovementBonusHandler.handlers
+@export var POWERUP_HANDLER : StaticPowerupHandler.handlers
 @export var scene_player_id := 0 # id corresponding to the player in the scene its in. Different from the multiplayer id
 @export var player := 1 :
 	set(id):
@@ -44,8 +49,8 @@ var _additional_vector := Vector2.ZERO # external forces that can have an effect
 @onready var FLOOR_ACCELERATION = 100.0 * ProjectSettings.get_setting("physics/common/physics_ticks_per_second") # px/s² # Kind of a constant, that's why it is in all caps
 @onready var AIR_ACCELERATION = 50.0 * ProjectSettings.get_setting("physics/common/physics_ticks_per_second") # px/s² # Kind of a constant, that's why it is in all caps
 @onready var onready_paths := {
-	"primary_weapon":StaticPrimaryWeaponHandler.get_weapon(CONFIG.PRIMARY_WEAPON),
-	"movement_bonus":StaticMovementBonusHandler.get_handler(CONFIG.MOVEMENT_BONUS_HANDLER),
+	"primary_weapon":null,
+	"movement_bonus":null,
 	"damage_label":$"Damage",
 	"parry_area":$"ParryArea",
 	"bounce_area":$"BounceArea",
@@ -65,13 +70,15 @@ func _init():
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	onready_paths.multiplayer_sync.set_action_handler(CONFIG.ACTION_HANDLER)
+	_load_config()
+	onready_paths.multiplayer_sync.set_action_handler(ACTION_HANDLER)
 	add_child(onready_paths.primary_weapon)
 	add_child(onready_paths.movement_bonus)
 	onready_paths.movement_bonus.player = self
 	onready_paths.primary_weapon.projectile_owner = self
 	onready_paths.damage_label.text = "%f" % DAMAGE
-	onready_paths.sprites.load_sprite_preset(CONFIG.SPRITE_CUSTOMIZATION)
+	if get_multiplayer_authority() == multiplayer.get_unique_id():
+		onready_paths.sprites.load_sprite_preset(CONFIG.SPRITE_CUSTOMIZATION)
 	SceneUtils.connect("toggle_scene_freeze", _on_SceneUtils_toggle_scene_freeze)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame. Remove the "_" to use it.
@@ -123,7 +130,7 @@ func hurt(p_damage : float, knockback : float, kb_direction : Vector2) -> void:
 
 
 func respawn() -> void:
-	emit_signal("killed",player)
+	emit_signal("killed",scene_player_id)
 	queue_free()
 
 func override_velocity(velocity_override : Vector2) -> void:
@@ -173,7 +180,7 @@ func _handle_parry() -> void:
 
 func _handle_powerup() -> void:
 	if _is_action_just_active(ActionHandlerBase.actions.POWERUP) and _can_use_powerup:
-		var powerup = StaticPowerupHandler.get_powerup(CONFIG.POWERUP_HANDLER)
+		var powerup = StaticPowerupHandler.get_powerup(POWERUP_HANDLER)
 		powerup.global_position = self.global_position
 		get_tree().current_scene.add_child(powerup)
 		_can_use_powerup = false
@@ -213,6 +220,15 @@ func _cubic_ease_out(x : float) -> float:
 func _buffer_velocity(vel_to_buffer : Vector2) -> void:
 	velocity_buffer.pop_back()
 	velocity_buffer.push_front(vel_to_buffer)
+
+func _load_config() -> void:
+	if get_multiplayer_authority() == multiplayer.get_unique_id():
+		ACTION_HANDLER = CONFIG.ACTION_HANDLER
+		PRIMARY_WEAPON = CONFIG.PRIMARY_WEAPON
+		MOVEMENT_BONUS_HANDLER = CONFIG.MOVEMENT_BONUS_HANDLER
+		POWERUP_HANDLER = CONFIG.POWERUP_HANDLER
+	onready_paths.primary_weapon = StaticPrimaryWeaponHandler.get_weapon(PRIMARY_WEAPON)
+	onready_paths.movement_bonus = StaticMovementBonusHandler.get_handler(MOVEMENT_BONUS_HANDLER)
 
 ##### SIGNAL MANAGEMENT #####
 # Functions that should be triggered when a specific signal is received
