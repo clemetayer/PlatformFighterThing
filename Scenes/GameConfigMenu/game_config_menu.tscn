@@ -1,0 +1,125 @@
+[gd_scene load_steps=2 format=3 uid="uid://45nkjou6barn"]
+
+[ext_resource type="Script" path="res://Scenes/GameConfigMenu/game_config_menu.gd" id="1_a137b"]
+
+[node name="GameConfigMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_a137b")
+
+[node name="GameTypeMenu" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ConfigMenu" type="VBoxContainer" parent="GameTypeMenu"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="Label" type="Label" parent="GameTypeMenu/ConfigMenu"]
+layout_mode = 2
+text = "Choose a game type"
+
+[node name="OptionButton" type="OptionButton" parent="GameTypeMenu/ConfigMenu"]
+layout_mode = 2
+selected = 0
+item_count = 3
+popup/item_0/text = "offline"
+popup/item_1/text = "host"
+popup/item_1/id = 1
+popup/item_2/text = "client"
+popup/item_2/id = 2
+
+[node name="OfflineMenu" type="VBoxContainer" parent="GameTypeMenu/ConfigMenu"]
+visible = false
+layout_mode = 2
+
+[node name="HostMenu" type="VBoxContainer" parent="GameTypeMenu/ConfigMenu"]
+visible = false
+layout_mode = 2
+
+[node name="Port" type="HBoxContainer" parent="GameTypeMenu/ConfigMenu/HostMenu"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="GameTypeMenu/ConfigMenu/HostMenu/Port"]
+layout_mode = 2
+text = "Port : "
+
+[node name="LineEdit" type="LineEdit" parent="GameTypeMenu/ConfigMenu/HostMenu/Port"]
+layout_mode = 2
+text = "4433"
+placeholder_text = "4433"
+
+[node name="ClientMenu" type="VBoxContainer" parent="GameTypeMenu/ConfigMenu"]
+visible = false
+layout_mode = 2
+
+[node name="IP" type="HBoxContainer" parent="GameTypeMenu/ConfigMenu/ClientMenu"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="GameTypeMenu/ConfigMenu/ClientMenu/IP"]
+layout_mode = 2
+text = "IP : "
+
+[node name="LineEdit" type="LineEdit" parent="GameTypeMenu/ConfigMenu/ClientMenu/IP"]
+custom_minimum_size = Vector2(320, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "127.0.0.1"
+placeholder_text = "127.0.0.1"
+
+[node name="Port" type="HBoxContainer" parent="GameTypeMenu/ConfigMenu/ClientMenu"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="GameTypeMenu/ConfigMenu/ClientMenu/Port"]
+layout_mode = 2
+text = "Port : "
+
+[node name="LineEdit" type="LineEdit" parent="GameTypeMenu/ConfigMenu/ClientMenu/Port"]
+layout_mode = 2
+text = "4433"
+placeholder_text = "4433"
+
+[node name="Button" type="Button" parent="GameTypeMenu/ConfigMenu"]
+layout_mode = 2
+text = "Start ! "
+
+[node name="WaitingHost" type="VBoxContainer" parent="GameTypeMenu"]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 30
+alignment = 1
+
+[node name="RichTextLabel" type="RichTextLabel" parent="GameTypeMenu/WaitingHost"]
+custom_minimum_size = Vector2(350, 0)
+layout_mode = 2
+bbcode_enabled = true
+text = "[wave amp=50.0 freq=5.0 connected=1]Waiting for players, currently connected : [/wave] 0 "
+fit_content = true
+
+[node name="Button" type="Button" parent="GameTypeMenu/WaitingHost"]
+layout_mode = 2
+text = "Start !"
+
+[node name="WaitingClient" type="VBoxContainer" parent="GameTypeMenu"]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 30
+alignment = 1
+
+[node name="RichTextLabel" type="RichTextLabel" parent="GameTypeMenu/WaitingClient"]
+custom_minimum_size = Vector2(270, 0)
+layout_mode = 2
+bbcode_enabled = true
+text = "[wave amp=50.0 freq=5.0 connected=1]Waiting for host to start the server[/wave]"
+fit_content = true
+
+[connection signal="item_selected" from="GameTypeMenu/ConfigMenu/OptionButton" to="." method="_on_option_button_item_selected"]
+[connection signal="pressed" from="GameTypeMenu/ConfigMenu/Button" to="." method="_on_button_pressed"]

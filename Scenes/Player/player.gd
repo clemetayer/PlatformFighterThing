@@ -83,7 +83,8 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame. Remove the "_" to use it.
 func _process(_delta):
-	pass
+	if not _frozen:
+		_handle_inputs()
 
 func _integrate_forces(state: PhysicsDirectBodyState2D):
 	if not _frozen:
@@ -115,11 +116,6 @@ func _integrate_forces(state: PhysicsDirectBodyState2D):
 
 		# Buffer the velocity 
 		_buffer_velocity(velocity)
-
-func _physics_process(_delta):
-	if not _frozen:
-		_handle_inputs()
-
 
 ##### PUBLIC METHODS #####
 func hurt(p_damage : float, knockback : float, kb_direction : Vector2) -> void:
