@@ -127,4 +127,3 @@ func _reset_action_values() -> void:
 
 ##### SIGNAL MANAGEMENT #####
 # Functions that should be triggered when a specific signal is received
-

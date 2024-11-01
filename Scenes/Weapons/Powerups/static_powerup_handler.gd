@@ -14,4 +14,3 @@ const scene_paths := {
 ##### PUBLIC METHODS #####
 static func get_powerup(powerup : handlers) -> PowerupBase:
 	return load(scene_paths[powerup]).instantiate()
-

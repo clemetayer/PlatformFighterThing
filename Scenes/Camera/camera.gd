@@ -18,7 +18,7 @@ const ZOOM_OFFSET := Vector2i.ONE * 100
 const ZOOM_BASE_MULTIPLIER := 0.75 # change this to correct the zoom or dezoom
 
 #---- EXPORTS -----
-@export var PLAYERS : Array[NodePath]
+@export var PLAYERS_ROOT_PATH : NodePath = "../Players"
 
 #---- STANDARD -----
 #==== PUBLIC ====
@@ -57,10 +57,12 @@ func _process(_delta):
 ##### PROTECTED METHODS #####
 func _get_average_position() -> Vector2:
 	var sum = Vector2.ZERO
-	for player in PLAYERS:
-		if player != null and get_node_or_null(player) != null:
-			sum += get_node(player).global_position
-	return sum / PLAYERS.size()
+	if get_node_or_null(PLAYERS_ROOT_PATH) != null:
+		var players = get_node(PLAYERS_ROOT_PATH).get_children()
+		for player in players:
+			sum += player.global_position
+		return sum / players.size()
+	return Vector2.ZERO # should never go here
 
 func _get_best_zoom() -> float:
 	var min_max_pos = _get_global_min_max_pos()
@@ -78,9 +80,9 @@ func _get_best_zoom() -> float:
 func _get_global_min_max_pos() -> Dictionary:
 	var min_pos := Vector2.INF
 	var max_pos := Vector2.ZERO
-	for player_path in PLAYERS:
-		if player_path != null and get_node_or_null(player_path) != null:
-			var player = get_node(player_path)
+	if get_node_or_null(PLAYERS_ROOT_PATH) != null: 
+		var players = get_node(PLAYERS_ROOT_PATH).get_children()
+		for player in players:
 			if player.global_position.x < min_pos.x:
 				min_pos.x = player.global_position.x
 			if player.global_position.y < min_pos.y:

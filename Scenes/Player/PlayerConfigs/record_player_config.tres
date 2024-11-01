@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="PlayerConfig" load_steps=4 format=3 uid="uid://b4uhpef5r5c07"]
+
+[ext_resource type="Script" path="res://Scenes/Player/sprite_customization_resource.gd" id="1_3o1vw"]
+[ext_resource type="Script" path="res://Scenes/Player/player_config.gd" id="1_sn8p0"]
+
+[sub_resource type="Resource" id="Resource_k74h4"]
+script = ExtResource("1_3o1vw")
+BODY_COLOR = Color(0.941176, 0.972549, 1, 1)
+OUTLINE_COLOR = Color(0.498039, 1, 0.831373, 1)
+
+[resource]
+script = ExtResource("1_sn8p0")
+ACTION_HANDLER = 2
+PRIMARY_WEAPON = 0
+MOVEMENT_BONUS_HANDLER = 1
+POWERUP_HANDLER = 0
+SPRITE_CUSTOMIZATION = SubResource("Resource_k74h4")

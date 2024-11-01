@@ -6,17 +6,15 @@ class_name GameManager
 # Node signals
 
 ##### ENUMS #####
-enum MODE {OFFLINE, HOST, CLIENT}
 
 ##### VARIABLES #####
 #---- CONSTANTS -----
-const PLAYER_SCENE_PATH := "res://Scenes/Player/player.tscn"
-const SPAWN_POINT := Vector2(0, -200)
-const RESPAWN_TIME := 1 # seconds
+const SPRITE_PRESETS_PATH := "res://Scenes/Player/SpriteCustomizationPresets/presets.tres"
+const INPUT_PLAYER_CONFIG_PATH := "res://Scenes/Player/PlayerConfigs/input_player_config.tres"
+const DEFAULT_LEVEL_PATH := "res://Scenes/Levels/Level1/level_1_map.tscn"
 
 #---- EXPORTS -----
-@export var mode : MODE = MODE.OFFLINE
-@export var players_data : Array[PlayerConfig]
+@export var mode := StaticUtils.GAME_TYPES.OFFLINE
 @export var level_data : LevelConfig
 
 #---- STANDARD -----
@@ -24,12 +22,12 @@ const RESPAWN_TIME := 1 # seconds
 # var public_var # Optionnal comment
 
 #==== PRIVATE ====
-# var _private_var # Optionnal comment
+var _connected_players := {}
 
 #==== ONREADY ====
 @onready var onready_paths := {
-	"level": $"Level",
-	"players": $"Players"
+	"game_config_menu": $"GameConfigMenu",
+	"game": $"Game"
 }
 
 ##### PROCESSING #####
@@ -39,7 +37,8 @@ func _init():
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	_init_game()
+	onready_paths.game_config_menu.show()
+	level_data = _create_level_data()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame. Remove the "_" to use it.
 func _process(_delta):
@@ -57,28 +56,6 @@ func _exit_tree():
 #     pass
 
 ##### PROTECTED METHODS #####
-func _init_game() -> void:
-	match mode:
-		MODE.OFFLINE:
-			_start_local()
-		MODE.HOST:
-			_start_host()
-		MODE.CLIENT:
-			_start_client()
-
-func _start_local() -> void:
-	_add_level()
-	for player_idx in range(players_data.size()):
-		_add_player(player_idx)
-
-func _start_host() -> void:
-	_init_server(HOST_PORT)
-	multiplayer.peer_connected.connect(_add_player)
-	multiplayer.peer_disconnected.connect(_delete_player)
-	_clean_level()
-	_add_level()
-
-
 func _init_server(port : int) -> void:
 	Logger.info("starting as host on port %s" % [port])
 	var peer = ENetMultiplayerPeer.new()
@@ -88,10 +65,8 @@ func _init_server(port : int) -> void:
 		OS.alert("Failed to start multiplayer server.")
 		return
 	multiplayer.multiplayer_peer = peer
-
-
-func _start_client() -> void:
-	_connect_to_server(SERVER_IP,HOST_PORT)
+	multiplayer.peer_connected.connect(_add_player)
+	multiplayer.peer_disconnected.connect(_delete_player)
 
 func _connect_to_server(ip: String, port : int) -> void:
 	Logger.info("starting as client on %s:%s" % [ip,port])
@@ -104,43 +79,44 @@ func _connect_to_server(ip: String, port : int) -> void:
 		return
 	multiplayer.multiplayer_peer = peer
 
-func _add_level() -> void:
-	var level = load(level_data.level_path).instantiate()
-	onready_paths.level.add_child(level)
+func _create_player_data(config_path : String) -> PlayerConfig:
+	var sprite_presets : SpriteCustomizationPresetsResource = load(SPRITE_PRESETS_PATH)
+	var player_config : PlayerConfig = load(config_path)
+	player_config.SPRITE_CUSTOMIZATION = sprite_presets.presets.pick_random()
+	return player_config
 
-func _clean_level() -> void:
-	var level = onready_paths.level
-	for c in level.get_children():
-		level.remove_child(c)
-		c.queue_free()
+func _create_level_data() -> LevelConfig:
+	level_data = LevelConfig.new()
+	level_data.level_path = DEFAULT_LEVEL_PATH
+	return level_data
 
 func _add_player(id : int) -> void:
-	_add_player_data(
-		_scene_player_id_cnt, 
-		load("res://Scenes/Levels/MultiplayerSandbox/default_player_config.tres"),
-		id
-	)
-	_spawn_player(_scene_player_id_cnt)
-	_scene_player_id_cnt += 1
+	Logger.info("client %d connected" % id)
+	_connected_players[id] = {
+		"config":_create_player_data(INPUT_PLAYER_CONFIG_PATH)
+	}
+	onready_paths.game_config_menu.update_host_player_numbers(_connected_players.size())
 
-func _spawn_player(player_idx : int) -> void:
-	var player_instance = load(PLAYER_SCENE_PATH).instantiate()
-	player_instance.CONFIG = players_data[player_idx]
-	player_instance.scene_player_id = player_idx
-	player_instance.global_position = SPAWN_POINT
-	player_instance.name = "player_%d" % player_idx
-	add_child(player_instance)
-	player_instance.connect("killed",_on_player_killed)
-	onready_paths.camera.PLAYERS[player_idx] = onready_paths.camera.get_path_to(player_instance)
+func _delete_player(id : int) -> void:
+	Logger.info("client %d disconnected" % id)
+	_connected_players.erase(id)
+	onready_paths.game_config_menu.update_host_player_numbers(_connected_players.size())
 
-func _delete_player(id: int):
-	if not onready_paths.players.has_node(str(id)):
-		return
-	onready_paths.players.get_node(str(id)).queue_free()
+@rpc("authority", "call_local", "unreliable")
+func _hide_config_menu() -> void:
+	onready_paths.game_config_menu.hide()
 
 ##### SIGNAL MANAGEMENT #####
-func _on_player_killed(player_idx : int) -> void:
-	_players_data[player_idx].lives_left -= 1
-	Logger.info("player %s has %s lives left" % [player_idx, _players_data[player_idx].lives_left])
-	await get_tree().create_timer(RESPAWN_TIME).timeout
-	_spawn_player(player_idx)
+func _on_game_config_menu_init_offline() -> void:
+	_hide_config_menu()
+
+func _on_game_config_menu_init_host(port: int) -> void:
+	_init_server(port) 
+
+func _on_game_config_menu_init_client(ip: String, port: int) -> void:
+	_connect_to_server(ip, port)
+
+func _on_game_config_menu_start_game() -> void:
+	Logger.debug("starting game")
+	rpc("_hide_config_menu")
+	onready_paths.game.start(_connected_players, level_data)

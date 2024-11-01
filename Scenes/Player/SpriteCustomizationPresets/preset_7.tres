@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="SpriteCustomizationResource" load_steps=2 format=3 uid="uid://dys22cl6lhxnv"]
+
+[ext_resource type="Script" path="res://Scenes/Player/sprite_customization_resource.gd" id="1_djwsd"]
+
+[resource]
+script = ExtResource("1_djwsd")
+BODY_COLOR = Color(0.623529, 1, 0.796078, 1)
+OUTLINE_COLOR = Color(0.145098, 0.631373, 0.556863, 1)

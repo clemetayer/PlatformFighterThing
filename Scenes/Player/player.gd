@@ -25,10 +25,9 @@ const HITSTUN_BOUNCE = 1
 @export var PRIMARY_WEAPON : StaticPrimaryWeaponHandler.weapons
 @export var MOVEMENT_BONUS_HANDLER : StaticMovementBonusHandler.handlers
 @export var POWERUP_HANDLER : StaticPowerupHandler.handlers
-@export var scene_player_id := 0 # id corresponding to the player in the scene its in. Different from the multiplayer id
-@export var player := 1 :
-	set(id):
-		player = id
+@export var id := 1 :
+	set(player_idx):
+		id = player_idx
 		# Give authority over the player input to the appropriate peer.
 		$InputSynchronizer.set_multiplayer_authority(id)
 
@@ -126,7 +125,7 @@ func hurt(p_damage : float, knockback : float, kb_direction : Vector2) -> void:
 
 
 func respawn() -> void:
-	emit_signal("killed",scene_player_id)
+	emit_signal("killed",id)
 	queue_free()
 
 func override_velocity(velocity_override : Vector2) -> void:

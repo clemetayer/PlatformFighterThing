@@ -51,4 +51,3 @@ func _process(_delta):
 
 ##### SIGNAL MANAGEMENT #####
 # Functions that should be triggered when a specific signal is received
-
