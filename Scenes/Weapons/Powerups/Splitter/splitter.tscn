@@ -1,9 +1,14 @@
-[gd_scene load_steps=3 format=3 uid="uid://cto1bewda5gwm"]
+[gd_scene load_steps=4 format=3 uid="uid://cto1bewda5gwm"]
 
 [ext_resource type="Script" path="res://Scenes/Weapons/Powerups/Splitter/splitter.gd" id="1_tp6dn"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_06q05"]
 size = Vector2(64, 64)
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_2f2n3"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
 
 [node name="Splitter" type="Node2D"]
 script = ExtResource("1_tp6dn")
@@ -17,6 +22,9 @@ shape = SubResource("RectangleShape2D_06q05")
 
 [node name="Polygon2D" type="Polygon2D" parent="."]
 polygon = PackedVector2Array(-32, -8, -32, 8, -8, 8, -8, 32, 8, 32, 8, 8, 32, 8, 32, -8, 8, -8, 8, -32, -8, -32, -8, -8)
+
+[node name="SplitterSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_2f2n3")
 
 [connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]
 [connection signal="area_exited" from="Hitbox" to="." method="_on_hitbox_area_exited"]

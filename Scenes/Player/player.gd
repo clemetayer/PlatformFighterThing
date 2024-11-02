@@ -82,11 +82,11 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame. Remove the "_" to use it.
 func _process(_delta):
-	if not _frozen:
+	if not _frozen and RuntimeUtils.is_authority():
 		_handle_inputs()
 
 func _integrate_forces(state: PhysicsDirectBodyState2D):
-	if not _frozen:
+	if not _frozen and RuntimeUtils.is_authority():
 		velocity = state.get_linear_velocity()
 		var delta = state.get_step()
 		
@@ -177,7 +177,11 @@ func _handle_powerup() -> void:
 	if _is_action_just_active(ActionHandlerBase.actions.POWERUP) and _can_use_powerup:
 		var powerup = StaticPowerupHandler.get_powerup(POWERUP_HANDLER)
 		powerup.global_position = self.global_position
-		get_tree().current_scene.add_child(powerup)
+		var game_root = RuntimeUtils.get_game_root()
+		if game_root != null and game_root.has_method("spawn_powerup"):
+			RuntimeUtils.get_game_root().spawn_powerup(powerup)
+		else:
+			Logger.error("game root is null or does not contain the method %s" % "spawn_powerup")
 		_can_use_powerup = false
 		onready_paths.powerup_cooldown.start()
 

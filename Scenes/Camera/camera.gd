@@ -43,6 +43,7 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame. Remove the "_" to use it.
 func _process(_delta):
+
 	global_position = _get_average_position()
 	var best_zoom = _get_best_zoom()
 	if best_zoom > 0 :

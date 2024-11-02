@@ -28,7 +28,9 @@ const BASE_LIVES_AMOUNT := 3
 @onready var onready_paths := {
 	"players": $"Players",
 	"level": $"Level",
-	"camera": $"Camera"
+	"camera": $"Camera",
+	"projectiles": $"Projectiles",
+	"powerups": $"Powerups"
 }
 
 ##### PROCESSING #####
@@ -54,6 +56,11 @@ func start(p_players_data : Dictionary, level_data : LevelConfig) -> void:
 	_add_level(level_data)
 	onready_paths.camera.enabled = true
 
+func spawn_powerup(powerup : PowerupBase) -> void:
+	onready_paths.powerups.add_child(powerup)
+
+func spawn_projectile(projectile : Node) -> void:
+	onready_paths.projectiles.add_child(projectile)
 
 ##### PROTECTED METHODS #####
 func _add_players(p_players_data : Dictionary) -> void:

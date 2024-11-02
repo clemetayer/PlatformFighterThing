@@ -51,9 +51,8 @@ func _exit_tree():
 	multiplayer.peer_disconnected.disconnect(_delete_player)
 
 ##### PUBLIC METHODS #####
-# Methods that are intended to be "visible" to other nodes or scripts
-# func public_method(arg : int) -> void:
-#     pass
+func get_game_root() -> Node:
+	return onready_paths.game
 
 ##### PROTECTED METHODS #####
 func _init_server(port : int) -> void:

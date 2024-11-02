@@ -1,10 +1,18 @@
-[gd_scene load_steps=4 format=3 uid="uid://cra571gjijhyj"]
+[gd_scene load_steps=5 format=3 uid="uid://cra571gjijhyj"]
 
 [ext_resource type="Script" path="res://Scenes/Weapons/Projectiles/bullet.gd" id="1_fo3ga"]
 [ext_resource type="PackedScene" uid="uid://cl8cej2u2c4jm" path="res://Utils/trail.tscn" id="2_udptv"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_g77nu"]
 size = Vector2(10, 10)
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_k5d1u"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 2
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 2
 
 [node name="Bullet" type="Area2D" groups=["projectile"]]
 collision_layer = 4
@@ -20,6 +28,9 @@ position = Vector2(5, 0)
 shape = SubResource("RectangleShape2D_g77nu")
 
 [node name="Trail" parent="." instance=ExtResource("2_udptv")]
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_k5d1u")
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

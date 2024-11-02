@@ -1,19 +1,28 @@
-[gd_scene load_steps=3 format=3 uid="uid://bypr1ueba3rju"]
+[gd_scene load_steps=4 format=3 uid="uid://bypr1ueba3rju"]
 
 [ext_resource type="Script" path="res://Scenes/Game/game.gd" id="1_4jp85"]
 [ext_resource type="PackedScene" uid="uid://ew7gedlm3n8" path="res://camera.tscn" id="2_0bomf"]
 
-[node name="Game" type="Node"]
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_sgiw2"]
+properties/0/path = NodePath("Camera:enabled")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+
+[node name="Game" type="Node" groups=["game_root"]]
 script = ExtResource("1_4jp85")
 
 [node name="Players" type="Node" parent="."]
 
 [node name="Level" type="Node" parent="."]
 
+[node name="Projectiles" type="Node" parent="."]
+
+[node name="Powerups" type="Node" parent="."]
+
 [node name="Camera" parent="." instance=ExtResource("2_0bomf")]
 enabled = false
 
-[node name="PlayersSpawner" type="MultiplayerSpawner" parent="."]
+[node name="PlayerSpawner" type="MultiplayerSpawner" parent="."]
 _spawnable_scenes = PackedStringArray("res://Scenes/Player/player.tscn")
 spawn_path = NodePath("../Players")
 spawn_limit = 4
@@ -22,3 +31,14 @@ spawn_limit = 4
 _spawnable_scenes = PackedStringArray("res://Scenes/Levels/Level1/level_1_map.tscn")
 spawn_path = NodePath("../Level")
 spawn_limit = 1
+
+[node name="ProjectileSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("res://Scenes/Weapons/Projectiles/bullet.tscn")
+spawn_path = NodePath("../Projectiles")
+
+[node name="PowerupSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("res://Scenes/Weapons/Powerups/Splitter/splitter.tscn")
+spawn_path = NodePath("../Powerups")
+
+[node name="CameraSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_sgiw2")

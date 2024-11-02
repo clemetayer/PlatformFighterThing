@@ -51,27 +51,28 @@ func _process(_delta):
 
 ##### SIGNAL MANAGEMENT #####
 func _on_hitbox_area_entered(area):
-	if area.is_in_group("projectile") and not _whitelist.has(area):
-		var duplicate = area.duplicate()
-		duplicate.current_owner = area.current_owner
-		get_tree().current_scene.call_deferred("add_child",duplicate)
-		area.rotate(PI/4)
-		duplicate.rotate(-PI/4)
-		duplicate._direction = Vector2.RIGHT.rotated(duplicate.rotation).normalized()
-		area._direction = Vector2.RIGHT.rotated(area.rotation).normalized()
-		_whitelist.append(area)
-		_whitelist.append(duplicate)
-	if _contacts_count <= MAX_CONTACTS:
-		_contacts_count += 1
-	else:
-		queue_free()
+	if RuntimeUtils.is_authority():
+		if area.is_in_group("projectile") and not _whitelist.has(area):
+			var duplicate = area.duplicate()
+			duplicate.current_owner = area.current_owner
+			get_tree().current_scene.call_deferred("add_child",duplicate)
+			area.rotate(PI/4)
+			duplicate.rotate(-PI/4)
+			duplicate._direction = Vector2.RIGHT.rotated(duplicate.rotation).normalized()
+			area._direction = Vector2.RIGHT.rotated(area.rotation).normalized()
+			_whitelist.append(area)
+			_whitelist.append(duplicate)
+		if _contacts_count <= MAX_CONTACTS:
+			_contacts_count += 1
+		else:
+			queue_free()
 		
 
 func _on_hitbox_body_entered(body):
 	pass # Replace with function body.
 
 func _on_hitbox_area_exited(area):
-	if _whitelist.has(area):
+	if _whitelist.has(area) and RuntimeUtils.is_authority():
 		_whitelist.erase(area)
 
 func _on_hitbox_body_exited(body):
