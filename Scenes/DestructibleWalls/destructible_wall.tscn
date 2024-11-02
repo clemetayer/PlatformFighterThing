@@ -379,7 +379,7 @@ shader_parameter/moving_tex = ExtResource("3_c1sg8")
 resource_local_to_scene = true
 size = Vector2(32, 32)
 
-[node name="TileMapLayer" type="TileMapLayer" groups=["destructible_wall", "static_obstacle"]]
+[node name="DestructibleWall" type="TileMapLayer" groups=["destructible_wall", "static_obstacle"]]
 tile_set = SubResource("TileSet_50xy0")
 script = ExtResource("1_8dscf")
 

@@ -11,10 +11,10 @@ const DAMAGE_WALL_TRESHOLDS := [0,1500,3000]
 @export var BASE_HEALTH := 5000 
 @export var BOUNCE_BACK_FORCE := 1750
 @export var BOUNCE_BACK_DIRECTION := Vector2.RIGHT
+@export var HEALTH = BASE_HEALTH
 
 #---- STANDARD -----
 #==== PUBLIC ====
-var health = BASE_HEALTH
 
 #==== PRIVATE ====
 var _velocity_buffer := {
@@ -39,17 +39,18 @@ func _ready():
 
 
 ##### PROTECTED METHODS #####
+@rpc("authority","call_local","unreliable")
 func _remove_health_by_velocity(velocity: Vector2) -> void:
 	if BOUNCE_BACK_DIRECTION.x != 0:
-		health -= abs(velocity.x)
+		HEALTH -= abs(velocity.x)
 		_shake_camera_by_velocity(velocity.x)
 	elif BOUNCE_BACK_DIRECTION.y != 0:
-		health -= abs(velocity.y)
+		HEALTH -= abs(velocity.y)
 		_shake_camera_by_velocity(velocity.y)
 	_update_texture_color()
 
 func _update_texture_color() -> void:
-	var health_ratio =(BASE_HEALTH - health)/BASE_HEALTH
+	var health_ratio =(BASE_HEALTH - HEALTH)/BASE_HEALTH
 	modulate = _wall_gradient.sample(health_ratio)
 
 func _toggle_activated(active : bool) -> void:
@@ -92,25 +93,25 @@ func _on_area_entered(area):
 		area.queue_free()
 
 func _on_respawn_timer_timeout() -> void:
-	health = BASE_HEALTH
+	HEALTH = BASE_HEALTH
 	_update_texture_color()
 	_toggle_activated(true)
 
 func _on_damage_wall_area_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player") and collision_enabled:
 		var max_velocity = _get_max_velocity_in_buffer(body.velocity_buffer)
-		_remove_health_by_velocity(max_velocity)
+		rpc("_remove_health_by_velocity",max_velocity)
 		body.toggle_freeze(true)
 		onready_paths.freeze_timer.start()
 		_buffer_player_velocity(body, max_velocity)
-		if health <= 0:
+		if HEALTH <= 0:
 			onready_paths.respawn_timer.start()
 			_toggle_activated(false)
 
 func _on_freeze_player_timer_timeout() -> void:
 	var body = _velocity_buffer.body
 	_velocity_buffer.body.toggle_freeze(false)
-	if health <= 0:
+	if HEALTH <= 0:
 		_velocity_buffer.body.override_velocity(_velocity_buffer.velocity)
 	else:
 		_velocity_buffer.body.override_velocity(BOUNCE_BACK_DIRECTION * BOUNCE_BACK_FORCE)
