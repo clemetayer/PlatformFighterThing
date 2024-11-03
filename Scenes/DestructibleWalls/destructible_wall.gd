@@ -35,24 +35,25 @@ var _velocity_buffer := {
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	_toggle_activated(true)
-	_update_texture_color()
+	_update_texture_color(BASE_HEALTH)
 
 
 ##### PROTECTED METHODS #####
-@rpc("authority","call_local","unreliable")
 func _remove_health_by_velocity(velocity: Vector2) -> void:
 	if BOUNCE_BACK_DIRECTION.x != 0:
 		HEALTH -= abs(velocity.x)
-		_shake_camera_by_velocity(velocity.x)
+		rpc("_shake_camera_by_velocity",velocity.x)
 	elif BOUNCE_BACK_DIRECTION.y != 0:
 		HEALTH -= abs(velocity.y)
-		_shake_camera_by_velocity(velocity.y)
-	_update_texture_color()
+		rpc("_shake_camera_by_velocity", velocity.y)
+	rpc("_update_texture_color", HEALTH)
 
-func _update_texture_color() -> void:
-	var health_ratio =(BASE_HEALTH - HEALTH)/BASE_HEALTH
+@rpc("authority","call_local","unreliable")
+func _update_texture_color(new_health: float) -> void:
+	var health_ratio =(BASE_HEALTH - new_health)/BASE_HEALTH
 	modulate = _wall_gradient.sample(health_ratio)
 
+@rpc("authority","call_local","unreliable")
 func _toggle_activated(active : bool) -> void:
 	visible = active
 	collision_enabled = active
@@ -73,6 +74,7 @@ func _buffer_player_velocity(body : Node2D, velocity: Vector2) -> void:
 	_velocity_buffer.velocity = velocity
 	_velocity_buffer.body = body
 
+@rpc("authority","call_local","unreliable")
 func _shake_camera_by_velocity(velocity : float) -> void:
 	var camera_shake = _get_shake_type_by_velocity(abs(velocity))
 	CameraEffects.emit_signal_start_camera_shake(1,camera_shake, CameraEffects.CAMERA_SHAKE_PRIORITY.HIGH)
@@ -89,32 +91,33 @@ func _get_shake_type_by_velocity(velocity : float) -> CameraEffects.CAMERA_SHAKE
 
 ##### SIGNAL MANAGEMENT #####
 func _on_area_entered(area):
-	if area.is_in_group("projectile"):
+	if area.is_in_group("projectile") and RuntimeUtils.is_authority():
 		area.queue_free()
 
 func _on_respawn_timer_timeout() -> void:
 	HEALTH = BASE_HEALTH
-	_update_texture_color()
-	_toggle_activated(true)
+	rpc("_update_texture_color", HEALTH)
+	rpc("_toggle_activated",true)
 
 func _on_damage_wall_area_body_entered(body: Node2D) -> void:
-	if body.is_in_group("player") and collision_enabled:
+	if body.is_in_group("player") and collision_enabled and RuntimeUtils.is_authority():
 		var max_velocity = _get_max_velocity_in_buffer(body.velocity_buffer)
-		rpc("_remove_health_by_velocity",max_velocity)
+		_remove_health_by_velocity(max_velocity)
 		body.toggle_freeze(true)
 		onready_paths.freeze_timer.start()
 		_buffer_player_velocity(body, max_velocity)
 		if HEALTH <= 0:
 			onready_paths.respawn_timer.start()
-			_toggle_activated(false)
+			rpc("_toggle_activated", false)
 
 func _on_freeze_player_timer_timeout() -> void:
-	var body = _velocity_buffer.body
-	_velocity_buffer.body.toggle_freeze(false)
-	if HEALTH <= 0:
-		_velocity_buffer.body.override_velocity(_velocity_buffer.velocity)
-	else:
-		_velocity_buffer.body.override_velocity(BOUNCE_BACK_DIRECTION * BOUNCE_BACK_FORCE)
-	_velocity_buffer.body = Node2D
-	_velocity_buffer.velocity = Vector2.ZERO
+	if RuntimeUtils.is_authority():
+		var body = _velocity_buffer.body
+		_velocity_buffer.body.toggle_freeze(false)
+		if HEALTH <= 0:
+			_velocity_buffer.body.override_velocity(_velocity_buffer.velocity)
+		else:
+			_velocity_buffer.body.override_velocity(BOUNCE_BACK_DIRECTION * BOUNCE_BACK_FORCE)
+		_velocity_buffer.body = Node2D
+		_velocity_buffer.velocity = Vector2.ZERO
 		

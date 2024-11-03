@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://7t50cs5is77n"]
+[gd_scene load_steps=12 format=3 uid="uid://7t50cs5is77n"]
 
 [ext_resource type="Script" path="res://Scenes/DestructibleWalls/destructible_wall.gd" id="1_8dscf"]
 [ext_resource type="Texture2D" uid="uid://olwb2yraeuqe" path="res://Scenes/Levels/Tilesets/LevelPlatformsTileset.png" id="1_megce"]
@@ -375,6 +375,17 @@ shader_parameter/fract_size = null
 shader_parameter/speed = 2.0
 shader_parameter/moving_tex = ExtResource("3_c1sg8")
 
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_wjnwb"]
+properties/0/path = NodePath(".:HEALTH")
+properties/0/spawn = true
+properties/0/replication_mode = 2
+properties/1/path = NodePath(".:BOUNCE_BACK_FORCE")
+properties/1/spawn = true
+properties/1/replication_mode = 2
+properties/2/path = NodePath(".:BOUNCE_BACK_DIRECTION")
+properties/2/spawn = true
+properties/2/replication_mode = 2
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_iceyh"]
 resource_local_to_scene = true
 size = Vector2(32, 32)
@@ -397,6 +408,9 @@ one_shot = true
 
 [node name="FreezePlayerTimer" type="Timer" parent="."]
 one_shot = true
+
+[node name="DestructibleWallSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_wjnwb")
 
 [node name="DamageWallArea" type="Area2D" parent="."]
 collision_mask = 2
