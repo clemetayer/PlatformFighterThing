@@ -57,10 +57,12 @@ func start(p_players_data : Dictionary, level_data : LevelConfig) -> void:
 	onready_paths.camera.enabled = true
 
 func spawn_powerup(powerup : PowerupBase) -> void:
-	onready_paths.powerups.add_child(powerup)
+	powerup.name = "powerup_%d" % onready_paths.powerups.get_child_count()
+	onready_paths.powerups.add_child(powerup, true)
 
 func spawn_projectile(projectile : Node) -> void:
-	onready_paths.projectiles.add_child(projectile)
+	projectile.name = "projectile_%d" % onready_paths.projectiles.get_child_count()
+	onready_paths.projectiles.add_child(projectile, true)
 
 ##### PROTECTED METHODS #####
 func _add_players(p_players_data : Dictionary) -> void:

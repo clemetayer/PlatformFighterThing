@@ -45,23 +45,26 @@ func _process(_delta):
 #     pass
 
 ##### PROTECTED METHODS #####
-# Methods that are intended to be used exclusively by this scripts
-# func _private_method(arg):
-#     pass
+func _spawn_projectile(projectile) -> void:
+	var game_root = RuntimeUtils.get_game_root()
+	if game_root != null and game_root.has_method("spawn_projectile"):
+		game_root.spawn_projectile(projectile)
+	else: 
+		Logger.error("Game root does not exist or does not have the method '%s'" % "spawn_projectile")
 
 ##### SIGNAL MANAGEMENT #####
 func _on_hitbox_area_entered(area):
 	if RuntimeUtils.is_authority():
 		if area.is_in_group("projectile") and not _whitelist.has(area):
-			var duplicate = area.duplicate()
-			duplicate.current_owner = area.current_owner
-			get_tree().current_scene.call_deferred("add_child",duplicate)
+			var duplicated_projectile = area.duplicate()
+			duplicated_projectile.current_owner = area.current_owner
+			_spawn_projectile(duplicated_projectile)
 			area.rotate(PI/4)
-			duplicate.rotate(-PI/4)
-			duplicate._direction = Vector2.RIGHT.rotated(duplicate.rotation).normalized()
+			duplicated_projectile.rotate(-PI/4)
+			duplicated_projectile._direction = Vector2.RIGHT.rotated(duplicated_projectile.rotation).normalized()
 			area._direction = Vector2.RIGHT.rotated(area.rotation).normalized()
 			_whitelist.append(area)
-			_whitelist.append(duplicate)
+			_whitelist.append(duplicated_projectile)
 		if _contacts_count <= MAX_CONTACTS:
 			_contacts_count += 1
 		else:
