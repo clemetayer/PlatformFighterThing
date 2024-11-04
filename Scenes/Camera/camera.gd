@@ -97,8 +97,8 @@ func _get_global_min_max_pos() -> Dictionary:
 		"max": max_pos
 	}
 
-##### SIGNAL MANAGEMENT #####
-func _on_start_camera_shake(duration : float, intensity : CameraEffects.CAMERA_SHAKE_INTENSITY, priority: CameraEffects.CAMERA_SHAKE_PRIORITY) -> void:
+@rpc("call_local", "authority", "unreliable")
+func _start_camera_shake(duration : float, intensity : CameraEffects.CAMERA_SHAKE_INTENSITY, priority: CameraEffects.CAMERA_SHAKE_PRIORITY) -> void:
 	if priority >= _current_shake_priority:
 		if onready_paths.shaker.is_playing:
 			onready_paths.shaker.force_stop_shake()
@@ -107,6 +107,10 @@ func _on_start_camera_shake(duration : float, intensity : CameraEffects.CAMERA_S
 		onready_paths.shaker.play_shake()
 		_current_shake_priority = priority
 
+##### SIGNAL MANAGEMENT #####
+func _on_start_camera_shake(duration : float, intensity : CameraEffects.CAMERA_SHAKE_INTENSITY, priority: CameraEffects.CAMERA_SHAKE_PRIORITY) -> void:
+	if RuntimeUtils.is_authority():
+		rpc("_start_camera_shake", duration, intensity, priority)
 
 func _on_shaker_shake_finished() -> void:
 	_current_shake_priority = CameraEffects.CAMERA_SHAKE_PRIORITY.NONE

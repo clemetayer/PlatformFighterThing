@@ -43,7 +43,7 @@ func _process(_delta):
 	if ActionHandlerBase.is_just_active(state) and _dashes_available > 0:
 		player.override_velocity(player.direction.normalized() * DASH_FORCE)
 		_dashes_available -= 1
-		_emit_particles()
+		rpc("_emit_particles", Vector3(-player.direction.normalized().x, -player.direction.normalized().y,0), -player.direction.normalized().angle())
 		if onready_paths.reload_timer.is_stopped():
 			onready_paths.reload_timer.start()
 
@@ -56,11 +56,11 @@ func _process(_delta):
 func _print_dashes_available() -> void:
 	print("dashes available = %d" % _dashes_available)
 
-func _emit_particles() -> void:
-	var particles_dir = Vector3(-player.direction.normalized().x, -player.direction.normalized().y,0)
-	onready_paths.dash_particles.process_material.angle_min = rad_to_deg(-player.direction.normalized().angle())
-	onready_paths.dash_particles.process_material.angle_max = rad_to_deg(-player.direction.normalized().angle())
-	onready_paths.dash_particles.process_material.direction = particles_dir
+@rpc("call_local","authority","unreliable")
+func _emit_particles(particle_direction : Vector3, particle_angle : float) -> void:
+	onready_paths.dash_particles.process_material.angle_min = rad_to_deg(particle_angle)
+	onready_paths.dash_particles.process_material.angle_max = rad_to_deg(particle_angle)
+	onready_paths.dash_particles.process_material.direction = particle_direction
 	onready_paths.dash_particles.emitting = true
 
 ##### SIGNAL MANAGEMENT #####
