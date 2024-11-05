@@ -80,7 +80,8 @@ func _connect_to_server(ip: String, port : int) -> void:
 
 func _create_player_data(config_path : String) -> PlayerConfig:
 	var sprite_presets : SpriteCustomizationPresetsResource = load(SPRITE_PRESETS_PATH)
-	var player_config : PlayerConfig = load(config_path)
+	sprite_presets.presets.shuffle() # to avoid picking the same element every time
+	var player_config : PlayerConfig = load(config_path).duplicate()
 	player_config.SPRITE_CUSTOMIZATION = sprite_presets.presets.pick_random()
 	return player_config
 
