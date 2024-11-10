@@ -31,14 +31,6 @@ var _can_parry := true
 }
 
 ##### PROCESSING #####
-# Called when the object is initialized.
-func _init():
-	pass
-
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass
-
 # Called every frame. 'delta' is the elapsed time since the previous frame. Remove the "_" to use it.
 func _process(_delta):
 	DebugInterface.set_debug_text("parrying",_parrying)
@@ -50,11 +42,6 @@ func parry() -> void:
 		_parrying = true
 		monitoring = true
 		onready_paths.parry_timer.start()
-
-##### PROTECTED METHODS #####
-# Methods that are intended to be used exclusively by this scripts
-# func _private_method(arg):
-#     pass
 
 ##### SIGNAL MANAGEMENT #####
 func _on_area_entered(area):

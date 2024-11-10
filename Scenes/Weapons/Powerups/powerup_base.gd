@@ -3,6 +3,8 @@ class_name PowerupBase
 # Base class for the powerups
 
 ##### SIGNALS #####
-signal spawn_powerup(powerup : PowerupBase)
 
 ##### PUBLIC METHODS #####
+# to be overrided by children classes
+func use() -> void:
+    pass

@@ -25,23 +25,10 @@ enum GAME_TYPES {OFFLINE, HOST, CLIENT}
 #==== ONREADY ====
 # onready var onready_var # Optionnal comment
 
-##### PROCESSING #####
-# Called when the object is initialized.
-func _init():
-	pass
-
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass
-
-# Called every frame. 'delta' is the elapsed time since the previous frame. Remove the "_" to use it.
-func _process(_delta):
-	pass
-
 ##### PUBLIC METHODS #####
-# Methods that are intended to be "visible" to other nodes or scripts
-# func public_method(arg : int) -> void:
-#     pass
+# https://easings.net/#easeOutCubic
+static func cubic_ease_out(x : float) -> float:
+	return min(1.0, abs(1 - pow(1 - x, 3)))
 
 ##### PROTECTED METHODS #####
 # Methods that are intended to be used exclusively by this scripts
