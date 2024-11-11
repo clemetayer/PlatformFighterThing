@@ -1,13 +1,17 @@
-[gd_scene load_steps=20 format=3 uid="uid://fgxha8wl55pa"]
+[gd_scene load_steps=24 format=3 uid="uid://fgxha8wl55pa"]
 
 [ext_resource type="Script" path="res://Scenes/Player/player.gd" id="1_b1dbg"]
+[ext_resource type="Script" path="res://Scenes/Player/paths.gd" id="2_8lsum"]
 [ext_resource type="Script" path="res://Scenes/Player/parry.gd" id="2_avuuq"]
 [ext_resource type="Texture2D" uid="uid://btcmiq31qee7d" path="res://Scenes/Player/CharacterBody.png" id="2_pi5cj"]
 [ext_resource type="Texture2D" uid="uid://dy0q7mppvj7j1" path="res://Scenes/Player/CharacterOutline.png" id="3_b0wk1"]
+[ext_resource type="Script" path="res://Scenes/Player/action_manager.gd" id="4_cguhm"]
 [ext_resource type="Script" path="res://Scenes/Player/bounce_area.gd" id="4_d6e7m"]
 [ext_resource type="Script" path="res://Scenes/Player/AnimationPlayer.gd" id="5_b3kqx"]
 [ext_resource type="Script" path="res://Scenes/Player/sprites.gd" id="5_f7agn"]
+[ext_resource type="Script" path="res://Scenes/Player/init.gd" id="5_q62wf"]
 [ext_resource type="Script" path="res://Scenes/Player/input_synchronizer.gd" id="5_uow23"]
+[ext_resource type="Script" path="res://Scenes/Player/hitstun_manager.gd" id="6_lv0e8"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_cl61g"]
 resource_local_to_scene = true
@@ -16,39 +20,36 @@ rough = true
 bounce = 0.05
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_igkwr"]
-properties/0/path = NodePath(".:player")
+properties/0/path = NodePath(".:DAMAGE")
 properties/0/spawn = true
-properties/0/replication_mode = 0
-properties/1/path = NodePath(".:DAMAGE")
+properties/0/replication_mode = 1
+properties/1/path = NodePath("Sprites/Body:modulate")
 properties/1/spawn = true
 properties/1/replication_mode = 1
-properties/2/path = NodePath(".:scene_player_id")
+properties/2/path = NodePath("Sprites/Outline:modulate")
 properties/2/spawn = true
 properties/2/replication_mode = 1
-properties/3/path = NodePath(".:ACTION_HANDLER")
+properties/3/path = NodePath(".:linear_velocity")
 properties/3/spawn = true
 properties/3/replication_mode = 1
-properties/4/path = NodePath(".:PRIMARY_WEAPON")
+properties/4/path = NodePath(".:position")
 properties/4/spawn = true
 properties/4/replication_mode = 1
-properties/5/path = NodePath(".:MOVEMENT_BONUS_HANDLER")
+properties/5/path = NodePath(".:id")
 properties/5/spawn = true
 properties/5/replication_mode = 1
-properties/6/path = NodePath(".:POWERUP_HANDLER")
+properties/6/path = NodePath("Init:ACTION_HANDLER")
 properties/6/spawn = true
 properties/6/replication_mode = 1
-properties/7/path = NodePath("Sprites/Body:modulate")
+properties/7/path = NodePath("Init:PRIMARY_WEAPON")
 properties/7/spawn = true
 properties/7/replication_mode = 1
-properties/8/path = NodePath("Sprites/Outline:modulate")
+properties/8/path = NodePath("Init:MOVEMENT_BONUS_HANDLER")
 properties/8/spawn = true
 properties/8/replication_mode = 1
-properties/9/path = NodePath(".:linear_velocity")
+properties/9/path = NodePath("Init:POWERUP_HANDLER")
 properties/9/spawn = true
 properties/9/replication_mode = 1
-properties/10/path = NodePath(".:position")
-properties/10/spawn = true
-properties/10/replication_mode = 1
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_wpobp"]
 properties/0/path = NodePath("InputSynchronizer:action_states")
@@ -203,6 +204,31 @@ replication_config = SubResource("SceneReplicationConfig_igkwr")
 replication_config = SubResource("SceneReplicationConfig_wpobp")
 script = ExtResource("5_uow23")
 
+[node name="Paths" type="Node" parent="."]
+script = ExtResource("2_8lsum")
+PLAYER_ROOT_PATH = NodePath("..")
+DAMAGE_LABEL_PATH = NodePath("../Damage")
+PARRY_AREA_PATH = NodePath("../ParryArea")
+BOUNCE_AREA_PATH = NodePath("../BounceArea")
+POWERUP_COOLDOWN_PATH = NodePath("../UsePowerupCooldown")
+INPUT_SYNCHRONIZER_PATH = NodePath("../InputSynchronizer")
+HITSTUN_TIMER_PATH = NodePath("../Hitstun")
+ANIMATION_PLAYER_PATH = NodePath("../AnimationPlayer")
+FLOOR_DETECTOR_PATH = NodePath("../FloorDetector")
+SPRITES_PATH = NodePath("../Sprites")
+ACTION_MANAGER_PATH = NodePath("../ActionManager")
+INIT_PATH = NodePath("../Init")
+HITSTUN_MANAGER = NodePath("../HitstunManager")
+
+[node name="ActionManager" type="Node" parent="."]
+script = ExtResource("4_cguhm")
+
+[node name="Init" type="Node" parent="."]
+script = ExtResource("5_q62wf")
+
+[node name="HitstunManager" type="Node" parent="."]
+script = ExtResource("6_lv0e8")
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_fylq6")
 
@@ -280,7 +306,7 @@ one_shot = true
 one_shot = true
 
 [node name="FloorDetector" type="RayCast2D" parent="."]
-target_position = Vector2(0, 55)
+target_position = Vector2(0, 65)
 collision_mask = 3
 
 [connection signal="area_entered" from="ParryArea" to="ParryArea" method="_on_area_entered"]
@@ -289,4 +315,4 @@ collision_mask = 3
 [connection signal="timeout" from="ParryArea/LockoutTimer" to="ParryArea" method="_on_lockout_timer_timeout"]
 [connection signal="body_entered" from="BounceArea" to="BounceArea" method="_on_body_entered"]
 [connection signal="timeout" from="UsePowerupCooldown" to="." method="_on_use_powerup_cooldown_timeout"]
-[connection signal="timeout" from="Hitstun" to="." method="_on_hitstun_timeout"]
+[connection signal="timeout" from="Hitstun" to="HitstunManager" method="_on_hitstun_timeout"]

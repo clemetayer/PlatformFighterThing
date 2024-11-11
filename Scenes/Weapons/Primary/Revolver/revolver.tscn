@@ -1,6 +1,11 @@
-[gd_scene load_steps=2 format=3 uid="uid://c3ys4badrjjgc"]
+[gd_scene load_steps=3 format=3 uid="uid://c3ys4badrjjgc"]
 
 [ext_resource type="Script" path="res://Scenes/Weapons/Primary/Revolver/revolver.gd" id="1_71ky4"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_jsuls"]
+properties/0/path = NodePath(".:rotation")
+properties/0/spawn = true
+properties/0/replication_mode = 1
 
 [node name="Revolver" type="Node2D"]
 script = ExtResource("1_71ky4")
@@ -11,5 +16,8 @@ polygon = PackedVector2Array(0, -10, 0, 10, 20, 0)
 
 [node name="ShootCooldown" type="Timer" parent="."]
 wait_time = 0.33
+
+[node name="RevolverSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_jsuls")
 
 [connection signal="timeout" from="ShootCooldown" to="." method="_on_shoot_cooldown_timeout"]

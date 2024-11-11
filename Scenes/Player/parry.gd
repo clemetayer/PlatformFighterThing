@@ -31,14 +31,6 @@ var _can_parry := true
 }
 
 ##### PROCESSING #####
-# Called when the object is initialized.
-func _init():
-	pass
-
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass
-
 # Called every frame. 'delta' is the elapsed time since the previous frame. Remove the "_" to use it.
 func _process(_delta):
 	DebugInterface.set_debug_text("parrying",_parrying)
@@ -47,21 +39,14 @@ func _process(_delta):
 ##### PUBLIC METHODS #####
 func parry() -> void:
 	if _can_parry:
-		if not onready_paths.animation_player.is_playing() or onready_paths.animation_player.current_animation != "parrying":
-			onready_paths.animation_player.play()
 		_parrying = true
 		monitoring = true
 		onready_paths.parry_timer.start()
 
-##### PROTECTED METHODS #####
-# Methods that are intended to be used exclusively by this scripts
-# func _private_method(arg):
-#     pass
-
 ##### SIGNAL MANAGEMENT #####
 func _on_area_entered(area):
 	if area.is_in_group("projectile") and _parrying:
-		onready_paths.animation_player.play("parrying")
+		onready_paths.animation_player.rpc("remote_play_animation","parrying")
 		onready_paths.parry_timer.stop()
 		_can_parry = true
 		_parrying = false
@@ -75,7 +60,7 @@ func _on_lockout_timer_timeout():
 	_can_parry = true
 
 func _on_parry_timer_timeout():
-	onready_paths.animation_player.play("parry_lockout")
+	onready_paths.animation_player.rpc("remote_play_animation","parry_lockout")
 	_can_parry = false
 	_parrying = false
 	monitoring = false

@@ -2,7 +2,6 @@ extends PrimaryWeaponBase
 # Basic revolver
 
 ##### SIGNALS #####
-# Node signals
 
 ##### ENUMS #####
 # enumerations
@@ -45,7 +44,7 @@ func _physics_process(_delta):
 ##### PUBLIC METHODS #####
 func fire() -> void:
 	if not _on_cooldown:
-		_spawn_projectile()
+		_spawn_projectile(_create_projectile())
 		_on_cooldown = true
 		onready_paths.shoot_cooldown_timer.start()
 
@@ -54,12 +53,12 @@ func aim(direction : Vector2) -> void:
 		rotation = direction.angle()
 
 ##### PROTECTED METHODS #####
-func _spawn_projectile() -> void:
+func _create_projectile() -> Node:
 	var projectile = load(PROJECTILE_SCENE_PATH).instantiate()
 	projectile.current_owner = projectile_owner
 	projectile.global_position = global_position
 	projectile.rotation = rotation
-	get_tree().current_scene.add_child(projectile)
+	return projectile
 
 ##### SIGNAL MANAGEMENT #####
 func _on_shoot_cooldown_timeout():
