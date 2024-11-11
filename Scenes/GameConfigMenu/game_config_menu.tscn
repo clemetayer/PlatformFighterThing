@@ -38,10 +38,10 @@ popup/item_2/text = "client"
 popup/item_2/id = 2
 
 [node name="OfflineMenu" type="VBoxContainer" parent="GameTypeMenu/ConfigMenu"]
-visible = false
 layout_mode = 2
 
 [node name="HostMenu" type="VBoxContainer" parent="GameTypeMenu/ConfigMenu"]
+visible = false
 layout_mode = 2
 
 [node name="Port" type="HBoxContainer" parent="GameTypeMenu/ConfigMenu/HostMenu"]

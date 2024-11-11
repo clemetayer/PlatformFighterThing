@@ -16,7 +16,7 @@ const GAME_ROOT_GROUP_NAME := "game_root"
 
 #---- STANDARD -----
 #==== PUBLIC ====
-# var public_var # Optionnal comment
+var is_offline_game := true 
 
 #==== PRIVATE ====
 # var _private_var # Optionnal comment
@@ -40,7 +40,7 @@ func _process(_delta):
 ##### PUBLIC METHODS #####
 # Checks if the current instance is the multiplayer authority
 func is_authority() -> bool:
-	return get_multiplayer_authority() == multiplayer.get_unique_id()
+	return get_multiplayer_authority() == multiplayer.get_unique_id() or is_offline_game
 
 # Returns the game root or null if it does not exists
 func get_game_root() -> Node:

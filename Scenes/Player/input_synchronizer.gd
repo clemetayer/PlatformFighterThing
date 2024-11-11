@@ -32,7 +32,7 @@ func _init():
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	# Only process for the local player.
-	set_process(get_multiplayer_authority() == multiplayer.get_unique_id())
+	set_process(get_multiplayer_authority() == multiplayer.get_unique_id() || RuntimeUtils.is_offline_game) # Note : do not use the RuntimeUtils.is_authority because the inputs should be handled by each peer, not the server
 
 # Called every frame. 'delta' is the elapsed time since the previous frame. Remove the "_" to use it.
 func _process(_delta):

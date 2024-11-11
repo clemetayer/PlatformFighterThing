@@ -1,6 +1,6 @@
 extends Node
 class_name GameManager
-# docstring
+# Manages the game (online or offline)
 
 ##### SIGNALS #####
 # Node signals
@@ -11,6 +11,7 @@ class_name GameManager
 #---- CONSTANTS -----
 const SPRITE_PRESETS_PATH := "res://Scenes/Player/SpriteCustomizationPresets/presets.tres"
 const INPUT_PLAYER_CONFIG_PATH := "res://Scenes/Player/PlayerConfigs/input_player_config.tres"
+const RECORD_PLAYER_CONFIG_PATH := "res://Scenes/Player/PlayerConfigs/record_player_config.tres"
 const DEFAULT_LEVEL_PATH := "res://Scenes/Levels/Level1/level_1_map.tscn"
 
 #---- EXPORTS -----
@@ -66,6 +67,7 @@ func _init_server(port : int) -> void:
 	multiplayer.multiplayer_peer = peer
 	multiplayer.peer_connected.connect(_add_player)
 	multiplayer.peer_disconnected.connect(_delete_player)
+	RuntimeUtils.is_offline_game = false
 
 func _connect_to_server(ip: String, port : int) -> void:
 	Logger.info("starting as client on %s:%s" % [ip,port])
@@ -77,6 +79,7 @@ func _connect_to_server(ip: String, port : int) -> void:
 		OS.alert("Failed to start multiplayer client.")
 		return
 	multiplayer.multiplayer_peer = peer
+	RuntimeUtils.is_offline_game = false
 
 func _create_player_data(config_path : String) -> PlayerConfig:
 	var sprite_presets : SpriteCustomizationPresetsResource = load(SPRITE_PRESETS_PATH)
@@ -106,9 +109,20 @@ func _delete_player(id : int) -> void:
 func _hide_config_menu() -> void:
 	onready_paths.game_config_menu.hide()
 
+func _add_offline_default_players() -> void:
+	_connected_players[1] = {
+		"config" : _create_player_data(INPUT_PLAYER_CONFIG_PATH)
+	}
+	_connected_players[2] = {
+		"config" : _create_player_data(RECORD_PLAYER_CONFIG_PATH)
+	}
+
 ##### SIGNAL MANAGEMENT #####
 func _on_game_config_menu_init_offline() -> void:
 	_hide_config_menu()
+	_add_offline_default_players()
+	RuntimeUtils.is_offline_game = true
+	onready_paths.game.start(_connected_players, level_data)
 
 func _on_game_config_menu_init_host(port: int) -> void:
 	_init_server(port) 
