@@ -58,11 +58,11 @@ func start(p_players_data : Dictionary, level_data : LevelConfig) -> void:
 
 func spawn_powerup(powerup : Node) -> void:
 	powerup.name = "powerup_%d" % onready_paths.powerups.get_child_count()
-	onready_paths.powerups.add_child(powerup, true)
+	onready_paths.powerups.call_deferred("add_child",powerup, true)
 
 func spawn_projectile(projectile : Node) -> void:
 	projectile.name = "projectile_%d" % onready_paths.projectiles.get_child_count()
-	onready_paths.projectiles.add_child(projectile, true)
+	onready_paths.projectiles.call_deferred("add_child",projectile, true)
 
 ##### PROTECTED METHODS #####
 func _add_players(p_players_data : Dictionary) -> void:
