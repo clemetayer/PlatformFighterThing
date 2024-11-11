@@ -1,9 +1,8 @@
-extends PowerupBase
+extends Node2D
 # Powerups that duplicates a bullet in two bullets
-# FIXME ? When placing two splitters inside each other, this creates a temporary bullet generator. But this is kind of cool, keep it as a feature ? The amount of bullets produced will probably depend on the general PC performances
 
 ##### SIGNALS #####
-# Node signals
+signal destroyed
 
 ##### ENUMS #####
 # enumerations
@@ -68,6 +67,7 @@ func _on_hitbox_area_entered(area):
 		if _contacts_count <= MAX_CONTACTS:
 			_contacts_count += 1
 		else:
+			emit_signal("destroyed", self)
 			queue_free()
 		
 

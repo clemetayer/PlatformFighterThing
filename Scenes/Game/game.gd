@@ -56,7 +56,7 @@ func start(p_players_data : Dictionary, level_data : LevelConfig) -> void:
 	_add_level(level_data)
 	onready_paths.camera.enabled = true
 
-func spawn_powerup(powerup : PowerupBase) -> void:
+func spawn_powerup(powerup : Node) -> void:
 	powerup.name = "powerup_%d" % onready_paths.powerups.get_child_count()
 	onready_paths.powerups.add_child(powerup, true)
 
