@@ -9,11 +9,13 @@ signal killed(id : int)
 
 ##### VARIABLES #####
 #---- CONSTANTS -----
-const TARGET_SPEED := 750.0 # px/s
+const TARGET_SPEED := 1000.0 # px/s
 const JUMP_VELOCITY := -1200.0
 const MAX_FLOOR_ANGLE := PI/4
 const NORMAL_BOUNCE := 0.05
 const HITSTUN_BOUNCE := 1.0
+const FLOOR_ACCELERATION = 9000.0 
+const AIR_ACCELERATION = FLOOR_ACCELERATION / 2.0
 
 #---- EXPORTS -----
 @export var CONFIG : PlayerConfig
@@ -38,8 +40,6 @@ var _velocity_override := Vector2.ZERO
 var _additional_vector := Vector2.ZERO # external forces that can have an effect on the player and needs to be added to the velocity on the next physics frame
 
 #==== ONREADY ====
-@onready var FLOOR_ACCELERATION = 100.0 * ProjectSettings.get_setting("physics/common/physics_ticks_per_second") # px/s² # Kind of a constant, that's why it is in all caps
-@onready var AIR_ACCELERATION = 50.0 * ProjectSettings.get_setting("physics/common/physics_ticks_per_second") # px/s² # Kind of a constant, that's why it is in all caps
 @onready var onready_paths_node := $"Paths"
 
 

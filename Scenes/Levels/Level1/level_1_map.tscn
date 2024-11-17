@@ -1,6 +1,7 @@
-[gd_scene load_steps=7 format=4 uid="uid://b1lft1oovl50b"]
+[gd_scene load_steps=13 format=4 uid="uid://b1lft1oovl50b"]
 
 [ext_resource type="Texture2D" uid="uid://olwb2yraeuqe" path="res://Scenes/Levels/Tilesets/LevelPlatformsTileset.png" id="1_qykhq"]
+[ext_resource type="Script" path="res://addons/TileMapCollisionBaker/TilemapCollisionBaker.gd" id="2_hy67k"]
 [ext_resource type="PackedScene" uid="uid://bc175bcim437d" path="res://Scenes/LevelBounds/level_bounds.tscn" id="2_sx6fs"]
 [ext_resource type="PackedScene" uid="uid://7t50cs5is77n" path="res://Scenes/DestructibleWalls/destructible_wall.tscn" id="3_4ucvp"]
 
@@ -396,6 +397,21 @@ terrain_set_0/terrain_0/name = "terrain"
 terrain_set_0/terrain_0/color = Color(0, 0, 0, 1)
 sources/0 = SubResource("TileSetAtlasSource_3ctg0")
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3d46c"]
+size = Vector2(384, 192)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3a7at"]
+size = Vector2(256, 64)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5alky"]
+size = Vector2(2432, 64)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_idlkj"]
+size = Vector2(256, 64)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_slhnu"]
+size = Vector2(384, 192)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_j2qbn"]
 size = Vector2(3232, 1764)
 
@@ -406,6 +422,32 @@ size = Vector2(3232, 1764)
 [node name="TileMapLayer" type="TileMapLayer" parent="Platforms" groups=["static_obstacle"]]
 tile_map_data = PackedByteArray("AAAJAAAAAAACAAMAAAAIAAAAAAACAAMAAAAHAAAAAAACAAMAAAAGAAAAAAACAAMAAAAFAAAAAAACAAMAAAAEAAAAAAACAAMAAAADAAAAAAACAAMAAAACAAAAAAACAAMAAAABAAAAAAACAAMAAAAAAAAAAAACAAMAAAD//wAAAAACAAMAAAD+/wAAAAACAAMAAAD9/wAAAAACAAMAAAD8/wAAAAACAAMAAAD7/wAAAAACAAMAAAD6/wAAAAACAAMAAAD5/wAAAAACAAMAAAD4/wAAAAACAAMAAAD3/wAAAAACAAMAAAD2/wAAAAACAAMAAADt/wAAAAABAAMAAADu/wAAAAAFAAMAAADv/wAAAAAJAAMAAADw/wAAAAAJAAMAAADx/wAAAAAJAAMAAADz/wAAAAAGAAMAAADy/wAAAAAJAAMAAAD1/wAAAAACAAMAAAD0/wAAAAACAAMAAAAKAAAAAAACAAMAAAALAAAAAAACAAMAAAANAAAAAAAJAAMAAAAMAAAAAAAFAAMAAAAOAAAAAAAJAAMAAAAPAAAAAAAJAAMAAAAQAAAAAAAJAAMAAAARAAAAAAAGAAMAAAASAAAAAAADAAMAAADz////AAALAAIAAADz//7/AAALAAIAAADy////AAAJAAIAAADy//7/AAAJAAIAAADx////AAAJAAIAAADx//7/AAAJAAIAAADw////AAAJAAIAAADw//7/AAAJAAIAAADv////AAAJAAIAAADv//7/AAAJAAIAAADu////AAAIAAEAAADu//7/AAAIAAEAAADu//3/AAAIAAAAAADv//3/AAAKAAAAAADw//3/AAAKAAAAAADx//3/AAAKAAAAAADy//3/AAAKAAAAAADz//3/AAALAAAAAAARAP//AAALAAIAAAARAP7/AAALAAIAAAARAP3/AAALAAAAAAAQAP//AAAJAAIAAAAQAP7/AAAJAAIAAAAQAP3/AAAKAAAAAAAPAP//AAAJAAIAAAAPAP7/AAAJAAIAAAAPAP3/AAAKAAAAAAAOAP//AAAJAAIAAAAOAP7/AAAJAAIAAAAOAP3/AAAKAAAAAAANAP//AAAJAAIAAAANAP7/AAAJAAIAAAANAP3/AAAKAAAAAAAMAP//AAAIAAEAAAAMAP7/AAAIAAEAAAAMAP3/AAAIAAAAAAD4//n/AAABAAMAAAD5//n/AAACAAMAAAD6//n/AAACAAMAAAD7//n/AAADAAMAAAAEAPn/AAABAAMAAAAFAPn/AAACAAMAAAAGAPn/AAACAAMAAAAHAPn/AAADAAMAAAA=")
 tile_set = SubResource("TileSet_i6ck2")
+collision_enabled = false
+
+[node name="BakedCollision" type="StaticBody2D" parent="Platforms" groups=["static_obstacle"]]
+collision_mask = 6
+script = ExtResource("2_hy67k")
+tilemaplayers_nodepaths = Array[NodePath]([NodePath("../TileMapLayer")])
+
+[node name="CollisionShape2D6" type="CollisionShape2D" parent="Platforms/BakedCollision"]
+position = Vector2(-960, -96)
+shape = SubResource("RectangleShape2D_3d46c")
+
+[node name="CollisionShape2D7" type="CollisionShape2D" parent="Platforms/BakedCollision"]
+position = Vector2(-384, -416)
+shape = SubResource("RectangleShape2D_3a7at")
+
+[node name="CollisionShape2D8" type="CollisionShape2D" parent="Platforms/BakedCollision"]
+position = Vector2(0, 32)
+shape = SubResource("RectangleShape2D_5alky")
+
+[node name="CollisionShape2D9" type="CollisionShape2D" parent="Platforms/BakedCollision"]
+position = Vector2(384, -416)
+shape = SubResource("RectangleShape2D_idlkj")
+
+[node name="CollisionShape2D10" type="CollisionShape2D" parent="Platforms/BakedCollision"]
+position = Vector2(960, -96)
+shape = SubResource("RectangleShape2D_slhnu")
 
 [node name="LevelBounds" parent="." instance=ExtResource("2_sx6fs")]
 

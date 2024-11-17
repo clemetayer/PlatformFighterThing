@@ -9,7 +9,7 @@ extends Area2D
 
 ##### VARIABLES #####
 #---- CONSTANTS -----
-const SPEED := 1100.0 # px/s
+const SPEED := 2200.0 # px/s
 const DAMAGE := 15.0
 const KNOCKBACK := 20.0
 

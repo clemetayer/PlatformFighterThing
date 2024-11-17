@@ -4,7 +4,7 @@ extends PowerupBase
 ##### VARIABLES #####
 #---- CONSTANTS -----
 const SPLITTER_PATH := "res://Scenes/Weapons/Powerups/Splitter/splitter.tscn"
-const MAX_SPLITTERS_ACTIVE := 3
+const MAX_SPLITTERS_ACTIVE := 6
 
 #---- STANDARD -----
 #==== PRIVATE ====

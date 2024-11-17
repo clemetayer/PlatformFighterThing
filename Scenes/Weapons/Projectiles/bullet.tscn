@@ -16,7 +16,7 @@ properties/1/replication_mode = 2
 
 [node name="Bullet" type="Area2D" groups=["projectile"]]
 collision_layer = 4
-collision_mask = 7
+collision_mask = 3
 script = ExtResource("1_fo3ga")
 
 [node name="Polygon2D" type="Polygon2D" parent="."]
