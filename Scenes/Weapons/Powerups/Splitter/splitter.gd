@@ -73,11 +73,11 @@ func _on_hitbox_area_entered(area):
 				area.queue_free()
 			else:
 				_whitelist.append(area)
-		if _contacts_count <= MAX_CONTACTS:
-			_contacts_count += 1
-		else:
-			emit_signal("destroyed", self)
-			queue_free()
+			if _contacts_count < MAX_CONTACTS - 1:
+				_contacts_count += 1
+			else:
+				emit_signal("destroyed", self)
+				queue_free()
 
 func _on_hitbox_body_entered(body):
 	pass # Replace with function body.
