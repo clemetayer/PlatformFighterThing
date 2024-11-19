@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://fgxha8wl55pa"]
+[gd_scene load_steps=24 format=3 uid="uid://fgxha8wl55pa"]
 
 [ext_resource type="Script" path="res://Scenes/Player/player.gd" id="1_b1dbg"]
 [ext_resource type="Script" path="res://Scenes/Player/paths.gd" id="2_8lsum"]
@@ -12,6 +12,7 @@
 [ext_resource type="Script" path="res://Scenes/Player/init.gd" id="5_q62wf"]
 [ext_resource type="Script" path="res://Scenes/Player/input_synchronizer.gd" id="5_uow23"]
 [ext_resource type="Script" path="res://Scenes/Player/hitstun_manager.gd" id="6_lv0e8"]
+[ext_resource type="PackedScene" uid="uid://ete32krtenc4" path="res://Scenes/Weapons/Primary/crosshair.tscn" id="12_0h0ho"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_cl61g"]
 resource_local_to_scene = true
@@ -55,6 +56,9 @@ properties/9/replication_mode = 1
 properties/0/path = NodePath("InputSynchronizer:action_states")
 properties/0/spawn = false
 properties/0/replication_mode = 1
+properties/1/path = NodePath("InputSynchronizer:relative_aim_position")
+properties/1/spawn = false
+properties/1/replication_mode = 1
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7ohtq"]
 size = Vector2(150, 150)
@@ -216,6 +220,7 @@ SPRITES_PATH = NodePath("../Sprites")
 ACTION_MANAGER_PATH = NodePath("../ActionManager")
 INIT_PATH = NodePath("../Init")
 HITSTUN_MANAGER = NodePath("../HitstunManager")
+CROSSHAIR_PATH = NodePath("../Crosshair")
 
 [node name="ActionManager" type="Node" parent="."]
 script = ExtResource("4_cguhm")
@@ -287,6 +292,8 @@ texture = ExtResource("3_b0wk1")
 visible = false
 modulate = Color(1, 1, 1, 0.607843)
 texture = ExtResource("2_pi5cj")
+
+[node name="Crosshair" parent="." instance=ExtResource("12_0h0ho")]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

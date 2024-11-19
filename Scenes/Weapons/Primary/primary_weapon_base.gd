@@ -10,7 +10,7 @@ class_name PrimaryWeaponBase
 func fire() -> void:
 	pass
 
-func aim(direction : Vector2) -> void:
+func aim(relative_aim_position : Vector2) -> void:
 	pass
 
 ##### PROTECTED METHODS #####

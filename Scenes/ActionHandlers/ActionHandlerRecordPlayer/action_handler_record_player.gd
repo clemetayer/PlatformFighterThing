@@ -28,14 +28,6 @@ var _recording := false
 # onready var onready_var # Optionnal comment
 
 ##### PROCESSING #####
-# Called when the object is initialized.
-func _init():
-	pass
-
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass
-
 # Called every frame. 'delta' is the elapsed time since the previous frame. Remove the "_" to use it.
 func _process(delta):
 	if Input.is_action_just_pressed("record_inputs"):
@@ -73,6 +65,7 @@ func _stop_recording() -> void:
 func _record_frame() -> void:
 	var frame = FrameInputRecord.new()
 	frame.frame_time = _current_frame_time
+	frame.relative_aim_position = relative_aim_position
 	for action in actions:
 		_add_action_input_if_needed(actions[action], frame)
 	record.inputs.append(frame)
@@ -94,6 +87,7 @@ func _listen_to_inputs() -> void:
 	_action_states[actions.MOVEMENT_BONUS] = _generic_get_action_state("movement_bonus")
 	_action_states[actions.PARRY] = _generic_get_action_state("parry")
 	_action_states[actions.POWERUP] = _generic_get_action_state("powerup")
+	_set_relative_aim_position()
 
 func _generic_get_action_state(input_action : String) -> states:
 	if Input.is_action_just_pressed(input_action):
@@ -118,12 +112,17 @@ func _find_closest_frame() -> FrameInputRecord:
 
 func _replay_frame(frame : FrameInputRecord) -> void:
 	_reset_action_values()
+	relative_aim_position = frame.relative_aim_position
 	for input in frame.inputs:
 		_action_states[input.action] = input.state
 
 func _reset_action_values() -> void:
 	for action in actions:
 		_action_states[actions[action]] = ActionHandlerBase.states.INACTIVE
+
+func _set_relative_aim_position() -> void:
+	DebugInterface.set_debug_text("relative_mp", "mouse_pos = %s; pos = %s" % [get_global_mouse_position(), global_position])
+	relative_aim_position = get_global_mouse_position() - global_position
 
 ##### SIGNAL MANAGEMENT #####
 # Functions that should be triggered when a specific signal is received

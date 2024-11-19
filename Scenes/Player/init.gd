@@ -46,6 +46,7 @@ func initialize(config : PlayerConfig) -> void:
 	onready_paths_node.player_root.add_child(onready_paths_node.primary_weapon)
 	onready_paths_node.player_root.add_child(onready_paths_node.movement_bonus)
 	onready_paths_node.player_root.add_child(onready_paths_node.powerup_manager)
+	onready_paths_node.crosshair.set_color(config.SPRITE_CUSTOMIZATION.BODY_COLOR)
 
 ##### PROTECTED METHODS #####
 # Methods that are intended to be used exclusively by this scripts

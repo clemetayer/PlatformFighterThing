@@ -1,6 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://c3ys4badrjjgc"]
+[gd_scene load_steps=4 format=3 uid="uid://c3ys4badrjjgc"]
 
 [ext_resource type="Script" path="res://Scenes/Weapons/Primary/Revolver/revolver.gd" id="1_71ky4"]
+
+[sub_resource type="Gradient" id="Gradient_5vcv6"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_jsuls"]
 properties/0/path = NodePath(".:rotation")
@@ -13,6 +16,11 @@ script = ExtResource("1_71ky4")
 [node name="Polygon2D" type="Polygon2D" parent="."]
 color = Color(1, 0, 0, 1)
 polygon = PackedVector2Array(0, -10, 0, 10, 20, 0)
+
+[node name="Line2D" type="Line2D" parent="."]
+points = PackedVector2Array(0, 0, 300, 0)
+width = 2.0
+gradient = SubResource("Gradient_5vcv6")
 
 [node name="ShootCooldown" type="Timer" parent="."]
 wait_time = 0.33

@@ -9,6 +9,7 @@ extends PrimaryWeaponBase
 ##### VARIABLES #####
 #---- CONSTANTS -----
 const PROJECTILE_SCENE_PATH := "res://Scenes/Weapons/Projectiles/bullet.tscn"
+const ANGLE_STEP := PI/4
 
 #---- EXPORTS -----
 # export(int) var EXPORT_NAME # Optionnal comment
@@ -48,11 +49,14 @@ func fire() -> void:
 		_on_cooldown = true
 		onready_paths.shoot_cooldown_timer.start()
 
-func aim(direction : Vector2) -> void:
-	if direction != Vector2.ZERO:
-		rotation = direction.angle()
+func aim(relative_aim_position : Vector2) -> void:
+	var analog_angle = Vector2.ZERO.angle_to_point(relative_aim_position)
+	rotation = _get_closest_angle(analog_angle, ANGLE_STEP)
 
 ##### PROTECTED METHODS #####
+func _get_closest_angle(analog_angle : float, angle_step : float) -> float:
+	return round(analog_angle/angle_step) * angle_step
+
 func _create_projectile() -> Node:
 	var projectile = load(PROJECTILE_SCENE_PATH).instantiate()
 	projectile.current_owner = projectile_owner

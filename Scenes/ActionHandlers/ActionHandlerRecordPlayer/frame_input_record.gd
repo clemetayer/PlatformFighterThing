@@ -6,4 +6,5 @@ class_name FrameInputRecord
 #---- STANDARD -----
 #==== PUBLIC ====
 var inputs : Array[SingleInputRecord] = []
+var relative_aim_position : Vector2 # aim position depending on the player position
 var frame_time := 0.0

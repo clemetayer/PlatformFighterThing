@@ -45,6 +45,7 @@ func _process(_delta):
 ##### PROTECTED METHODS #####
 func _handle_actions() -> void:
 	_handle_direction()
+	_handle_aim()
 	_handle_jump()
 	_handle_fire()
 	_handle_movement_bonus()
@@ -62,7 +63,12 @@ func _handle_direction() -> void:
 	if _is_action_active(ActionHandlerBase.actions.DOWN):
 		direction.y += 1
 	onready_paths_node.player_root.direction = direction
-	onready_paths_node.primary_weapon.aim(direction)
+
+func _handle_aim() -> void:
+	var relative_aim_position = get_relative_aim_position()
+	onready_paths_node.primary_weapon.aim(relative_aim_position)
+	onready_paths_node.crosshair.position = relative_aim_position
+
 
 func _handle_jump() -> void:
 	onready_paths_node.player_root.jump_triggered = _is_action_active(ActionHandlerBase.actions.JUMP)
@@ -95,6 +101,9 @@ func _is_action_just_active(action : ActionHandlerBase.actions) -> bool:
 		return ActionHandlerBase.is_just_active(onready_paths_node.input_synchronizer.action_states.get(action))
 	return false
 
+# mostly to improve readability
+func get_relative_aim_position() -> Vector2:
+	return onready_paths_node.input_synchronizer.relative_aim_position
 
 ##### SIGNAL MANAGEMENT #####
 func _on_SceneUtils_toggle_scene_freeze(value: bool) -> void:

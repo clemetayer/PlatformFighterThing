@@ -1,4 +1,4 @@
-extends Node
+extends Node2D
 class_name ActionHandlerBase
 # Base class to handle actions
 
@@ -8,6 +8,9 @@ enum actions {JUMP, UP, DOWN, LEFT, RIGHT, FIRE, MOVEMENT_BONUS, PARRY, POWERUP}
 
 ##### VARIABLES #####
 #---- STANDARD -----
+#==== PUBLIC ====
+var relative_aim_position := Vector2.ZERO # aim position relative to the current node position
+
 #==== PRIVATE ====
 var _action_states := {
 	actions.JUMP : states.INACTIVE,
