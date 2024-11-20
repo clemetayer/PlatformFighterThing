@@ -22,7 +22,8 @@ var _on_cooldown := false
 
 #==== ONREADY ====
 @onready var onready_paths := {
-	"shoot_cooldown_timer": $"ShootCooldown"
+	"shoot_cooldown_timer": $"ShootCooldown",
+	"animation_player": $"AnimationPlayer"
 }
 
 ##### PROCESSING #####
@@ -47,6 +48,7 @@ func fire() -> void:
 		_spawn_projectile(_create_projectile())
 		_on_cooldown = true
 		onready_paths.shoot_cooldown_timer.start()
+		onready_paths.animation_player.play("fire")
 
 func aim(relative_aim_position : Vector2) -> void:
 	var analog_angle = Vector2.ZERO.angle_to_point(relative_aim_position)

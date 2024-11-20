@@ -74,7 +74,7 @@ func _handle_jump() -> void:
 	onready_paths_node.player_root.jump_triggered = _is_action_active(ActionHandlerBase.actions.JUMP)
 
 func _handle_fire() -> void:
-	if _is_action_just_active(ActionHandlerBase.actions.FIRE):
+	if _is_action_active(ActionHandlerBase.actions.FIRE):
 		onready_paths_node.primary_weapon.fire()
 
 func _handle_movement_bonus() -> void:
