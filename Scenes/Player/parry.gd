@@ -25,7 +25,7 @@ var _can_parry := true
 #==== ONREADY ====
 @onready var _owner := get_parent()
 @onready var onready_paths := {
-	"animation_player": $"../AnimationPlayer",
+	"animation_player": $"ParryAnimations",
 	"parry_timer":$"ParryTimer",
 	"lockout_timer":$"LockoutTimer"
 }
@@ -42,11 +42,12 @@ func parry() -> void:
 		_parrying = true
 		monitoring = true
 		onready_paths.parry_timer.start()
+		onready_paths.animation_player.rpc("remote_play_animation","parrying")
 
 ##### SIGNAL MANAGEMENT #####
 func _on_area_entered(area):
 	if area.is_in_group("projectile") and _parrying:
-		onready_paths.animation_player.rpc("remote_play_animation","parrying")
+		onready_paths.animation_player.rpc("remote_play_animation","parried")
 		onready_paths.parry_timer.stop()
 		_can_parry = true
 		_parrying = false
