@@ -65,7 +65,7 @@ func _handle_direction() -> void:
 	onready_paths_node.player_root.direction = direction
 
 func _handle_aim() -> void:
-	var relative_aim_position = get_relative_aim_position()
+	var relative_aim_position = _get_relative_aim_position()
 	onready_paths_node.primary_weapon.aim(relative_aim_position)
 	onready_paths_node.crosshair.position = relative_aim_position
 
@@ -102,7 +102,7 @@ func _is_action_just_active(action : ActionHandlerBase.actions) -> bool:
 	return false
 
 # mostly to improve readability
-func get_relative_aim_position() -> Vector2:
+func _get_relative_aim_position() -> Vector2:
 	return onready_paths_node.input_synchronizer.relative_aim_position
 
 ##### SIGNAL MANAGEMENT #####

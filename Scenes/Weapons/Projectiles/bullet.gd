@@ -45,9 +45,9 @@ func _process(delta):
 		position += _direction * speed * delta
 
 ##### PUBLIC METHODS #####
-func parried(p_owner : Node2D) -> void:
+func parried(p_owner : Node2D, relative_aim_position : Vector2) -> void:
 	current_owner = p_owner
-	rotation += PI
+	rotation = Vector2.ZERO.angle_to_point(relative_aim_position)
 	_direction = Vector2.RIGHT.rotated(rotation).normalized()
 	speed *= 2
 	damage *= 2

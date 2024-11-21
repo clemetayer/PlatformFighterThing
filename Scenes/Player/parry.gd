@@ -24,6 +24,7 @@ var _can_parry := true
 
 #==== ONREADY ====
 @onready var _owner := get_parent()
+@onready var onready_paths_node := $"../Paths"
 @onready var onready_paths := {
 	"animation_player": $"ParryAnimations",
 	"parry_timer":$"ParryTimer",
@@ -52,7 +53,7 @@ func _on_area_entered(area):
 		_can_parry = true
 		_parrying = false
 		set_deferred("monitoring", false)
-		area.parried(_owner)
+		area.parried(_owner, onready_paths_node.input_synchronizer.relative_aim_position)
 		CameraEffects.emit_signal_start_camera_shake(0.25, CameraEffects.CAMERA_SHAKE_INTENSITY.LIGHT, CameraEffects.CAMERA_SHAKE_PRIORITY.MEDIUM)
 		SceneUtils.freeze_scene_parry(0.25)
 		emit_signal("parried")
