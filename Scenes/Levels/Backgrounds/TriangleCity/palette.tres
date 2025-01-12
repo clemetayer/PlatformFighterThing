@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="Palette" load_steps=6 format=3 uid="uid://ctvwmt1d57d4r"]
+
+[ext_resource type="Script" path="res://Utils/Resources/palette_category.gd" id="1_6wk5m"]
+[ext_resource type="Script" path="res://Utils/Resources/palette.gd" id="1_f05ph"]
+
+[sub_resource type="Resource" id="Resource_xtw40"]
+script = ExtResource("1_6wk5m")
+CATEGORY = Array[Color]([Color(0.0509804, 0.945098, 0.819608, 1), Color(0.0509804, 0.847059, 0.945098, 1), Color(0.0509804, 0.623529, 0.945098, 1), Color(0.0509804, 0.4, 0.945098, 1), Color(0.0509804, 0.176471, 0.945098, 1)])
+
+[sub_resource type="Resource" id="Resource_xc20p"]
+script = ExtResource("1_6wk5m")
+CATEGORY = Array[Color]([Color(0.945098, 0.54902, 0.054902, 1), Color(0.945098, 0.482353, 0.054902, 1), Color(0.945098, 0.411765, 0.054902, 1), Color(0.945098, 0.341176, 0.054902, 1)])
+
+[sub_resource type="Resource" id="Resource_3bcy5"]
+script = ExtResource("1_6wk5m")
+CATEGORY = Array[Color]([Color(0.00784314, 0.0235294, 0.117647, 1), Color(0.0392157, 0.0117647, 0.156863, 1), Color(0.0470588, 0, 0.0862745, 1)])
+
+[resource]
+script = ExtResource("1_f05ph")
+PALETTE = Array[ExtResource("1_6wk5m")]([SubResource("Resource_xtw40"), SubResource("Resource_xc20p"), SubResource("Resource_3bcy5")])

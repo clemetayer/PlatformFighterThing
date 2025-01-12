@@ -1,0 +1,12 @@
+#0DF1D1 Aqua
+#0DD8F1 Aqua blue
+#0D9FF1 Azure
+#0D66F1 Azul
+#0D2DF1 Vibrant blue
+#F18C0E Tangerine
+#F17B0E Pumpkin orange
+#F1690E Orange
+#F1570E Deep orange
+#02061E Midnight
+#0A0328 Midnight
+#0C0016 Black
