@@ -9,7 +9,7 @@ CATEGORY = Array[Color]([Color(0.0509804, 0.945098, 0.819608, 1), Color(0.050980
 
 [sub_resource type="Resource" id="Resource_xc20p"]
 script = ExtResource("1_6wk5m")
-CATEGORY = Array[Color]([Color(0.945098, 0.54902, 0.054902, 1), Color(0.945098, 0.482353, 0.054902, 1), Color(0.945098, 0.411765, 0.054902, 1), Color(0.945098, 0.341176, 0.054902, 1)])
+CATEGORY = Array[Color]([Color(0.945098, 0.54902, 0.054902, 1), Color(0.945098, 0.482353, 0.054902, 1), Color(0.945098, 0.411765, 0.054902, 1), Color(0.945098, 0.341176, 0.054902, 1), Color(0.94902, 0.764706, 0.541176, 1)])
 
 [sub_resource type="Resource" id="Resource_3bcy5"]
 script = ExtResource("1_6wk5m")

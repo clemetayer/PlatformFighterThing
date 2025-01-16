@@ -1,13 +1,14 @@
 shader_type canvas_item;
 
 uniform sampler2D gradient;
+uniform float speed : hint_range(0.0,50.0) = 1.0;
 
 void vertex() {
 	// Called for every vertex the material is visible on.
 }
 
 void fragment() {
-	vec2 gradient_uv_pos = vec2(sin((UV.x * UV.y + TIME)),0.0);
+	vec2 gradient_uv_pos = vec2((sin((UV.y + TIME * speed))/2.0)+0.5,0.0);
 	COLOR.rgb = texture(gradient, gradient_uv_pos).rgb;
 }
 

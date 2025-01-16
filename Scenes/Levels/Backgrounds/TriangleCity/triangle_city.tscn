@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://lpdxuv2lqgps"]
+[gd_scene load_steps=39 format=3 uid="uid://lpdxuv2lqgps"]
 
 [ext_resource type="Texture2D" uid="uid://cap5npocu52q1" path="res://Utils/white_square.png" id="1_ggh0u"]
 [ext_resource type="Texture2D" uid="uid://bw676rjnv6qlg" path="res://Misc/Particles/kenney_particle-pack/star_06.png" id="2_x7n1m"]
@@ -16,8 +16,15 @@
 [ext_resource type="Texture2D" uid="uid://d363i6juh3i5c" path="res://Misc/Krita/Backgrounds/TriangleCity/FrontBuildingsParralax2.png" id="12_pn7nm"]
 [ext_resource type="Shader" path="res://Scenes/Levels/Backgrounds/TriangleCity/front_building.gdshader" id="13_exe8t"]
 [ext_resource type="Texture2D" uid="uid://chnjkbhgay33d" path="res://Misc/Krita/Backgrounds/TriangleCity/FrontBuildingsParralax1.png" id="13_haml0"]
+[ext_resource type="Texture2D" uid="uid://bxl8m3ejamema" path="res://Misc/Krita/Backgrounds/TriangleCity/Spotlight.png" id="13_loe3g"]
 [ext_resource type="Texture2D" uid="uid://pbff5hwexnhv" path="res://Scenes/Levels/Backgrounds/TriangleCity/front_building_windows_gradient.tres" id="16_hh2qk"]
 [ext_resource type="Shader" path="res://Scenes/Levels/Backgrounds/TriangleCity/simple_outline_line2D_gradient.gdshader" id="18_20jyf"]
+[ext_resource type="Shader" path="res://Scenes/Levels/Backgrounds/TriangleCity/triangle_city_flashing_front.gdshader" id="20_qjrff"]
+[ext_resource type="Texture2D" uid="uid://ixf2l77pygj2" path="res://Misc/Krita/Backgrounds/TriangleCity/WhiteScreen.png" id="21_31mcg"]
+[ext_resource type="Texture2D" uid="uid://cfenrdrxdv1qy" path="res://Misc/Krita/Backgrounds/TriangleCity/FrontFlashingThingOutline.png" id="21_domrx"]
+[ext_resource type="Texture2D" uid="uid://cxd47bix4e8rn" path="res://Misc/Krita/Backgrounds/TriangleCity/FrontFlashingThingFill.png" id="21_fh5eu"]
+[ext_resource type="Texture2D" uid="uid://cftgwqnopkere" path="res://Scenes/Levels/Backgrounds/TriangleCity/blue_orange_gradient.tres" id="22_dht4p"]
+[ext_resource type="Texture2D" uid="uid://ckjc2dpqx2ct6" path="res://Scenes/Levels/Backgrounds/TriangleCity/flashing_front_gradient.tres" id="22_ndpau"]
 
 [sub_resource type="Gradient" id="Gradient_yk2nd"]
 offsets = PackedFloat32Array(0, 0.5, 1)
@@ -88,7 +95,23 @@ shader_parameter/windows_gradient = ExtResource("16_hh2qk")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_korjw"]
 shader = ExtResource("18_20jyf")
+shader_parameter/speed = 1.0
 shader_parameter/gradient = ExtResource("16_hh2qk")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_nd1mw"]
+shader = ExtResource("20_qjrff")
+shader_parameter/outline_texture = ExtResource("21_domrx")
+shader_parameter/fill_texture = ExtResource("21_fh5eu")
+shader_parameter/gradient = ExtResource("22_ndpau")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ydbvj"]
+shader = ExtResource("18_20jyf")
+shader_parameter/speed = 7.0
+shader_parameter/gradient = ExtResource("22_dht4p")
+
+[sub_resource type="Curve" id="Curve_y11xo"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.504902, 0.32967), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 3
 
 [node name="TriangleCity" type="Node2D"]
 
@@ -135,12 +158,24 @@ material = SubResource("ShaderMaterial_0n3df")
 scale = Vector2(3.7, 3.7)
 texture = ExtResource("5_07bvx")
 
+[node name="Line2D" type="Line2D" parent="BackLayer/BackBuildings/ParallaxBackground/BackBuildings"]
+points = PackedVector2Array(-1063, 602, -652, -109, -249, 599)
+default_color = Color(0.0509804, 0.945098, 0.819608, 1)
+
+[node name="Line2D2" type="Line2D" parent="BackLayer/BackBuildings/ParallaxBackground/BackBuildings"]
+points = PackedVector2Array(426, 602, 587, 86, 760, 604)
+default_color = Color(0.0509804, 0.945098, 0.819608, 1)
+
 [node name="BackBuildings2" type="ParallaxLayer" parent="BackLayer/BackBuildings/ParallaxBackground"]
 
 [node name="Sprite2D" type="Sprite2D" parent="BackLayer/BackBuildings/ParallaxBackground/BackBuildings2"]
 material = SubResource("ShaderMaterial_aq30b")
 scale = Vector2(3.7, 3.7)
 texture = ExtResource("6_f80j3")
+
+[node name="Line2D" type="Line2D" parent="BackLayer/BackBuildings/ParallaxBackground/BackBuildings2"]
+points = PackedVector2Array(-170, 601, 15, -382, 202, 599)
+default_color = Color(0.0509804, 0.945098, 0.819608, 1)
 
 [node name="MidLayer" type="CanvasLayer" parent="."]
 layer = -98
@@ -162,6 +197,31 @@ scale = Vector2(3.85, 3.85)
 texture = ExtResource("13_haml0")
 
 [node name="SpotLights" type="Node2D" parent="MidLayer/ParallaxBackground"]
+modulate = Color(0.94902, 0.764706, 0.541176, 1)
+
+[node name="Sprite2D" type="Sprite2D" parent="MidLayer/ParallaxBackground/SpotLights"]
+position = Vector2(-701, 142)
+rotation = -0.163081
+scale = Vector2(5, 5)
+texture = ExtResource("13_loe3g")
+
+[node name="Sprite2D2" type="Sprite2D" parent="MidLayer/ParallaxBackground/SpotLights"]
+position = Vector2(-252, 242)
+rotation = 0.179913
+scale = Vector2(2.5, 4)
+texture = ExtResource("13_loe3g")
+
+[node name="Sprite2D3" type="Sprite2D" parent="MidLayer/ParallaxBackground/SpotLights"]
+position = Vector2(280, 197)
+rotation = -0.163081
+scale = Vector2(3, 4.5)
+texture = ExtResource("13_loe3g")
+
+[node name="Sprite2D4" type="Sprite2D" parent="MidLayer/ParallaxBackground/SpotLights"]
+position = Vector2(770, 82)
+rotation = 0.263015
+scale = Vector2(4, 5.5)
+texture = ExtResource("13_loe3g")
 
 [node name="MidBuildings2" type="ParallaxLayer" parent="MidLayer/ParallaxBackground"]
 
@@ -224,8 +284,101 @@ width = 2.0
 
 [node name="SpotLights" type="Node2D" parent="FrontLayer"]
 
+[node name="Sprite2D" type="Sprite2D" parent="FrontLayer/SpotLights"]
+modulate = Color(0.1425, 0.250167, 0.95, 1)
+position = Vector2(-43, -118)
+rotation = 2.58925
+scale = Vector2(3, 6)
+texture = ExtResource("13_loe3g")
+
+[node name="Sprite2D2" type="Sprite2D" parent="FrontLayer/SpotLights"]
+modulate = Color(0.1425, 0.250167, 0.95, 1)
+position = Vector2(179, -173)
+rotation = 3.61332
+scale = Vector2(2, 5)
+texture = ExtResource("13_loe3g")
+
+[node name="Sprite2D3" type="Sprite2D" parent="FrontLayer/SpotLights"]
+modulate = Color(0.1425, 0.250167, 0.95, 1)
+position = Vector2(679, -55)
+rotation = 2.82292
+scale = Vector2(4, 6)
+texture = ExtResource("13_loe3g")
+
+[node name="Sprite2D4" type="Sprite2D" parent="FrontLayer/SpotLights"]
+modulate = Color(0.1425, 0.250167, 0.95, 1)
+position = Vector2(-699, -121)
+rotation = 3.62256
+scale = Vector2(4, 6)
+texture = ExtResource("13_loe3g")
+
 [node name="FlashingFront" type="Sprite2D" parent="FrontLayer"]
+material = SubResource("ShaderMaterial_nd1mw")
+scale = Vector2(4, 4)
+texture = ExtResource("21_31mcg")
 
 [node name="Multiple" type="Node2D" parent="."]
 
 [node name="FlashingTriangles" type="Node2D" parent="Multiple"]
+
+[node name="TriangleLayer1" type="CanvasLayer" parent="Multiple/FlashingTriangles"]
+layer = -100
+
+[node name="Node2D" type="Node2D" parent="Multiple/FlashingTriangles/TriangleLayer1"]
+
+[node name="Line2D" type="Line2D" parent="Multiple/FlashingTriangles/TriangleLayer1/Node2D"]
+material = SubResource("ShaderMaterial_ydbvj")
+points = PackedVector2Array(-450, 640, 0, -150, 450, 640)
+width = 15.0
+width_curve = SubResource("Curve_y11xo")
+
+[node name="TriangleLayer2" type="CanvasLayer" parent="Multiple/FlashingTriangles"]
+layer = -99
+
+[node name="Node2D" type="Node2D" parent="Multiple/FlashingTriangles/TriangleLayer2"]
+position = Vector2(0, -175)
+scale = Vector2(1.25, 1.25)
+
+[node name="Line2D" type="Line2D" parent="Multiple/FlashingTriangles/TriangleLayer2/Node2D"]
+material = SubResource("ShaderMaterial_ydbvj")
+points = PackedVector2Array(-450, 640, 0, -150, 450, 640)
+width = 15.0
+width_curve = SubResource("Curve_y11xo")
+
+[node name="TriangleLayer3" type="CanvasLayer" parent="Multiple/FlashingTriangles"]
+layer = -98
+
+[node name="Node2D" type="Node2D" parent="Multiple/FlashingTriangles/TriangleLayer3"]
+position = Vector2(0, -350)
+scale = Vector2(1.563, 1.563)
+
+[node name="Line2D" type="Line2D" parent="Multiple/FlashingTriangles/TriangleLayer3/Node2D"]
+material = SubResource("ShaderMaterial_ydbvj")
+points = PackedVector2Array(-450, 640, 0, -150, 450, 640)
+width = 15.0
+width_curve = SubResource("Curve_y11xo")
+
+[node name="TriangleLayer4" type="CanvasLayer" parent="Multiple/FlashingTriangles"]
+layer = -97
+
+[node name="Node2D" type="Node2D" parent="Multiple/FlashingTriangles/TriangleLayer4"]
+position = Vector2(0, -600)
+scale = Vector2(1.954, 1.954)
+
+[node name="Line2D" type="Line2D" parent="Multiple/FlashingTriangles/TriangleLayer4/Node2D"]
+material = SubResource("ShaderMaterial_ydbvj")
+points = PackedVector2Array(-450, 640, 0, -150, 450, 640)
+width = 15.0
+width_curve = SubResource("Curve_y11xo")
+
+[node name="TriangleLayer5" type="CanvasLayer" parent="Multiple/FlashingTriangles"]
+
+[node name="Node2D" type="Node2D" parent="Multiple/FlashingTriangles/TriangleLayer5"]
+position = Vector2(0, -900)
+scale = Vector2(2.443, 2.443)
+
+[node name="Line2D" type="Line2D" parent="Multiple/FlashingTriangles/TriangleLayer5/Node2D"]
+material = SubResource("ShaderMaterial_ydbvj")
+points = PackedVector2Array(-450, 640, 0, -150, 450, 640)
+width = 15.0
+width_curve = SubResource("Curve_y11xo")
