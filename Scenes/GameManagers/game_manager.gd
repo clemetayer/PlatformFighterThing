@@ -13,6 +13,7 @@ const SPRITE_PRESETS_PATH := "res://Scenes/Player/SpriteCustomizationPresets/pre
 const INPUT_PLAYER_CONFIG_PATH := "res://Scenes/Player/PlayerConfigs/input_player_config.tres"
 const RECORD_PLAYER_CONFIG_PATH := "res://Scenes/Player/PlayerConfigs/record_player_config.tres"
 const DEFAULT_LEVEL_PATH := "res://Scenes/Levels/Level1/level_1_map.tscn"
+const DEFAULT_BACKGROUND_PATH := "res://Scenes/Levels/Backgrounds/TriangleCity/triangle_city.tscn"
 
 #---- EXPORTS -----
 @export var mode := StaticUtils.GAME_TYPES.OFFLINE
@@ -91,6 +92,7 @@ func _create_player_data(config_path : String) -> PlayerConfig:
 func _create_level_data() -> LevelConfig:
 	level_data = LevelConfig.new()
 	level_data.level_path = DEFAULT_LEVEL_PATH
+	level_data.background_and_music = DEFAULT_BACKGROUND_PATH
 	return level_data
 
 func _add_player(id : int) -> void:

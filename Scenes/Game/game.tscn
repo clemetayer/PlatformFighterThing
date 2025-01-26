@@ -19,6 +19,8 @@ script = ExtResource("1_4jp85")
 
 [node name="Powerups" type="Node" parent="."]
 
+[node name="Background" type="Node" parent="."]
+
 [node name="Camera" parent="." instance=ExtResource("2_0bomf")]
 enabled = false
 

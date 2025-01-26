@@ -28,6 +28,7 @@ const BASE_LIVES_AMOUNT := 3
 @onready var onready_paths := {
 	"players": $"Players",
 	"level": $"Level",
+	"background": $"Background",
 	"camera": $"Camera",
 	"projectiles": $"Projectiles",
 	"powerups": $"Powerups"
@@ -91,6 +92,8 @@ func _add_level(level_data : LevelConfig) -> void:
 func _spawn_level(level_data : LevelConfig) -> void:
 	var level = load(level_data.level_path).instantiate()
 	onready_paths.level.add_child(level)
+	var background = load(level_data.background_and_music).instantiate()
+	onready_paths.background.add_child(background)
 
 func _clean_level() -> void:
 	for c in onready_paths.level.get_children():

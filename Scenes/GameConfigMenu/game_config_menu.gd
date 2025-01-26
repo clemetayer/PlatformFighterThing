@@ -13,8 +13,6 @@ signal start_game()
 #---- CONSTANTS -----
 const WAITING_TEXT_HOST_TEMPLATE := "[wave amp=50.0 freq=5.0 connected=1]Waiting for players, currently connected : %d [/wave] "
 const GAME_MANAGER_PATH := "res://Scenes/GameManagers/game_manager.tscn"
-const RECORD_PLAYER_CONFIG_PATH := "res://Scenes/Player/PlayerConfigs/record_player_config.tres"
-const DEFAULT_LEVEL_PATH := "res://Scenes/Levels/Level1/level_1_map.tscn"
 
 #---- EXPORTS -----
 # export(int) var EXPORT_NAME # Optionnal comment
