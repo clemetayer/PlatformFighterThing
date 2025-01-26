@@ -1,5 +1,6 @@
-[gd_scene load_steps=39 format=3 uid="uid://lpdxuv2lqgps"]
+[gd_scene load_steps=71 format=3 uid="uid://lpdxuv2lqgps"]
 
+[ext_resource type="Script" path="res://Scenes/Levels/Backgrounds/TriangleCity/triangle_city.gd" id="1_afwij"]
 [ext_resource type="Texture2D" uid="uid://cap5npocu52q1" path="res://Utils/white_square.png" id="1_ggh0u"]
 [ext_resource type="Texture2D" uid="uid://bw676rjnv6qlg" path="res://Misc/Particles/kenney_particle-pack/star_06.png" id="2_x7n1m"]
 [ext_resource type="Texture2D" uid="uid://cn3cmb7hhfgr0" path="res://Misc/Particles/kenney_particle-pack/star_02.png" id="3_yst8g"]
@@ -25,6 +26,45 @@
 [ext_resource type="Texture2D" uid="uid://cxd47bix4e8rn" path="res://Misc/Krita/Backgrounds/TriangleCity/FrontFlashingThingFill.png" id="21_fh5eu"]
 [ext_resource type="Texture2D" uid="uid://cftgwqnopkere" path="res://Scenes/Levels/Backgrounds/TriangleCity/blue_orange_gradient.tres" id="22_dht4p"]
 [ext_resource type="Texture2D" uid="uid://ckjc2dpqx2ct6" path="res://Scenes/Levels/Backgrounds/TriangleCity/flashing_front_gradient.tres" id="22_ndpau"]
+[ext_resource type="PackedScene" uid="uid://cpimiv0j0cie5" path="res://Audio/BGM/FittingTitle/fitting_title.tscn" id="26_0q70f"]
+
+[sub_resource type="Animation" id="Animation_aib28"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.0470588, 0, 0.0862745, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_wb62t"]
+resource_name = "flash"
+length = 0.15
+step = 0.01
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(0.0470588, 0, 0.0862745, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_fbude"]
+_data = {
+"RESET": SubResource("Animation_aib28"),
+"flash": SubResource("Animation_wb62t")
+}
 
 [sub_resource type="Gradient" id="Gradient_yk2nd"]
 offsets = PackedFloat32Array(0, 0.5, 1)
@@ -75,9 +115,171 @@ shader_parameter/max_velocity = 1.0
 shader_parameter/min_velocity = 0.1
 shader_parameter/gradient = ExtResource("6_p6du7")
 
+[sub_resource type="Animation" id="Animation_yss1e"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ParallaxBackground/BackBuildings/Outline:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.0509804, 0.945098, 0.819608, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ParallaxBackground/BackBuildings2/Outline:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.0509804, 0.945098, 0.819608, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_kc3k1"]
+resource_name = "flash"
+length = 0.15
+step = 0.01
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ParallaxBackground/BackBuildings/Outline:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0.0509804, 0.945098, 0.819608, 1), Color(0.0509804, 0.945098, 0.819608, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ParallaxBackground/BackBuildings2/Outline:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.15),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0.0509804, 0.945098, 0.819608, 1), Color(0.0509804, 0.945098, 0.819608, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_tajur"]
+_data = {
+"RESET": SubResource("Animation_yss1e"),
+"flash": SubResource("Animation_kc3k1")
+}
+
+[sub_resource type="Animation" id="Animation_herbj"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Glow:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(3.83681, 2.28086)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Glow:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 239.5)]
+}
+
+[sub_resource type="Animation" id="Animation_qydn2"]
+resource_name = "grow"
+length = 0.25
+step = 0.01
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Glow:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(3.837, 3.5), Vector2(3.83681, 2.28086)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Glow:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 40), Vector2(0, 239.5)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_8x807"]
+_data = {
+"RESET": SubResource("Animation_herbj"),
+"grow": SubResource("Animation_qydn2")
+}
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_unwm1"]
 shader = ExtResource("13_exe8t")
 shader_parameter/gradient = ExtResource("11_rbx0n")
+
+[sub_resource type="Animation" id="Animation_q8pwd"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SpotLights:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.94902, 0.764706, 0.541176, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_3jmnh"]
+resource_name = "flash"
+length = 0.2
+step = 0.01
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SpotLights:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0.94902, 0.764706, 0.541176, 1), Color(0.94902, 0.764706, 0.541176, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_sgir8"]
+_data = {
+"RESET": SubResource("Animation_q8pwd"),
+"flash": SubResource("Animation_3jmnh")
+}
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_lrys8"]
 shader = ExtResource("13_exe8t")
@@ -98,11 +300,359 @@ shader = ExtResource("18_20jyf")
 shader_parameter/speed = 1.0
 shader_parameter/gradient = ExtResource("16_hh2qk")
 
+[sub_resource type="Animation" id="Animation_gurwl"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("FrontBuildings/Building/Line2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("FrontBuildings2/Building/Line2D:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("FrontBuildings3/Building/Line2D:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_y8v50"]
+resource_name = "flash"
+length = 0.07
+step = 0.01
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("FrontBuildings/Building/Line2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.07),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("FrontBuildings2/Building/Line2D:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.07),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("FrontBuildings3/Building/Line2D:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.07),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_h0hff"]
+_data = {
+"RESET": SubResource("Animation_gurwl"),
+"flash": SubResource("Animation_y8v50")
+}
+
+[sub_resource type="Animation" id="Animation_f8lxd"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SpotLights:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_sqrbd"]
+resource_name = "flash"
+length = 0.2
+step = 0.01
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SpotLights:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0.141176, 0.25098, 0.94902, 1), Color(0.141176, 0.25098, 0.94902, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_o5out"]
+_data = {
+"RESET": SubResource("Animation_f8lxd"),
+"flash": SubResource("Animation_sqrbd")
+}
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_nd1mw"]
 shader = ExtResource("20_qjrff")
 shader_parameter/outline_texture = ExtResource("21_domrx")
 shader_parameter/fill_texture = ExtResource("21_fh5eu")
 shader_parameter/gradient = ExtResource("22_ndpau")
+
+[sub_resource type="Animation" id="Animation_bmds7"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("FlashingFront:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_v3n2t"]
+resource_name = "flash"
+length = 0.05
+step = 0.01
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("FlashingFront:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_aju10"]
+_data = {
+"RESET": SubResource("Animation_bmds7"),
+"flash": SubResource("Animation_v3n2t")
+}
+
+[sub_resource type="Animation" id="Animation_8osxw"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TriangleLayer0/Node2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("TriangleLayer3/Node2D:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_fdw2y"]
+resource_name = "flash"
+length = 0.25
+step = 0.01
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TriangleLayer0/Node2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("TriangleLayer3/Node2D:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_juug4"]
+_data = {
+"RESET": SubResource("Animation_8osxw"),
+"flash": SubResource("Animation_fdw2y")
+}
+
+[sub_resource type="Animation" id="Animation_1l20g"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TriangleLayer1/Node2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("TriangleLayer4/Node2D:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_4l3ro"]
+resource_name = "flash"
+length = 0.25
+step = 0.01
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TriangleLayer1/Node2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("TriangleLayer4/Node2D:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_6ugj5"]
+_data = {
+"RESET": SubResource("Animation_1l20g"),
+"flash": SubResource("Animation_4l3ro")
+}
+
+[sub_resource type="Animation" id="Animation_bok86"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TriangleLayer2/Node2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("TriangleLayer5/Node2D:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_0w5yj"]
+resource_name = "flash"
+length = 0.25
+step = 0.01
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TriangleLayer2/Node2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("TriangleLayer5/Node2D:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_phr5t"]
+_data = {
+"RESET": SubResource("Animation_bok86"),
+"flash": SubResource("Animation_0w5yj")
+}
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ydbvj"]
 shader = ExtResource("18_20jyf")
@@ -114,14 +664,24 @@ _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.504902, 0.32967), 0.0, 0.0, 0,
 point_count = 3
 
 [node name="TriangleCity" type="Node2D"]
+script = ExtResource("1_afwij")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(0.5, 0.5)
 
 [node name="BackLayer" type="CanvasLayer" parent="."]
 layer = -100
+follow_viewport_enabled = true
 
 [node name="Background" type="Sprite2D" parent="BackLayer"]
 modulate = Color(0.0470588, 0, 0.0862745, 1)
 scale = Vector2(22, 12)
 texture = ExtResource("1_ggh0u")
+
+[node name="BackgroundAnims" type="AnimationPlayer" parent="BackLayer/Background"]
+libraries = {
+"": SubResource("AnimationLibrary_fbude")
+}
 
 [node name="Stars" type="Node2D" parent="BackLayer"]
 
@@ -149,6 +709,7 @@ texture = ExtResource("4_s2jg8")
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="BackLayer/BackBuildings"]
 layer = -99
+follow_viewport_enabled = true
 scroll_ignore_camera_zoom = true
 
 [node name="BackBuildings" type="ParallaxLayer" parent="BackLayer/BackBuildings/ParallaxBackground"]
@@ -158,13 +719,14 @@ material = SubResource("ShaderMaterial_0n3df")
 scale = Vector2(3.7, 3.7)
 texture = ExtResource("5_07bvx")
 
-[node name="Line2D" type="Line2D" parent="BackLayer/BackBuildings/ParallaxBackground/BackBuildings"]
-points = PackedVector2Array(-1063, 602, -652, -109, -249, 599)
-default_color = Color(0.0509804, 0.945098, 0.819608, 1)
+[node name="Outline" type="Node2D" parent="BackLayer/BackBuildings/ParallaxBackground/BackBuildings"]
+modulate = Color(0.0509804, 0.945098, 0.819608, 0)
 
-[node name="Line2D2" type="Line2D" parent="BackLayer/BackBuildings/ParallaxBackground/BackBuildings"]
+[node name="Line2D" type="Line2D" parent="BackLayer/BackBuildings/ParallaxBackground/BackBuildings/Outline"]
+points = PackedVector2Array(-1063, 602, -652, -109, -249, 599)
+
+[node name="Line2D2" type="Line2D" parent="BackLayer/BackBuildings/ParallaxBackground/BackBuildings/Outline"]
 points = PackedVector2Array(426, 602, 587, 86, 760, 604)
-default_color = Color(0.0509804, 0.945098, 0.819608, 1)
 
 [node name="BackBuildings2" type="ParallaxLayer" parent="BackLayer/BackBuildings/ParallaxBackground"]
 
@@ -173,12 +735,20 @@ material = SubResource("ShaderMaterial_aq30b")
 scale = Vector2(3.7, 3.7)
 texture = ExtResource("6_f80j3")
 
-[node name="Line2D" type="Line2D" parent="BackLayer/BackBuildings/ParallaxBackground/BackBuildings2"]
+[node name="Outline" type="Node2D" parent="BackLayer/BackBuildings/ParallaxBackground/BackBuildings2"]
+modulate = Color(0.0509804, 0.945098, 0.819608, 0)
+
+[node name="Line2D" type="Line2D" parent="BackLayer/BackBuildings/ParallaxBackground/BackBuildings2/Outline"]
 points = PackedVector2Array(-170, 601, 15, -382, 202, 599)
-default_color = Color(0.0509804, 0.945098, 0.819608, 1)
+
+[node name="BackBuildingsAnims" type="AnimationPlayer" parent="BackLayer/BackBuildings"]
+libraries = {
+"": SubResource("AnimationLibrary_tajur")
+}
 
 [node name="MidLayer" type="CanvasLayer" parent="."]
 layer = -98
+follow_viewport_enabled = true
 
 [node name="Glow" type="Sprite2D" parent="MidLayer"]
 modulate = Color(0.945098, 0.54902, 0.054902, 1)
@@ -186,8 +756,14 @@ position = Vector2(0, 239.5)
 scale = Vector2(3.83681, 2.28086)
 texture = ExtResource("9_t6rkw")
 
+[node name="GlowAnims" type="AnimationPlayer" parent="MidLayer"]
+libraries = {
+"": SubResource("AnimationLibrary_8x807")
+}
+
 [node name="ParallaxBackground" type="ParallaxBackground" parent="MidLayer"]
 layer = -98
+follow_viewport_enabled = true
 
 [node name="MidBuildings1" type="ParallaxLayer" parent="MidLayer/ParallaxBackground"]
 
@@ -197,7 +773,7 @@ scale = Vector2(3.85, 3.85)
 texture = ExtResource("13_haml0")
 
 [node name="SpotLights" type="Node2D" parent="MidLayer/ParallaxBackground"]
-modulate = Color(0.94902, 0.764706, 0.541176, 1)
+modulate = Color(0.94902, 0.764706, 0.541176, 0)
 
 [node name="Sprite2D" type="Sprite2D" parent="MidLayer/ParallaxBackground/SpotLights"]
 position = Vector2(-701, 142)
@@ -223,6 +799,11 @@ rotation = 0.263015
 scale = Vector2(4, 5.5)
 texture = ExtResource("13_loe3g")
 
+[node name="SpotLightAnims" type="AnimationPlayer" parent="MidLayer/ParallaxBackground"]
+libraries = {
+"": SubResource("AnimationLibrary_sgir8")
+}
+
 [node name="MidBuildings2" type="ParallaxLayer" parent="MidLayer/ParallaxBackground"]
 
 [node name="Sprite2D" type="Sprite2D" parent="MidLayer/ParallaxBackground/MidBuildings2"]
@@ -233,9 +814,11 @@ texture = ExtResource("12_pn7nm")
 
 [node name="FrontLayer" type="CanvasLayer" parent="."]
 layer = -95
+follow_viewport_enabled = true
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="FrontLayer"]
 layer = -97
+follow_viewport_enabled = true
 
 [node name="FrontBuildings" type="ParallaxLayer" parent="FrontLayer/ParallaxBackground"]
 
@@ -248,6 +831,7 @@ material = SubResource("ShaderMaterial_vxc7m")
 texture = ExtResource("10_nib2r")
 
 [node name="Line2D" type="Line2D" parent="FrontLayer/ParallaxBackground/FrontBuildings/Building"]
+modulate = Color(1, 1, 1, 0)
 material = SubResource("ShaderMaterial_korjw")
 points = PackedVector2Array(-105.667, 161.333, 0, 9.66667, 107.333, 162)
 width = 2.0
@@ -263,6 +847,7 @@ material = SubResource("ShaderMaterial_vxc7m")
 texture = ExtResource("10_nib2r")
 
 [node name="Line2D" type="Line2D" parent="FrontLayer/ParallaxBackground/FrontBuildings2/Building"]
+modulate = Color(1, 1, 1, 0)
 material = SubResource("ShaderMaterial_korjw")
 points = PackedVector2Array(-105.667, 161.333, 0, 9.66667, 107.333, 162)
 width = 2.0
@@ -278,53 +863,99 @@ material = SubResource("ShaderMaterial_vxc7m")
 texture = ExtResource("10_nib2r")
 
 [node name="Line2D" type="Line2D" parent="FrontLayer/ParallaxBackground/FrontBuildings3/Building"]
+modulate = Color(1, 1, 1, 0)
 material = SubResource("ShaderMaterial_korjw")
 points = PackedVector2Array(-105.667, 161.333, 0, 9.66667, 107.333, 162)
 width = 2.0
 
+[node name="FrontBuildingsAnims" type="AnimationPlayer" parent="FrontLayer/ParallaxBackground"]
+libraries = {
+"": SubResource("AnimationLibrary_h0hff")
+}
+
 [node name="SpotLights" type="Node2D" parent="FrontLayer"]
+modulate = Color(1, 1, 1, 0)
 
 [node name="Sprite2D" type="Sprite2D" parent="FrontLayer/SpotLights"]
-modulate = Color(0.1425, 0.250167, 0.95, 1)
 position = Vector2(-43, -118)
 rotation = 2.58925
 scale = Vector2(3, 6)
 texture = ExtResource("13_loe3g")
 
 [node name="Sprite2D2" type="Sprite2D" parent="FrontLayer/SpotLights"]
-modulate = Color(0.1425, 0.250167, 0.95, 1)
 position = Vector2(179, -173)
 rotation = 3.61332
 scale = Vector2(2, 5)
 texture = ExtResource("13_loe3g")
 
 [node name="Sprite2D3" type="Sprite2D" parent="FrontLayer/SpotLights"]
-modulate = Color(0.1425, 0.250167, 0.95, 1)
 position = Vector2(679, -55)
 rotation = 2.82292
 scale = Vector2(4, 6)
 texture = ExtResource("13_loe3g")
 
 [node name="Sprite2D4" type="Sprite2D" parent="FrontLayer/SpotLights"]
-modulate = Color(0.1425, 0.250167, 0.95, 1)
 position = Vector2(-699, -121)
 rotation = 3.62256
 scale = Vector2(4, 6)
 texture = ExtResource("13_loe3g")
 
+[node name="SpotlightsAnims" type="AnimationPlayer" parent="FrontLayer"]
+libraries = {
+"": SubResource("AnimationLibrary_o5out")
+}
+
 [node name="FlashingFront" type="Sprite2D" parent="FrontLayer"]
+visible = false
 material = SubResource("ShaderMaterial_nd1mw")
 scale = Vector2(4, 4)
 texture = ExtResource("21_31mcg")
+
+[node name="FlashingFrontAnims" type="AnimationPlayer" parent="FrontLayer"]
+libraries = {
+"": SubResource("AnimationLibrary_aju10")
+}
 
 [node name="Multiple" type="Node2D" parent="."]
 
 [node name="FlashingTriangles" type="Node2D" parent="Multiple"]
 
+[node name="TriangleGroup1" type="AnimationPlayer" parent="Multiple/FlashingTriangles"]
+libraries = {
+"": SubResource("AnimationLibrary_juug4")
+}
+
+[node name="TriangleGroup2" type="AnimationPlayer" parent="Multiple/FlashingTriangles"]
+libraries = {
+"": SubResource("AnimationLibrary_6ugj5")
+}
+
+[node name="TriangleGroup3" type="AnimationPlayer" parent="Multiple/FlashingTriangles"]
+libraries = {
+"": SubResource("AnimationLibrary_phr5t")
+}
+
+[node name="TriangleLayer0" type="CanvasLayer" parent="Multiple/FlashingTriangles"]
+layer = -100
+follow_viewport_enabled = true
+
+[node name="Node2D" type="Node2D" parent="Multiple/FlashingTriangles/TriangleLayer0"]
+modulate = Color(1, 1, 1, 0)
+position = Vector2(0, 150)
+scale = Vector2(0.75, 0.75)
+
+[node name="Line2D" type="Line2D" parent="Multiple/FlashingTriangles/TriangleLayer0/Node2D"]
+material = SubResource("ShaderMaterial_ydbvj")
+points = PackedVector2Array(-450, 640, 0, -150, 450, 640)
+width = 15.0
+width_curve = SubResource("Curve_y11xo")
+
 [node name="TriangleLayer1" type="CanvasLayer" parent="Multiple/FlashingTriangles"]
 layer = -100
+follow_viewport_enabled = true
 
 [node name="Node2D" type="Node2D" parent="Multiple/FlashingTriangles/TriangleLayer1"]
+modulate = Color(1, 1, 1, 0)
 
 [node name="Line2D" type="Line2D" parent="Multiple/FlashingTriangles/TriangleLayer1/Node2D"]
 material = SubResource("ShaderMaterial_ydbvj")
@@ -334,8 +965,10 @@ width_curve = SubResource("Curve_y11xo")
 
 [node name="TriangleLayer2" type="CanvasLayer" parent="Multiple/FlashingTriangles"]
 layer = -99
+follow_viewport_enabled = true
 
 [node name="Node2D" type="Node2D" parent="Multiple/FlashingTriangles/TriangleLayer2"]
+modulate = Color(1, 1, 1, 0)
 position = Vector2(0, -175)
 scale = Vector2(1.25, 1.25)
 
@@ -347,8 +980,10 @@ width_curve = SubResource("Curve_y11xo")
 
 [node name="TriangleLayer3" type="CanvasLayer" parent="Multiple/FlashingTriangles"]
 layer = -98
+follow_viewport_enabled = true
 
 [node name="Node2D" type="Node2D" parent="Multiple/FlashingTriangles/TriangleLayer3"]
+modulate = Color(1, 1, 1, 0)
 position = Vector2(0, -350)
 scale = Vector2(1.563, 1.563)
 
@@ -360,8 +995,10 @@ width_curve = SubResource("Curve_y11xo")
 
 [node name="TriangleLayer4" type="CanvasLayer" parent="Multiple/FlashingTriangles"]
 layer = -97
+follow_viewport_enabled = true
 
 [node name="Node2D" type="Node2D" parent="Multiple/FlashingTriangles/TriangleLayer4"]
+modulate = Color(1, 1, 1, 0)
 position = Vector2(0, -600)
 scale = Vector2(1.954, 1.954)
 
@@ -372,8 +1009,10 @@ width = 15.0
 width_curve = SubResource("Curve_y11xo")
 
 [node name="TriangleLayer5" type="CanvasLayer" parent="Multiple/FlashingTriangles"]
+follow_viewport_enabled = true
 
 [node name="Node2D" type="Node2D" parent="Multiple/FlashingTriangles/TriangleLayer5"]
+modulate = Color(1, 1, 1, 0)
 position = Vector2(0, -900)
 scale = Vector2(2.443, 2.443)
 
@@ -382,3 +1021,16 @@ material = SubResource("ShaderMaterial_ydbvj")
 points = PackedVector2Array(-450, 640, 0, -150, 450, 640)
 width = 15.0
 width_curve = SubResource("Curve_y11xo")
+
+[node name="FittingTitle" parent="." instance=ExtResource("26_0q70f")]
+
+[connection signal="arpeggio" from="FittingTitle" to="." method="_on_fitting_title_arpeggio"]
+[connection signal="c_hat" from="FittingTitle" to="." method="_on_fitting_title_c_hat"]
+[connection signal="drone_1" from="FittingTitle" to="." method="_on_fitting_title_drone_1"]
+[connection signal="drone_2" from="FittingTitle" to="." method="_on_fitting_title_drone_2"]
+[connection signal="kick" from="FittingTitle" to="." method="_on_fitting_title_kick"]
+[connection signal="lead" from="FittingTitle" to="." method="_on_fitting_title_lead"]
+[connection signal="o_hat" from="FittingTitle" to="." method="_on_fitting_title_o_hat"]
+[connection signal="piano" from="FittingTitle" to="." method="_on_fitting_title_piano"]
+[connection signal="pluck_string" from="FittingTitle" to="." method="_on_fitting_title_pluck_string"]
+[connection signal="snare" from="FittingTitle" to="." method="_on_fitting_title_snare"]
