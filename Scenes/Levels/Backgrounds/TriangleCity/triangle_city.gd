@@ -1,6 +1,6 @@
 extends Node2D
 # triangle city background management 
-
+# TODO : Paths after rearranging the layers 
 # TODO : Make the whole thing scroll and scale correctly depending on the camera
 # TODO : fix the piano and drone 2 trigger timing not being quite right
 # TODO : Add something for when the chorus hits (instead of the pluck string that is a bit too much in the background)
@@ -30,17 +30,17 @@ var _piano_cnt := 0
 #==== ONREADY ====
 @onready var onready_paths := {
 	"animation": {
-		"background": $"BackLayer/Background/BackgroundAnims",
-		"back_buildings": $"BackLayer/BackBuildings/BackBuildingsAnims",
-		"glow": $"MidLayer/GlowAnims",
-		"spotlights_mid": $"MidLayer/ParallaxBackground/SpotLightAnims",
-		"front_buildings": $"FrontLayer/ParallaxBackground/FrontBuildingsAnims",
-		"spotlights_front": $"FrontLayer/SpotlightsAnims",
-		"flashing_front": $"FrontLayer/FlashingFrontAnims",
+		"background": $"BackLayer/Static/Background/BackgroundAnims",
+		"back_buildings": $"BackLayer/BackBuildingsAnims",
+		"glow": $"MidLayer/Static/GlowAnims",
+		"spotlights_mid": $"MidLayer/Static/SpotlightsAnims",
+		"front_buildings": $"FrontLayer/FrontBuildingsAnims",
+		"spotlights_front": $"FrontLayer/Static/SpotLightsAnims",
+		"flashing_front": $"ForegroundLayer/Static/FlashingFrontAnim",
 		"triangle_group": [
-			$"Multiple/FlashingTriangles/TriangleGroup1", 
-			$"Multiple/FlashingTriangles/TriangleGroup2", 
-			$"Multiple/FlashingTriangles/TriangleGroup3"
+			$"TriangleGroup1", 
+			$"TriangleGroup2", 
+			$"TriangleGroup3"
 		]
 	}
 }
