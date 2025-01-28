@@ -1,7 +1,7 @@
 # tool
 extends ParallaxBackground
 # class_name Class
-# docstring
+# Attempts to decorellate the camera movement from the parallax background movement
 
 ##### SIGNALS #####
 # Node signals
@@ -33,12 +33,14 @@ func _init():
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	# These lines will disconnect the parallax movement from the camera movement
 	for group in get_groups():
 		if group.begins_with("__cameras"):
 			remove_from_group(group)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame. Remove the "_" to use it.
 func _process(delta):
+	# Move the parallax manually if right is pressed
 	if(Input.is_action_pressed("right")):
 		scroll_base_offset.x += delta * 200.0
 
