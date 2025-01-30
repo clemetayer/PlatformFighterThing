@@ -1,7 +1,5 @@
 extends Node2D
 # triangle city background management 
-# TODO : Paths after rearranging the layers 
-# TODO : Make the whole thing scroll and scale correctly depending on the camera
 # TODO : fix the piano and drone 2 trigger timing not being quite right
 # TODO : Add something for when the chorus hits (instead of the pluck string that is a bit too much in the background)
 # TODO : Same with arpeggios
@@ -15,7 +13,7 @@ extends Node2D
 
 ##### VARIABLES #####
 #---- CONSTANTS -----
-# const constant := 10 # Optionnal comment
+const SCROLL_SPEED = 500
 
 #---- EXPORTS -----
 # export(int) var EXPORT_NAME # Optionnal comment
@@ -42,6 +40,11 @@ var _piano_cnt := 0
 			$"TriangleGroup2", 
 			$"TriangleGroup3"
 		]
+	},
+	"layers": {
+		"back":$"BackLayer",
+		"mid":$"MidLayer",
+		"front":$"FrontLayer"
 	}
 }
 
@@ -52,11 +55,15 @@ func _init():
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass
+	_parallax_ignore_camera(onready_paths.layers.back)
+	_parallax_ignore_camera(onready_paths.layers.mid)
+	_parallax_ignore_camera(onready_paths.layers.front)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame. Remove the "_" to use it.
-func _process(_delta):
-	pass
+func _process(delta):
+	onready_paths.layers.back.scroll_base_offset.x = onready_paths.layers.back.scroll_base_offset.x - SCROLL_SPEED * delta
+	onready_paths.layers.mid.scroll_base_offset.x = onready_paths.layers.mid.scroll_base_offset.x - SCROLL_SPEED * delta
+	onready_paths.layers.front.scroll_base_offset.x = onready_paths.layers.front.scroll_base_offset.x - SCROLL_SPEED * delta
 
 ##### PUBLIC METHODS #####
 # Methods that are intended to be "visible" to other nodes or scripts
@@ -64,9 +71,10 @@ func _process(_delta):
 #     pass
 
 ##### PROTECTED METHODS #####
-# Methods that are intended to be used exclusively by this scripts
-# func _private_method(arg):
-#     pass
+func _parallax_ignore_camera(parallax : ParallaxBackground) -> void:
+	for group in parallax.get_groups():
+		if group.begins_with("__cameras"):
+			parallax.remove_from_group(group)
 
 ##### SIGNAL MANAGEMENT #####
 func _on_fitting_title_arpeggio() -> void:

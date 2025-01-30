@@ -15,7 +15,7 @@ const SCREEN_SHAKE_PRESETS := {
 	CameraEffects.CAMERA_SHAKE_INTENSITY.HIGH: "res://Scenes/Camera/ScreenShakePreset/high.tres"
 }
 const ZOOM_OFFSET := Vector2i.ONE * 100
-const ZOOM_BASE_MULTIPLIER := 0.75 # change this to correct the zoom or dezoom
+const ZOOM_BASE_MULTIPLIER := 0.5 # change this to correct the zoom or dezoom
 
 #---- EXPORTS -----
 @export var PLAYERS_ROOT_PATH : NodePath = "../Players"

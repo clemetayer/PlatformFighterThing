@@ -35,6 +35,10 @@ Shaker="*res://addons/shaker/src/Shaker.gd"
 SceneUtils="*res://Utils/scene_utils.gd"
 RuntimeUtils="*res://Utils/runtime_utils.gd"
 
+[display]
+
+window/stretch/mode="canvas_items"
+
 [editor]
 
 script/templates_search_path="res://Utils/ScriptTemplates"
