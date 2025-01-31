@@ -1111,7 +1111,7 @@ libraries = {
 }
 
 [node name="ForegroundLayer" type="ParallaxBackground" parent="."]
-layer = 2
+layer = 10
 scroll_ignore_camera_zoom = true
 
 [node name="Static" type="ParallaxLayer" parent="ForegroundLayer"]
@@ -1131,7 +1131,6 @@ libraries = {
 }
 
 [node name="FlashingTriangle5" type="Node2D" parent="ForegroundLayer/Static"]
-visible = false
 modulate = Color(1, 1, 1, 0)
 
 [node name="Line2D" type="Line2D" parent="ForegroundLayer/Static/FlashingTriangle5"]

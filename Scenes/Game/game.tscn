@@ -11,13 +11,17 @@ properties/0/replication_mode = 1
 [node name="Game" type="Node" groups=["game_root"]]
 script = ExtResource("1_4jp85")
 
-[node name="Players" type="Node" parent="."]
+[node name="Players" type="CanvasLayer" parent="."]
+follow_viewport_enabled = true
 
-[node name="Level" type="Node" parent="."]
+[node name="Level" type="CanvasLayer" parent="."]
+follow_viewport_enabled = true
 
-[node name="Projectiles" type="Node" parent="."]
+[node name="Projectiles" type="CanvasLayer" parent="."]
+follow_viewport_enabled = true
 
-[node name="Powerups" type="Node" parent="."]
+[node name="Powerups" type="CanvasLayer" parent="."]
+follow_viewport_enabled = true
 
 [node name="Background" type="Node" parent="."]
 
