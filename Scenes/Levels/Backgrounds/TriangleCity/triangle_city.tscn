@@ -1,4 +1,4 @@
-[gd_scene load_steps=71 format=3 uid="uid://lpdxuv2lqgps"]
+[gd_scene load_steps=81 format=3 uid="uid://lpdxuv2lqgps"]
 
 [ext_resource type="Script" path="res://Scenes/Levels/Backgrounds/TriangleCity/triangle_city.gd" id="1_afwij"]
 [ext_resource type="Texture2D" uid="uid://cap5npocu52q1" path="res://Utils/white_square.png" id="1_ggh0u"]
@@ -9,12 +9,14 @@
 [ext_resource type="Texture2D" uid="uid://bjxnjadxo2mu4" path="res://Misc/Krita/Backgrounds/TriangleCity/BackBuildingsParralax1.png" id="5_07bvx"]
 [ext_resource type="Texture2D" uid="uid://dobvdfqgbgw6h" path="res://Misc/Krita/Backgrounds/TriangleCity/BackBuildingsParralax2.png" id="6_f80j3"]
 [ext_resource type="Texture2D" uid="uid://bh2inx5123ibo" path="res://Scenes/Levels/Backgrounds/TriangleCity/background_buildings_gradient.tres" id="6_p6du7"]
+[ext_resource type="Texture2D" uid="uid://ca1tnodjwjtd3" path="res://Misc/Particles/kenney_particle-pack/trace_07.png" id="8_0jbii"]
 [ext_resource type="Texture2D" uid="uid://k2asvg1qerfd" path="res://Misc/Krita/Backgrounds/TriangleCity/Glow.png" id="9_t6rkw"]
 [ext_resource type="Shader" path="res://Scenes/Levels/Backgrounds/TriangleCity/midbuilding.gdshader" id="10_ej3hh"]
 [ext_resource type="Texture2D" uid="uid://bs2ktebupliw5" path="res://Misc/Krita/Backgrounds/TriangleCity/MidBuildingParralaxAbstract.png" id="10_nib2r"]
 [ext_resource type="Texture2D" uid="uid://nmt8ivogqxd4" path="res://Misc/Krita/Backgrounds/TriangleCity/TriangleWindow.png" id="11_3c8pa"]
 [ext_resource type="Texture2D" uid="uid://codu13d8tec2n" path="res://Scenes/Levels/Backgrounds/TriangleCity/mid_buildings_gradient.tres" id="11_rbx0n"]
 [ext_resource type="Texture2D" uid="uid://d363i6juh3i5c" path="res://Misc/Krita/Backgrounds/TriangleCity/FrontBuildingsParralax2.png" id="12_pn7nm"]
+[ext_resource type="Shader" path="res://Scenes/Levels/Backgrounds/TriangleCity/smoothstep_triangle_wave.gdshader" id="13_c7604"]
 [ext_resource type="Shader" path="res://Scenes/Levels/Backgrounds/TriangleCity/front_building.gdshader" id="13_exe8t"]
 [ext_resource type="Texture2D" uid="uid://chnjkbhgay33d" path="res://Misc/Krita/Backgrounds/TriangleCity/FrontBuildingsParralax1.png" id="13_haml0"]
 [ext_resource type="Texture2D" uid="uid://bxl8m3ejamema" path="res://Misc/Krita/Backgrounds/TriangleCity/Spotlight.png" id="13_loe3g"]
@@ -27,6 +29,7 @@
 [ext_resource type="Texture2D" uid="uid://cftgwqnopkere" path="res://Scenes/Levels/Backgrounds/TriangleCity/blue_orange_gradient.tres" id="22_dht4p"]
 [ext_resource type="Texture2D" uid="uid://ckjc2dpqx2ct6" path="res://Scenes/Levels/Backgrounds/TriangleCity/flashing_front_gradient.tres" id="22_ndpau"]
 [ext_resource type="PackedScene" uid="uid://cpimiv0j0cie5" path="res://Audio/BGM/FittingTitle/fitting_title.tscn" id="26_0q70f"]
+[ext_resource type="Script" path="res://Scenes/Levels/Backgrounds/TriangleCity/lead.gd" id="28_gp0ot"]
 
 [sub_resource type="Animation" id="Animation_aib28"]
 length = 0.001
@@ -101,6 +104,29 @@ shader_parameter/gradient = ExtResource("22_dht4p")
 [sub_resource type="Curve" id="Curve_y11xo"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.504902, 0.32967), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
 point_count = 3
+
+[sub_resource type="Gradient" id="Gradient_nnk7u"]
+colors = PackedColorArray(0.0509804, 0.945098, 0.819608, 1, 0.0509804, 0.176471, 0.945098, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_nym3h"]
+gradient = SubResource("Gradient_nnk7u")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_n378v"]
+particle_flag_disable_z = true
+emission_shape_scale = Vector3(768, 0.1, 1)
+emission_shape = 3
+emission_box_extents = Vector3(1, 1, 1)
+angle_min = 45.0
+angle_max = 45.0
+direction = Vector3(1, 1, 1)
+spread = 0.0
+flatness = 1.0
+initial_velocity_min = 750.0
+initial_velocity_max = 1000.0
+gravity = Vector3(0, 0, 0)
+scale_min = 0.15
+scale_max = 0.3
+color_ramp = SubResource("GradientTexture1D_nym3h")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_0n3df"]
 shader = ExtResource("5_5osun")
@@ -184,6 +210,48 @@ tracks/1/keys = {
 _data = {
 "RESET": SubResource("Animation_tvhrd"),
 "flash": SubResource("Animation_cy2r2")
+}
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_a0nnk"]
+shader = ExtResource("13_c7604")
+shader_parameter/color = Color(0.0509804, 0.4, 0.945098, 1)
+
+[sub_resource type="Animation" id="Animation_ebdaf"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_sad7a"]
+resource_name = "fade_in"
+length = 0.4
+step = 0.01
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.4),
+"transitions": PackedFloat32Array(1, 3, 3.73213),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0.501961), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_34fi0"]
+_data = {
+"RESET": SubResource("Animation_ebdaf"),
+"fade_in": SubResource("Animation_sad7a")
 }
 
 [sub_resource type="Animation" id="Animation_7nyrk"]
@@ -750,11 +818,20 @@ width = 5.0
 width_curve = SubResource("Curve_y11xo")
 
 [node name="TestBorders" type="Node2D" parent="BackLayer/Static"]
+editor_description = "unused. To show the limits of the screen. Usefull for debugging"
 visible = false
 
 [node name="Line2D" type="Line2D" parent="BackLayer/Static/TestBorders"]
 points = PackedVector2Array(2, 650, 2, 0, 1151, 0, 1153, 650, 2, 650, 1151, 0, 1153, 650, 2, 0)
 default_color = Color(1, 0, 0, 1)
+
+[node name="ArpeggiosParticles" type="GPUParticles2D" parent="BackLayer/Static"]
+position = Vector2(576, 0)
+emitting = false
+amount = 16
+process_material = SubResource("ParticleProcessMaterial_n378v")
+texture = ExtResource("8_0jbii")
+lifetime = 1.88
 
 [node name="BackBuildings" type="ParallaxLayer" parent="BackLayer"]
 motion_scale = Vector2(0.01, 0)
@@ -800,11 +877,25 @@ libraries = {
 }
 
 [node name="MidLayer" type="ParallaxBackground" parent="."]
+layer = -99
 scroll_ignore_camera_zoom = true
 
 [node name="Static" type="ParallaxLayer" parent="MidLayer"]
 motion_scale = Vector2(0, 0)
 motion_mirroring = Vector2(1152, 0)
+
+[node name="SawWave" type="Sprite2D" parent="MidLayer/Static"]
+visible = false
+modulate = Color(1, 1, 1, 0)
+material = SubResource("ShaderMaterial_a0nnk")
+position = Vector2(576, 324)
+scale = Vector2(2, 2)
+texture = ExtResource("21_31mcg")
+
+[node name="SawWaveAnims" type="AnimationPlayer" parent="MidLayer/Static/SawWave"]
+libraries = {
+"": SubResource("AnimationLibrary_34fi0")
+}
 
 [node name="Glow" type="Sprite2D" parent="MidLayer/Static"]
 modulate = Color(0.945098, 0.54902, 0.054902, 1)
@@ -869,6 +960,10 @@ points = PackedVector2Array(234, 650, 576, -36, 918, 650)
 width = 8.0
 width_curve = SubResource("Curve_y11xo")
 
+[node name="Lead" type="Node2D" parent="MidLayer/Static"]
+script = ExtResource("28_gp0ot")
+GRADIENT = ExtResource("22_dht4p")
+
 [node name="MidBuildings1" type="ParallaxLayer" parent="MidLayer"]
 motion_scale = Vector2(0.1, 0)
 motion_mirroring = Vector2(1152, 0)
@@ -890,6 +985,7 @@ scale = Vector2(2, 2)
 texture = ExtResource("12_pn7nm")
 
 [node name="FrontLayer" type="ParallaxBackground" parent="."]
+layer = -98
 scroll_ignore_camera_zoom = true
 
 [node name="Static" type="ParallaxLayer" parent="FrontLayer"]
@@ -1015,6 +1111,7 @@ libraries = {
 }
 
 [node name="ForegroundLayer" type="ParallaxBackground" parent="."]
+layer = 2
 scroll_ignore_camera_zoom = true
 
 [node name="Static" type="ParallaxLayer" parent="ForegroundLayer"]
@@ -1064,6 +1161,7 @@ libraries = {
 [connection signal="arpeggio" from="FittingTitle" to="." method="_on_fitting_title_arpeggio"]
 [connection signal="c_hat" from="FittingTitle" to="." method="_on_fitting_title_c_hat"]
 [connection signal="drone_1" from="FittingTitle" to="." method="_on_fitting_title_drone_1"]
+[connection signal="drone_1_octave_up" from="FittingTitle" to="." method="_on_fitting_title_drone_1_octave_up"]
 [connection signal="drone_2" from="FittingTitle" to="." method="_on_fitting_title_drone_2"]
 [connection signal="kick" from="FittingTitle" to="." method="_on_fitting_title_kick"]
 [connection signal="lead" from="FittingTitle" to="." method="_on_fitting_title_lead"]

@@ -12,6 +12,7 @@ signal pluck_string
 signal arpeggio
 signal piano
 signal lead
+signal drone_1_octave_up
 
 ##### ENUMS #####
 # enumerations
@@ -31,6 +32,7 @@ signal lead
 @export var ARPEGGIO_ACTIVE : bool = false
 @export var PIANO_ACTIVE : bool = false
 @export var LEAD_ACTIVE : bool = false
+@export var DRONE_1_OCTAVE_UP_ACTIVE : bool = false
 
 #---- STANDARD -----
 #==== PUBLIC ====
@@ -81,6 +83,8 @@ func _beat(count) -> void:
 		emit_signal("c_hat")
 	if LEAD_ACTIVE:
 		_lead(count)
+	if DRONE_1_OCTAVE_UP_ACTIVE:
+		emit_signal("drone_1_octave_up")
 
 func _half_beat(count) -> void:
 	if DRONE_1_ACTIVE:
@@ -92,8 +96,6 @@ func _half_beat(count) -> void:
 		_snare(count)
 
 func _quarter_beat(count) -> void:
-	if PLUCK_STRING_ACTIVE:
-		_pluck_string(count)
 	if ARPEGGIO_ACTIVE:
 		emit_signal("arpeggio")
 	if DRONE_2_ACTIVE:
@@ -102,12 +104,6 @@ func _quarter_beat(count) -> void:
 func _triplet_beat(count) -> void:
 	if PIANO_ACTIVE:
 		emit_signal("piano")
-
-func _pluck_string(count) -> void:
-	if count % 16 == 14: # the last part of the bar
-		emit_signal("pluck_string")
-	elif count % 3 == 0 and count % 16 != 15: # most of the bar
-		emit_signal("pluck_string")
 
 func _snare(count) -> void:
 	if count % 4 == 2: # most of the bar

@@ -1,9 +1,9 @@
 extends Node2D
 # triangle city background management 
 # TODO : fix the piano and drone 2 trigger timing not being quite right
-# TODO : Add something for when the chorus hits (instead of the pluck string that is a bit too much in the background)
-# TODO : Same with arpeggios
-# TODO : Same with lead
+# TODO : Put the level elements in a Canvas layer
+# TODO : Add an option to mute the music on the game options selection
+# TODO : Add options for the background intensity in the game options selection
 
 ##### SIGNALS #####
 # Node signals
@@ -35,17 +35,26 @@ var _piano_cnt := 0
 		"front_buildings": $"FrontLayer/FrontBuildingsAnims",
 		"spotlights_front": $"FrontLayer/Static/SpotLightsAnims",
 		"flashing_front": $"ForegroundLayer/Static/FlashingFrontAnim",
+		"saw_wave": $"MidLayer/Static/SawWave/SawWaveAnims",
 		"triangle_group": [
 			$"TriangleGroup1", 
 			$"TriangleGroup2", 
 			$"TriangleGroup3"
 		]
 	},
+	"standalone": {
+		"saw_wave":$"MidLayer/Static/SawWave"
+	},
 	"layers": {
 		"back":$"BackLayer",
 		"mid":$"MidLayer",
 		"front":$"FrontLayer"
-	}
+	},
+	"particles": {
+		"arpeggios":$"BackLayer/Static/ArpeggiosParticles",
+		"lead":$"MidLayer/Static/Lead"
+	},
+	"song": $"FittingTitle"
 }
 
 ##### PROCESSING #####
@@ -64,6 +73,8 @@ func _process(delta):
 	onready_paths.layers.back.scroll_base_offset.x = onready_paths.layers.back.scroll_base_offset.x - SCROLL_SPEED * delta
 	onready_paths.layers.mid.scroll_base_offset.x = onready_paths.layers.mid.scroll_base_offset.x - SCROLL_SPEED * delta
 	onready_paths.layers.front.scroll_base_offset.x = onready_paths.layers.front.scroll_base_offset.x - SCROLL_SPEED * delta
+	_handle_arpeggios()
+	_handle_drone_1_octave_up()
 
 ##### PUBLIC METHODS #####
 # Methods that are intended to be "visible" to other nodes or scripts
@@ -71,6 +82,12 @@ func _process(delta):
 #     pass
 
 ##### PROTECTED METHODS #####
+func _handle_arpeggios() -> void:
+	onready_paths.particles.arpeggios.emitting = onready_paths.song.ARPEGGIO_ACTIVE
+
+func _handle_drone_1_octave_up() -> void:
+	onready_paths.standalone.saw_wave.visible = onready_paths.song.DRONE_1_OCTAVE_UP_ACTIVE
+
 func _parallax_ignore_camera(parallax : ParallaxBackground) -> void:
 	for group in parallax.get_groups():
 		if group.begins_with("__cameras"):
@@ -99,7 +116,7 @@ func _on_fitting_title_kick() -> void:
 
 
 func _on_fitting_title_lead() -> void:
-	pass # Replace with function body.
+	onready_paths.particles.lead.spawn_sprite()
 
 
 func _on_fitting_title_o_hat() -> void:
@@ -117,3 +134,7 @@ func _on_fitting_title_pluck_string() -> void:
 
 func _on_fitting_title_snare() -> void:
 	onready_paths.animation.background.play("flash")
+
+
+func _on_fitting_title_drone_1_octave_up() -> void:
+	onready_paths.animation.saw_wave.play("fade_in")

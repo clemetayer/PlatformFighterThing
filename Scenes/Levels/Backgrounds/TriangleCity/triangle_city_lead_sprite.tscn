@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://vqxu3qicwg70"]
+
+[ext_resource type="Texture2D" uid="uid://ca1tnodjwjtd3" path="res://Misc/Particles/kenney_particle-pack/trace_07.png" id="1_h8mou"]
+[ext_resource type="Script" path="res://Scenes/Levels/Backgrounds/TriangleCity/triangle_city_lead_sprite.gd" id="1_v3fbo"]
+
+[node name="TriangleCityLeadSprite" type="Sprite2D"]
+rotation = -1.5708
+scale = Vector2(0.5, 3)
+texture = ExtResource("1_h8mou")
+offset = Vector2(-30, 150)
+script = ExtResource("1_v3fbo")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
