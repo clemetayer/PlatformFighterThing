@@ -1,4 +1,3 @@
-# tool
 extends Node
 # class_name Class
 # docstring
@@ -7,7 +6,7 @@ extends Node
 # Node signals
 
 ##### ENUMS #####
-# enumerations
+enum VISUAL_INTENSITY {NONE,LOW,MID,HIGH}
 
 ##### VARIABLES #####
 #---- CONSTANTS -----
@@ -18,7 +17,7 @@ extends Node
 
 #---- STANDARD -----
 #==== PUBLIC ====
-# var public_var # Optionnal comment
+var visual_intensity : VISUAL_INTENSITY = VISUAL_INTENSITY.MID
 
 #==== PRIVATE ====
 # var _private_var # Optionnal comment
@@ -40,9 +39,12 @@ func _process(_delta):
 	pass
 
 ##### PUBLIC METHODS #####
-# Methods that are intended to be "visible" to other nodes or scripts
-# func public_method(arg : int) -> void:
-#     pass
+func toggle_bgm(active : bool) -> void:
+	var bus_index = AudioServer.get_bus_index("BGM")
+	AudioServer.set_bus_mute(bus_index,active)
+
+func set_visual_intensity(intensity : VISUAL_INTENSITY) -> void:
+	visual_intensity = intensity
 
 ##### PROTECTED METHODS #####
 # Methods that are intended to be used exclusively by this scripts

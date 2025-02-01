@@ -25,22 +25,22 @@ const GAME_MANAGER_PATH := "res://Scenes/GameManagers/game_manager.tscn"
 
 #==== ONREADY ====
 @onready var onready_paths := {
-	"option":$"GameTypeMenu/ConfigMenu/OptionButton",
-	"config_menu": $"GameTypeMenu/ConfigMenu",
-	"waiting_host": $"GameTypeMenu/WaitingHost",
-	"waiting_host_label": $"GameTypeMenu/WaitingHost/RichTextLabel",
-	"waiting_client": $"GameTypeMenu/WaitingClient",
+	"option":$"GameTypeMenu/Containers/ConfigMenu/OptionButton",
+	"config_menu": $"GameTypeMenu/Containers/ConfigMenu",
+	"waiting_host": $"GameTypeMenu/Containers/WaitingHost",
+	"waiting_host_label": $"GameTypeMenu/Containers/WaitingHost/RichTextLabel",
+	"waiting_client": $"GameTypeMenu/Containers/WaitingClient",
 	"host": {
-		"menu": $"GameTypeMenu/ConfigMenu/HostMenu",
-		"port": $"GameTypeMenu/ConfigMenu/HostMenu/Port/LineEdit"
+		"menu": $"GameTypeMenu/Containers/ConfigMenu/HostMenu",
+		"port": $"GameTypeMenu/Containers/ConfigMenu/HostMenu/Port/LineEdit"
 	},
 	"client" : {
-		"menu": $"GameTypeMenu/ConfigMenu/ClientMenu",
-		"ip" : $"GameTypeMenu/ConfigMenu/ClientMenu/IP/LineEdit",
-		"port" : $"GameTypeMenu/ConfigMenu/ClientMenu/Port/LineEdit"
+		"menu": $"GameTypeMenu/Containers/ConfigMenu/ClientMenu",
+		"ip" : $"GameTypeMenu/Containers/ConfigMenu/ClientMenu/IP/LineEdit",
+		"port" : $"GameTypeMenu/Containers/ConfigMenu/ClientMenu/Port/LineEdit"
 	},
 	"offline" : {
-		"menu" : $"GameTypeMenu/ConfigMenu/OfflineMenu"
+		"menu" : $"GameTypeMenu/Containers/ConfigMenu/OfflineMenu"
 	}
 }
 
@@ -108,3 +108,17 @@ func _on_button_pressed() -> void:
 
 func _on_host_start_button_pressed() -> void:
 	emit_signal("start_game")
+
+func _on_toggle_music_toggled(toggled_on: bool) -> void:
+	RuntimeConfig.toggle_bgm(toggled_on)
+
+func _on_visual_intensity_option_item_selected(index: int) -> void:
+	match index:
+		0:
+			RuntimeConfig.set_visual_intensity(RuntimeConfig.VISUAL_INTENSITY.NONE)
+		1:
+			RuntimeConfig.set_visual_intensity(RuntimeConfig.VISUAL_INTENSITY.LOW)
+		2:
+			RuntimeConfig.set_visual_intensity(RuntimeConfig.VISUAL_INTENSITY.MID)
+		3:
+			RuntimeConfig.set_visual_intensity(RuntimeConfig.VISUAL_INTENSITY.HIGH)

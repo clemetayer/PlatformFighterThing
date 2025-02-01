@@ -758,6 +758,15 @@ _data = {
 [node name="TriangleCity" type="Node2D"]
 script = ExtResource("1_afwij")
 
+[node name="NoBackground" type="CanvasLayer" parent="."]
+layer = -101
+
+[node name="Sprite2D" type="Sprite2D" parent="NoBackground"]
+modulate = Color(0, 0, 0, 1)
+position = Vector2(576, 324)
+scale = Vector2(2.05, 2)
+texture = ExtResource("21_31mcg")
+
 [node name="BackLayer" type="ParallaxBackground" parent="."]
 scroll_ignore_camera_zoom = true
 
