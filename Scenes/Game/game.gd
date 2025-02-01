@@ -65,6 +65,10 @@ func spawn_projectile(projectile : Node) -> void:
 	projectile.name = "projectile_%d" % onready_paths.projectiles.get_child_count()
 	onready_paths.projectiles.call_deferred("add_child",projectile, true)
 
+func add_background(level_data : LevelConfig) -> void:
+	_clean_background()
+	_spawn_background(level_data)
+
 ##### PROTECTED METHODS #####
 func _add_players(p_players_data : Dictionary) -> void:
 	_clean_players()
@@ -92,11 +96,17 @@ func _add_level(level_data : LevelConfig) -> void:
 func _spawn_level(level_data : LevelConfig) -> void:
 	var level = load(level_data.level_path).instantiate()
 	onready_paths.level.add_child(level)
-	var background = load(level_data.background_and_music).instantiate()
-	onready_paths.background.add_child(background)
 
 func _clean_level() -> void:
 	for c in onready_paths.level.get_children():
+		c.queue_free()
+
+func _spawn_background(level_data : LevelConfig) -> void:
+	var background = load(level_data.background_and_music).instantiate()
+	onready_paths.background.add_child(background)
+
+func _clean_background() -> void:
+	for c in onready_paths.background.get_children():
 		c.queue_free()
 
 ##### SIGNAL MANAGEMENT #####

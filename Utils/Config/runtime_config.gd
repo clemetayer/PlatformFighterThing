@@ -41,7 +41,7 @@ func _process(_delta):
 ##### PUBLIC METHODS #####
 func toggle_bgm(active : bool) -> void:
 	var bus_index = AudioServer.get_bus_index("BGM")
-	AudioServer.set_bus_mute(bus_index,active)
+	AudioServer.set_bus_mute(bus_index,not active)
 
 func set_visual_intensity(intensity : VISUAL_INTENSITY) -> void:
 	visual_intensity = intensity

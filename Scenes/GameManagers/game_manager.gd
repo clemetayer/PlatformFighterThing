@@ -119,10 +119,16 @@ func _add_offline_default_players() -> void:
 		"config" : _create_player_data(RECORD_PLAYER_CONFIG_PATH)
 	}
 
+# FIXME : this method should be in the game itself, but for some reason, the remote call does not happen in it
+@rpc("authority", "call_remote", "reliable")
+func _add_background() -> void:
+	onready_paths.game.add_background(level_data)
+
 ##### SIGNAL MANAGEMENT #####
 func _on_game_config_menu_init_offline() -> void:
 	_hide_config_menu()
 	_add_offline_default_players()
+	_add_background()
 	RuntimeUtils.is_offline_game = true
 	onready_paths.game.start(_connected_players, level_data)
 
@@ -135,4 +141,5 @@ func _on_game_config_menu_init_client(ip: String, port: int) -> void:
 func _on_game_config_menu_start_game() -> void:
 	Logger.debug("starting game")
 	rpc("_hide_config_menu")
+	rpc("_add_background")
 	onready_paths.game.start(_connected_players, level_data)
