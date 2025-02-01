@@ -1,5 +1,6 @@
 extends Node
 # Fitting title script
+# TODO : when 4.4 kicks in the get_playback_position of an audiostream interactive should be fixed (https://github.com/godotengine/godot/issues/97791) try to add it to the rythm notifier to see what this does
 
 ##### SIGNALS #####
 signal kick
@@ -114,9 +115,8 @@ func _snare(count) -> void:
 		emit_signal("snare")
 
 func _drone_2(count) -> void:
-	if count % 32 == 14: # the last part of the bar
-		emit_signal("drone_2")
-	elif count % 3 == 0 and count % 16 != 15: # most of the bar
+	var count_mod_32 = [0,3,6,9,12,14,16,19,22,25,28]
+	if count % 32 in count_mod_32:
 		emit_signal("drone_2")
 
 func _lead(count) -> void:

@@ -1,7 +1,5 @@
 extends Node2D
-# triangle city background management 
-# TODO : fix the piano and drone 2 trigger timing not being quite right
-# TODO : Put the level elements in a Canvas layer
+# triangle city background management
 # TODO : Add an option to mute the music on the game options selection
 # TODO : Add options for the background intensity in the game options selection
 
