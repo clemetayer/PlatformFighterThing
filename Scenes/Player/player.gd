@@ -16,6 +16,8 @@ const NORMAL_BOUNCE := 0.05
 const HITSTUN_BOUNCE := 1.0
 const FLOOR_ACCELERATION = 9000.0 
 const AIR_ACCELERATION = FLOOR_ACCELERATION / 2.0
+const PREDICT_BOUNCE_OFFSET = 64.0
+const BOUNCE_DAMPING = 0.85
 
 #---- EXPORTS -----
 @export var CONFIG : PlayerConfig
@@ -77,7 +79,9 @@ func _integrate_forces(state: PhysicsDirectBodyState2D):
 		var acceleration = FLOOR_ACCELERATION if is_on_floor else AIR_ACCELERATION
 		velocity.x = move_toward(velocity.x, direction.x * TARGET_SPEED, acceleration * delta)
 		
-
+		# Predict potential bounces
+		_predict_bounces()
+		
 		# sets the velocity
 		state.set_linear_velocity(velocity)
 
@@ -116,6 +120,28 @@ func _is_on_floor() -> bool:
 func _buffer_velocity(vel_to_buffer : Vector2) -> void:
 	velocity_buffer.pop_back()
 	velocity_buffer.push_front(vel_to_buffer)
+
+# FIXME : weird behaviours happens starting at 360 velocity on a parry (not moving, teleporting outside the collision, touching a destructible wall without damage)
+func _predict_bounces() -> void:
+	var travel_distance_next_frame = velocity * 1.0 / Engine.get_physics_ticks_per_second()
+	var space_state = get_world_2d().direct_space_state
+	var query = PhysicsRayQueryParameters2D.create(position, position + travel_distance_next_frame, 1)
+	var intersection = space_state.intersect_ray(query)
+	while intersection:
+		position = intersection.position + intersection.normal * PREDICT_BOUNCE_OFFSET  # slight position correction to avoid repositionning in the wall
+		if intersection.collider.is_in_group("destructible_wall"): # breakable wall, should not bounce
+			break
+		elif not onready_paths_node.hitstun_manager.hitstunned: # if hitstunned just stopped, reset the velocity if it collides with a wall to avoid going through at high velocities
+			velocity = Vector2.ZERO 
+			break 
+		else:
+			var distance_traveled = global_position - intersection.position
+			velocity = velocity.bounce(intersection.normal) * BOUNCE_DAMPING
+			if travel_distance_next_frame.length() - distance_traveled.length() <= 0:
+				break
+			travel_distance_next_frame = velocity.normalized() * (travel_distance_next_frame - distance_traveled).length()
+			query = PhysicsRayQueryParameters2D.create(position, position + travel_distance_next_frame, 1)
+			intersection = space_state.intersect_ray(query)
 
 ##### SIGNAL MANAGEMENT #####
 func _on_SceneUtils_toggle_scene_freeze(value: bool) -> void:
