@@ -16,6 +16,7 @@ const SCREEN_SHAKE_PRESETS := {
 }
 const ZOOM_OFFSET := Vector2i.ONE * 100
 const ZOOM_BASE_MULTIPLIER := 0.5 # change this to correct the zoom or dezoom
+const ZOOM_DAMPING := 1.0 # to keep the game relatively clear and avoid too harsh camera movements
 
 #---- EXPORTS -----
 @export var PLAYERS_ROOT_PATH : NodePath = "../Players"
@@ -42,12 +43,12 @@ func _ready():
 	CameraEffects.connect("start_camera_shake",_on_start_camera_shake)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame. Remove the "_" to use it.
-func _process(_delta):
+func _process(delta):
 
 	global_position = _get_average_position()
 	var best_zoom = _get_best_zoom()
 	if best_zoom > 0 :
-		zoom = Vector2.ONE * best_zoom * ZOOM_BASE_MULTIPLIER
+		zoom = zoom.move_toward(Vector2.ONE * best_zoom * ZOOM_BASE_MULTIPLIER,delta * ZOOM_DAMPING)
 	DebugInterface.set_debug_text("Best zoom", _get_best_zoom())
 
 ##### PUBLIC METHODS #####
