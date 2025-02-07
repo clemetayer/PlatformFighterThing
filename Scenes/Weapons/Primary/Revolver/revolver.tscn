@@ -1,9 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://c3ys4badrjjgc"]
+[gd_scene load_steps=8 format=3 uid="uid://c3ys4badrjjgc"]
 
 [ext_resource type="Script" path="res://Scenes/Weapons/Primary/Revolver/revolver.gd" id="1_71ky4"]
+[ext_resource type="Texture2D" uid="uid://j4xdgdied5dy" path="res://Scenes/Weapons/Primary/Revolver/Revolver.png" id="2_di3r8"]
 
 [sub_resource type="Gradient" id="Gradient_5vcv6"]
-colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+offsets = PackedFloat32Array(0, 0.01, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0)
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_jsuls"]
 properties/0/path = NodePath(".:rotation")
@@ -74,13 +76,13 @@ _data = {
 [node name="Revolver" type="Node2D"]
 script = ExtResource("1_71ky4")
 
-[node name="Polygon2D" type="Polygon2D" parent="."]
-color = Color(1, 0, 0, 1)
-polygon = PackedVector2Array(0, -10, 0, 10, 20, 0)
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("2_di3r8")
 
 [node name="Line2D" type="Line2D" parent="."]
 modulate = Color(0, 1, 1, 1)
-points = PackedVector2Array(0, 0, 300, 0)
+points = PackedVector2Array(31, 0, 64, 0, 500, 0)
 width = 2.0
 gradient = SubResource("Gradient_5vcv6")
 

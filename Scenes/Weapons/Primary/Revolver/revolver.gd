@@ -23,7 +23,8 @@ var _on_cooldown := false
 #==== ONREADY ====
 @onready var onready_paths := {
 	"shoot_cooldown_timer": $"ShootCooldown",
-	"animation_player": $"AnimationPlayer"
+	"animation_player": $"AnimationPlayer",
+	"sprite": $"Sprite2D"
 }
 
 ##### PROCESSING #####
@@ -53,6 +54,11 @@ func fire() -> void:
 func aim(relative_aim_position : Vector2) -> void:
 	var analog_angle = Vector2.ZERO.angle_to_point(relative_aim_position)
 	rotation = analog_angle
+	if abs(rotation) >= PI/2.0:
+		onready_paths.sprite.scale.y = abs(onready_paths.sprite.scale.y) * -1
+	else:
+		onready_paths.sprite.scale.y = abs(onready_paths.sprite.scale.y)
+	
 
 ##### PROTECTED METHODS #####
 func _create_projectile() -> Node:
