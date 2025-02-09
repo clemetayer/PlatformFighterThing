@@ -39,7 +39,7 @@ text = "Visual intensity : "
 
 [node name="VisualIntensityOption" type="OptionButton" parent="GameTypeMenu/Containers/CommonMenu/VisualIntensity"]
 layout_mode = 2
-selected = 2
+selected = 1
 item_count = 4
 popup/item_0/text = "No background"
 popup/item_1/text = "Calm and low"
@@ -47,6 +47,25 @@ popup/item_1/id = 1
 popup/item_2/text = "Energetic and fun"
 popup/item_2/id = 2
 popup/item_3/text = "MELT MY EYES"
+popup/item_3/id = 3
+
+[node name="CameraEffectsIntensity" type="HBoxContainer" parent="GameTypeMenu/Containers/CommonMenu"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="GameTypeMenu/Containers/CommonMenu/CameraEffectsIntensity"]
+layout_mode = 2
+text = "Camera shake intensity :"
+
+[node name="CameraEffectsIntensityOption" type="OptionButton" parent="GameTypeMenu/Containers/CommonMenu/CameraEffectsIntensity"]
+layout_mode = 2
+selected = 1
+item_count = 4
+popup/item_0/text = "No shakes"
+popup/item_1/text = "Just a little shake"
+popup/item_1/id = 1
+popup/item_2/text = "Shaky !"
+popup/item_2/id = 2
+popup/item_3/text = "E A R T H Q U A K E"
 popup/item_3/id = 3
 
 [node name="ConfigMenu" type="VBoxContainer" parent="GameTypeMenu/Containers"]
@@ -152,6 +171,7 @@ fit_content = true
 
 [connection signal="toggled" from="GameTypeMenu/Containers/CommonMenu/ToggleMusic" to="." method="_on_toggle_music_toggled"]
 [connection signal="item_selected" from="GameTypeMenu/Containers/CommonMenu/VisualIntensity/VisualIntensityOption" to="." method="_on_visual_intensity_option_item_selected"]
+[connection signal="item_selected" from="GameTypeMenu/Containers/CommonMenu/CameraEffectsIntensity/CameraEffectsIntensityOption" to="." method="_on_camera_effects_intensity_option_item_selected"]
 [connection signal="item_selected" from="GameTypeMenu/Containers/ConfigMenu/OptionButton" to="." method="_on_option_button_item_selected"]
 [connection signal="pressed" from="GameTypeMenu/Containers/ConfigMenu/Button" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="GameTypeMenu/Containers/WaitingHost/HostStartButton" to="." method="_on_host_start_button_pressed"]

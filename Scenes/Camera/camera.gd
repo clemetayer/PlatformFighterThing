@@ -9,11 +9,6 @@ extends Camera2D
 
 ##### VARIABLES #####
 #---- CONSTANTS -----
-const SCREEN_SHAKE_PRESETS := {
-	CameraEffects.CAMERA_SHAKE_INTENSITY.LIGHT: "res://Scenes/Camera/ScreenShakePreset/light.tres",
-	CameraEffects.CAMERA_SHAKE_INTENSITY.MEDIUM: "res://Scenes/Camera/ScreenShakePreset/medium.tres",
-	CameraEffects.CAMERA_SHAKE_INTENSITY.HIGH: "res://Scenes/Camera/ScreenShakePreset/high.tres"
-}
 const ZOOM_OFFSET := Vector2i.ONE * 100
 const ZOOM_BASE_MULTIPLIER := 0.5 # change this to correct the zoom or dezoom
 const ZOOM_DAMPING := 1.0 # to keep the game relatively clear and avoid too harsh camera movements
@@ -44,7 +39,6 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame. Remove the "_" to use it.
 func _process(delta):
-
 	global_position = _get_average_position()
 	var best_zoom = _get_best_zoom()
 	if best_zoom > 0 :
@@ -104,7 +98,15 @@ func _start_camera_shake(duration : float, intensity : CameraEffects.CAMERA_SHAK
 		if onready_paths.shaker.is_playing:
 			onready_paths.shaker.force_stop_shake()
 		onready_paths.shaker.set_duration(duration)
-		onready_paths.shaker.set_shaker_preset(load(SCREEN_SHAKE_PRESETS[intensity]))
+		var shake_preset
+		match intensity:
+			CameraEffects.CAMERA_SHAKE_INTENSITY.LIGHT:
+				shake_preset = RuntimeConfig.camera_effects_intensity_preset.SHAKE_LOW
+			CameraEffects.CAMERA_SHAKE_INTENSITY.MEDIUM:
+				shake_preset = RuntimeConfig.camera_effects_intensity_preset.SHAKE_MID
+			CameraEffects.CAMERA_SHAKE_INTENSITY.HIGH:
+				shake_preset = RuntimeConfig.camera_effects_intensity_preset.SHAKE_HIGH
+		onready_paths.shaker.set_shaker_preset(shake_preset)
 		onready_paths.shaker.play_shake()
 		_current_shake_priority = priority
 

@@ -7,17 +7,24 @@ extends Node
 
 ##### ENUMS #####
 enum VISUAL_INTENSITY {NONE,LOW,MID,HIGH}
+enum CAMERA_EFFECTS_INTENSITY {NONE,LOW,MID,HIGH}
 
 ##### VARIABLES #####
 #---- CONSTANTS -----
-# const constant := 10 # Optionnal comment
+const CAMERA_EFFECTS_INTENSITY_PRESETS_PATH := {
+	CAMERA_EFFECTS_INTENSITY.NONE : "res://Scenes/Camera/CameraEffectsIntensityPresets/none.tres",
+	CAMERA_EFFECTS_INTENSITY.LOW : "res://Scenes/Camera/CameraEffectsIntensityPresets/low.tres",
+	CAMERA_EFFECTS_INTENSITY.MID : "res://Scenes/Camera/CameraEffectsIntensityPresets/mid.tres",
+	CAMERA_EFFECTS_INTENSITY.HIGH : "res://Scenes/Camera/CameraEffectsIntensityPresets/high.tres"
+}
 
 #---- EXPORTS -----
 # export(int) var EXPORT_NAME # Optionnal comment
 
 #---- STANDARD -----
 #==== PUBLIC ====
-var visual_intensity : VISUAL_INTENSITY = VISUAL_INTENSITY.MID
+var visual_intensity : VISUAL_INTENSITY = VISUAL_INTENSITY.LOW
+var camera_effects_intensity_preset : CameraEffectsIntensityPresets = load(CAMERA_EFFECTS_INTENSITY_PRESETS_PATH[CAMERA_EFFECTS_INTENSITY.LOW])
 
 #==== PRIVATE ====
 # var _private_var # Optionnal comment
@@ -45,6 +52,9 @@ func toggle_bgm(active : bool) -> void:
 
 func set_visual_intensity(intensity : VISUAL_INTENSITY) -> void:
 	visual_intensity = intensity
+
+func set_camera_effects_intensity(intensity : CAMERA_EFFECTS_INTENSITY) -> void:
+	camera_effects_intensity_preset = load(CAMERA_EFFECTS_INTENSITY_PRESETS_PATH[intensity])
 
 ##### PROTECTED METHODS #####
 # Methods that are intended to be used exclusively by this scripts

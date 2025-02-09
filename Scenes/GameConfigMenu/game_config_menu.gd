@@ -122,3 +122,14 @@ func _on_visual_intensity_option_item_selected(index: int) -> void:
 			RuntimeConfig.set_visual_intensity(RuntimeConfig.VISUAL_INTENSITY.MID)
 		3:
 			RuntimeConfig.set_visual_intensity(RuntimeConfig.VISUAL_INTENSITY.HIGH)
+
+func _on_camera_effects_intensity_option_item_selected(index: int) -> void:
+	match index:
+		0:
+			RuntimeConfig.set_camera_effects_intensity(RuntimeConfig.CAMERA_EFFECTS_INTENSITY.NONE)
+		1:
+			RuntimeConfig.set_camera_effects_intensity(RuntimeConfig.CAMERA_EFFECTS_INTENSITY.LOW)
+		2:
+			RuntimeConfig.set_camera_effects_intensity(RuntimeConfig.CAMERA_EFFECTS_INTENSITY.MID)
+		3:
+			RuntimeConfig.set_camera_effects_intensity(RuntimeConfig.CAMERA_EFFECTS_INTENSITY.HIGH)
