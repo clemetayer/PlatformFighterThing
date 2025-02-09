@@ -1,10 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://cra571gjijhyj"]
+[gd_scene load_steps=6 format=3 uid="uid://cra571gjijhyj"]
 
 [ext_resource type="Script" path="res://Scenes/Weapons/Projectiles/bullet.gd" id="1_fo3ga"]
+[ext_resource type="Texture2D" uid="uid://6gyk2ipihn3h" path="res://Scenes/Weapons/Projectiles/bullet.png" id="2_fuia2"]
 [ext_resource type="PackedScene" uid="uid://cl8cej2u2c4jm" path="res://Utils/trail.tscn" id="2_udptv"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_g77nu"]
-size = Vector2(10, 10)
+size = Vector2(50, 10)
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_k5d1u"]
 properties/0/path = NodePath(".:position")
@@ -19,12 +20,11 @@ collision_layer = 4
 collision_mask = 3
 script = ExtResource("1_fo3ga")
 
-[node name="Polygon2D" type="Polygon2D" parent="."]
-color = Color(0, 1, 1, 1)
-polygon = PackedVector2Array(0, -5, 0, 5, 10, 0)
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_fuia2")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(5, 0)
 shape = SubResource("RectangleShape2D_g77nu")
 
 [node name="Trail" parent="." instance=ExtResource("2_udptv")]

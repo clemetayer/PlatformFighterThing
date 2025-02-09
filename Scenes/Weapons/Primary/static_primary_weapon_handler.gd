@@ -14,4 +14,3 @@ const scene_paths := {
 ##### PUBLIC METHODS #####
 static func get_weapon(weapon : weapons) -> PrimaryWeaponBase:
 	return load(scene_paths[weapon]).instantiate()
-

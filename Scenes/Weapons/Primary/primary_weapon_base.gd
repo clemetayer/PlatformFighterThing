@@ -2,9 +2,9 @@ extends Node2D
 class_name PrimaryWeaponBase
 # Base class for the primary weapon
 
-##### SIGNALS #####
-
-##### PROCESSING #####
+##### VARIABLES #####
+#---- EXPORTS -----
+@export var owner_color := Color.WHITE
 
 ##### PUBLIC METHODS #####
 func fire() -> void:

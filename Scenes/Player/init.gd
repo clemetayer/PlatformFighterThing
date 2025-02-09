@@ -38,6 +38,7 @@ func initialize(config : PlayerConfig) -> void:
 		POWERUP_HANDLER = config.POWERUP_HANDLER
 		onready_paths_node.crosshair.set_color(config.SPRITE_CUSTOMIZATION.BODY_COLOR)
 	onready_paths_node.primary_weapon = StaticPrimaryWeaponHandler.get_weapon(PRIMARY_WEAPON)
+	onready_paths_node.primary_weapon.owner_color = config.SPRITE_CUSTOMIZATION.BODY_COLOR
 	onready_paths_node.movement_bonus = StaticMovementBonusHandler.get_handler(MOVEMENT_BONUS_HANDLER)
 	onready_paths_node.powerup_manager = StaticPowerupHandler.get_powerup_manager(POWERUP_HANDLER)
 	onready_paths_node.input_synchronizer.set_action_handler(ACTION_HANDLER)

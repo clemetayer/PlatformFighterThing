@@ -18,6 +18,7 @@ const KNOCKBACK := 20.0
 @export var damage := DAMAGE
 @export var knockback := KNOCKBACK
 @export var freeze := false
+@export var trail_color := Color.WHITE
 
 #---- STANDARD -----
 #==== PUBLIC ====
@@ -27,7 +28,9 @@ var current_owner # the current "owner" of the bullet (i.e, the last thing that 
 var _direction := Vector2.ZERO
 
 #==== ONREADY ====
-# onready var onready_var # Optionnal comment
+@onready var onready_paths := {
+	"trail": $"Trail"
+}
 
 ##### PROCESSING #####
 # Called when the object is initialized.
@@ -36,6 +39,7 @@ func _init():
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	onready_paths.trail.modulate = trail_color
 	SceneUtils.connect("toggle_scene_freeze", _on_SceneUtils_toggle_scene_freeze)
 	_direction = Vector2.RIGHT.rotated(rotation).normalized()
 
