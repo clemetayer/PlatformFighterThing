@@ -45,4 +45,4 @@ func toggle_active(active: bool) -> void:
 
 ##### SIGNAL MANAGEMENT #####
 func _on_body_entered(body: Node2D) -> void:
-	CameraEffects.emit_signal_start_camera_shake(0.07,CameraEffects.CAMERA_SHAKE_INTENSITY.LIGHT,CameraEffects.CAMERA_SHAKE_PRIORITY.LOW)
+	CameraEffects.emit_signal_start_camera_impact(0.07,CameraEffects.CAMERA_IMPACT_INTENSITY.LIGHT,CameraEffects.CAMERA_IMPACT_PRIORITY.LOW)

@@ -77,17 +77,17 @@ func _buffer_player_velocity(body : Node2D, velocity: Vector2) -> void:
 @rpc("authority","call_local","unreliable")
 func _shake_camera_by_velocity(velocity : float) -> void:
 	var camera_shake = _get_shake_type_by_velocity(abs(velocity))
-	CameraEffects.emit_signal_start_camera_shake(1,camera_shake, CameraEffects.CAMERA_SHAKE_PRIORITY.HIGH)
+	CameraEffects.emit_signal_start_camera_impact(1,camera_shake, CameraEffects.CAMERA_IMPACT_PRIORITY.HIGH)
 
-func _get_shake_type_by_velocity(velocity : float) -> CameraEffects.CAMERA_SHAKE_INTENSITY:
+func _get_shake_type_by_velocity(velocity : float) -> CameraEffects.CAMERA_IMPACT_INTENSITY:
 	if FunctionUtils.in_between(velocity,DAMAGE_WALL_TRESHOLDS[0], DAMAGE_WALL_TRESHOLDS[1]):
-		return CameraEffects.CAMERA_SHAKE_INTENSITY.LIGHT
+		return CameraEffects.CAMERA_IMPACT_INTENSITY.LIGHT
 	elif FunctionUtils.in_between(velocity,DAMAGE_WALL_TRESHOLDS[1], DAMAGE_WALL_TRESHOLDS[2]):
-		return CameraEffects.CAMERA_SHAKE_INTENSITY.MEDIUM
+		return CameraEffects.CAMERA_IMPACT_INTENSITY.MEDIUM
 	elif velocity > DAMAGE_WALL_TRESHOLDS[2]:
-		return CameraEffects.CAMERA_SHAKE_INTENSITY.HIGH
+		return CameraEffects.CAMERA_IMPACT_INTENSITY.HIGH
 	# should not go here
-	return CameraEffects.CAMERA_SHAKE_INTENSITY.LIGHT
+	return CameraEffects.CAMERA_IMPACT_INTENSITY.LIGHT
 
 ##### SIGNAL MANAGEMENT #####
 func _on_area_entered(area):

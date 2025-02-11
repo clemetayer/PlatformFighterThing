@@ -54,7 +54,7 @@ func _on_area_entered(area):
 		_parrying = false
 		set_deferred("monitoring", false)
 		area.parried(_owner, onready_paths_node.input_synchronizer.relative_aim_position)
-		CameraEffects.emit_signal_start_camera_shake(0.25, CameraEffects.CAMERA_SHAKE_INTENSITY.LIGHT, CameraEffects.CAMERA_SHAKE_PRIORITY.MEDIUM)
+		CameraEffects.emit_signal_start_camera_impact(0.25, CameraEffects.CAMERA_IMPACT_INTENSITY.LIGHT, CameraEffects.CAMERA_IMPACT_PRIORITY.MEDIUM)
 		SceneUtils.freeze_scene_parry(0.25)
 		emit_signal("parried")
 

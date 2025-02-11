@@ -2,11 +2,11 @@ extends Node
 # Singleton to trigger various camera effects
 
 ##### SIGNALS #####
-signal start_camera_shake(duration : float, intensity : CAMERA_SHAKE_INTENSITY, priority : CAMERA_SHAKE_PRIORITY)
+signal start_camera_impact(duration : float, intensity : CAMERA_IMPACT_INTENSITY, priority : CAMERA_IMPACT_PRIORITY)
 
 ##### ENUMS #####
-enum CAMERA_SHAKE_INTENSITY {LIGHT, MEDIUM, HIGH}
-enum CAMERA_SHAKE_PRIORITY {NONE, LOW, MEDIUM, HIGH}
+enum CAMERA_IMPACT_INTENSITY {LIGHT, MEDIUM, HIGH}
+enum CAMERA_IMPACT_PRIORITY {NONE, LOW, MEDIUM, HIGH}
 
 ##### VARIABLES #####
 #---- CONSTANTS -----
@@ -38,9 +38,10 @@ func _process(_delta):
 	pass
 	
 ##### PUBLIC METHODS #####
-func emit_signal_start_camera_shake(duration : float, intensity : CAMERA_SHAKE_INTENSITY, priority : CAMERA_SHAKE_PRIORITY = CAMERA_SHAKE_PRIORITY.LOW) -> void:
-	emit_signal("start_camera_shake", duration, intensity, priority)
-		
+func emit_signal_start_camera_impact(duration : float, intensity : CAMERA_IMPACT_INTENSITY, priority : CAMERA_IMPACT_PRIORITY = CAMERA_IMPACT_PRIORITY.LOW) -> void:
+	emit_signal("start_camera_impact", duration, intensity, priority)
+
+	
 ##### PROTECTED METHODS #####
 
 

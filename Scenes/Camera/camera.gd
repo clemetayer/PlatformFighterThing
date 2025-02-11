@@ -21,7 +21,11 @@ const ZOOM_DAMPING := 1.0 # to keep the game relatively clear and avoid too hars
 # var public_var # Optionnal comment
 
 #==== PRIVATE ====
-var _current_shake_priority := CameraEffects.CAMERA_SHAKE_PRIORITY.NONE
+var _current_impact_priority := CameraEffects.CAMERA_IMPACT_PRIORITY.NONE
+var _tilt_tween : Tween
+var _zoom_tween : Tween
+var _zoom_multiplier := ZOOM_BASE_MULTIPLIER
+
 
 #==== ONREADY ====
 @onready var onready_paths := {
@@ -35,14 +39,14 @@ func _init():
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	CameraEffects.connect("start_camera_shake",_on_start_camera_shake)
+	CameraEffects.connect("start_camera_impact",_on_start_camera_impact)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame. Remove the "_" to use it.
 func _process(delta):
 	global_position = _get_average_position()
 	var best_zoom = _get_best_zoom()
 	if best_zoom > 0 :
-		zoom = zoom.move_toward(Vector2.ONE * best_zoom * ZOOM_BASE_MULTIPLIER,delta * ZOOM_DAMPING)
+		zoom = zoom.move_toward(Vector2.ONE * best_zoom * _zoom_multiplier,delta * ZOOM_DAMPING)
 	DebugInterface.set_debug_text("Best zoom", _get_best_zoom())
 
 ##### PUBLIC METHODS #####
@@ -93,27 +97,81 @@ func _get_global_min_max_pos() -> Dictionary:
 	}
 
 @rpc("call_local", "authority", "unreliable")
-func _start_camera_shake(duration : float, intensity : CameraEffects.CAMERA_SHAKE_INTENSITY, priority: CameraEffects.CAMERA_SHAKE_PRIORITY) -> void:
-	if priority >= _current_shake_priority:
-		if onready_paths.shaker.is_playing:
-			onready_paths.shaker.force_stop_shake()
-		onready_paths.shaker.set_duration(duration)
-		var shake_preset
-		match intensity:
-			CameraEffects.CAMERA_SHAKE_INTENSITY.LIGHT:
-				shake_preset = RuntimeConfig.camera_effects_intensity_preset.SHAKE_LOW
-			CameraEffects.CAMERA_SHAKE_INTENSITY.MEDIUM:
-				shake_preset = RuntimeConfig.camera_effects_intensity_preset.SHAKE_MID
-			CameraEffects.CAMERA_SHAKE_INTENSITY.HIGH:
-				shake_preset = RuntimeConfig.camera_effects_intensity_preset.SHAKE_HIGH
-		onready_paths.shaker.set_shaker_preset(shake_preset)
-		onready_paths.shaker.play_shake()
-		_current_shake_priority = priority
+func _start_camera_impact(duration : float, intensity : CameraEffects.CAMERA_IMPACT_INTENSITY, priority: CameraEffects.CAMERA_IMPACT_PRIORITY) -> void:
+	if priority >= _current_impact_priority:
+		_current_impact_priority = priority
+		_start_camera_shake(duration, intensity)
+		_start_camera_tilt(duration, intensity)
+		_start_fast_zoom(duration, intensity)
+		
+func _start_camera_shake(duration : float, intensity : CameraEffects.CAMERA_IMPACT_INTENSITY) -> void:
+	if onready_paths.shaker.is_playing:
+		onready_paths.shaker.force_stop_shake()
+	onready_paths.shaker.set_duration(duration)
+	var shake_preset
+	match intensity:
+		CameraEffects.CAMERA_IMPACT_INTENSITY.LIGHT:
+			shake_preset = RuntimeConfig.camera_effects_intensity_preset.SHAKE_LOW
+		CameraEffects.CAMERA_IMPACT_INTENSITY.MEDIUM:
+			shake_preset = RuntimeConfig.camera_effects_intensity_preset.SHAKE_MID
+		CameraEffects.CAMERA_IMPACT_INTENSITY.HIGH:
+			shake_preset = RuntimeConfig.camera_effects_intensity_preset.SHAKE_HIGH
+	onready_paths.shaker.set_shaker_preset(shake_preset)
+	onready_paths.shaker.play_shake()
+	
+
+func _start_camera_tilt(duration : float, intensity : CameraEffects.CAMERA_IMPACT_INTENSITY) -> void:
+	var rot_angle = [1,-1].pick_random()
+	match intensity:
+		CameraEffects.CAMERA_IMPACT_INTENSITY.LIGHT:
+			rot_angle *= 0.0
+		CameraEffects.CAMERA_IMPACT_INTENSITY.MEDIUM:
+			rot_angle *= PI/15.0
+		CameraEffects.CAMERA_IMPACT_INTENSITY.HIGH:
+			rot_angle *= PI/10.0
+	_tilt_camera(rot_angle, duration)
+
+func _tilt_camera(angle : float, duration : float) -> void:
+	if _tilt_tween:
+		_tilt_tween.kill() # Abort the previous animation.
+	_tilt_tween = create_tween()
+	rotation = 0.0
+	_tilt_tween.tween_property(self,"rotation",angle,duration / 10.0)
+	await _tilt_tween.finished
+	_tilt_tween.stop()
+	_tilt_tween.tween_property(self,"rotation",0.0, duration - duration / 10.0)
+	_tilt_tween.play()
+	await _tilt_tween.finished
+	rotation = 0.0
+
+func _start_fast_zoom(duration : float, intensity : CameraEffects.CAMERA_IMPACT_INTENSITY) -> void:
+	var final_zoom_val = ZOOM_BASE_MULTIPLIER
+	match intensity:
+		CameraEffects.CAMERA_IMPACT_INTENSITY.LIGHT:
+			pass
+		CameraEffects.CAMERA_IMPACT_INTENSITY.MEDIUM:
+			final_zoom_val = 0.75
+		CameraEffects.CAMERA_IMPACT_INTENSITY.HIGH:
+			final_zoom_val = 1.0
+	_fast_zoom(final_zoom_val, duration)
+
+func _fast_zoom(final_zoom_amount : float, duration : float) -> void:
+	if _zoom_tween:
+		_zoom_tween.kill() # Abort the previous animation.
+	_zoom_tween = create_tween()
+	_zoom_multiplier = ZOOM_BASE_MULTIPLIER
+	_zoom_tween.tween_property(self,"_zoom_multiplier",final_zoom_amount,duration / 10.0)
+	await _zoom_tween.finished
+	_zoom_tween.stop()
+	_zoom_tween.tween_property(self,"_zoom_multiplier",ZOOM_BASE_MULTIPLIER, duration - duration / 10.0)
+	_zoom_tween.play()
+	await _zoom_tween.finished
+	_zoom_multiplier = ZOOM_BASE_MULTIPLIER
 
 ##### SIGNAL MANAGEMENT #####
-func _on_start_camera_shake(duration : float, intensity : CameraEffects.CAMERA_SHAKE_INTENSITY, priority: CameraEffects.CAMERA_SHAKE_PRIORITY) -> void:
+func _on_start_camera_impact(duration : float, intensity : CameraEffects.CAMERA_IMPACT_INTENSITY, priority: CameraEffects.CAMERA_IMPACT_PRIORITY) -> void:
 	if RuntimeUtils.is_authority():
-		rpc("_start_camera_shake", duration, intensity, priority)
+		rpc("_start_camera_impact", duration, intensity, priority)
 
 func _on_shaker_shake_finished() -> void:
-	_current_shake_priority = CameraEffects.CAMERA_SHAKE_PRIORITY.NONE
+	_current_impact_priority = CameraEffects.CAMERA_IMPACT_PRIORITY.NONE
