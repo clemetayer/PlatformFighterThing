@@ -35,7 +35,7 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="GameTypeMenu/Containers/CommonMenu/VisualIntensity"]
 layout_mode = 2
-text = "Visual intensity : "
+text = "Background intensity : "
 
 [node name="VisualIntensityOption" type="OptionButton" parent="GameTypeMenu/Containers/CommonMenu/VisualIntensity"]
 layout_mode = 2
@@ -54,16 +54,16 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="GameTypeMenu/Containers/CommonMenu/CameraEffectsIntensity"]
 layout_mode = 2
-text = "Camera shake intensity :"
+text = "Camera effects intensity :"
 
 [node name="CameraEffectsIntensityOption" type="OptionButton" parent="GameTypeMenu/Containers/CommonMenu/CameraEffectsIntensity"]
 layout_mode = 2
 selected = 1
 item_count = 4
-popup/item_0/text = "No shakes"
-popup/item_1/text = "Just a little shake"
+popup/item_0/text = "Nothing"
+popup/item_1/text = "Some camera shakes"
 popup/item_1/id = 1
-popup/item_2/text = "Shaky !"
+popup/item_2/text = "Most cool effects"
 popup/item_2/id = 2
 popup/item_3/text = "E A R T H Q U A K E"
 popup/item_3/id = 3

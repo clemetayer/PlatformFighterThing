@@ -122,48 +122,56 @@ func _start_camera_shake(duration : float, intensity : CameraEffects.CAMERA_IMPA
 
 func _start_camera_tilt(duration : float, intensity : CameraEffects.CAMERA_IMPACT_INTENSITY) -> void:
 	var rot_angle = [1,-1].pick_random()
+	var duration_divider = 1.0
 	match intensity:
 		CameraEffects.CAMERA_IMPACT_INTENSITY.LIGHT:
-			rot_angle *= 0.0
+			rot_angle *= RuntimeConfig.camera_effects_intensity_preset.LOW_TILT_ROTATION_ANGLE
+			duration_divider = RuntimeConfig.camera_effects_intensity_preset.LOW_TILT_DURATION_DIVIDER
 		CameraEffects.CAMERA_IMPACT_INTENSITY.MEDIUM:
-			rot_angle *= PI/15.0
+			rot_angle *= RuntimeConfig.camera_effects_intensity_preset.MID_TILT_ROTATION_ANGLE
+			duration_divider = RuntimeConfig.camera_effects_intensity_preset.MID_TILT_DURATION_DIVIDER
 		CameraEffects.CAMERA_IMPACT_INTENSITY.HIGH:
-			rot_angle *= PI/10.0
-	_tilt_camera(rot_angle, duration)
+			rot_angle *= RuntimeConfig.camera_effects_intensity_preset.HIGH_TILT_ROTATION_ANGLE
+			duration_divider = RuntimeConfig.camera_effects_intensity_preset.HIGH_TILT_DURATION_DIVIDER
+	_tilt_camera(rot_angle, duration, duration_divider)
 
-func _tilt_camera(angle : float, duration : float) -> void:
+func _tilt_camera(angle : float, duration : float, duration_divider : float) -> void:
 	if _tilt_tween:
 		_tilt_tween.kill() # Abort the previous animation.
 	_tilt_tween = create_tween()
 	rotation = 0.0
-	_tilt_tween.tween_property(self,"rotation",angle,duration / 10.0)
+	_tilt_tween.tween_property(self,"rotation",angle,duration / duration_divider)
 	await _tilt_tween.finished
 	_tilt_tween.stop()
-	_tilt_tween.tween_property(self,"rotation",0.0, duration - duration / 10.0)
+	_tilt_tween.tween_property(self,"rotation",0.0, duration - duration / duration_divider)
 	_tilt_tween.play()
 	await _tilt_tween.finished
 	rotation = 0.0
 
 func _start_fast_zoom(duration : float, intensity : CameraEffects.CAMERA_IMPACT_INTENSITY) -> void:
 	var final_zoom_val = ZOOM_BASE_MULTIPLIER
+	var duration_divider = 1.0
 	match intensity:
 		CameraEffects.CAMERA_IMPACT_INTENSITY.LIGHT:
-			pass
+			final_zoom_val = ZOOM_BASE_MULTIPLIER * RuntimeConfig.camera_effects_intensity_preset.LOW_FINAL_ZOOM_MULTIPLIER
+			duration_divider = RuntimeConfig.camera_effects_intensity_preset.LOW_ZOOM_DURATION_DIVIDER
 		CameraEffects.CAMERA_IMPACT_INTENSITY.MEDIUM:
-			final_zoom_val = 0.75
+			final_zoom_val = ZOOM_BASE_MULTIPLIER * RuntimeConfig.camera_effects_intensity_preset.MID_FINAL_ZOOM_MULTIPLIER
+			duration_divider = RuntimeConfig.camera_effects_intensity_preset.MID_ZOOM_DURATION_DIVIDER
 		CameraEffects.CAMERA_IMPACT_INTENSITY.HIGH:
-			final_zoom_val = 1.0
-	_fast_zoom(final_zoom_val, duration)
+			final_zoom_val = ZOOM_BASE_MULTIPLIER * RuntimeConfig.camera_effects_intensity_preset.HIGH_FINAL_ZOOM_MULTIPLIER
+			duration_divider = RuntimeConfig.camera_effects_intensity_preset.HIGH_ZOOM_DURATION_DIVIDER
+	_fast_zoom(final_zoom_val, duration, duration_divider)
 
-func _fast_zoom(final_zoom_amount : float, duration : float) -> void:
+func _fast_zoom(final_zoom_amount : float, duration : float, duration_divider : float) -> void:
 	if _zoom_tween:
 		_zoom_tween.kill() # Abort the previous animation.
 	_zoom_tween = create_tween()
 	_zoom_multiplier = ZOOM_BASE_MULTIPLIER
-	_zoom_tween.tween_property(self,"_zoom_multiplier",final_zoom_amount,duration / 10.0)
+	_zoom_tween.tween_property(self,"_zoom_multiplier",final_zoom_amount,duration / duration_divider)
 	await _zoom_tween.finished
 	_zoom_tween.stop()
-	_zoom_tween.tween_property(self,"_zoom_multiplier",ZOOM_BASE_MULTIPLIER, duration - duration / 10.0)
+	_zoom_tween.tween_property(self,"_zoom_multiplier",ZOOM_BASE_MULTIPLIER, duration - duration / duration_divider)
 	_zoom_tween.play()
 	await _zoom_tween.finished
 	_zoom_multiplier = ZOOM_BASE_MULTIPLIER
