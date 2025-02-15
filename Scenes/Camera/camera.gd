@@ -29,7 +29,8 @@ var _zoom_multiplier := ZOOM_BASE_MULTIPLIER
 
 #==== ONREADY ====
 @onready var onready_paths := {
-	"shaker": $"Shaker"
+	"shaker": $"Shaker",
+	"full_screen_effects": $"FullScreenEffects"
 }
 
 ##### PROCESSING #####
@@ -103,6 +104,7 @@ func _start_camera_impact(duration : float, intensity : CameraEffects.CAMERA_IMP
 		_start_camera_shake(duration, intensity)
 		_start_camera_tilt(duration, intensity)
 		_start_fast_zoom(duration, intensity)
+		_start_chromatic_aberration(duration, intensity)
 		
 func _start_camera_shake(duration : float, intensity : CameraEffects.CAMERA_IMPACT_INTENSITY) -> void:
 	if onready_paths.shaker.is_playing:
@@ -175,6 +177,21 @@ func _fast_zoom(final_zoom_amount : float, duration : float, duration_divider : 
 	_zoom_tween.play()
 	await _zoom_tween.finished
 	_zoom_multiplier = ZOOM_BASE_MULTIPLIER
+
+func _start_chromatic_aberration(duration : float, intensity : CameraEffects.CAMERA_IMPACT_INTENSITY) -> void:
+	var strength = 0.0
+	var duration_divider = 1.0
+	match intensity:
+		CameraEffects.CAMERA_IMPACT_INTENSITY.LIGHT:
+			strength = RuntimeConfig.camera_effects_intensity_preset.LOW_CHROMATIC_ABERRATION_STRENGTH
+			duration_divider = RuntimeConfig.camera_effects_intensity_preset.LOW_CHROMATIC_ABERRATION_DURATION_DIVIDER
+		CameraEffects.CAMERA_IMPACT_INTENSITY.MEDIUM:
+			strength = RuntimeConfig.camera_effects_intensity_preset.MID_CHROMATIC_ABERRATION_STRENGTH
+			duration_divider = RuntimeConfig.camera_effects_intensity_preset.MID_CHROMATIC_ABERRATION_DURATION_DIVIDER
+		CameraEffects.CAMERA_IMPACT_INTENSITY.HIGH:
+			strength = RuntimeConfig.camera_effects_intensity_preset.HIGH_CHROMATIC_ABERRATION_STRENGTH
+			duration_divider = RuntimeConfig.camera_effects_intensity_preset.HIGH_CHROMATIC_ABERRATION_DURATION_DIVIDER
+	onready_paths.full_screen_effects.chromatic_aberration(strength, duration, duration_divider)
 
 ##### SIGNAL MANAGEMENT #####
 func _on_start_camera_impact(duration : float, intensity : CameraEffects.CAMERA_IMPACT_INTENSITY, priority: CameraEffects.CAMERA_IMPACT_PRIORITY) -> void:
