@@ -28,7 +28,8 @@ var _velocity_buffer := {
 	"respawn_timer": $"RespawnTimer",
 	"buffer_timer": $"VelocityBufferTimer",
 	"freeze_timer": $"FreezePlayerTimer",
-	"damage_wall_area": $"DamageWallArea"
+	"damage_wall_area": $"DamageWallArea",
+	"cracks": $"Cracks"
 }
 
 ##### PROCESSING #####
@@ -52,6 +53,7 @@ func _remove_health_by_velocity(velocity: Vector2) -> void:
 func _update_texture_color(new_health: float) -> void:
 	var health_ratio =(BASE_HEALTH - new_health)/BASE_HEALTH
 	modulate = _wall_gradient.sample(health_ratio)
+	onready_paths.cracks.material.set_shader_parameter("destruction_amount", health_ratio)
 
 @rpc("authority","call_local","unreliable")
 func _toggle_activated(active : bool) -> void:
