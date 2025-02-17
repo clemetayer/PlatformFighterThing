@@ -4,7 +4,6 @@ class_name PrimaryWeaponBase
 
 ##### VARIABLES #####
 #---- EXPORTS -----
-@export var owner_color := Color.WHITE
 
 ##### PUBLIC METHODS #####
 func fire() -> void:

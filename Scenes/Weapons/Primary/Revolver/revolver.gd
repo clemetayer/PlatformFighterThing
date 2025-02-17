@@ -14,6 +14,7 @@ const FIRE_ANIM_MAX_WIDTH := 20
 const FIRE_ANIM_TIME := 0.2
 
 #---- EXPORTS -----
+@export var owner_color := Color.WHITE
 
 #---- STANDARD -----
 #==== PUBLIC ====
@@ -37,7 +38,7 @@ func _init():
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	onready_paths.line_of_sight.modulate = owner_color
+	_set_los_init_modulate()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame. Remove the "_" to use it.
 func _process(_delta):
@@ -49,7 +50,7 @@ func _physics_process(_delta):
 ##### PUBLIC METHODS #####
 func fire() -> void:
 	if not _on_cooldown:
-		_fire_anim()
+		rpc("_fire_anim")
 		_spawn_projectile(_create_projectile())
 		_on_cooldown = true
 		onready_paths.shoot_cooldown_timer.start()
@@ -72,6 +73,7 @@ func _create_projectile() -> Node:
 	projectile.trail_color = owner_color
 	return projectile
 
+@rpc("call_local","authority","unreliable")
 func _fire_anim() -> void:
 	if _fire_anim_tween:
 		_fire_anim_tween.kill() # Abort the previous animation.
@@ -80,6 +82,9 @@ func _fire_anim() -> void:
 	onready_paths.line_of_sight.width = FIRE_ANIM_MAX_WIDTH
 	_fire_anim_tween.tween_property(onready_paths.line_of_sight,"modulate",owner_color,FIRE_ANIM_TIME)
 	_fire_anim_tween.tween_property(onready_paths.line_of_sight,"width",LOS_DEFAULT_WIDTH,FIRE_ANIM_TIME)
+
+func _set_los_init_modulate() -> void:
+	onready_paths.line_of_sight.modulate = owner_color
 
 ##### SIGNAL MANAGEMENT #####
 func _on_shoot_cooldown_timeout():

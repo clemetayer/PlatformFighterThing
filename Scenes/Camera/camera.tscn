@@ -1,0 +1,24 @@
+[gd_scene load_steps=5 format=3 uid="uid://ew7gedlm3n8"]
+
+[ext_resource type="Script" path="res://Scenes/Camera/camera.gd" id="1_niear"]
+[ext_resource type="PackedScene" uid="uid://8vwyx0sggow5" path="res://Scenes/Camera/FullScreenEffects/full_screen_effects.tscn" id="2_7dvo8"]
+[ext_resource type="Script" path="res://addons/shaker/src/Vector2/shaker_component2D.gd" id="3_1qq7l"]
+[ext_resource type="Resource" uid="uid://b2dgsqu3m08u5" path="res://Scenes/Camera/ScreenShakePreset/high.tres" id="4_vxcpo"]
+
+[node name="Camera" type="Camera2D"]
+position = Vector2(-0.000153045, 8.28505e-06)
+ignore_rotation = false
+script = ExtResource("1_niear")
+
+[node name="FullScreenEffects" parent="." instance=ExtResource("2_7dvo8")]
+
+[node name="Shaker" type="Node2D" parent="." node_paths=PackedStringArray("Targets")]
+script = ExtResource("3_1qq7l")
+custom_target = true
+Targets = [NodePath("..")]
+duration = 2.0
+fade_in = 0.0122591
+fade_out = 0.329877
+shakerPreset = ExtResource("4_vxcpo")
+
+[connection signal="shake_finished" from="Shaker" to="." method="_on_shaker_shake_finished"]
