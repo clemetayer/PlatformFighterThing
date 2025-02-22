@@ -44,11 +44,13 @@ func parry() -> void:
 		monitoring = true
 		onready_paths.parry_timer.start()
 		onready_paths.animation_player.rpc("remote_play_animation","parrying")
+		onready_paths_node.parry_active_sound.play()
 
 ##### SIGNAL MANAGEMENT #####
 func _on_area_entered(area):
 	if area.is_in_group("projectile") and _parrying:
 		onready_paths.animation_player.rpc("remote_play_animation","parried")
+		onready_paths_node.parry_sound.play()
 		onready_paths.parry_timer.stop()
 		_can_parry = true
 		_parrying = false

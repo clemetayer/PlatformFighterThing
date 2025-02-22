@@ -28,7 +28,8 @@ var _fire_anim_tween : Tween
 @onready var onready_paths := {
 	"line_of_sight": $"Line2D",
 	"shoot_cooldown_timer": $"ShootCooldown",
-	"sprite": $"Sprite2D"
+	"sprite": $"Sprite2D",
+	"gunshot": $"Gunshot"
 }
 
 ##### PROCESSING #####
@@ -51,6 +52,7 @@ func _physics_process(_delta):
 func fire() -> void:
 	if not _on_cooldown:
 		rpc("_fire_anim")
+		rpc("_play_gunshot")
 		_spawn_projectile(_create_projectile())
 		_on_cooldown = true
 		onready_paths.shoot_cooldown_timer.start()
@@ -82,6 +84,10 @@ func _fire_anim() -> void:
 	onready_paths.line_of_sight.width = FIRE_ANIM_MAX_WIDTH
 	_fire_anim_tween.tween_property(onready_paths.line_of_sight,"modulate",owner_color,FIRE_ANIM_TIME)
 	_fire_anim_tween.tween_property(onready_paths.line_of_sight,"width",LOS_DEFAULT_WIDTH,FIRE_ANIM_TIME)
+
+@rpc("call_local","authority","unreliable")
+func _play_gunshot() -> void:
+	onready_paths.gunshot.play()
 
 func _set_los_init_modulate() -> void:
 	onready_paths.line_of_sight.modulate = owner_color

@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://c3ys4badrjjgc"]
+[gd_scene load_steps=6 format=3 uid="uid://c3ys4badrjjgc"]
 
 [ext_resource type="Script" path="res://Scenes/Weapons/Primary/Revolver/revolver.gd" id="1_71ky4"]
 [ext_resource type="Texture2D" uid="uid://j4xdgdied5dy" path="res://Scenes/Weapons/Primary/Revolver/Revolver.png" id="2_di3r8"]
+[ext_resource type="AudioStream" uid="uid://d3nn6s81f3og5" path="res://Scenes/Weapons/Primary/Revolver/gunshot.mp3" id="3_105xf"]
 
 [sub_resource type="Gradient" id="Gradient_5vcv6"]
 offsets = PackedFloat32Array(0, 0.01, 1)
@@ -38,5 +39,9 @@ wait_time = 0.5
 
 [node name="RevolverSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_jsuls")
+
+[node name="Gunshot" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_105xf")
+bus = &"Effects"
 
 [connection signal="timeout" from="ShootCooldown" to="." method="_on_shoot_cooldown_timeout"]

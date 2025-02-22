@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3 uid="uid://fgxha8wl55pa"]
+[gd_scene load_steps=35 format=3 uid="uid://fgxha8wl55pa"]
 
 [ext_resource type="Script" path="res://Scenes/Player/player.gd" id="1_b1dbg"]
 [ext_resource type="Script" path="res://Scenes/Player/paths.gd" id="2_8lsum"]
@@ -12,7 +12,9 @@
 [ext_resource type="Script" path="res://Scenes/Player/init.gd" id="5_q62wf"]
 [ext_resource type="Script" path="res://Scenes/Player/input_synchronizer.gd" id="5_uow23"]
 [ext_resource type="Script" path="res://Scenes/Player/hitstun_manager.gd" id="6_lv0e8"]
+[ext_resource type="AudioStream" uid="uid://ukj7rgv5cmco" path="res://Scenes/Player/parry.mp3" id="7_1ci2y"]
 [ext_resource type="Texture2D" uid="uid://xtprt5lwbpqn" path="res://Scenes/Player/Octagon.png" id="8_mtvak"]
+[ext_resource type="AudioStream" uid="uid://cvduad6i4tj47" path="res://Scenes/Player/parry_active.mp3" id="8_tyrm3"]
 [ext_resource type="PackedScene" uid="uid://ete32krtenc4" path="res://Scenes/Weapons/Primary/crosshair.tscn" id="12_0h0ho"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_cl61g"]
@@ -437,6 +439,8 @@ ACTION_MANAGER_PATH = NodePath("../ActionManager")
 INIT_PATH = NodePath("../Init")
 HITSTUN_MANAGER = NodePath("../HitstunManager")
 CROSSHAIR_PATH = NodePath("../Crosshair")
+PARRY_SOUND_PATH = NodePath("../Audio/Parry")
+PARRY_ACTIVE_SOUND_PATH = NodePath("../Audio/ParryActive")
 
 [node name="ActionManager" type="Node" parent="."]
 script = ExtResource("4_cguhm")
@@ -450,6 +454,18 @@ script = ExtResource("6_lv0e8")
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
 scale = Vector2(0.33, 0.33)
 polygon = PackedVector2Array(64, -128, -64, -128, -128, -64, -128, 64, -64, 128, 64, 128, 128, 64, 128, -64)
+
+[node name="Audio" type="Node2D" parent="."]
+
+[node name="Parry" type="AudioStreamPlayer2D" parent="Audio"]
+stream = ExtResource("7_1ci2y")
+volume_db = 10.0
+bus = &"EffectsBGMSidechain"
+
+[node name="ParryActive" type="AudioStreamPlayer2D" parent="Audio"]
+stream = ExtResource("8_tyrm3")
+volume_db = 10.0
+bus = &"Effects"
 
 [node name="ParryArea" type="Area2D" parent="."]
 collision_layer = 2
