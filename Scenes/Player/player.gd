@@ -18,6 +18,7 @@ const FLOOR_ACCELERATION = 9000.0
 const AIR_ACCELERATION = FLOOR_ACCELERATION / 2.0
 const PREDICT_BOUNCE_OFFSET = 64.0
 const BOUNCE_DAMPING = 0.85
+const MAX_DAMAGE = 999
 
 #---- EXPORTS -----
 @export var CONFIG : PlayerConfig
@@ -90,7 +91,7 @@ func _integrate_forces(state: PhysicsDirectBodyState2D):
 
 ##### PUBLIC METHODS #####
 func hurt(p_damage : float, knockback : float, kb_direction : Vector2) -> void:
-	DAMAGE += p_damage
+	DAMAGE = min(DAMAGE + p_damage,MAX_DAMAGE)
 	onready_paths_node.damage_label.text = "%f" % DAMAGE
 	_additional_vector += kb_direction.normalized() * DAMAGE * knockback
 	onready_paths_node.hitstun_manager.start_hitstun(DAMAGE)
