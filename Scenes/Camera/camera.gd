@@ -48,7 +48,6 @@ func _process(delta):
 	var best_zoom = _get_best_zoom()
 	if best_zoom > 0 :
 		zoom = zoom.move_toward(Vector2.ONE * best_zoom * _zoom_multiplier,delta * ZOOM_DAMPING)
-	DebugInterface.set_debug_text("Best zoom", _get_best_zoom())
 
 ##### PUBLIC METHODS #####
 # Methods that are intended to be "visible" to other nodes or scripts
@@ -67,13 +66,10 @@ func _get_average_position() -> Vector2:
 
 func _get_best_zoom() -> float:
 	var min_max_pos = _get_global_min_max_pos()
-	DebugInterface.set_debug_text("Zoom min max pos", min_max_pos)
 	var min_pos = min_max_pos.min
 	var max_pos = min_max_pos.max
 	var screen_size_offset = DisplayServer.screen_get_size() - ZOOM_OFFSET
-	DebugInterface.set_debug_text("Screen size offset", screen_size_offset)
 	var best_zoom := Vector2.ZERO
-	DebugInterface.set_debug_text("Pos diff", Vector2(min_pos.x - max_pos.x, min_pos.y - max_pos.y))
 	best_zoom.x = max(abs(min_pos.x - max_pos.x)/(screen_size_offset.x/2),1)
 	best_zoom.y = max(abs(min_pos.y - max_pos.y)/(screen_size_offset.y/2),1)
 	return 1/max(best_zoom.x, best_zoom.y)

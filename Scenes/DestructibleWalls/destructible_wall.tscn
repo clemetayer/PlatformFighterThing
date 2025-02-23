@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://7t50cs5is77n"]
+[gd_scene load_steps=16 format=3 uid="uid://7t50cs5is77n"]
 
 [ext_resource type="Script" path="res://Scenes/DestructibleWalls/destructible_wall.gd" id="1_8dscf"]
 [ext_resource type="Texture2D" uid="uid://olwb2yraeuqe" path="res://Scenes/Levels/Tilesets/LevelPlatformsTileset.png" id="1_megce"]
@@ -399,6 +399,10 @@ properties/2/replication_mode = 2
 resource_local_to_scene = true
 size = Vector2(32, 32)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_iaxsf"]
+resource_local_to_scene = true
+size = Vector2(32, 32)
+
 [node name="DestructibleWall" type="TileMapLayer" groups=["destructible_wall", "static_obstacle"]]
 tile_set = SubResource("TileSet_50xy0")
 script = ExtResource("1_8dscf")
@@ -422,6 +426,10 @@ one_shot = true
 [node name="FreezePlayerTimer" type="Timer" parent="."]
 one_shot = true
 
+[node name="WaitRespawnTimer" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
 [node name="DestructibleWallSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_wjnwb")
 
@@ -432,7 +440,16 @@ script = ExtResource("6_d5y80")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DamageWallArea"]
 shape = SubResource("RectangleShape2D_iceyh")
 
+[node name="CollisionDetectionArea" type="Area2D" parent="."]
+collision_mask = 2
+script = ExtResource("6_d5y80")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CollisionDetectionArea"]
+shape = SubResource("RectangleShape2D_iaxsf")
+
 [connection signal="timeout" from="RespawnTimer" to="." method="_on_respawn_timer_timeout"]
 [connection signal="timeout" from="VelocityBufferTimer" to="." method="_on_velocity_buffer_timer_timeout"]
 [connection signal="timeout" from="FreezePlayerTimer" to="." method="_on_freeze_player_timer_timeout"]
+[connection signal="timeout" from="WaitRespawnTimer" to="." method="_on_wait_for_respawn_timer_timeout"]
 [connection signal="body_entered" from="DamageWallArea" to="." method="_on_damage_wall_area_body_entered"]
+[connection signal="body_entered" from="CollisionDetectionArea" to="." method="_on_damage_wall_area_body_entered"]

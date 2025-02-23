@@ -121,7 +121,6 @@ func _reset_action_values() -> void:
 		_action_states[actions[action]] = ActionHandlerBase.states.INACTIVE
 
 func _set_relative_aim_position() -> void:
-	DebugInterface.set_debug_text("relative_mp", "mouse_pos = %s; pos = %s" % [get_global_mouse_position(), global_position])
 	relative_aim_position = get_global_mouse_position() - global_position
 
 ##### SIGNAL MANAGEMENT #####

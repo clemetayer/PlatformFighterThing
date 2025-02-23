@@ -28,7 +28,9 @@ var _velocity_buffer := {
 	"respawn_timer": $"RespawnTimer",
 	"buffer_timer": $"VelocityBufferTimer",
 	"freeze_timer": $"FreezePlayerTimer",
+	"wait_respawn_timer" :$"WaitRespawnTimer",
 	"damage_wall_area": $"DamageWallArea",
+	"collision_detection_area": $"CollisionDetectionArea",
 	"cracks": $"Cracks"
 }
 
@@ -36,8 +38,8 @@ var _velocity_buffer := {
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	_toggle_activated(true)
+	_toggle_respawn_collision_detection_activated(false)
 	_update_texture_color(BASE_HEALTH)
-
 
 ##### PROTECTED METHODS #####
 func _remove_health_by_velocity(velocity: Vector2) -> void:
@@ -61,6 +63,11 @@ func _toggle_activated(active : bool) -> void:
 	collision_enabled = active
 	onready_paths.damage_wall_area.set_deferred("monitoring", active)
 	onready_paths.damage_wall_area.set_deferred("monitorable", active)
+
+@rpc("authority","call_local","unreliable")
+func _toggle_respawn_collision_detection_activated(active : bool) -> void:
+	onready_paths.collision_detection_area.set_deferred("monitoring", active)
+	onready_paths.collision_detection_area.set_deferred("monitorable", active)
 
 func _get_max_velocity_in_buffer(velocity_buffer : Array) -> Vector2:
 	var max_vel = velocity_buffer[0]
@@ -91,6 +98,15 @@ func _get_shake_type_by_velocity(velocity : float) -> CameraEffects.CAMERA_IMPAC
 	# should not go here
 	return CameraEffects.CAMERA_IMPACT_INTENSITY.LIGHT
 
+func _check_and_respawn() -> void:
+	if onready_paths.collision_detection_area.has_overlapping_bodies(): # if there is a player already inside the wall at the time, wait a bit before trying to respawn it
+		Logger.debug("wait before respawning")
+		onready_paths.wait_respawn_timer.start()
+	else: 
+		rpc("_toggle_activated",true)
+		_toggle_respawn_collision_detection_activated(false)
+
+
 ##### SIGNAL MANAGEMENT #####
 func _on_area_entered(area):
 	if area.is_in_group("projectile") and RuntimeUtils.is_authority():
@@ -99,7 +115,8 @@ func _on_area_entered(area):
 func _on_respawn_timer_timeout() -> void:
 	HEALTH = BASE_HEALTH
 	rpc("_update_texture_color", HEALTH)
-	rpc("_toggle_activated",true)
+	_check_and_respawn()
+
 
 func _on_damage_wall_area_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player") and collision_enabled and RuntimeUtils.is_authority():
@@ -111,6 +128,7 @@ func _on_damage_wall_area_body_entered(body: Node2D) -> void:
 		if HEALTH <= 0:
 			onready_paths.respawn_timer.start()
 			rpc("_toggle_activated", false)
+			_toggle_respawn_collision_detection_activated(true)
 
 func _on_freeze_player_timer_timeout() -> void:
 	if RuntimeUtils.is_authority():
@@ -123,3 +141,6 @@ func _on_freeze_player_timer_timeout() -> void:
 		_velocity_buffer.body = Node2D
 		_velocity_buffer.velocity = Vector2.ZERO
 		
+
+func _on_wait_for_respawn_timer_timeout() -> void:
+	_check_and_respawn()
