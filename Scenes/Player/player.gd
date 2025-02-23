@@ -41,6 +41,7 @@ var velocity_buffer := [Vector2.ZERO, Vector2.ZERO, Vector2.ZERO] # 3 frame buff
 var _frozen := false
 var _velocity_override := Vector2.ZERO
 var _additional_vector := Vector2.ZERO # external forces that can have an effect on the player and needs to be added to the velocity on the next physics frame
+var _freeze_buffer_velocity := Vector2.ZERO
 
 #==== ONREADY ====
 @onready var onready_paths_node := $"Paths"
@@ -62,6 +63,9 @@ func _integrate_forces(state: PhysicsDirectBodyState2D):
 		var delta = state.get_step()
 		
 		# override the velocity if needed
+		if _freeze_buffer_velocity != Vector2.ZERO:
+			velocity = _freeze_buffer_velocity
+			_freeze_buffer_velocity = Vector2.ZERO
 		if _velocity_override != Vector2.ZERO:
 			velocity = _velocity_override
 			_velocity_override = Vector2.ZERO
@@ -107,6 +111,7 @@ func override_velocity(velocity_override : Vector2) -> void:
 	_velocity_override += velocity_override
 
 func toggle_freeze(active : bool) -> void:
+	_freeze_buffer_velocity = velocity
 	set_deferred("freeze", active)
 	set_deferred("sleeping", active)
 	_frozen = active
