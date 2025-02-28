@@ -6,6 +6,7 @@ extends TileMapLayer
 const WALL_COLOR_GRADIENT_RES_PATH := "res://Scenes/DestructibleWalls/wall_color_gradient.tres"
 const DAMAGE_WALL_TRESHOLDS := [0,1500,3000]
 # 0 - 1500 : light, 1500 - 3000 : medium, 3000 - inf : high
+const FREEZE_PLAYER_TIMEOUT := 1 # s
 
 #---- EXPORTS -----
 @export var BASE_HEALTH := 5000 
@@ -17,17 +18,13 @@ const DAMAGE_WALL_TRESHOLDS := [0,1500,3000]
 #==== PUBLIC ====
 
 #==== PRIVATE ====
-var _velocity_buffer := {
-	velocity= Vector2.ZERO,
-	body= Node2D
-}
 
 #==== ONREADY ====
 @onready var _wall_gradient := load(WALL_COLOR_GRADIENT_RES_PATH)
 @onready var onready_paths := {
 	"respawn_timer": $"RespawnTimer",
 	"buffer_timer": $"VelocityBufferTimer",
-	"freeze_timer": $"FreezePlayerTimer",
+	"freeze_timers_path": $"FreezePlayerTimers",
 	"wait_respawn_timer" :$"WaitRespawnTimer",
 	"damage_wall_area": $"DamageWallArea",
 	"collision_detection_area": $"CollisionDetectionArea",
@@ -78,11 +75,6 @@ func _get_max_velocity_in_buffer(velocity_buffer : Array) -> Vector2:
 			max_vel = velocity
 	return max_vel
 
-# workaround to avoid a player stop just before the wall collision are disabled
-func _buffer_player_velocity(body : Node2D, velocity: Vector2) -> void:
-	_velocity_buffer.velocity = velocity
-	_velocity_buffer.body = body
-
 @rpc("authority","call_local","unreliable")
 func _shake_camera_by_velocity(velocity : float) -> void:
 	var camera_shake = _get_shake_type_by_velocity(abs(velocity))
@@ -106,6 +98,13 @@ func _check_and_respawn() -> void:
 		rpc("_toggle_activated",true)
 		_toggle_respawn_collision_detection_activated(false)
 
+func _start_freeze_timeout_timer_for_player(player_velocity : Vector2, player : Node2D) -> void:
+	var timer = Timer.new()
+	timer.one_shot = true
+	timer.wait_time = FREEZE_PLAYER_TIMEOUT
+	timer.connect("timeout",func(): _on_freeze_player_timer_timeout(timer, player_velocity, player))
+	onready_paths.freeze_timers_path.add_child(timer)
+	timer.start()
 
 ##### SIGNAL MANAGEMENT #####
 func _on_area_entered(area):
@@ -123,23 +122,20 @@ func _on_damage_wall_area_body_entered(body: Node2D) -> void:
 		var max_velocity = _get_max_velocity_in_buffer(body.velocity_buffer)
 		_remove_health_by_velocity(max_velocity)
 		body.toggle_freeze(true)
-		onready_paths.freeze_timer.start()
-		_buffer_player_velocity(body, max_velocity)
+		_start_freeze_timeout_timer_for_player(body.velocity, body)
 		if HEALTH <= 0:
 			onready_paths.respawn_timer.start()
 			rpc("_toggle_activated", false)
 			_toggle_respawn_collision_detection_activated(true)
 
-func _on_freeze_player_timer_timeout() -> void:
+func _on_freeze_player_timer_timeout(timer_to_free : Timer, player_velocity : Vector2, player : Node2D) -> void:
 	if RuntimeUtils.is_authority():
-		var body = _velocity_buffer.body
-		_velocity_buffer.body.toggle_freeze(false)
+		player.toggle_freeze(false)
 		if HEALTH <= 0:
-			_velocity_buffer.body.override_velocity(_velocity_buffer.velocity)
+			player.override_velocity(player_velocity)
 		else:
-			_velocity_buffer.body.override_velocity(BOUNCE_BACK_DIRECTION * BOUNCE_BACK_FORCE)
-		_velocity_buffer.body = Node2D
-		_velocity_buffer.velocity = Vector2.ZERO
+			player.override_velocity(BOUNCE_BACK_DIRECTION * BOUNCE_BACK_FORCE)
+		timer_to_free.queue_free()
 		
 
 func _on_wait_for_respawn_timer_timeout() -> void:
