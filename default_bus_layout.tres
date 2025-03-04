@@ -3,12 +3,15 @@
 [sub_resource type="AudioEffectHardLimiter" id="AudioEffectHardLimiter_u7qpe"]
 resource_name = "HardLimiter"
 
+[sub_resource type="AudioEffectCompressor" id="AudioEffectCompressor_nd10m"]
+resource_name = "Compressor"
+threshold = -20.0
+ratio = 12.0
+release_ms = 50.0
+sidechain = &"EffectsBGMSidechain"
+
 [sub_resource type="AudioEffectHardLimiter" id="AudioEffectHardLimiter_7hi18"]
 resource_name = "HardLimiter"
-
-[sub_resource type="AudioEffectCompressor" id="AudioEffectCompressor_okch8"]
-resource_name = "Compressor"
-sidechain = &"BGM"
 
 [resource]
 bus/1/name = &"BGM"
@@ -19,6 +22,8 @@ bus/1/volume_db = 0.0
 bus/1/send = &"Master"
 bus/1/effect/0/effect = SubResource("AudioEffectHardLimiter_u7qpe")
 bus/1/effect/0/enabled = true
+bus/1/effect/1/effect = SubResource("AudioEffectCompressor_nd10m")
+bus/1/effect/1/enabled = true
 bus/2/name = &"Effects"
 bus/2/solo = false
 bus/2/mute = false
@@ -33,8 +38,6 @@ bus/3/mute = false
 bus/3/bypass_fx = false
 bus/3/volume_db = 0.0
 bus/3/send = &"Master"
-bus/3/effect/0/effect = SubResource("AudioEffectCompressor_okch8")
-bus/3/effect/0/enabled = true
 bus/4/name = &"MuteUtils"
 bus/4/solo = false
 bus/4/mute = true

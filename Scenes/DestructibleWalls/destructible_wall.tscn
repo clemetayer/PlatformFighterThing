@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://7t50cs5is77n"]
+[gd_scene load_steps=19 format=3 uid="uid://7t50cs5is77n"]
 
 [ext_resource type="Script" path="res://Scenes/DestructibleWalls/destructible_wall.gd" id="1_8dscf"]
 [ext_resource type="Texture2D" uid="uid://olwb2yraeuqe" path="res://Scenes/Levels/Tilesets/LevelPlatformsTileset.png" id="1_megce"]
@@ -8,6 +8,9 @@
 [ext_resource type="Script" path="res://Scenes/DestructibleWalls/damage_wall_area.gd" id="6_d5y80"]
 [ext_resource type="Shader" path="res://Scenes/DestructibleWalls/wall_cracks.gdshader" id="6_l8c1b"]
 [ext_resource type="Texture2D" uid="uid://dx011vpb8nxes" path="res://Scenes/DestructibleWalls/WallCracks.png" id="7_5oovs"]
+[ext_resource type="AudioStream" uid="uid://di4b47ufm34ow" path="res://Scenes/DestructibleWalls/wall_hit.mp3" id="8_wwj4h"]
+[ext_resource type="AudioStream" uid="uid://c07531stev7wx" path="res://Scenes/DestructibleWalls/wall_hit_break_trebble.mp3" id="9_kwvrj"]
+[ext_resource type="AudioStream" uid="uid://cpms6atcqxp1b" path="res://Scenes/DestructibleWalls/wall_break.mp3" id="10_7vn65"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_yaxuf"]
 texture = ExtResource("1_megce")
@@ -431,6 +434,21 @@ one_shot = true
 
 [node name="DestructibleWallSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_wjnwb")
+
+[node name="Audio" type="Node" parent="."]
+
+[node name="WallHit" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("8_wwj4h")
+volume_db = -3.0
+bus = &"EffectsBGMSidechain"
+
+[node name="WallHitBreakTrebble" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("9_kwvrj")
+
+[node name="WallBreak" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("10_7vn65")
+volume_db = -8.0
+pitch_scale = 0.8
 
 [node name="DamageWallArea" type="Area2D" parent="."]
 collision_mask = 2

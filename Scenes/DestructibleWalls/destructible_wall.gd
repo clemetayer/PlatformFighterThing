@@ -28,7 +28,11 @@ const FREEZE_PLAYER_TIMEOUT := 1 # s
 	"wait_respawn_timer" :$"WaitRespawnTimer",
 	"damage_wall_area": $"DamageWallArea",
 	"collision_detection_area": $"CollisionDetectionArea",
-	"cracks": $"Cracks"
+	"cracks": $"Cracks",
+	"audio": {
+		"hit":$"Audio/WallHit",
+		"break":$"Audio/WallBreak"
+	}
 }
 
 ##### PROCESSING #####
@@ -124,9 +128,12 @@ func _on_damage_wall_area_body_entered(body: Node2D) -> void:
 		body.toggle_freeze(true)
 		_start_freeze_timeout_timer_for_player(body.velocity, body)
 		if HEALTH <= 0:
+			onready_paths.audio.break.play()
 			onready_paths.respawn_timer.start()
 			rpc("_toggle_activated", false)
 			_toggle_respawn_collision_detection_activated(true)
+		else:
+			onready_paths.audio.hit.play()
 
 func _on_freeze_player_timer_timeout(timer_to_free : Timer, player_velocity : Vector2, player : Node2D) -> void:
 	if RuntimeUtils.is_authority():

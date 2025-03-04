@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3 uid="uid://fgxha8wl55pa"]
+[gd_scene load_steps=36 format=3 uid="uid://fgxha8wl55pa"]
 
 [ext_resource type="Script" path="res://Scenes/Player/player.gd" id="1_b1dbg"]
 [ext_resource type="Script" path="res://Scenes/Player/paths.gd" id="2_8lsum"]
@@ -13,6 +13,7 @@
 [ext_resource type="Script" path="res://Scenes/Player/input_synchronizer.gd" id="5_uow23"]
 [ext_resource type="Script" path="res://Scenes/Player/hitstun_manager.gd" id="6_lv0e8"]
 [ext_resource type="AudioStream" uid="uid://ukj7rgv5cmco" path="res://Scenes/Player/parry.mp3" id="7_1ci2y"]
+[ext_resource type="AudioStream" uid="uid://cudyvrluhlj0s" path="res://Scenes/Player/wrong.mp3" id="8_f1844"]
 [ext_resource type="Texture2D" uid="uid://xtprt5lwbpqn" path="res://Scenes/Player/Octagon.png" id="8_mtvak"]
 [ext_resource type="AudioStream" uid="uid://cvduad6i4tj47" path="res://Scenes/Player/parry_active.mp3" id="8_tyrm3"]
 [ext_resource type="PackedScene" uid="uid://ete32krtenc4" path="res://Scenes/Weapons/Primary/crosshair.tscn" id="12_0h0ho"]
@@ -441,6 +442,7 @@ HITSTUN_MANAGER = NodePath("../HitstunManager")
 CROSSHAIR_PATH = NodePath("../Crosshair")
 PARRY_SOUND_PATH = NodePath("../Audio/Parry")
 PARRY_ACTIVE_SOUND_PATH = NodePath("../Audio/ParryActive")
+PARRY_WRONG_PATH = NodePath("../Audio/ParryDisabled")
 
 [node name="ActionManager" type="Node" parent="."]
 script = ExtResource("4_cguhm")
@@ -459,8 +461,11 @@ polygon = PackedVector2Array(64, -128, -64, -128, -128, -64, -128, 64, -64, 128,
 
 [node name="Parry" type="AudioStreamPlayer2D" parent="Audio"]
 stream = ExtResource("7_1ci2y")
-volume_db = 10.0
 bus = &"EffectsBGMSidechain"
+
+[node name="ParryDisabled" type="AudioStreamPlayer2D" parent="Audio"]
+stream = ExtResource("8_f1844")
+bus = &"Effects"
 
 [node name="ParryActive" type="AudioStreamPlayer2D" parent="Audio"]
 stream = ExtResource("8_tyrm3")

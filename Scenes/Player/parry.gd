@@ -45,6 +45,8 @@ func parry() -> void:
 		onready_paths.parry_timer.start()
 		onready_paths.animation_player.rpc("remote_play_animation","parrying")
 		onready_paths_node.parry_active_sound.play()
+	else:
+		onready_paths_node.parry_wrong.play()
 
 ##### SIGNAL MANAGEMENT #####
 func _on_area_entered(area):

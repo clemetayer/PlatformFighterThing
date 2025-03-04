@@ -26,7 +26,8 @@ var _dashes_available := MAX_DASHES
 #==== ONREADY ====
 @onready var onready_paths := {
 	"reload_timer":$"ReloadDashTimer",
-	"dash_particles":$"DashParticles"
+	"dash_particles":$"DashParticles",
+	"sound":$"DashSound"
 }
 
 ##### PROCESSING #####
@@ -43,7 +44,8 @@ func _process(_delta):
 	if ActionHandlerBase.is_just_active(state) and _dashes_available > 0:
 		player.override_velocity(player.direction.normalized() * DASH_VELOCITY)
 		_dashes_available -= 1
-		rpc("_emit_particles")
+		rpc("_emit_particles") # TODO : RPCs not really usefull here ? To test.
+		rpc("_play_sound")
 		if onready_paths.reload_timer.is_stopped():
 			onready_paths.reload_timer.start()
 
@@ -54,7 +56,7 @@ func _process(_delta):
 
 ##### PROTECTED METHODS #####
 func _print_dashes_available() -> void:
-	print("dashes available = %d" % _dashes_available)
+	Logger.debug("dashes available = %d" % _dashes_available)
 
 @rpc("call_local","authority","unreliable")
 func _emit_particles() -> void:
@@ -62,6 +64,10 @@ func _emit_particles() -> void:
 		onready_paths.dash_particles.restart()
 	onready_paths.dash_particles.emitting = true
 
+@rpc("call_local","authority","unreliable")
+func _play_sound() -> void:
+	onready_paths.sound.play()
+ 
 ##### SIGNAL MANAGEMENT #####
 func _on_reload_dash_timer_timeout():
 	_dashes_available += 1

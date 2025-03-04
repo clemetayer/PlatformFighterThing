@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://cj7gldqg3okbr"]
+[gd_scene load_steps=7 format=3 uid="uid://cj7gldqg3okbr"]
 
 [ext_resource type="Script" path="res://Scenes/Movement/MovementBonusDash/movement_bonus_dash.gd" id="1_eshou"]
 [ext_resource type="Texture2D" uid="uid://btcmiq31qee7d" path="res://Scenes/Player/CharacterBody.png" id="2_3l0pl"]
+[ext_resource type="AudioStream" uid="uid://dwc7ot08hwsnf" path="res://Scenes/Movement/MovementBonusDash/dash.mp3" id="3_yj5pv"]
 
 [sub_resource type="Gradient" id="Gradient_wrnua"]
 offsets = PackedFloat32Array(0, 0.33, 0.66, 1)
@@ -26,6 +27,10 @@ process_material = SubResource("ParticleProcessMaterial_k6q73")
 texture = ExtResource("2_3l0pl")
 lifetime = 0.33
 one_shot = true
+
+[node name="DashSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_yj5pv")
+volume_db = -3.0
 
 [node name="ReloadDashTimer" type="Timer" parent="."]
 wait_time = 2.0
