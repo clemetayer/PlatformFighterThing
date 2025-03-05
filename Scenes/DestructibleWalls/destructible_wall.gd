@@ -4,7 +4,7 @@ extends TileMapLayer
 ##### VARIABLES #####
 #---- CONSTANTS -----
 const WALL_COLOR_GRADIENT_RES_PATH := "res://Scenes/DestructibleWalls/wall_color_gradient.tres"
-const DAMAGE_WALL_TRESHOLDS := [0,1500,3000]
+const DAMAGE_WALL_TRESHOLD_EFFECT := 3000
 # 0 - 1500 : light, 1500 - 3000 : medium, 3000 - inf : high
 const FREEZE_PLAYER_TIMEOUT := 1 # s
 
@@ -46,7 +46,7 @@ func _ready():
 func _remove_health_by_velocity(velocity: Vector2) -> void:
 	if BOUNCE_BACK_DIRECTION.x != 0:
 		HEALTH -= abs(velocity.x)
-		rpc("_shake_camera_by_velocity",velocity.x)
+		rpc("_shake_camera_by_velocity", velocity.x)
 	elif BOUNCE_BACK_DIRECTION.y != 0:
 		HEALTH -= abs(velocity.y)
 		rpc("_shake_camera_by_velocity", velocity.y)
@@ -70,6 +70,7 @@ func _toggle_respawn_collision_detection_activated(active : bool) -> void:
 	onready_paths.collision_detection_area.set_deferred("monitoring", active)
 	onready_paths.collision_detection_area.set_deferred("monitorable", active)
 
+# REFACTOR : Maybe it could be a better idea to keep this in the player
 func _get_max_velocity_in_buffer(velocity_buffer : Array) -> Vector2:
 	var max_vel = velocity_buffer[0]
 	for velocity in velocity_buffer:
@@ -85,14 +86,10 @@ func _shake_camera_by_velocity(velocity : float) -> void:
 	CameraEffects.emit_signal_start_camera_impact(1,camera_shake, CameraEffects.CAMERA_IMPACT_PRIORITY.HIGH)
 
 func _get_shake_type_by_velocity(velocity : float) -> CameraEffects.CAMERA_IMPACT_INTENSITY:
-	if FunctionUtils.in_between(velocity,DAMAGE_WALL_TRESHOLDS[0], DAMAGE_WALL_TRESHOLDS[1]):
-		return CameraEffects.CAMERA_IMPACT_INTENSITY.LIGHT
-	elif FunctionUtils.in_between(velocity,DAMAGE_WALL_TRESHOLDS[1], DAMAGE_WALL_TRESHOLDS[2]):
+	if velocity <= DAMAGE_WALL_TRESHOLD_EFFECT:
 		return CameraEffects.CAMERA_IMPACT_INTENSITY.MEDIUM
-	elif velocity > DAMAGE_WALL_TRESHOLDS[2]:
+	else:
 		return CameraEffects.CAMERA_IMPACT_INTENSITY.HIGH
-	# should not go here
-	return CameraEffects.CAMERA_IMPACT_INTENSITY.LIGHT
 
 func _check_and_respawn() -> void:
 	if onready_paths.collision_detection_area.has_overlapping_bodies(): # if there is a player already inside the wall at the time, wait a bit before trying to respawn it
