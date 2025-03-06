@@ -14,11 +14,12 @@ const JUMP_VELOCITY := -1200.0
 const MAX_FLOOR_ANGLE := PI/4
 const NORMAL_BOUNCE := 0.05
 const HITSTUN_BOUNCE := 1.0
-const FLOOR_ACCELERATION = 9000.0 
-const AIR_ACCELERATION = FLOOR_ACCELERATION / 2.0
-const PREDICT_BOUNCE_OFFSET = 64.0
-const BOUNCE_DAMPING = 0.85
-const MAX_DAMAGE = 999
+const FLOOR_ACCELERATION := 9000.0 
+const AIR_ACCELERATION := FLOOR_ACCELERATION / 2.0
+const PREDICT_BOUNCE_OFFSET := 64.0
+const BOUNCE_DAMPING := 0.85
+const MAX_DAMAGE := 999
+const MAX_BOUNCE_PREDICTIONS := 10
 
 #---- EXPORTS -----
 @export var CONFIG : PlayerConfig
@@ -127,13 +128,14 @@ func _buffer_velocity(vel_to_buffer : Vector2) -> void:
 	velocity_buffer.pop_back()
 	velocity_buffer.push_front(vel_to_buffer)
 
-# FIXME : weird behaviours happens starting at 360 velocity on a parry (not moving, teleporting outside the collision, touching a destructible wall without damage)
 func _predict_bounces() -> void:
 	var travel_distance_next_frame = velocity * 1.0 / Engine.get_physics_ticks_per_second()
+	_temp_log_data_on_condition(DAMAGE >= 300, "travel_distance_next_frame = %s" % travel_distance_next_frame)
 	var space_state = get_world_2d().direct_space_state
 	var query = PhysicsRayQueryParameters2D.create(position, position + travel_distance_next_frame, 1)
 	var intersection = space_state.intersect_ray(query)
-	while intersection:
+	var predict_bounce_cnt = 0
+	while intersection and predict_bounce_cnt < MAX_BOUNCE_PREDICTIONS:
 		position = intersection.position + intersection.normal * PREDICT_BOUNCE_OFFSET  # slight position correction to avoid repositionning in the wall
 		if intersection.collider.is_in_group("destructible_wall"): # breakable wall, should not bounce
 			break
@@ -148,6 +150,11 @@ func _predict_bounces() -> void:
 			travel_distance_next_frame = velocity.normalized() * (travel_distance_next_frame - distance_traveled).length()
 			query = PhysicsRayQueryParameters2D.create(position, position + travel_distance_next_frame, 1)
 			intersection = space_state.intersect_ray(query)
+		predict_bounce_cnt += 1
+
+func _temp_log_data_on_condition(condition : bool, message : String) -> void:
+	if condition:
+		Logger.debug(message)
 
 ##### SIGNAL MANAGEMENT #####
 func _on_SceneUtils_toggle_scene_freeze(value: bool) -> void:
