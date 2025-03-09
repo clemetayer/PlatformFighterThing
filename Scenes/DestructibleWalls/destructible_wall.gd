@@ -18,6 +18,7 @@ const FREEZE_PLAYER_TIMEOUT := 1 # s
 #==== PUBLIC ====
 
 #==== PRIVATE ====
+var _update_health_tween : Tween
 
 #==== ONREADY ====
 @onready var _wall_gradient := load(WALL_COLOR_GRADIENT_RES_PATH)
@@ -31,7 +32,8 @@ const FREEZE_PLAYER_TIMEOUT := 1 # s
 	"cracks": $"Cracks",
 	"audio": {
 		"hit":$"Audio/WallHit",
-		"break":$"Audio/WallBreak"
+		"break":$"Audio/WallBreak",
+		"trebble":$"Audio/WallHitBreakTrebble"
 	}
 }
 
@@ -44,13 +46,31 @@ func _ready():
 
 ##### PROTECTED METHODS #####
 func _remove_health_by_velocity(velocity: Vector2) -> void:
+	var final_health = HEALTH
+	var anim_time = 0.0
 	if BOUNCE_BACK_DIRECTION.x != 0:
-		HEALTH -= abs(velocity.x)
+		final_health -= abs(velocity.x)
 		rpc("_shake_camera_by_velocity", velocity.x)
 	elif BOUNCE_BACK_DIRECTION.y != 0:
-		HEALTH -= abs(velocity.y)
+		final_health -= abs(velocity.y)
 		rpc("_shake_camera_by_velocity", velocity.y)
+	_play_break_trebble(final_health)
+	if _update_health_tween:
+		_update_health_tween.kill() # Abort the previous animation.
+	_update_health_tween = create_tween()
+	_update_health_tween.tween_method(_update_health, HEALTH, final_health,FREEZE_PLAYER_TIMEOUT)
 	rpc("_update_texture_color", HEALTH)
+
+func _update_health(new_health : float) -> void:
+	HEALTH = new_health
+	rpc("_update_texture_color", new_health)
+
+func _play_break_trebble(final_health : float) -> void:
+	var final_damage_ratio = min(1.0 - final_health/BASE_HEALTH, 1.0)
+	var final_stream_play_time = onready_paths.audio.trebble.stream.get_length() * final_damage_ratio
+	var initial_stream_play_time = max(0.0,final_stream_play_time - FREEZE_PLAYER_TIMEOUT)
+	Logger.debug("ration : %s, final time : %s, initial time : %s" % [final_damage_ratio, final_stream_play_time, initial_stream_play_time])
+	onready_paths.audio.trebble.play(initial_stream_play_time)
 
 @rpc("authority","call_local","unreliable")
 func _update_texture_color(new_health: float) -> void:
@@ -83,7 +103,7 @@ func _get_max_velocity_in_buffer(velocity_buffer : Array) -> Vector2:
 @rpc("authority","call_local","unreliable")
 func _shake_camera_by_velocity(velocity : float) -> void:
 	var camera_shake = _get_shake_type_by_velocity(abs(velocity))
-	CameraEffects.emit_signal_start_camera_impact(1,camera_shake, CameraEffects.CAMERA_IMPACT_PRIORITY.HIGH)
+	CameraEffects.emit_signal_start_camera_impact(FREEZE_PLAYER_TIMEOUT,camera_shake, CameraEffects.CAMERA_IMPACT_PRIORITY.HIGH)
 
 func _get_shake_type_by_velocity(velocity : float) -> CameraEffects.CAMERA_IMPACT_INTENSITY:
 	if velocity <= DAMAGE_WALL_TRESHOLD_EFFECT:
@@ -135,6 +155,7 @@ func _on_damage_wall_area_body_entered(body: Node2D) -> void:
 func _on_freeze_player_timer_timeout(timer_to_free : Timer, player_velocity : Vector2, player : Node2D) -> void:
 	if RuntimeUtils.is_authority():
 		player.toggle_freeze(false)
+		onready_paths.audio.trebble.stop()
 		if HEALTH <= 0:
 			player.override_velocity(player_velocity)
 		else:

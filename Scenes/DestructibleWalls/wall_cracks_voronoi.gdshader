@@ -3,6 +3,7 @@ shader_type canvas_item;
 const float EDGE_THICKNESS = 2.0;
 const float VORONOI_COLUMNS = 10.0;
 const float VORONOI_ROWS = 10.0;
+const float FRACT_SIZE_DIVIDER = 10.0;
 
 uniform vec2 fract_size;
 uniform float destruction_amount : hint_range(0.0,1.0) = 0.0;
@@ -40,7 +41,7 @@ vec2 voronoi(vec2 uv, float columns, float rows) {
 }
 
 void fragment() {
-	vec2 fract_uv = fract(UV * fract_size / 10.0);
+	vec2 fract_uv = fract(UV * fract_size / FRACT_SIZE_DIVIDER);
 
 	vec2 voronoi_point = voronoi(fract_uv, VORONOI_COLUMNS, VORONOI_ROWS);
 
@@ -50,15 +51,15 @@ void fragment() {
 
     // Detect borders by checking if the Voronoi point changes
     bool is_border = (voronoi_point != voronoi_point_right) || (voronoi_point != voronoi_point_down);
-	
+
 	// To show the edge or not
 	bool is_above_destruction_level = max(voronoi_point.x,voronoi_point_down.x) >= 1.0 - destruction_amount;
 
     // Output color based on whether it's a border or not
 	if(is_border && is_above_destruction_level) {
-		COLOR = vec4(1.0);
+		COLOR.a = 1.0;
 	}
 	else {
-		COLOR = vec4(0.0);
+		COLOR.a = 0.0;
 	}
 }
