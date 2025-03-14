@@ -1,3 +1,4 @@
+@tool
 extends TileMapLayer
 # destructible wall script
 
@@ -13,6 +14,8 @@ const FREEZE_PLAYER_TIMEOUT := 1 # s
 @export var BOUNCE_BACK_FORCE := 1750
 @export var BOUNCE_BACK_DIRECTION := Vector2.RIGHT
 @export var HEALTH = BASE_HEALTH
+# A fake button to bake another wall that will create a cool breaking effect when destroyed
+@export var bake_wall_fragments: bool = false : set = _bake_wall_fragments
 
 #---- STANDARD -----
 #==== PUBLIC ====
@@ -30,6 +33,7 @@ var _update_health_tween : Tween
 	"damage_wall_area": $"DamageWallArea",
 	"collision_detection_area": $"CollisionDetectionArea",
 	"cracks": $"Cracks",
+	"wall_fragments": $"WallFragments",
 	"audio": {
 		"hit":$"Audio/WallHit",
 		"break":$"Audio/WallBreak",
@@ -40,11 +44,16 @@ var _update_health_tween : Tween
 ##### PROCESSING #####
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	_toggle_activated(true)
-	_toggle_respawn_collision_detection_activated(false)
-	_update_texture_color(BASE_HEALTH)
+	if not Engine.is_editor_hint():
+		_toggle_activated(true)
+		_toggle_respawn_collision_detection_activated(false)
+		_update_texture_color(BASE_HEALTH)
 
 ##### PROTECTED METHODS #####
+func _bake_wall_fragments(_fake_bool) -> void:
+	if(Engine.is_editor_hint() and onready_paths.has("wall_fragments")):
+		onready_paths.wall_fragments.bake_tilemap()
+
 func _remove_health_by_velocity(velocity: Vector2) -> void:
 	var final_health = HEALTH
 	var anim_time = 0.0
@@ -69,7 +78,6 @@ func _play_break_trebble(final_health : float) -> void:
 	var final_damage_ratio = min(1.0 - final_health/BASE_HEALTH, 1.0)
 	var final_stream_play_time = onready_paths.audio.trebble.stream.get_length() * final_damage_ratio
 	var initial_stream_play_time = max(0.0,final_stream_play_time - FREEZE_PLAYER_TIMEOUT)
-	Logger.debug("ration : %s, final time : %s, initial time : %s" % [final_damage_ratio, final_stream_play_time, initial_stream_play_time])
 	onready_paths.audio.trebble.play(initial_stream_play_time)
 
 @rpc("authority","call_local","unreliable")

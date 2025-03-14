@@ -1,12 +1,13 @@
-[gd_scene load_steps=18 format=3 uid="uid://7t50cs5is77n"]
+[gd_scene load_steps=19 format=3 uid="uid://7t50cs5is77n"]
 
-[ext_resource type="Script" path="res://Scenes/DestructibleWalls/destructible_wall.gd" id="1_8dscf"]
+[ext_resource type="Script" uid="uid://boqypfe62ckdo" path="res://Scenes/DestructibleWalls/destructible_wall.gd" id="1_8dscf"]
 [ext_resource type="Texture2D" uid="uid://olwb2yraeuqe" path="res://Scenes/Levels/Tilesets/LevelPlatformsTileset.png" id="1_megce"]
-[ext_resource type="Shader" path="res://Scenes/DestructibleWalls/diagonal.gdshader" id="2_5vcqb"]
+[ext_resource type="Shader" uid="uid://cefkfdgdjunyg" path="res://Scenes/DestructibleWalls/diagonal.gdshader" id="2_5vcqb"]
 [ext_resource type="Texture2D" uid="uid://bd8nij4xne6y6" path="res://Scenes/DestructibleWalls/SimpleDiagonal.png" id="3_c1sg8"]
-[ext_resource type="Script" path="res://Scenes/DestructibleWalls/moving_pattern.gd" id="4_2peem"]
-[ext_resource type="Script" path="res://Scenes/DestructibleWalls/damage_wall_area.gd" id="6_d5y80"]
-[ext_resource type="Shader" path="res://Scenes/DestructibleWalls/wall_cracks_voronoi.gdshader" id="8_1gtvk"]
+[ext_resource type="Script" uid="uid://bvtehwex678dw" path="res://Scenes/DestructibleWalls/WallFragments/wall_fragments.gd" id="3_mh1jy"]
+[ext_resource type="Script" uid="uid://bvmoyw03d0aie" path="res://Scenes/DestructibleWalls/moving_pattern.gd" id="4_2peem"]
+[ext_resource type="Script" uid="uid://bhp1lra78ushv" path="res://Scenes/DestructibleWalls/damage_wall_area.gd" id="6_d5y80"]
+[ext_resource type="Shader" uid="uid://boltyocanot7r" path="res://Scenes/DestructibleWalls/wall_cracks_voronoi.gdshader" id="8_1gtvk"]
 [ext_resource type="AudioStream" uid="uid://di4b47ufm34ow" path="res://Scenes/DestructibleWalls/wall_hit.mp3" id="8_wwj4h"]
 [ext_resource type="AudioStream" uid="uid://c07531stev7wx" path="res://Scenes/DestructibleWalls/wall_hit_break_trebble.mp3" id="9_kwvrj"]
 [ext_resource type="AudioStream" uid="uid://cpms6atcqxp1b" path="res://Scenes/DestructibleWalls/wall_break.mp3" id="10_7vn65"]
@@ -375,14 +376,14 @@ sources/0 = SubResource("TileSetAtlasSource_yaxuf")
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_qcnym"]
 resource_local_to_scene = true
 shader = ExtResource("2_5vcqb")
-shader_parameter/fract_size = null
-shader_parameter/speed = 2.0
 shader_parameter/moving_tex = ExtResource("3_c1sg8")
+shader_parameter/fract_size = Vector2(0, 0)
+shader_parameter/speed = 2.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_h6emg"]
 resource_local_to_scene = true
 shader = ExtResource("8_1gtvk")
-shader_parameter/fract_size = null
+shader_parameter/fract_size = Vector2(0, 0)
 shader_parameter/destruction_amount = 0.276
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_wjnwb"]
@@ -407,6 +408,15 @@ size = Vector2(32, 32)
 [node name="DestructibleWall" type="TileMapLayer" groups=["destructible_wall", "static_obstacle"]]
 tile_set = SubResource("TileSet_50xy0")
 script = ExtResource("1_8dscf")
+HEALTH = 5000
+
+[node name="WallFragments" type="Node2D" parent="."]
+script = ExtResource("3_mh1jy")
+
+[node name="Sprite" type="Sprite2D" parent="WallFragments"]
+centered = false
+
+[node name="Fragments" type="Node2D" parent="WallFragments"]
 
 [node name="MovingPattern" type="ColorRect" parent="."]
 material = SubResource("ShaderMaterial_qcnym")
