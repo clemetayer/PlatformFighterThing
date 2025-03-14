@@ -1,7 +1,7 @@
 [gd_scene load_steps=13 format=4 uid="uid://b1lft1oovl50b"]
 
 [ext_resource type="Texture2D" uid="uid://olwb2yraeuqe" path="res://Scenes/Levels/Tilesets/LevelPlatformsTileset.png" id="1_qykhq"]
-[ext_resource type="Script" path="res://addons/TileMapCollisionBaker/TilemapCollisionBaker.gd" id="2_hy67k"]
+[ext_resource type="Script" uid="uid://b5ahiyp1lgbgu" path="res://addons/TileMapCollisionBaker/TilemapCollisionBaker.gd" id="2_hy67k"]
 [ext_resource type="PackedScene" uid="uid://bc175bcim437d" path="res://Scenes/LevelBounds/level_bounds.tscn" id="2_sx6fs"]
 [ext_resource type="PackedScene" uid="uid://7t50cs5is77n" path="res://Scenes/DestructibleWalls/destructible_wall.tscn" id="3_4ucvp"]
 
@@ -397,19 +397,19 @@ terrain_set_0/terrain_0/name = "terrain"
 terrain_set_0/terrain_0/color = Color(0, 0, 0, 1)
 sources/0 = SubResource("TileSetAtlasSource_3ctg0")
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_3d46c"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_p68mt"]
 size = Vector2(384, 192)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_3a7at"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pv8o4"]
 size = Vector2(256, 64)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_5alky"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8wiv3"]
 size = Vector2(2432, 64)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_idlkj"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_c48e6"]
 size = Vector2(256, 64)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_slhnu"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ugcye"]
 size = Vector2(384, 192)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_j2qbn"]
@@ -429,27 +429,28 @@ collision_mask = 6
 script = ExtResource("2_hy67k")
 tilemaplayers_nodepaths = Array[NodePath]([NodePath("../TileMapLayer")])
 
-[node name="CollisionShape2D6" type="CollisionShape2D" parent="Platforms/BakedCollision"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Platforms/BakedCollision"]
 position = Vector2(-960, -96)
-shape = SubResource("RectangleShape2D_3d46c")
+shape = SubResource("RectangleShape2D_p68mt")
 
-[node name="CollisionShape2D7" type="CollisionShape2D" parent="Platforms/BakedCollision"]
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Platforms/BakedCollision"]
 position = Vector2(-384, -416)
-shape = SubResource("RectangleShape2D_3a7at")
+shape = SubResource("RectangleShape2D_pv8o4")
 
-[node name="CollisionShape2D8" type="CollisionShape2D" parent="Platforms/BakedCollision"]
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="Platforms/BakedCollision"]
 position = Vector2(0, 32)
-shape = SubResource("RectangleShape2D_5alky")
+shape = SubResource("RectangleShape2D_8wiv3")
 
-[node name="CollisionShape2D9" type="CollisionShape2D" parent="Platforms/BakedCollision"]
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="Platforms/BakedCollision"]
 position = Vector2(384, -416)
-shape = SubResource("RectangleShape2D_idlkj")
+shape = SubResource("RectangleShape2D_c48e6")
 
-[node name="CollisionShape2D10" type="CollisionShape2D" parent="Platforms/BakedCollision"]
+[node name="CollisionShape2D5" type="CollisionShape2D" parent="Platforms/BakedCollision"]
 position = Vector2(960, -96)
-shape = SubResource("RectangleShape2D_slhnu")
+shape = SubResource("RectangleShape2D_ugcye")
 
 [node name="LevelBounds" parent="." instance=ExtResource("2_sx6fs")]
+visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LevelBounds"]
 position = Vector2(0, -415.5)
@@ -463,6 +464,7 @@ BOUNCE_BACK_DIRECTION = Vector2(0, 1)
 
 [node name="Down" parent="Walls" instance=ExtResource("3_4ucvp")]
 tile_map_data = PackedByteArray("AADt/wQAAAAKAAAAAADu/wQAAAAKAAAAAADv/wQAAAAKAAAAAADw/wUAAAAJAAIAAADx/wUAAAAJAAIAAADy/wUAAAAJAAIAAADz/wUAAAAJAAIAAAD0/wUAAAAJAAIAAAD1/wUAAAAJAAIAAAD2/wUAAAAJAAIAAAD3/wUAAAAJAAIAAAD4/wUAAAAJAAIAAAD5/wUAAAAJAAIAAAD6/wUAAAAJAAIAAAD7/wUAAAAJAAIAAAD8/wUAAAAJAAIAAAASAAUAAAAJAAIAAAASAAQAAAAKAAAAAAARAAUAAAAJAAIAAAARAAQAAAAKAAAAAAAQAAUAAAAJAAIAAAAQAAQAAAAKAAAAAAAPAAUAAAAJAAIAAAAPAAQAAAAKAAAAAAAOAAUAAAAJAAIAAAAOAAQAAAAKAAAAAAANAAUAAAAJAAIAAAANAAQAAAAKAAAAAAAMAAUAAAAJAAIAAAAMAAQAAAAKAAAAAAALAAUAAAAJAAIAAAALAAQAAAAKAAAAAAAKAAUAAAAJAAIAAAAKAAQAAAAKAAAAAAAJAAUAAAAJAAIAAAAJAAQAAAAKAAAAAAAIAAUAAAAJAAIAAAAIAAQAAAAKAAAAAAAHAAUAAAAJAAIAAAAHAAQAAAAKAAAAAAAGAAUAAAAJAAIAAAAGAAQAAAAKAAAAAAAFAAUAAAAJAAIAAAAFAAQAAAAKAAAAAAAEAAUAAAAJAAIAAAAEAAQAAAAKAAAAAAADAAUAAAAJAAIAAAADAAQAAAAKAAAAAAACAAUAAAAJAAIAAAACAAQAAAAKAAAAAAABAAUAAAAJAAIAAAABAAQAAAAKAAAAAAAAAAUAAAAJAAIAAAAAAAQAAAAKAAAAAAD//wUAAAAJAAIAAAD//wQAAAAKAAAAAAD+/wUAAAAJAAIAAAD+/wQAAAAKAAAAAAD9/wUAAAAJAAIAAAD9/wQAAAAKAAAAAAD8/wQAAAAKAAAAAAD7/wQAAAAKAAAAAAD6/wQAAAAKAAAAAAD5/wQAAAAKAAAAAAD4/wQAAAAKAAAAAAD3/wQAAAAKAAAAAAD2/wQAAAAKAAAAAAD1/wQAAAAKAAAAAAD0/wQAAAAKAAAAAADz/wQAAAAKAAAAAADy/wQAAAAKAAAAAADx/wQAAAAKAAAAAADw/wQAAAAKAAAAAADv/wUAAAAJAAIAAADu/wUAAAAJAAIAAADt/wUAAAAJAAIAAAASAAYAAAAJAAMAAAARAAYAAAAJAAMAAAAQAAYAAAAJAAMAAAAPAAYAAAAJAAMAAAAOAAYAAAAJAAMAAAANAAYAAAAJAAMAAAAMAAYAAAAJAAMAAAALAAYAAAAJAAMAAAAKAAYAAAAJAAMAAAAJAAYAAAAJAAMAAAAIAAYAAAAJAAMAAAAHAAYAAAAJAAMAAAAGAAYAAAAJAAMAAAAFAAYAAAAJAAMAAAAEAAYAAAAJAAMAAAADAAYAAAAJAAMAAAACAAYAAAAJAAMAAAABAAYAAAAJAAMAAAAAAAYAAAAJAAMAAAD//wYAAAAJAAMAAAD+/wYAAAAJAAMAAAD9/wYAAAAJAAMAAAD8/wYAAAAJAAMAAAD7/wYAAAAJAAMAAAD6/wYAAAAJAAMAAAD5/wYAAAAJAAMAAAD4/wYAAAAJAAMAAAD3/wYAAAAJAAMAAAD2/wYAAAAJAAMAAAD1/wYAAAAJAAMAAAD0/wYAAAAJAAMAAADz/wYAAAAJAAMAAADy/wYAAAAJAAMAAADx/wYAAAAJAAMAAADw/wYAAAAJAAMAAADv/wYAAAAJAAMAAADu/wYAAAAJAAMAAADt/wYAAAAJAAMAAADs/wYAAAAJAAMAAADs/wUAAAAJAAIAAADs/wQAAAAKAAAAAADr/wYAAAAJAAMAAADr/wUAAAAJAAIAAADr/wQAAAAKAAAAAADq/wYAAAAJAAMAAADq/wUAAAAJAAIAAADq/wQAAAAKAAAAAADp/wYAAAAJAAMAAADp/wUAAAAJAAIAAADp/wQAAAAKAAAAAADo/wYAAAAJAAMAAADo/wUAAAAJAAIAAADo/wQAAAAKAAAAAADn/wYAAAAIAAMAAADn/wUAAAAIAAEAAADn/wQAAAAIAAAAAAAWAAQAAAAKAAAAAAAWAAYAAAAJAAMAAAAWAAUAAAAJAAIAAAAVAAYAAAAJAAMAAAAVAAUAAAAJAAIAAAAVAAQAAAAKAAAAAAAUAAYAAAAJAAMAAAAUAAUAAAAJAAIAAAAUAAQAAAAKAAAAAAATAAYAAAAJAAMAAAATAAUAAAAJAAIAAAATAAQAAAAKAAAAAAAYAAYAAAALAAMAAAAYAAUAAAALAAIAAAAYAAQAAAALAAAAAAAXAAYAAAAJAAMAAAAXAAUAAAAJAAIAAAAXAAQAAAAKAAAAAAA=")
+enabled = false
 BOUNCE_BACK_DIRECTION = Vector2(0, -1)
 
 [node name="Left" parent="Walls" instance=ExtResource("3_4ucvp")]

@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="CameraEffectsIntensityPresets" load_steps=3 format=3 uid="uid://bs23of2yp6dcl"]
 
 [ext_resource type="Resource" uid="uid://dspfqrfde3qku" path="res://Scenes/Camera/ScreenShakePreset/none.tres" id="1_7nsws"]
-[ext_resource type="Script" path="res://Scenes/Camera/camera_effects_intensity_presets.gd" id="1_sy2kr"]
+[ext_resource type="Script" uid="uid://d1ckxyqusfwhb" path="res://Scenes/Camera/camera_effects_intensity_presets.gd" id="1_sy2kr"]
 
 [resource]
 script = ExtResource("1_sy2kr")

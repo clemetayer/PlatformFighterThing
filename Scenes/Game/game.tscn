@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://bypr1ueba3rju"]
 
-[ext_resource type="Script" path="res://Scenes/Game/game.gd" id="1_4jp85"]
+[ext_resource type="Script" uid="uid://di807ybb5wuoh" path="res://Scenes/Game/game.gd" id="1_4jp85"]
 [ext_resource type="PackedScene" uid="uid://ew7gedlm3n8" path="res://Scenes/Camera/camera.tscn" id="2_0bomf"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_sgiw2"]

@@ -1,9 +1,9 @@
 [gd_resource type="Resource" script_class="SpriteCustomizationPresetsResource" load_steps=13 format=3 uid="uid://mn4wtp11doip"]
 
-[ext_resource type="Script" path="res://Scenes/Player/sprite_customization_resource.gd" id="1_73i85"]
-[ext_resource type="Script" path="res://Scenes/Player/sprite_customization_presets_ressource.gd" id="2_b543u"]
-[ext_resource type="Resource" uid="uid://cjhu8g1x67rga" path="res://Scenes/Player/SpriteCustomizationPresets/preset_1.tres" id="2_fp8y8"]
-[ext_resource type="Resource" uid="uid://d0wmbs41fu82y" path="res://Scenes/Player/SpriteCustomizationPresets/preset_2.tres" id="3_5qf7k"]
+[ext_resource type="Script" uid="uid://cceeupk77aehe" path="res://Scenes/Player/sprite_customization_resource.gd" id="1_73i85"]
+[ext_resource type="Script" uid="uid://c8tqmikvput1h" path="res://Scenes/Player/sprite_customization_presets_ressource.gd" id="2_b543u"]
+[ext_resource type="Resource" uid="uid://cjhu8g1x67rga" path="res://Scenes/Player/SpriteCustomizationPresets/player_1.tres" id="2_fp8y8"]
+[ext_resource type="Resource" uid="uid://d0wmbs41fu82y" path="res://Scenes/Player/SpriteCustomizationPresets/player_2.tres" id="3_5qf7k"]
 [ext_resource type="Resource" uid="uid://bkk3g5u7s2qb7" path="res://Scenes/Player/SpriteCustomizationPresets/preset_3.tres" id="4_7rydc"]
 [ext_resource type="Resource" uid="uid://dpt5m04f0cmkn" path="res://Scenes/Player/SpriteCustomizationPresets/preset_4.tres" id="5_i85dx"]
 [ext_resource type="Resource" uid="uid://dx6osaucg47ve" path="res://Scenes/Player/SpriteCustomizationPresets/preset_5.tres" id="6_d3jvc"]

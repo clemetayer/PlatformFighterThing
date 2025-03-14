@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="PlayerConfig" load_steps=4 format=3 uid="uid://dwfc0gkwl5hqu"]
 
-[ext_resource type="Script" path="res://Scenes/Player/sprite_customization_resource.gd" id="1_oy5yq"]
-[ext_resource type="Script" path="res://Scenes/Player/player_config.gd" id="2_70pnx"]
+[ext_resource type="Script" uid="uid://cceeupk77aehe" path="res://Scenes/Player/sprite_customization_resource.gd" id="1_oy5yq"]
+[ext_resource type="Script" uid="uid://cb2tt7tw3qdjn" path="res://Scenes/Player/player_config.gd" id="2_70pnx"]
 
 [sub_resource type="Resource" id="Resource_gu8xj"]
 script = ExtResource("1_oy5yq")

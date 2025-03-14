@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://c3ys4badrjjgc"]
 
-[ext_resource type="Script" path="res://Scenes/Weapons/Primary/Revolver/revolver.gd" id="1_71ky4"]
+[ext_resource type="Script" uid="uid://kgy8wqspjowj" path="res://Scenes/Weapons/Primary/Revolver/revolver.gd" id="1_71ky4"]
 [ext_resource type="Texture2D" uid="uid://j4xdgdied5dy" path="res://Scenes/Weapons/Primary/Revolver/Revolver.png" id="2_di3r8"]
 [ext_resource type="AudioStream" uid="uid://d3nn6s81f3og5" path="res://Scenes/Weapons/Primary/Revolver/gunshot.mp3" id="3_105xf"]
 

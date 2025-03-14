@@ -1,35 +1,35 @@
 [gd_scene load_steps=81 format=3 uid="uid://lpdxuv2lqgps"]
 
-[ext_resource type="Script" path="res://Scenes/Levels/Backgrounds/TriangleCity/triangle_city.gd" id="1_afwij"]
+[ext_resource type="Script" uid="uid://byh3qppacefi8" path="res://Scenes/Levels/Backgrounds/TriangleCity/triangle_city.gd" id="1_afwij"]
 [ext_resource type="Texture2D" uid="uid://cap5npocu52q1" path="res://Utils/white_square.png" id="1_ggh0u"]
 [ext_resource type="Texture2D" uid="uid://bw676rjnv6qlg" path="res://Misc/Particles/kenney_particle-pack/star_06.png" id="2_x7n1m"]
 [ext_resource type="Texture2D" uid="uid://cn3cmb7hhfgr0" path="res://Misc/Particles/kenney_particle-pack/star_02.png" id="3_yst8g"]
 [ext_resource type="Texture2D" uid="uid://bv0r8mi6wpacw" path="res://Misc/Particles/kenney_particle-pack/star_08.png" id="4_s2jg8"]
-[ext_resource type="Shader" path="res://Scenes/Levels/Backgrounds/TriangleCity/background_triangles.gdshader" id="5_5osun"]
+[ext_resource type="Shader" uid="uid://dnmudssqvl2ko" path="res://Scenes/Levels/Backgrounds/TriangleCity/background_triangles.gdshader" id="5_5osun"]
 [ext_resource type="Texture2D" uid="uid://bjxnjadxo2mu4" path="res://Misc/Krita/Backgrounds/TriangleCity/BackBuildingsParralax1.png" id="5_07bvx"]
 [ext_resource type="Texture2D" uid="uid://dobvdfqgbgw6h" path="res://Misc/Krita/Backgrounds/TriangleCity/BackBuildingsParralax2.png" id="6_f80j3"]
 [ext_resource type="Texture2D" uid="uid://bh2inx5123ibo" path="res://Scenes/Levels/Backgrounds/TriangleCity/background_buildings_gradient.tres" id="6_p6du7"]
 [ext_resource type="Texture2D" uid="uid://ca1tnodjwjtd3" path="res://Misc/Particles/kenney_particle-pack/trace_07.png" id="8_0jbii"]
 [ext_resource type="Texture2D" uid="uid://k2asvg1qerfd" path="res://Misc/Krita/Backgrounds/TriangleCity/Glow.png" id="9_t6rkw"]
-[ext_resource type="Shader" path="res://Scenes/Levels/Backgrounds/TriangleCity/midbuilding.gdshader" id="10_ej3hh"]
+[ext_resource type="Shader" uid="uid://mmqowbtkqcni" path="res://Scenes/Levels/Backgrounds/TriangleCity/midbuilding.gdshader" id="10_ej3hh"]
 [ext_resource type="Texture2D" uid="uid://bs2ktebupliw5" path="res://Misc/Krita/Backgrounds/TriangleCity/MidBuildingParralaxAbstract.png" id="10_nib2r"]
 [ext_resource type="Texture2D" uid="uid://nmt8ivogqxd4" path="res://Misc/Krita/Backgrounds/TriangleCity/TriangleWindow.png" id="11_3c8pa"]
 [ext_resource type="Texture2D" uid="uid://codu13d8tec2n" path="res://Scenes/Levels/Backgrounds/TriangleCity/mid_buildings_gradient.tres" id="11_rbx0n"]
 [ext_resource type="Texture2D" uid="uid://d363i6juh3i5c" path="res://Misc/Krita/Backgrounds/TriangleCity/FrontBuildingsParralax2.png" id="12_pn7nm"]
-[ext_resource type="Shader" path="res://Scenes/Levels/Backgrounds/TriangleCity/smoothstep_triangle_wave.gdshader" id="13_c7604"]
-[ext_resource type="Shader" path="res://Scenes/Levels/Backgrounds/TriangleCity/front_building.gdshader" id="13_exe8t"]
+[ext_resource type="Shader" uid="uid://do7lmcm25ipdo" path="res://Scenes/Levels/Backgrounds/TriangleCity/smoothstep_triangle_wave.gdshader" id="13_c7604"]
+[ext_resource type="Shader" uid="uid://kny45w6yhuug" path="res://Scenes/Levels/Backgrounds/TriangleCity/front_building.gdshader" id="13_exe8t"]
 [ext_resource type="Texture2D" uid="uid://chnjkbhgay33d" path="res://Misc/Krita/Backgrounds/TriangleCity/FrontBuildingsParralax1.png" id="13_haml0"]
 [ext_resource type="Texture2D" uid="uid://bxl8m3ejamema" path="res://Misc/Krita/Backgrounds/TriangleCity/Spotlight.png" id="13_loe3g"]
 [ext_resource type="Texture2D" uid="uid://pbff5hwexnhv" path="res://Scenes/Levels/Backgrounds/TriangleCity/front_building_windows_gradient.tres" id="16_hh2qk"]
-[ext_resource type="Shader" path="res://Scenes/Levels/Backgrounds/TriangleCity/simple_outline_line2D_gradient.gdshader" id="18_20jyf"]
-[ext_resource type="Shader" path="res://Scenes/Levels/Backgrounds/TriangleCity/triangle_city_flashing_front.gdshader" id="20_qjrff"]
+[ext_resource type="Shader" uid="uid://3hrwbxl3ykkl" path="res://Scenes/Levels/Backgrounds/TriangleCity/simple_outline_line2D_gradient.gdshader" id="18_20jyf"]
+[ext_resource type="Shader" uid="uid://cuyhratj3aft2" path="res://Scenes/Levels/Backgrounds/TriangleCity/triangle_city_flashing_front.gdshader" id="20_qjrff"]
 [ext_resource type="Texture2D" uid="uid://ixf2l77pygj2" path="res://Misc/Krita/Backgrounds/TriangleCity/WhiteScreen.png" id="21_31mcg"]
 [ext_resource type="Texture2D" uid="uid://cfenrdrxdv1qy" path="res://Misc/Krita/Backgrounds/TriangleCity/FrontFlashingThingOutline.png" id="21_domrx"]
 [ext_resource type="Texture2D" uid="uid://cxd47bix4e8rn" path="res://Misc/Krita/Backgrounds/TriangleCity/FrontFlashingThingFill.png" id="21_fh5eu"]
 [ext_resource type="Texture2D" uid="uid://cftgwqnopkere" path="res://Scenes/Levels/Backgrounds/TriangleCity/blue_orange_gradient.tres" id="22_dht4p"]
 [ext_resource type="Texture2D" uid="uid://ckjc2dpqx2ct6" path="res://Scenes/Levels/Backgrounds/TriangleCity/flashing_front_gradient.tres" id="22_ndpau"]
 [ext_resource type="PackedScene" uid="uid://cpimiv0j0cie5" path="res://Audio/BGM/FittingTitle/fitting_title.tscn" id="26_0q70f"]
-[ext_resource type="Script" path="res://Scenes/Levels/Backgrounds/TriangleCity/lead.gd" id="28_gp0ot"]
+[ext_resource type="Script" uid="uid://i58wun8tusqn" path="res://Scenes/Levels/Backgrounds/TriangleCity/lead.gd" id="28_gp0ot"]
 
 [sub_resource type="Animation" id="Animation_aib28"]
 length = 0.001
@@ -65,8 +65,8 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_fbude"]
 _data = {
-"RESET": SubResource("Animation_aib28"),
-"flash": SubResource("Animation_wb62t")
+&"RESET": SubResource("Animation_aib28"),
+&"flash": SubResource("Animation_wb62t")
 }
 
 [sub_resource type="Gradient" id="Gradient_yk2nd"]
@@ -98,8 +98,8 @@ color_ramp = SubResource("GradientTexture1D_dvmu0")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ydbvj"]
 shader = ExtResource("18_20jyf")
-shader_parameter/speed = 7.0
 shader_parameter/gradient = ExtResource("22_dht4p")
+shader_parameter/speed = 7.0
 
 [sub_resource type="Curve" id="Curve_y11xo"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.504902, 0.32967), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
@@ -130,6 +130,7 @@ color_ramp = SubResource("GradientTexture1D_nym3h")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_0n3df"]
 shader = ExtResource("5_5osun")
+shader_parameter/gradient = ExtResource("6_p6du7")
 shader_parameter/drop_color = Color(0.945098, 0.482353, 0.054902, 1)
 shader_parameter/max_size = 0.01
 shader_parameter/ss_e = 0.002
@@ -137,10 +138,10 @@ shader_parameter/trail_epsilon = 0.3
 shader_parameter/number_of_squares = 15
 shader_parameter/max_velocity = 1.0
 shader_parameter/min_velocity = 0.1
-shader_parameter/gradient = ExtResource("6_p6du7")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_aq30b"]
 shader = ExtResource("5_5osun")
+shader_parameter/gradient = ExtResource("6_p6du7")
 shader_parameter/drop_color = Color(0.858824, 0.603922, 0, 1)
 shader_parameter/max_size = 0.01
 shader_parameter/ss_e = 0.002
@@ -148,7 +149,6 @@ shader_parameter/trail_epsilon = 0.3
 shader_parameter/number_of_squares = 15
 shader_parameter/max_velocity = 1.0
 shader_parameter/min_velocity = 0.1
-shader_parameter/gradient = ExtResource("6_p6du7")
 
 [sub_resource type="Animation" id="Animation_tvhrd"]
 length = 0.001
@@ -208,8 +208,8 @@ tracks/1/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_wp1ap"]
 _data = {
-"RESET": SubResource("Animation_tvhrd"),
-"flash": SubResource("Animation_cy2r2")
+&"RESET": SubResource("Animation_tvhrd"),
+&"flash": SubResource("Animation_cy2r2")
 }
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_a0nnk"]
@@ -250,8 +250,8 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_34fi0"]
 _data = {
-"RESET": SubResource("Animation_ebdaf"),
-"fade_in": SubResource("Animation_sad7a")
+&"RESET": SubResource("Animation_ebdaf"),
+&"fade_in": SubResource("Animation_sad7a")
 }
 
 [sub_resource type="Animation" id="Animation_7nyrk"]
@@ -312,8 +312,8 @@ tracks/1/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_0e3ih"]
 _data = {
-"RESET": SubResource("Animation_7nyrk"),
-"grow": SubResource("Animation_a18fb")
+&"RESET": SubResource("Animation_7nyrk"),
+&"grow": SubResource("Animation_a18fb")
 }
 
 [sub_resource type="Animation" id="Animation_mi2v6"]
@@ -350,8 +350,8 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_idk0y"]
 _data = {
-"RESET": SubResource("Animation_mi2v6"),
-"flash": SubResource("Animation_pw1w7")
+&"RESET": SubResource("Animation_mi2v6"),
+&"flash": SubResource("Animation_pw1w7")
 }
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_unwm1"]
@@ -396,24 +396,24 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_c78hx"]
 _data = {
-"RESET": SubResource("Animation_npxho"),
-"flash": SubResource("Animation_v1i7s")
+&"RESET": SubResource("Animation_npxho"),
+&"flash": SubResource("Animation_v1i7s")
 }
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_vxc7m"]
 shader = ExtResource("10_ej3hh")
 shader_parameter/back_color = Color(0.0392157, 0.0117647, 0.156863, 0.705882)
+shader_parameter/window_texture = ExtResource("11_3c8pa")
+shader_parameter/windows_gradient = ExtResource("16_hh2qk")
 shader_parameter/window_grid_size = 33
 shader_parameter/window_seed = 3.417
 shader_parameter/window_draw_chance = 0.821
 shader_parameter/window_gradient_speed = 5.0
-shader_parameter/window_texture = ExtResource("11_3c8pa")
-shader_parameter/windows_gradient = ExtResource("16_hh2qk")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_korjw"]
 shader = ExtResource("18_20jyf")
-shader_parameter/speed = 1.0
 shader_parameter/gradient = ExtResource("16_hh2qk")
+shader_parameter/speed = 1.0
 
 [sub_resource type="Animation" id="Animation_ahuha"]
 length = 0.001
@@ -521,8 +521,8 @@ tracks/3/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_8jlt3"]
 _data = {
-"RESET": SubResource("Animation_ahuha"),
-"flash": SubResource("Animation_sxtcl")
+&"RESET": SubResource("Animation_ahuha"),
+&"flash": SubResource("Animation_sxtcl")
 }
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_nd1mw"]
@@ -565,8 +565,8 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_x1v6j"]
 _data = {
-"RESET": SubResource("Animation_6oew1"),
-"flash": SubResource("Animation_8c5xo")
+&"RESET": SubResource("Animation_6oew1"),
+&"flash": SubResource("Animation_8c5xo")
 }
 
 [sub_resource type="Animation" id="Animation_gm85a"]
@@ -627,8 +627,8 @@ tracks/1/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_qq2ai"]
 _data = {
-"RESET": SubResource("Animation_gm85a"),
-"flash": SubResource("Animation_15cbb")
+&"RESET": SubResource("Animation_gm85a"),
+&"flash": SubResource("Animation_15cbb")
 }
 
 [sub_resource type="Animation" id="Animation_aph5q"]
@@ -689,8 +689,8 @@ tracks/1/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_l6re7"]
 _data = {
-"RESET": SubResource("Animation_aph5q"),
-"flash": SubResource("Animation_tg03w")
+&"RESET": SubResource("Animation_aph5q"),
+&"flash": SubResource("Animation_tg03w")
 }
 
 [sub_resource type="Animation" id="Animation_83sye"]
@@ -751,8 +751,8 @@ tracks/1/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_oe1so"]
 _data = {
-"RESET": SubResource("Animation_83sye"),
-"flash": SubResource("Animation_67lb4")
+&"RESET": SubResource("Animation_83sye"),
+&"flash": SubResource("Animation_67lb4")
 }
 
 [node name="TriangleCity" type="Node2D"]

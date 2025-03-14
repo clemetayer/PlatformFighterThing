@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="SpriteCustomizationResource" load_steps=2 format=3 uid="uid://d0wmbs41fu82y"]
 
-[ext_resource type="Script" path="res://Scenes/Player/sprite_customization_resource.gd" id="1_7pa5a"]
+[ext_resource type="Script" uid="uid://cceeupk77aehe" path="res://Scenes/Player/sprite_customization_resource.gd" id="1_7pa5a"]
 
 [resource]
 script = ExtResource("1_7pa5a")

@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://cj7gldqg3okbr"]
 
-[ext_resource type="Script" path="res://Scenes/Movement/MovementBonusDash/movement_bonus_dash.gd" id="1_eshou"]
+[ext_resource type="Script" uid="uid://0fviikt4atpx" path="res://Scenes/Movement/MovementBonusDash/movement_bonus_dash.gd" id="1_eshou"]
 [ext_resource type="Texture2D" uid="uid://btcmiq31qee7d" path="res://Scenes/Player/CharacterBody.png" id="2_3l0pl"]
 [ext_resource type="AudioStream" uid="uid://dwc7ot08hwsnf" path="res://Scenes/Movement/MovementBonusDash/dash.mp3" id="3_yj5pv"]
 

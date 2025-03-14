@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://dxentukfy0wkj"]
 
-[ext_resource type="Shader" path="res://TestSandbox/ShaderTest/chromatic_aberration.gdshader" id="1_7u54t"]
+[ext_resource type="Shader" uid="uid://c816slbv7nwb4" path="res://TestSandbox/ShaderTest/chromatic_aberration.gdshader" id="1_7u54t"]
 [ext_resource type="Texture2D" uid="uid://c1gi3re5rscab" path="res://icon.svg" id="1_avqt2"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_o1idp"]

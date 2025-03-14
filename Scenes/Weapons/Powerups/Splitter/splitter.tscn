@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://cto1bewda5gwm"]
 
-[ext_resource type="Script" path="res://Scenes/Weapons/Powerups/Splitter/splitter.gd" id="1_tp6dn"]
+[ext_resource type="Script" uid="uid://bb4hrw2b5jtmk" path="res://Scenes/Weapons/Powerups/Splitter/splitter.gd" id="1_tp6dn"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_06q05"]
 size = Vector2(64, 64)

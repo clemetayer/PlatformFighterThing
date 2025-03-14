@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="CameraEffectsIntensityPresets" load_steps=5 format=3 uid="uid://4jfvj01ljaj7"]
 
 [ext_resource type="Resource" uid="uid://bcv6c661k6buu" path="res://Scenes/Camera/ScreenShakePreset/medium.tres" id="1_k2vul"]
-[ext_resource type="Script" path="res://Scenes/Camera/camera_effects_intensity_presets.gd" id="1_qymr3"]
+[ext_resource type="Script" uid="uid://d1ckxyqusfwhb" path="res://Scenes/Camera/camera_effects_intensity_presets.gd" id="1_qymr3"]
 [ext_resource type="Resource" uid="uid://dq2y0eriweww8" path="res://Scenes/Camera/ScreenShakePreset/light.tres" id="2_0fkwd"]
 [ext_resource type="Resource" uid="uid://dspfqrfde3qku" path="res://Scenes/Camera/ScreenShakePreset/none.tres" id="2_xitv4"]
 

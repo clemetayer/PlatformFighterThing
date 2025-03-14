@@ -1,11 +1,11 @@
 [gd_scene load_steps=12 format=3 uid="uid://cpimiv0j0cie5"]
 
 [ext_resource type="AudioStream" uid="uid://cxd5ecqalqqdl" path="res://Audio/BGM/FittingTitle/fitting_title_intro.ogg" id="1_djra5"]
-[ext_resource type="Script" path="res://Audio/BGM/FittingTitle/fitting_title.gd" id="1_i7qbf"]
-[ext_resource type="Script" path="res://Audio/BGM/FittingTitle/test_signal.gd" id="2_ihn6u"]
+[ext_resource type="Script" uid="uid://cbnhof5cc5q8t" path="res://Audio/BGM/FittingTitle/fitting_title.gd" id="1_i7qbf"]
+[ext_resource type="Script" uid="uid://dai80ok0ov0ou" path="res://Audio/BGM/FittingTitle/test_signal.gd" id="2_ihn6u"]
 [ext_resource type="AudioStream" uid="uid://b7uotjtu1n7cx" path="res://Audio/BGM/FittingTitle/fitting_title_loop.ogg" id="2_o6rhb"]
-[ext_resource type="Script" path="res://addons/rhythm_notifier/rhythm_notifier.gd" id="2_yqyba"]
-[ext_resource type="Script" path="res://Audio/BGM/interactive_song.gd" id="3_udxl2"]
+[ext_resource type="Script" uid="uid://cbyc5xbfw5wbd" path="res://addons/rhythm_notifier/rhythm_notifier.gd" id="2_yqyba"]
+[ext_resource type="Script" uid="uid://cjmjux7etpwf3" path="res://Audio/BGM/interactive_song.gd" id="3_udxl2"]
 
 [sub_resource type="AudioStreamInteractive" id="AudioStreamInteractive_v4tr6"]
 clip_count = 2
@@ -19,7 +19,7 @@ clip_1/auto_advance = 1
 clip_1/next_clip = 1
 _transitions = {
 Vector2i(0, 1): {
-"fade_beats": 0,
+"fade_beats": 0.0,
 "fade_mode": 4,
 "from_time": 0,
 "to_time": 1
@@ -408,9 +408,9 @@ tracks/10/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_v1mso"]
 _data = {
-"Intro": SubResource("Animation_g3ts7"),
-"Loop": SubResource("Animation_s8nm1"),
-"RESET": SubResource("Animation_txpl0")
+&"Intro": SubResource("Animation_g3ts7"),
+&"Loop": SubResource("Animation_s8nm1"),
+&"RESET": SubResource("Animation_txpl0")
 }
 
 [node name="FittingTitle" type="Node"]

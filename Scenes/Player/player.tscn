@@ -1,17 +1,17 @@
 [gd_scene load_steps=36 format=3 uid="uid://fgxha8wl55pa"]
 
-[ext_resource type="Script" path="res://Scenes/Player/player.gd" id="1_b1dbg"]
-[ext_resource type="Script" path="res://Scenes/Player/paths.gd" id="2_8lsum"]
-[ext_resource type="Script" path="res://Scenes/Player/parry.gd" id="2_avuuq"]
+[ext_resource type="Script" uid="uid://bxq3finp4gfep" path="res://Scenes/Player/player.gd" id="1_b1dbg"]
+[ext_resource type="Script" uid="uid://bq2rya8sinnf" path="res://Scenes/Player/paths.gd" id="2_8lsum"]
+[ext_resource type="Script" uid="uid://d3p8e5tskb6fe" path="res://Scenes/Player/parry.gd" id="2_avuuq"]
 [ext_resource type="Texture2D" uid="uid://btcmiq31qee7d" path="res://Scenes/Player/CharacterBody.png" id="2_pi5cj"]
 [ext_resource type="Texture2D" uid="uid://dy0q7mppvj7j1" path="res://Scenes/Player/CharacterOutline.png" id="3_b0wk1"]
-[ext_resource type="Script" path="res://Scenes/Player/action_manager.gd" id="4_cguhm"]
-[ext_resource type="Script" path="res://Scenes/Player/bounce_area.gd" id="4_d6e7m"]
-[ext_resource type="Script" path="res://Scenes/Player/animation_player.gd" id="5_b3kqx"]
-[ext_resource type="Script" path="res://Scenes/Player/sprites.gd" id="5_f7agn"]
-[ext_resource type="Script" path="res://Scenes/Player/init.gd" id="5_q62wf"]
-[ext_resource type="Script" path="res://Scenes/Player/input_synchronizer.gd" id="5_uow23"]
-[ext_resource type="Script" path="res://Scenes/Player/hitstun_manager.gd" id="6_lv0e8"]
+[ext_resource type="Script" uid="uid://cxgx4xa4np0of" path="res://Scenes/Player/action_manager.gd" id="4_cguhm"]
+[ext_resource type="Script" uid="uid://boqrq2bt7pf5v" path="res://Scenes/Player/bounce_area.gd" id="4_d6e7m"]
+[ext_resource type="Script" uid="uid://cq3sjr3u65u2x" path="res://Scenes/Player/animation_player.gd" id="5_b3kqx"]
+[ext_resource type="Script" uid="uid://bmq88d80dxhn7" path="res://Scenes/Player/sprites.gd" id="5_f7agn"]
+[ext_resource type="Script" uid="uid://bk14t15ya0u7n" path="res://Scenes/Player/init.gd" id="5_q62wf"]
+[ext_resource type="Script" uid="uid://cvh6fq6fc37ba" path="res://Scenes/Player/input_synchronizer.gd" id="5_uow23"]
+[ext_resource type="Script" uid="uid://vpgyhxg8g8t4" path="res://Scenes/Player/hitstun_manager.gd" id="6_lv0e8"]
 [ext_resource type="AudioStream" uid="uid://ukj7rgv5cmco" path="res://Scenes/Player/parry.mp3" id="7_1ci2y"]
 [ext_resource type="AudioStream" uid="uid://cudyvrluhlj0s" path="res://Scenes/Player/wrong.mp3" id="8_f1844"]
 [ext_resource type="Texture2D" uid="uid://xtprt5lwbpqn" path="res://Scenes/Player/Octagon.png" id="8_mtvak"]
@@ -75,8 +75,7 @@ colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
 gradient = SubResource("Gradient_mt16k")
 
 [sub_resource type="Curve" id="Curve_6fjf6"]
-min_value = 0.75
-max_value = 1.25
+_limits = [0.75, 1.25, 0.0, 1.0]
 _data = [Vector2(0, 0.75), 0.0, 0.0, 0, 0, Vector2(1, 1.25), 0.0, 0.0, 0, 0]
 point_count = 2
 
@@ -325,10 +324,10 @@ tracks/4/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_owers"]
 _data = {
-"RESET": SubResource("Animation_xf0cy"),
-"parried": SubResource("Animation_4742t"),
-"parry_lockout": SubResource("Animation_vmyw5"),
-"parrying": SubResource("Animation_onmdd")
+&"RESET": SubResource("Animation_xf0cy"),
+&"parried": SubResource("Animation_4742t"),
+&"parry_lockout": SubResource("Animation_vmyw5"),
+&"parrying": SubResource("Animation_onmdd")
 }
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qh2ge"]
@@ -405,8 +404,8 @@ tracks/1/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_2b586"]
 _data = {
-"RESET": SubResource("Animation_r421c"),
-"hitstun": SubResource("Animation_8vk0k")
+&"RESET": SubResource("Animation_r421c"),
+&"hitstun": SubResource("Animation_8vk0k")
 }
 
 [node name="Player" type="RigidBody2D" groups=["player"]]
@@ -485,11 +484,11 @@ shape = SubResource("RectangleShape2D_7ohtq")
 modulate = Color(0, 1, 1, 1)
 emitting = false
 amount = 1
-process_material = SubResource("ParticleProcessMaterial_jw2bm")
 texture = ExtResource("8_mtvak")
 lifetime = 0.15
 one_shot = true
 local_coords = true
+process_material = SubResource("ParticleProcessMaterial_jw2bm")
 
 [node name="ParryTimer" type="Timer" parent="ParryArea"]
 wait_time = 0.15
@@ -501,7 +500,7 @@ one_shot = true
 
 [node name="ParryAnimations" type="AnimationPlayer" parent="ParryArea"]
 libraries = {
-"": SubResource("AnimationLibrary_owers")
+&"": SubResource("AnimationLibrary_owers")
 }
 script = ExtResource("5_b3kqx")
 
@@ -555,7 +554,7 @@ texture = ExtResource("2_pi5cj")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_2b586")
+&"": SubResource("AnimationLibrary_2b586")
 }
 script = ExtResource("5_b3kqx")
 
