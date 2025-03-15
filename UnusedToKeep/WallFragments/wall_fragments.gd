@@ -66,6 +66,7 @@ func _create_sprite() -> void:
 	await(get_tree().create_timer(0.1).timeout) # wait for a short time to not have an empty image
 	var capture = vp.get_texture().get_image()
 	onready_paths.sprite.texture = ImageTexture.create_from_image(capture)
+	capture.save_png("res://temp_breakable_wall.png")
 	vp_container.queue_free()
 
 func _reposition_sprite() -> void:

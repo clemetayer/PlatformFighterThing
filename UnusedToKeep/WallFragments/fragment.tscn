@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://cfp01mbyn7iyn"]
 
-[ext_resource type="Script" uid="uid://bssmihafhao65" path="res://Scenes/DestructibleWalls/WallFragments/fragment.gd" id="1_v1w73"]
+[ext_resource type="Script" uid="uid://bssmihafhao65" path="res://UnusedToKeep/WallFragments/fragment.gd" id="1_v1w73"]
 
 [node name="Fragment" type="RigidBody2D"]
 collision_layer = 0
