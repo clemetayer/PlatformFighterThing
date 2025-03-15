@@ -2,12 +2,7 @@
 extends Node2D
 # class_name Class
 # Used to split a destructible wall in smaller fragments to make a cool break effect
-
-##### SIGNALS #####
-# Node signals
-
-##### ENUMS #####
-# enumerations
+# USAGE : add this node to your scene, MAKE IT SO THE CHILDREN ARE EDITABLE, add a tilemap_path and click on the _bake_button
 
 ##### VARIABLES #####
 #---- CONSTANTS -----
@@ -16,49 +11,38 @@ const FRAGMENT_SCENE := preload("res://Scenes/DestructibleWalls/WallFragments/fr
 const TRESHOLD := 10.0 # Prevents slim triangles being created at the sprite edges.
 
 #---- EXPORTS -----
-@export var tilemap_path : NodePath = ".."
+@export var tilemap_path : NodePath
+# A fake button to bake the wall fragments
+@export var bake: bool = false : set = _bake_wall_fragments
 
 #---- STANDARD -----
-#==== PUBLIC ====
-
-#==== PRIVATE ====
-
 #==== ONREADY ====
 @onready var onready_paths := {
 	"fragments":$"Fragments",
-	"sprite":$"Sprite"
+	"sprite":$"Sprite",
+	"reset_timer":$"ResetTimer"
 }
 
 ##### PROCESSING #####
-# Called when the object is initialized.
-func _init():
-	pass
-
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass
-
-# Called every frame. 'delta' is the elapsed time since the previous frame. Remove the "_" to use it.
-func _process(_delta):
-	pass
-
-##### PUBLIC METHODS #####
-func bake_tilemap() -> void:
-	print("Baking tilemap for the break effect")
-	onready_paths.sprite.hide()	
-	_delete_children()
-	_create_sprite()
-	_reposition_sprite()
-	_create_fragments()
-	onready_paths.fragments.position = onready_paths.sprite.position
-
-func explode() -> void:
-	pass
-
-func reset_fragments() -> void:
-	pass
+	if not Engine.is_editor_hint():
+		hide()
+		onready_paths.sprite.hide()
+		var tilemap = get_node_or_null(tilemap_path)
+		if tilemap != null:
+			tilemap.connect("explode_fragments", _on_tilemap_explode)
 
 ##### PROTECTED METHODS #####
+func _bake_wall_fragments(_fake_bool) -> void:
+	if Engine.is_editor_hint():
+		print("Baking tilemap for the break effect")
+		_delete_children()
+		_create_sprite()
+		_reposition_sprite()
+		_create_fragments()
+		onready_paths.fragments.position = onready_paths.sprite.position
+
 func _delete_children() -> void:
 	for child in onready_paths.fragments.get_children():
 		child.queue_free()
@@ -123,7 +107,6 @@ func _create_fragments() -> void:
 
 			var fragment = FRAGMENT_SCENE.instantiate()
 			fragment.position = center
-			fragment.hide()
 			fragments.append(fragment)
 
 			#setup polygons & collision shapes
@@ -138,7 +121,6 @@ func _create_fragments() -> void:
 			else:
 				fragment.get_node("CollisionPolygon2D").polygon = triangle
 			fragment.get_node("CollisionPolygon2D").position = -center
-
 		queue_redraw()
 		call_deferred("_add_fragments", fragments)
 	else:
@@ -148,9 +130,18 @@ func _add_fragments(fragments : Array) -> void:
 	for fragment in fragments:
 		onready_paths.fragments.add_child(fragment)
 		fragment.owner = get_tree().edited_scene_root
-	
+		set_editable_instance(fragment,true)
 
 ##### SIGNAL MANAGEMENT #####
-func _on_remove_fragments_timer_timeout() -> void:
-	reset_fragments()
+func _on_tilemap_explode(p_position : Vector2, force : Vector2) -> void:
+	show()
+	Logger.debug("destroying destructible wall")
+	onready_paths.reset_timer.start()
+	for fragment in onready_paths.fragments.get_children():
+		fragment.explode(p_position, force)
+
+func _on_reset_timer_timeout() -> void:
 	hide()
+	Logger.debug("resetting destructible wall")
+	for fragment in onready_paths.fragments.get_children():
+		fragment.reset()

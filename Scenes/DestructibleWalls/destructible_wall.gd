@@ -1,6 +1,8 @@
-@tool
 extends TileMapLayer
 # destructible wall script
+
+##### SIGNALS #####
+signal explode_fragments(position : Vector2, force : Vector2)
 
 ##### VARIABLES #####
 #---- CONSTANTS -----
@@ -14,8 +16,6 @@ const FREEZE_PLAYER_TIMEOUT := 1 # s
 @export var BOUNCE_BACK_FORCE := 1750
 @export var BOUNCE_BACK_DIRECTION := Vector2.RIGHT
 @export var HEALTH = BASE_HEALTH
-# A fake button to bake another wall that will create a cool breaking effect when destroyed
-@export var bake_wall_fragments: bool = false : set = _bake_wall_fragments
 
 #---- STANDARD -----
 #==== PUBLIC ====
@@ -33,7 +33,6 @@ var _update_health_tween : Tween
 	"damage_wall_area": $"DamageWallArea",
 	"collision_detection_area": $"CollisionDetectionArea",
 	"cracks": $"Cracks",
-	"wall_fragments": $"WallFragments",
 	"audio": {
 		"hit":$"Audio/WallHit",
 		"break":$"Audio/WallBreak",
@@ -44,19 +43,13 @@ var _update_health_tween : Tween
 ##### PROCESSING #####
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	if not Engine.is_editor_hint():
-		_toggle_activated(true)
-		_toggle_respawn_collision_detection_activated(false)
-		_update_texture_color(BASE_HEALTH)
+	_toggle_activated(true)
+	_toggle_respawn_collision_detection_activated(false)
+	_update_texture_color(BASE_HEALTH)
 
 ##### PROTECTED METHODS #####
-func _bake_wall_fragments(_fake_bool) -> void:
-	if(Engine.is_editor_hint() and onready_paths.has("wall_fragments")):
-		onready_paths.wall_fragments.bake_tilemap()
-
 func _remove_health_by_velocity(velocity: Vector2) -> void:
 	var final_health = HEALTH
-	var anim_time = 0.0
 	if BOUNCE_BACK_DIRECTION.x != 0:
 		final_health -= abs(velocity.x)
 		rpc("_shake_camera_by_velocity", velocity.x)
@@ -155,6 +148,7 @@ func _on_damage_wall_area_body_entered(body: Node2D) -> void:
 		if HEALTH <= 0:
 			onready_paths.audio.break.play()
 			onready_paths.respawn_timer.start()
+			emit_signal("explode_fragments",body.global_position, max_velocity)
 			rpc("_toggle_activated", false)
 			_toggle_respawn_collision_detection_activated(true)
 		else:

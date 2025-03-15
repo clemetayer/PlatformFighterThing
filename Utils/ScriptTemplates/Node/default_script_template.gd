@@ -1,6 +1,6 @@
 # meta-default: true
 # meta-description: Base template for Node with default Godot cycle methods (and some organisation hints)
-# tool
+# @tool
 extends _BASE_
 # class_name Class
 # docstring
@@ -16,7 +16,7 @@ extends _BASE_
 # const constant := 10 # Optionnal comment
 
 #---- EXPORTS -----
-# export(int) var EXPORT_NAME # Optionnal comment
+# @export var EXPORT_NAME := 10.0 # Optionnal comment
 
 #---- STANDARD -----
 #==== PUBLIC ====
@@ -26,7 +26,7 @@ extends _BASE_
 # var _private_var # Optionnal comment
 
 #==== ONREADY ====
-# onready var onready_var # Optionnal comment
+# @onready var onready_var # Optionnal comment
 
 ##### PROCESSING #####
 # Called when the object is initialized.

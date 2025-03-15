@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=3 uid="uid://smim43swwkwc"]
+
+[ext_resource type="Script" uid="uid://bvtehwex678dw" path="res://Scenes/DestructibleWalls/WallFragments/wall_fragments.gd" id="1_t0i03"]
+
+[node name="WallFragments" type="Node2D"]
+script = ExtResource("1_t0i03")
+tilemap_path = NodePath("..")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+centered = false
+
+[node name="Fragments" type="Node2D" parent="."]
+
+[node name="ResetTimer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+
+[connection signal="timeout" from="ResetTimer" to="." method="_on_reset_timer_timeout"]

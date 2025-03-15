@@ -1,52 +1,42 @@
 extends RigidBody2D
-# class_name Class
-# docstring
-
-##### SIGNALS #####
-# Node signals
-
-##### ENUMS #####
-# enumerations
+# fragment of a destructible wall for the wall break effect
 
 ##### VARIABLES #####
 #---- CONSTANTS -----
-# const constant := 10 # Optionnal comment
-
-#---- EXPORTS -----
-# export(int) var EXPORT_NAME # Optionnal comment
+const FORCE_MULTIPLIER := 10000.0
 
 #---- STANDARD -----
-#==== PUBLIC ====
-# var public_var # Optionnal comment
-
 #==== PRIVATE ====
-# var _private_var # Optionnal comment
+var _original_position : Vector2
+var _original_rotation : float
+var _impulse := Vector2.ZERO
 
 #==== ONREADY ====
-# onready var onready_var # Optionnal comment
+@onready var onready_paths := {
+	"collision": $"CollisionPolygon2D"
+}
 
 ##### PROCESSING #####
-# Called when the object is initialized.
-func _init():
-	pass
-
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass
+	onready_paths.collision.disabled = true
+	_original_position = position
+	_original_rotation = rotation
 
-# Called every frame. 'delta' is the elapsed time since the previous frame. Remove the "_" to use it.
-func _process(_delta):
-	pass
+func _integrate_forces(_state: PhysicsDirectBodyState2D) -> void:
+	if _impulse != Vector2.ZERO and not freeze:
+		Logger.debug("impulse %s = %s" % [name,_impulse])
+		apply_central_impulse(_impulse)
+		_impulse = Vector2.ZERO
 
 ##### PUBLIC METHODS #####
-# Methods that are intended to be "visible" to other nodes or scripts
-# func public_method(arg : int) -> void:
-#     pass
+func explode(p_position : Vector2, force : Vector2) -> void:
+	onready_paths.collision.disabled = false
+	set_deferred("freeze",false)
+	_impulse = force * 1/(abs(global_position - p_position) * 20.0) * FORCE_MULTIPLIER
 
-##### PROTECTED METHODS #####
-# Methods that are intended to be used exclusively by this scripts
-# func _private_method(arg):
-#     pass
-
-##### SIGNAL MANAGEMENT #####
-# Functions that should be triggered when a specific signal is received
+func reset() -> void:
+	onready_paths.collision.disabled = true
+	set_deferred("freeze",true)
+	position = _original_position
+	rotation = _original_rotation

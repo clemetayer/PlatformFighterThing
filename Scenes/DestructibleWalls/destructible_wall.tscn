@@ -1,10 +1,9 @@
-[gd_scene load_steps=19 format=3 uid="uid://7t50cs5is77n"]
+[gd_scene load_steps=18 format=3 uid="uid://dwikem0xs7d8t"]
 
 [ext_resource type="Script" uid="uid://boqypfe62ckdo" path="res://Scenes/DestructibleWalls/destructible_wall.gd" id="1_8dscf"]
 [ext_resource type="Texture2D" uid="uid://olwb2yraeuqe" path="res://Scenes/Levels/Tilesets/LevelPlatformsTileset.png" id="1_megce"]
 [ext_resource type="Shader" uid="uid://cefkfdgdjunyg" path="res://Scenes/DestructibleWalls/diagonal.gdshader" id="2_5vcqb"]
 [ext_resource type="Texture2D" uid="uid://bd8nij4xne6y6" path="res://Scenes/DestructibleWalls/SimpleDiagonal.png" id="3_c1sg8"]
-[ext_resource type="Script" uid="uid://bvtehwex678dw" path="res://Scenes/DestructibleWalls/WallFragments/wall_fragments.gd" id="3_mh1jy"]
 [ext_resource type="Script" uid="uid://bvmoyw03d0aie" path="res://Scenes/DestructibleWalls/moving_pattern.gd" id="4_2peem"]
 [ext_resource type="Script" uid="uid://bhp1lra78ushv" path="res://Scenes/DestructibleWalls/damage_wall_area.gd" id="6_d5y80"]
 [ext_resource type="Shader" uid="uid://boltyocanot7r" path="res://Scenes/DestructibleWalls/wall_cracks_voronoi.gdshader" id="8_1gtvk"]
@@ -410,14 +409,6 @@ tile_set = SubResource("TileSet_50xy0")
 script = ExtResource("1_8dscf")
 HEALTH = 5000
 
-[node name="WallFragments" type="Node2D" parent="."]
-script = ExtResource("3_mh1jy")
-
-[node name="Sprite" type="Sprite2D" parent="WallFragments"]
-centered = false
-
-[node name="Fragments" type="Node2D" parent="WallFragments"]
-
 [node name="MovingPattern" type="ColorRect" parent="."]
 material = SubResource("ShaderMaterial_qcnym")
 script = ExtResource("4_2peem")
@@ -459,6 +450,7 @@ volume_db = -8.0
 pitch_scale = 0.8
 
 [node name="DamageWallArea" type="Area2D" parent="."]
+visible = false
 collision_mask = 2
 script = ExtResource("6_d5y80")
 
@@ -466,6 +458,7 @@ script = ExtResource("6_d5y80")
 shape = SubResource("RectangleShape2D_iceyh")
 
 [node name="CollisionDetectionArea" type="Area2D" parent="."]
+visible = false
 collision_mask = 2
 script = ExtResource("6_d5y80")
 
