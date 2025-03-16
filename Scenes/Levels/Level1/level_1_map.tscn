@@ -1,9 +1,10 @@
-[gd_scene load_steps=13 format=4 uid="uid://b1lft1oovl50b"]
+[gd_scene load_steps=14 format=4 uid="uid://b1lft1oovl50b"]
 
 [ext_resource type="Texture2D" uid="uid://olwb2yraeuqe" path="res://Scenes/Levels/Tilesets/LevelPlatformsTileset.png" id="1_qykhq"]
 [ext_resource type="Script" uid="uid://b5ahiyp1lgbgu" path="res://addons/TileMapCollisionBaker/TilemapCollisionBaker.gd" id="2_hy67k"]
 [ext_resource type="PackedScene" uid="uid://bc175bcim437d" path="res://Scenes/LevelBounds/level_bounds.tscn" id="2_sx6fs"]
 [ext_resource type="PackedScene" uid="uid://dwikem0xs7d8t" path="res://Scenes/DestructibleWalls/destructible_wall.tscn" id="3_4ucvp"]
+[ext_resource type="PackedScene" uid="uid://cc0fh31rsxvm5" path="res://Scenes/DestructibleWalls/WallBreakParticles/wall_break_particles.tscn" id="4_kp6to"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_3ctg0"]
 texture = ExtResource("1_qykhq")
@@ -457,6 +458,20 @@ position = Vector2(0, -415.5)
 shape = SubResource("RectangleShape2D_j2qbn")
 
 [node name="Walls" type="Node2D" parent="."]
+
+[node name="WallBreakParticles" type="Node2D" parent="Walls"]
+
+[node name="Up" parent="Walls/WallBreakParticles" instance=ExtResource("4_kp6to")]
+TILEMAP_PATH = NodePath("../../TileMaps/Up")
+
+[node name="Down" parent="Walls/WallBreakParticles" instance=ExtResource("4_kp6to")]
+TILEMAP_PATH = NodePath("../../TileMaps/Down")
+
+[node name="Left" parent="Walls/WallBreakParticles" instance=ExtResource("4_kp6to")]
+TILEMAP_PATH = NodePath("../../TileMaps/Left")
+
+[node name="Right" parent="Walls/WallBreakParticles" instance=ExtResource("4_kp6to")]
+TILEMAP_PATH = NodePath("../../TileMaps/Right")
 
 [node name="TileMaps" type="Node2D" parent="Walls"]
 

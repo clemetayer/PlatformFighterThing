@@ -1,0 +1,86 @@
+[gd_scene load_steps=10 format=3 uid="uid://cc0fh31rsxvm5"]
+
+[ext_resource type="Script" uid="uid://kxceqmir1s6" path="res://Scenes/DestructibleWalls/WallBreakParticles/wall_break_particles.gd" id="1_itjjj"]
+[ext_resource type="Texture2D" uid="uid://cbgn3ng3ciual" path="res://Scenes/DestructibleWalls/WallBreakParticles/split_1.png" id="1_qoa5n"]
+[ext_resource type="Texture2D" uid="uid://bsdi1xn101kkv" path="res://Scenes/DestructibleWalls/WallBreakParticles/split_2.png" id="2_5saq6"]
+[ext_resource type="Texture2D" uid="uid://buvoojry3eqp" path="res://Scenes/DestructibleWalls/WallBreakParticles/split_3.png" id="3_itjjj"]
+[ext_resource type="Texture2D" uid="uid://cg6vgpnms2g3o" path="res://Scenes/DestructibleWalls/WallBreakParticles/split_4.png" id="4_xmk6l"]
+[ext_resource type="Texture2D" uid="uid://bk21vhsxqcv3p" path="res://Scenes/DestructibleWalls/WallBreakParticles/split_5.png" id="5_7e3uw"]
+
+[sub_resource type="Gradient" id="Gradient_qoa5n"]
+offsets = PackedFloat32Array(0, 0.8, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_wjyr3"]
+gradient = SubResource("Gradient_qoa5n")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_qoa5n"]
+resource_local_to_scene = true
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(192, 3200, 1)
+angle_min = 1.07288e-05
+angle_max = 360.0
+direction = Vector3(-1, 0, 0)
+spread = 33.0
+initial_velocity_min = 2500.0
+initial_velocity_max = 5000.0
+angular_velocity_min = -477.6
+angular_velocity_max = 720.0
+gravity = Vector3(0, 980, 0)
+scale_min = 0.1
+color = Color(1, 0, 0, 1)
+color_ramp = SubResource("GradientTexture1D_wjyr3")
+
+[node name="WallBreakParticles" type="Node2D"]
+script = ExtResource("1_itjjj")
+
+[node name="Split1" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 32
+texture = ExtResource("1_qoa5n")
+lifetime = 5.0
+one_shot = true
+explosiveness = 1.0
+randomness = 1.0
+process_material = SubResource("ParticleProcessMaterial_qoa5n")
+
+[node name="Split2" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 32
+texture = ExtResource("2_5saq6")
+lifetime = 5.0
+one_shot = true
+explosiveness = 1.0
+randomness = 1.0
+process_material = SubResource("ParticleProcessMaterial_qoa5n")
+
+[node name="Split3" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 32
+texture = ExtResource("3_itjjj")
+lifetime = 5.0
+one_shot = true
+explosiveness = 1.0
+randomness = 1.0
+process_material = SubResource("ParticleProcessMaterial_qoa5n")
+
+[node name="Split4" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 32
+texture = ExtResource("4_xmk6l")
+lifetime = 5.0
+one_shot = true
+explosiveness = 1.0
+randomness = 1.0
+process_material = SubResource("ParticleProcessMaterial_qoa5n")
+
+[node name="Split5" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 32
+texture = ExtResource("5_7e3uw")
+lifetime = 5.0
+one_shot = true
+explosiveness = 1.0
+randomness = 1.0
+process_material = SubResource("ParticleProcessMaterial_qoa5n")

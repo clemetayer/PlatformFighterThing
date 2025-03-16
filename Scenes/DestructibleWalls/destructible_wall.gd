@@ -2,7 +2,7 @@ extends TileMapLayer
 # destructible wall script
 
 ##### SIGNALS #####
-signal explode_fragments(position : Vector2, force : Vector2)
+signal explode_fragments(force : Vector2)
 
 ##### VARIABLES #####
 #---- CONSTANTS -----
@@ -148,7 +148,7 @@ func _on_damage_wall_area_body_entered(body: Node2D) -> void:
 		if HEALTH <= 0:
 			onready_paths.audio.break.play()
 			onready_paths.respawn_timer.start()
-			emit_signal("explode_fragments",body.global_position, max_velocity)
+			emit_signal("explode_fragments", max_velocity)
 			rpc("_toggle_activated", false)
 			_toggle_respawn_collision_detection_activated(true)
 		else:

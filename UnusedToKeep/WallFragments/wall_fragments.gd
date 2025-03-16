@@ -7,7 +7,7 @@ extends Node2D
 ##### VARIABLES #####
 #---- CONSTANTS -----
 const NUMBER_OF_FRAGMENTS := 20
-const FRAGMENT_SCENE := preload("res://Scenes/DestructibleWalls/WallFragments/fragment.tscn")
+const FRAGMENT_SCENE := preload("res://UnusedToKeep/WallFragments/fragment.tscn")
 const TRESHOLD := 10.0 # Prevents slim triangles being created at the sprite edges.
 
 #---- EXPORTS -----
