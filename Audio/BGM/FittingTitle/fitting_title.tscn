@@ -498,6 +498,6 @@ bus = &"MuteUtils"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_v1mso")
+&"": SubResource("AnimationLibrary_v1mso")
 }
 next/Intro = &"Loop"

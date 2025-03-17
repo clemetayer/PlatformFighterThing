@@ -130,7 +130,6 @@ func _buffer_velocity(vel_to_buffer : Vector2) -> void:
 
 func _predict_bounces() -> void:
 	var travel_distance_next_frame = velocity * 1.0 / Engine.get_physics_ticks_per_second()
-	_temp_log_data_on_condition(DAMAGE >= 300, "travel_distance_next_frame = %s" % travel_distance_next_frame)
 	var space_state = get_world_2d().direct_space_state
 	var query = PhysicsRayQueryParameters2D.create(position, position + travel_distance_next_frame, 1)
 	var intersection = space_state.intersect_ray(query)
@@ -151,10 +150,6 @@ func _predict_bounces() -> void:
 			query = PhysicsRayQueryParameters2D.create(position, position + travel_distance_next_frame, 1)
 			intersection = space_state.intersect_ray(query)
 		predict_bounce_cnt += 1
-
-func _temp_log_data_on_condition(condition : bool, message : String) -> void:
-	if condition:
-		Logger.debug(message)
 
 ##### SIGNAL MANAGEMENT #####
 func _on_SceneUtils_toggle_scene_freeze(value: bool) -> void:

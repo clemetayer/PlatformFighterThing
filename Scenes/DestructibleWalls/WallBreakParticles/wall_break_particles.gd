@@ -28,6 +28,7 @@ func _fit_particles_to_tilemap(emitter : GPUParticles2D) -> void:
 		var particles_process = emitter.process_material
 		position = _tilemap.get_used_rect().position * 64
 		var tilemap_rect = _tilemap.get_used_rect().size * 64
+		emitter.visibility_rect = Rect2i(_tilemap.get_used_rect().position * 64, _tilemap.get_used_rect().size * 64).grow(4096)
 		particles_process.emission_box_extents = Vector3i(tilemap_rect.x,tilemap_rect.y,0)
 		var emit_direction = -_tilemap.BOUNCE_BACK_DIRECTION
 		particles_process.direction = Vector3(emit_direction.x, emit_direction.y,0) 
