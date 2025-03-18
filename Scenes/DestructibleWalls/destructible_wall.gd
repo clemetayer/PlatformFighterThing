@@ -48,13 +48,16 @@ func _ready():
 	_update_texture_color(BASE_HEALTH)
 
 ##### PROTECTED METHODS #####
-func _remove_health_by_velocity(velocity: Vector2) -> void:
-	var final_health = HEALTH
+func _get_damage(velocity) -> float:
 	if BOUNCE_BACK_DIRECTION.x != 0:
-		final_health -= abs(velocity.x)
+		return abs(velocity.x)
+	return abs(velocity.y)
+	
+func _remove_health_by_velocity(velocity: Vector2) -> void:
+	var final_health = HEALTH - _get_damage(velocity)
+	if BOUNCE_BACK_DIRECTION.x != 0:
 		rpc("_shake_camera_by_velocity", velocity.x)
 	elif BOUNCE_BACK_DIRECTION.y != 0:
-		final_health -= abs(velocity.y)
 		rpc("_shake_camera_by_velocity", velocity.y)
 	_play_break_trebble(final_health)
 	if _update_health_tween:
@@ -142,10 +145,11 @@ func _on_respawn_timer_timeout() -> void:
 func _on_damage_wall_area_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player") and collision_enabled and RuntimeUtils.is_authority():
 		var max_velocity = _get_max_velocity_in_buffer(body.velocity_buffer)
+		var final_health = HEALTH - _get_damage(max_velocity)
 		_remove_health_by_velocity(max_velocity)
 		body.toggle_freeze(true)
 		_start_freeze_timeout_timer_for_player(body.velocity, body)
-		if HEALTH <= 0:
+		if final_health <= 0:
 			onready_paths.audio.break.play()
 			onready_paths.respawn_timer.start()
 			emit_signal("explode_fragments", max_velocity)

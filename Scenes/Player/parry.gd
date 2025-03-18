@@ -31,12 +31,6 @@ var _can_parry := true
 	"lockout_timer":$"LockoutTimer"
 }
 
-##### PROCESSING #####
-# Called every frame. 'delta' is the elapsed time since the previous frame. Remove the "_" to use it.
-func _process(_delta):
-	DebugInterface.set_debug_text("parrying",_parrying)
-	DebugInterface.set_debug_text("can parry", _can_parry)
-
 ##### PUBLIC METHODS #####
 func parry() -> void:
 	if _can_parry:
