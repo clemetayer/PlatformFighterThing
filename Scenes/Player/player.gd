@@ -137,15 +137,15 @@ func _predict_bounces() -> void:
 	while intersection and predict_bounce_cnt < MAX_BOUNCE_PREDICTIONS:
 		position = intersection.position + intersection.normal * PREDICT_BOUNCE_OFFSET  # slight position correction to avoid repositionning in the wall
 		if intersection.collider.is_in_group("destructible_wall"): # breakable wall, should not bounce
-			break
+			return
 		elif not onready_paths_node.hitstun_manager.hitstunned: # if hitstunned just stopped, reset the velocity if it collides with a wall to avoid going through at high velocities
 			velocity = Vector2.ZERO 
-			break 
+			return 
 		else:
 			var distance_traveled = global_position - intersection.position
 			velocity = velocity.bounce(intersection.normal) * BOUNCE_DAMPING
 			if travel_distance_next_frame.length() - distance_traveled.length() <= 0:
-				break
+				return
 			travel_distance_next_frame = velocity.normalized() * (travel_distance_next_frame - distance_traveled).length()
 			query = PhysicsRayQueryParameters2D.create(position, position + travel_distance_next_frame, 1)
 			intersection = space_state.intersect_ray(query)

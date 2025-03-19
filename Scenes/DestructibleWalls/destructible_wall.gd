@@ -161,7 +161,7 @@ func _on_damage_wall_area_body_entered(body: Node2D) -> void:
 			onready_paths.audio.hit.play()
 
 func _on_freeze_player_timer_timeout(timer_to_free : Timer, player_velocity : Vector2, player : Node2D) -> void:
-	if RuntimeUtils.is_authority():
+	if RuntimeUtils.is_authority() and is_instance_valid(player):
 		player.toggle_freeze(false)
 		onready_paths.audio.trebble.stop()
 		if HEALTH <= 0:
