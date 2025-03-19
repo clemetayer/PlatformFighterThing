@@ -11,6 +11,7 @@ const DAMAGE_WALL_TRESHOLD_EFFECT := 3000
 # 0 - 1500 : light, 1500 - 3000 : medium, 3000 - inf : high
 const FREEZE_PLAYER_TIMEOUT := 1 # s
 const VORONOI_MAX_DESTRUCTION_PERCENTS := 0.5
+const WALL_BREAK_KNOCKBACK_STRENGTH := 10000
 
 #---- EXPORTS -----
 @export var BASE_HEALTH := 5000 
@@ -124,11 +125,11 @@ func _check_and_respawn() -> void:
 		rpc("_toggle_activated",true)
 		_toggle_respawn_collision_detection_activated(false)
 
-func _start_freeze_timeout_timer_for_player(player_velocity : Vector2, player : Node2D) -> void:
+func _start_freeze_timeout_timer_for_player(player : Node2D) -> void:
 	var timer = Timer.new()
 	timer.one_shot = true
 	timer.wait_time = FREEZE_PLAYER_TIMEOUT
-	timer.connect("timeout",func(): _on_freeze_player_timer_timeout(timer, player_velocity, player))
+	timer.connect("timeout",func(): _on_freeze_player_timer_timeout(timer, player))
 	onready_paths.freeze_timers_path.add_child(timer)
 	timer.start()
 
@@ -148,7 +149,7 @@ func _on_damage_wall_area_body_entered(body: Node2D) -> void:
 		var max_velocity = _get_max_velocity_in_buffer(body.velocity_buffer)
 		var final_health = HEALTH - _get_damage(max_velocity)
 		body.toggle_freeze(true)
-		_start_freeze_timeout_timer_for_player(body.velocity, body)
+		_start_freeze_timeout_timer_for_player(body)
 		if final_health <= 0:
 			HEALTH = final_health
 			onready_paths.audio.break.play()
@@ -160,12 +161,12 @@ func _on_damage_wall_area_body_entered(body: Node2D) -> void:
 			_remove_health_by_velocity(max_velocity)
 			onready_paths.audio.hit.play()
 
-func _on_freeze_player_timer_timeout(timer_to_free : Timer, player_velocity : Vector2, player : Node2D) -> void:
+func _on_freeze_player_timer_timeout(timer_to_free : Timer, player : Node2D) -> void:
 	if RuntimeUtils.is_authority() and is_instance_valid(player):
 		player.toggle_freeze(false)
 		onready_paths.audio.trebble.stop()
 		if HEALTH <= 0:
-			player.override_velocity(player_velocity)
+			player.override_velocity(-BOUNCE_BACK_DIRECTION * WALL_BREAK_KNOCKBACK_STRENGTH)
 		else:
 			player.override_velocity(BOUNCE_BACK_DIRECTION * BOUNCE_BACK_FORCE)
 		timer_to_free.queue_free()
