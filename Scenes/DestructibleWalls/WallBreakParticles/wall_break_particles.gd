@@ -18,7 +18,8 @@ func _ready():
 	_tilemap = get_node_or_null(TILEMAP_PATH)
 	if _tilemap != null:
 		for emitter in get_children():
-			_fit_particles_to_tilemap(emitter)
+			if emitter is GPUParticles2D:
+				_fit_particles_to_tilemap(emitter)
 		_connect_explode_signal()
 	else:
 		Logger.error("Tilemap not set for %s" % name)
@@ -36,14 +37,11 @@ func _fit_particles_to_tilemap(emitter : GPUParticles2D) -> void:
 func _connect_explode_signal() -> void:
 	_tilemap.connect("explode_fragments", _on_tilemap_explode)
 
-@rpc("authority","call_remote","unreliable")
-func _explode_tilemaps(force : Vector2) -> void:
-	for emitter in get_children():
-		var particles_process = emitter.process_material
-		particles_process.initial_velocity_min = PARTICLES_VELOCITY_BOUNDS[0] * force.length()
-		particles_process.initial_velocity_max = PARTICLES_VELOCITY_BOUNDS[1] * force.length()
-		emitter.emitting = true
-	
 ##### SIGNAL MANAGEMENT #####
 func _on_tilemap_explode(force : Vector2) -> void:
-	rpc("_explode_tilemaps", force)
+	for emitter in get_children():
+		if emitter is GPUParticles2D:
+			var particles_process = emitter.process_material
+			particles_process.initial_velocity_min = PARTICLES_VELOCITY_BOUNDS[0] * force.length()
+			particles_process.initial_velocity_max = PARTICLES_VELOCITY_BOUNDS[1] * force.length()
+			emitter.emitting = true
