@@ -36,10 +36,14 @@ func _fit_particles_to_tilemap(emitter : GPUParticles2D) -> void:
 func _connect_explode_signal() -> void:
 	_tilemap.connect("explode_fragments", _on_tilemap_explode)
 
-##### SIGNAL MANAGEMENT #####
-func _on_tilemap_explode(force : Vector2) -> void:
+@rpc("authority","call_remote","unreliable")
+func _explode_tilemaps(force : Vector2) -> void:
 	for emitter in get_children():
 		var particles_process = emitter.process_material
 		particles_process.initial_velocity_min = PARTICLES_VELOCITY_BOUNDS[0] * force.length()
 		particles_process.initial_velocity_max = PARTICLES_VELOCITY_BOUNDS[1] * force.length()
 		emitter.emitting = true
+	
+##### SIGNAL MANAGEMENT #####
+func _on_tilemap_explode(force : Vector2) -> void:
+	rpc("_explode_tilemaps", force)

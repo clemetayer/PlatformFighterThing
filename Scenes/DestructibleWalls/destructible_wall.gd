@@ -166,9 +166,9 @@ func _on_freeze_player_timer_timeout(timer_to_free : Timer, player : Node2D) -> 
 		player.toggle_freeze(false)
 		onready_paths.audio.trebble.stop()
 		if HEALTH <= 0:
-			player.override_velocity(-BOUNCE_BACK_DIRECTION * WALL_BREAK_KNOCKBACK_STRENGTH)
+			player.override_velocity(-BOUNCE_BACK_DIRECTION.normalized() * WALL_BREAK_KNOCKBACK_STRENGTH)
 		else:
-			player.override_velocity(BOUNCE_BACK_DIRECTION * BOUNCE_BACK_FORCE)
+			player.override_velocity(BOUNCE_BACK_DIRECTION.normalized() * BOUNCE_BACK_FORCE)
 		timer_to_free.queue_free()
 		
 
