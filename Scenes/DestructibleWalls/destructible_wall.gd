@@ -125,13 +125,20 @@ func _check_and_respawn() -> void:
 		rpc("_toggle_activated",true)
 		_toggle_respawn_collision_detection_activated(false)
 
-func _start_freeze_timeout_timer_for_player(player : Node2D) -> void:
+func _start_freeze_timeout_timer_for_player(player : Node2D, time : float = FREEZE_PLAYER_TIMEOUT) -> void:
 	var timer = Timer.new()
 	timer.one_shot = true
 	timer.wait_time = FREEZE_PLAYER_TIMEOUT
 	timer.connect("timeout",func(): _on_freeze_player_timer_timeout(timer, player))
 	onready_paths.freeze_timers_path.add_child(timer)
 	timer.start()
+
+func _play_break_animation() -> void:
+	Engine.time_scale = 0.5
+	FullScreenEffects.monochrome(2)
+	rpc("_shake_camera_by_velocity", WALL_BREAK_KNOCKBACK_STRENGTH)
+	await get_tree().create_timer(2).timeout
+	Engine.time_scale = 1
 
 ##### SIGNAL MANAGEMENT #####
 func _on_area_entered(area):
@@ -149,15 +156,18 @@ func _on_damage_wall_area_body_entered(body: Node2D) -> void:
 		var max_velocity = _get_max_velocity_in_buffer(body.velocity_buffer)
 		var final_health = HEALTH - _get_damage(max_velocity)
 		body.toggle_freeze(true)
-		_start_freeze_timeout_timer_for_player(body)
 		if final_health <= 0:
 			HEALTH = final_health
 			onready_paths.audio.break.play()
 			onready_paths.respawn_timer.start()
+			_start_freeze_timeout_timer_for_player(body,2)
+			CameraEffects.emit_signal_focus_on(body.global_position,0.5,8.0,2)
+			_play_break_animation()
 			emit_signal("explode_fragments", max_velocity)
 			rpc("_toggle_activated", false)
 			_toggle_respawn_collision_detection_activated(true)
 		else:
+			_start_freeze_timeout_timer_for_player(body)
 			_remove_health_by_velocity(max_velocity)
 			onready_paths.audio.hit.play()
 

@@ -1,6 +1,5 @@
 extends Node
 # Fitting title script
-# TODO : when 4.4 kicks in the get_playback_position of an audiostream interactive should be fixed (https://github.com/godotengine/godot/issues/97791) try to add it to the rythm notifier to see what this does
 
 ##### SIGNALS #####
 signal kick

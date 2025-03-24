@@ -25,12 +25,12 @@ var _current_impact_priority := CameraEffects.CAMERA_IMPACT_PRIORITY.NONE
 var _tilt_tween : Tween
 var _zoom_tween : Tween
 var _zoom_multiplier := ZOOM_BASE_MULTIPLIER
+var _focus_on = null
 
 
 #==== ONREADY ====
 @onready var onready_paths := {
-	"shaker": $"Shaker",
-	"full_screen_effects": $"FullScreenEffects"
+	"shaker": $"Shaker"
 }
 
 ##### PROCESSING #####
@@ -41,13 +41,18 @@ func _init():
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	CameraEffects.connect("start_camera_impact",_on_start_camera_impact)
+	CameraEffects.connect("focus_on", _on_focus_on)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame. Remove the "_" to use it.
 func _process(delta):
-	global_position = _get_average_position()
-	var best_zoom = _get_best_zoom()
-	if best_zoom > 0 :
-		zoom = zoom.move_toward(Vector2.ONE * best_zoom * _zoom_multiplier,delta * ZOOM_DAMPING)
+	if _focus_on != null:
+		global_position = global_position.move_toward(_focus_on.position, delta * _focus_on.time_to_focus * 600)
+		zoom = zoom.move_toward(Vector2.ONE * _focus_on.zoom, delta * _focus_on.time_to_focus)
+	else:
+		global_position = _get_average_position()
+		var best_zoom = _get_best_zoom()
+		if best_zoom > 0 :
+			zoom = zoom.move_toward(Vector2.ONE * best_zoom * _zoom_multiplier, delta * ZOOM_DAMPING)
 
 ##### PUBLIC METHODS #####
 # Methods that are intended to be "visible" to other nodes or scripts
@@ -101,7 +106,7 @@ func _start_camera_impact(duration : float, intensity : CameraEffects.CAMERA_IMP
 		_start_camera_tilt(duration, intensity)
 		_start_fast_zoom(duration, intensity)
 		_start_chromatic_aberration(duration, intensity)
-		
+
 func _start_camera_shake(duration : float, intensity : CameraEffects.CAMERA_IMPACT_INTENSITY) -> void:
 	if onready_paths.shaker.is_playing:
 		onready_paths.shaker.force_stop_shake()
@@ -116,7 +121,6 @@ func _start_camera_shake(duration : float, intensity : CameraEffects.CAMERA_IMPA
 			shake_preset = RuntimeConfig.camera_effects_intensity_preset.SHAKE_HIGH
 	onready_paths.shaker.set_shaker_preset(shake_preset)
 	onready_paths.shaker.play_shake()
-	
 
 func _start_camera_tilt(duration : float, intensity : CameraEffects.CAMERA_IMPACT_INTENSITY) -> void:
 	var rot_angle = [1,-1].pick_random()
@@ -187,12 +191,21 @@ func _start_chromatic_aberration(duration : float, intensity : CameraEffects.CAM
 		CameraEffects.CAMERA_IMPACT_INTENSITY.HIGH:
 			strength = RuntimeConfig.camera_effects_intensity_preset.HIGH_CHROMATIC_ABERRATION_STRENGTH
 			duration_divider = RuntimeConfig.camera_effects_intensity_preset.HIGH_CHROMATIC_ABERRATION_DURATION_DIVIDER
-	onready_paths.full_screen_effects.chromatic_aberration(strength, duration, duration_divider)
+	FullScreenEffects.chromatic_aberration(strength, duration, duration_divider)
 
 ##### SIGNAL MANAGEMENT #####
 func _on_start_camera_impact(duration : float, intensity : CameraEffects.CAMERA_IMPACT_INTENSITY, priority: CameraEffects.CAMERA_IMPACT_PRIORITY) -> void:
 	if RuntimeUtils.is_authority():
 		rpc("_start_camera_impact", duration, intensity, priority)
+
+func _on_focus_on(p_position : Vector2, p_zoom : float, p_time_to_focus : float, duration : float) -> void:
+	_focus_on = {
+		"position": p_position,
+		"zoom": p_zoom,
+		"time_to_focus": p_time_to_focus
+	}
+	await get_tree().create_timer(duration).timeout
+	_focus_on = null
 
 func _on_shaker_shake_finished() -> void:
 	_current_impact_priority = CameraEffects.CAMERA_IMPACT_PRIORITY.NONE

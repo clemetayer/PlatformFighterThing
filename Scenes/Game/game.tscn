@@ -29,21 +29,21 @@ follow_viewport_enabled = true
 enabled = false
 
 [node name="PlayerSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("res://Scenes/Player/player.tscn")
+_spawnable_scenes = PackedStringArray("uid://fgxha8wl55pa")
 spawn_path = NodePath("../Players")
 spawn_limit = 4
 
 [node name="LevelSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("res://Scenes/Levels/Level1/level_1_map.tscn")
+_spawnable_scenes = PackedStringArray("uid://b1lft1oovl50b")
 spawn_path = NodePath("../Level")
 spawn_limit = 1
 
 [node name="ProjectileSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("res://Scenes/Weapons/Projectiles/bullet.tscn")
+_spawnable_scenes = PackedStringArray("uid://cra571gjijhyj")
 spawn_path = NodePath("../Projectiles")
 
 [node name="PowerupSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("res://Scenes/Weapons/Powerups/Splitter/splitter.tscn")
+_spawnable_scenes = PackedStringArray("uid://cto1bewda5gwm")
 spawn_path = NodePath("../Powerups")
 
 [node name="CameraSynchronizer" type="MultiplayerSynchronizer" parent="."]

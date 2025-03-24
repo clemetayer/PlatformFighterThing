@@ -1,4 +1,4 @@
-extends CanvasLayer
+extends Node
 # Controls the full screen effects shaders
 
 ##### VARIABLES #####
@@ -17,7 +17,8 @@ var _chromatic_aberration_tween : Tween
 
 #==== ONREADY ====
 @onready var onready_paths := {
-	"chromatic_aberration": $"ChromaticAberration"
+	"chromatic_aberration": $"HighLayer/ChromaticAberration",
+	"monochrome": $"BackLayer/Monochrome"
 }
 
 ##### PROCESSING #####
@@ -45,6 +46,11 @@ func chromatic_aberration(strength : float, duration : float, duration_divider :
 	_chromatic_aberration_tween.play()
 	await _chromatic_aberration_tween.finished
 	onready_paths.chromatic_aberration.material.set_shader_parameter("strength",0.0)
+
+func monochrome(duration : float) -> void:
+	onready_paths.monochrome.get_material().set_shader_parameter("ACTIVE", true)
+	await get_tree().create_timer(duration).timeout
+	onready_paths.monochrome.get_material().set_shader_parameter("ACTIVE", false)
 
 ##### PROTECTED METHODS #####
 # Methods that are intended to be used exclusively by this scripts

@@ -1,0 +1,36 @@
+[gd_scene load_steps=4 format=3 uid="uid://bfgmjw3x6ighh"]
+
+[ext_resource type="Texture2D" uid="uid://c1gi3re5rscab" path="res://icon.svg" id="1_wcv63"]
+[ext_resource type="Shader" uid="uid://5uh6xi4ap7vo" path="res://TestSandbox/ShaderTest/Monochrome/monochrome_2.gdshader" id="2_wcv63"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_y0vfd"]
+shader = ExtResource("2_wcv63")
+
+[node name="ShaderTest" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(576, 324)
+texture = ExtResource("1_wcv63")
+
+[node name="Sprite2D2" type="Sprite2D" parent="."]
+position = Vector2(978, 109)
+texture = ExtResource("1_wcv63")
+
+[node name="Sprite2D3" type="Sprite2D" parent="."]
+position = Vector2(935, 544)
+texture = ExtResource("1_wcv63")
+
+[node name="Sprite2D4" type="Sprite2D" parent="."]
+position = Vector2(211, 107)
+texture = ExtResource("1_wcv63")
+
+[node name="MonoChrome" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_y0vfd")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 1152.0
+offset_bottom = 648.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 4
