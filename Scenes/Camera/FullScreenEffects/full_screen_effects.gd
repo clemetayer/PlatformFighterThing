@@ -2,37 +2,16 @@ extends Node
 # Controls the full screen effects shaders
 
 ##### VARIABLES #####
-#---- CONSTANTS -----
-# const constant := 10 # Optionnal comment
-
-#---- EXPORTS -----
-# export(int) var EXPORT_NAME # Optionnal comment
-
 #---- STANDARD -----
-#==== PUBLIC ====
-# var public_var # Optionnal comment
-
 #==== PRIVATE ====
 var _chromatic_aberration_tween : Tween
 
 #==== ONREADY ====
 @onready var onready_paths := {
 	"chromatic_aberration": $"HighLayer/ChromaticAberration",
-	"monochrome": $"BackLayer/Monochrome"
+	"monochrome": $"BackLayer/Monochrome",
+	"pincushion": $"HighLayer/PinCushion"
 }
-
-##### PROCESSING #####
-# Called when the object is initialized.
-func _init():
-	pass
-
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass
-
-# Called every frame. 'delta' is the elapsed time since the previous frame. Remove the "_" to use it.
-func _process(_delta):
-	pass
 
 ##### PUBLIC METHODS #####
 func chromatic_aberration(strength : float, duration : float, duration_divider : float) -> void:
@@ -52,10 +31,5 @@ func monochrome(duration : float) -> void:
 	await get_tree().create_timer(duration).timeout
 	onready_paths.monochrome.get_material().set_shader_parameter("ACTIVE", false)
 
-##### PROTECTED METHODS #####
-# Methods that are intended to be used exclusively by this scripts
-# func _private_method(arg):
-#     pass
-
-##### SIGNAL MANAGEMENT #####
-# Functions that should be triggered when a specific signal is received
+func pincushion(duration : float) -> void:
+	onready_paths.pincushion.play_animation(duration)

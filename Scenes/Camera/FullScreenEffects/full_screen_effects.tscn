@@ -1,12 +1,13 @@
-[gd_scene load_steps=6 format=3 uid="uid://8vwyx0sggow5"]
+[gd_scene load_steps=7 format=3 uid="uid://8vwyx0sggow5"]
 
-[ext_resource type="Shader" uid="uid://df8ad865lg0bd" path="res://Scenes/Camera/FullScreenEffects/chromatic_aberration.gdshader" id="1_5qws4"]
 [ext_resource type="Script" uid="uid://b84sp3j4j7ywv" path="res://Scenes/Camera/FullScreenEffects/full_screen_effects.gd" id="1_rflc2"]
+[ext_resource type="Shader" uid="uid://cvu6dn4cyhwph" path="res://TestSandbox/ShaderTest/Pincushion/pincushion.gdshader" id="2_duef4"]
 [ext_resource type="Shader" uid="uid://5uh6xi4ap7vo" path="res://TestSandbox/ShaderTest/Monochrome/monochrome_2.gdshader" id="3_duef4"]
+[ext_resource type="Script" uid="uid://ckw1s1y7fnnje" path="res://Scenes/Camera/FullScreenEffects/pin_cushion.gd" id="3_o1h5g"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_11kyp"]
-shader = ExtResource("1_5qws4")
-shader_parameter/strength = 0.0
+shader = ExtResource("2_duef4")
+shader_parameter/DISTORTION = 1.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_o1h5g"]
 shader = ExtResource("3_duef4")
@@ -26,6 +27,16 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+
+[node name="PinCushion" type="ColorRect" parent="HighLayer"]
+material = SubResource("ShaderMaterial_11kyp")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("3_o1h5g")
 
 [node name="BackLayer" type="CanvasLayer" parent="."]
 editor_description = "Only changes the background"

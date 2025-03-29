@@ -134,11 +134,12 @@ func _start_freeze_timeout_timer_for_player(player : Node2D, time : float = FREE
 	timer.start()
 
 func _play_break_animation() -> void:
-	Engine.time_scale = 0.5
+	RuntimeUtils.set_time_scale(0.5)
 	FullScreenEffects.monochrome(2)
+	FullScreenEffects.pincushion(2)
 	rpc("_shake_camera_by_velocity", WALL_BREAK_KNOCKBACK_STRENGTH)
 	await get_tree().create_timer(2).timeout
-	Engine.time_scale = 1
+	RuntimeUtils.set_time_scale(1)
 
 ##### SIGNAL MANAGEMENT #####
 func _on_area_entered(area):

@@ -46,6 +46,11 @@ func is_authority() -> bool:
 func get_game_root() -> Node:
 	return get_tree().get_first_node_in_group(GAME_ROOT_GROUP_NAME)
 
+# sets the general time scale of the engine (including the audio)
+func set_time_scale(scale : float) -> void:
+	Engine.time_scale = scale
+	AudioServer.playback_speed_scale = scale
+
 ##### PROTECTED METHODS #####
 # Methods that are intended to be used exclusively by this scripts
 # func _private_method(arg):

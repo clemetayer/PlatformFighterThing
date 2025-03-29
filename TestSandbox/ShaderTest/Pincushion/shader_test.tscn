@@ -1,0 +1,39 @@
+[gd_scene load_steps=5 format=3 uid="uid://lusrqd1kcs0r"]
+
+[ext_resource type="Script" uid="uid://b0nvvn8a3udui" path="res://TestSandbox/ShaderTest/Pincushion/shader_test.gd" id="1_a70er"]
+[ext_resource type="Texture2D" uid="uid://c1gi3re5rscab" path="res://icon.svg" id="1_cofe4"]
+[ext_resource type="Shader" uid="uid://cvu6dn4cyhwph" path="res://TestSandbox/ShaderTest/Pincushion/pincushion.gdshader" id="2_cofe4"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_a70er"]
+shader = ExtResource("2_cofe4")
+shader_parameter/DISTORTION = 1.0
+
+[node name="ShaderTest" type="Node2D"]
+script = ExtResource("1_a70er")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(576, 324)
+texture = ExtResource("1_cofe4")
+
+[node name="Sprite2D2" type="Sprite2D" parent="."]
+position = Vector2(978, 109)
+texture = ExtResource("1_cofe4")
+
+[node name="Sprite2D3" type="Sprite2D" parent="."]
+position = Vector2(935, 544)
+texture = ExtResource("1_cofe4")
+
+[node name="Sprite2D4" type="Sprite2D" parent="."]
+position = Vector2(211, 107)
+texture = ExtResource("1_cofe4")
+
+[node name="PinCushion" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_a70er")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 1152.0
+offset_bottom = 648.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 4
