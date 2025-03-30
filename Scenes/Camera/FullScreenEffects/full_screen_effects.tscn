@@ -1,11 +1,16 @@
-[gd_scene load_steps=7 format=3 uid="uid://8vwyx0sggow5"]
+[gd_scene load_steps=9 format=3 uid="uid://8vwyx0sggow5"]
 
 [ext_resource type="Script" uid="uid://b84sp3j4j7ywv" path="res://Scenes/Camera/FullScreenEffects/full_screen_effects.gd" id="1_rflc2"]
 [ext_resource type="Shader" uid="uid://cvu6dn4cyhwph" path="res://TestSandbox/ShaderTest/Pincushion/pincushion.gdshader" id="2_duef4"]
+[ext_resource type="Shader" uid="uid://df8ad865lg0bd" path="res://Scenes/Camera/FullScreenEffects/chromatic_aberration.gdshader" id="2_o1h5g"]
 [ext_resource type="Shader" uid="uid://5uh6xi4ap7vo" path="res://TestSandbox/ShaderTest/Monochrome/monochrome_2.gdshader" id="3_duef4"]
 [ext_resource type="Script" uid="uid://ckw1s1y7fnnje" path="res://Scenes/Camera/FullScreenEffects/pin_cushion.gd" id="3_o1h5g"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_11kyp"]
+shader = ExtResource("2_o1h5g")
+shader_parameter/strength = 0.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8dkx5"]
 shader = ExtResource("2_duef4")
 shader_parameter/DISTORTION = 1.0
 
@@ -16,10 +21,13 @@ shader_parameter/ACTIVE = false
 [node name="FullScreenEffects" type="Node"]
 script = ExtResource("1_rflc2")
 
-[node name="HighLayer" type="CanvasLayer" parent="."]
+[node name="FrontLayer" type="CanvasLayer" parent="."]
 layer = 100
 
-[node name="ChromaticAberration" type="ColorRect" parent="HighLayer"]
+[node name="ChromaticAberrationBuffer" type="BackBufferCopy" parent="FrontLayer"]
+rect = Rect2(0, 0, 1152, 648)
+
+[node name="ChromaticAberration" type="ColorRect" parent="FrontLayer/ChromaticAberrationBuffer"]
 material = SubResource("ShaderMaterial_11kyp")
 anchors_preset = 15
 anchor_right = 1.0
@@ -28,8 +36,11 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="PinCushion" type="ColorRect" parent="HighLayer"]
-material = SubResource("ShaderMaterial_11kyp")
+[node name="PinCushionBuffer" type="BackBufferCopy" parent="FrontLayer"]
+rect = Rect2(0, 0, 1152, 648)
+
+[node name="PinCushion" type="ColorRect" parent="FrontLayer/PinCushionBuffer"]
+material = SubResource("ShaderMaterial_8dkx5")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -42,7 +53,10 @@ script = ExtResource("3_o1h5g")
 editor_description = "Only changes the background"
 layer = 0
 
-[node name="Monochrome" type="ColorRect" parent="BackLayer"]
+[node name="MonochromeBuffer" type="BackBufferCopy" parent="BackLayer"]
+rect = Rect2(0, 0, 1152, 648)
+
+[node name="Monochrome" type="ColorRect" parent="BackLayer/MonochromeBuffer"]
 material = SubResource("ShaderMaterial_o1h5g")
 anchors_preset = 15
 anchor_right = 1.0

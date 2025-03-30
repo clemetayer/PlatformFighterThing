@@ -2,7 +2,7 @@ shader_type canvas_item;
 
 const float TRESHOLD = 0.25;
 
-uniform sampler2D SCREEN_TEXTURE : hint_screen_texture, filter_linear_mipmap;
+uniform sampler2D SCREEN_TEXTURE : hint_screen_texture, repeat_disable, filter_nearest;
 uniform bool ACTIVE = false;
 
 void fragment() {

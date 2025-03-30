@@ -105,8 +105,7 @@ func toggle_hitstun_bounce(active : bool) -> void:
 	physics_material_override.bounce = HITSTUN_BOUNCE if active else NORMAL_BOUNCE
 
 func respawn() -> void:
-	emit_signal("killed",id)
-	queue_free()
+	onready_paths_node.death_manager.kill()
 
 func override_velocity(velocity_override : Vector2) -> void:
 	_velocity_override += velocity_override

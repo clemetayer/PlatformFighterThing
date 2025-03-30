@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=3 uid="uid://fgxha8wl55pa"]
+[gd_scene load_steps=38 format=3 uid="uid://fgxha8wl55pa"]
 
 [ext_resource type="Script" uid="uid://bxq3finp4gfep" path="res://Scenes/Player/player.gd" id="1_b1dbg"]
 [ext_resource type="Script" uid="uid://bq2rya8sinnf" path="res://Scenes/Player/paths.gd" id="2_8lsum"]
@@ -13,6 +13,7 @@
 [ext_resource type="Script" uid="uid://cvh6fq6fc37ba" path="res://Scenes/Player/input_synchronizer.gd" id="5_uow23"]
 [ext_resource type="Script" uid="uid://vpgyhxg8g8t4" path="res://Scenes/Player/hitstun_manager.gd" id="6_lv0e8"]
 [ext_resource type="AudioStream" uid="uid://ukj7rgv5cmco" path="res://Scenes/Player/parry.mp3" id="7_1ci2y"]
+[ext_resource type="Script" uid="uid://c6kakxwjhbf38" path="res://Scenes/Player/death_manager.gd" id="7_aqm4k"]
 [ext_resource type="AudioStream" uid="uid://cudyvrluhlj0s" path="res://Scenes/Player/wrong.mp3" id="8_f1844"]
 [ext_resource type="Texture2D" uid="uid://xtprt5lwbpqn" path="res://Scenes/Player/Octagon.png" id="8_mtvak"]
 [ext_resource type="AudioStream" uid="uid://cvduad6i4tj47" path="res://Scenes/Player/parry_active.mp3" id="8_tyrm3"]
@@ -63,6 +64,15 @@ properties/0/replication_mode = 1
 properties/1/path = NodePath("InputSynchronizer:relative_aim_position")
 properties/1/spawn = false
 properties/1/replication_mode = 1
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ks1b7"]
+particle_flag_disable_z = true
+spread = 180.0
+initial_velocity_min = 861.43
+initial_velocity_max = 1000.0
+gravity = Vector3(0, 98, 0)
+scale_min = 0.2
+scale_max = 0.4
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7ohtq"]
 size = Vector2(150, 150)
@@ -443,6 +453,7 @@ CROSSHAIR_PATH = NodePath("../Crosshair")
 PARRY_SOUND_PATH = NodePath("../Audio/Parry")
 PARRY_ACTIVE_SOUND_PATH = NodePath("../Audio/ParryActive")
 PARRY_WRONG_PATH = NodePath("../Audio/ParryDisabled")
+DEATH_MANAGER_PATH = NodePath("../DeathManager")
 
 [node name="ActionManager" type="Node" parent="."]
 script = ExtResource("4_cguhm")
@@ -452,6 +463,18 @@ script = ExtResource("5_q62wf")
 
 [node name="HitstunManager" type="Node" parent="."]
 script = ExtResource("6_lv0e8")
+
+[node name="DeathManager" type="Node2D" parent="."]
+script = ExtResource("7_aqm4k")
+
+[node name="DeathParticles" type="GPUParticles2D" parent="DeathManager"]
+emitting = false
+amount = 16
+texture = ExtResource("3_b0wk1")
+one_shot = true
+explosiveness = 0.75
+randomness = 0.5
+process_material = SubResource("ParticleProcessMaterial_ks1b7")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
 scale = Vector2(0.33, 0.33)

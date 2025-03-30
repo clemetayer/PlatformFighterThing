@@ -8,9 +8,9 @@ var _chromatic_aberration_tween : Tween
 
 #==== ONREADY ====
 @onready var onready_paths := {
-	"chromatic_aberration": $"HighLayer/ChromaticAberration",
-	"monochrome": $"BackLayer/Monochrome",
-	"pincushion": $"HighLayer/PinCushion"
+	"chromatic_aberration": $"FrontLayer/ChromaticAberrationBuffer/ChromaticAberration",
+	"monochrome": $"BackLayer/MonochromeBuffer/Monochrome",
+	"pincushion": $"FrontLayer/PinCushionBuffer/PinCushion"
 }
 
 ##### PUBLIC METHODS #####

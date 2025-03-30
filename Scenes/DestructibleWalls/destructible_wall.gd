@@ -128,7 +128,7 @@ func _check_and_respawn() -> void:
 func _start_freeze_timeout_timer_for_player(player : Node2D, time : float = FREEZE_PLAYER_TIMEOUT) -> void:
 	var timer = Timer.new()
 	timer.one_shot = true
-	timer.wait_time = FREEZE_PLAYER_TIMEOUT
+	timer.wait_time = time
 	timer.connect("timeout",func(): _on_freeze_player_timer_timeout(timer, player))
 	onready_paths.freeze_timers_path.add_child(timer)
 	timer.start()
@@ -156,18 +156,18 @@ func _on_damage_wall_area_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player") and collision_enabled and RuntimeUtils.is_authority():
 		var max_velocity = _get_max_velocity_in_buffer(body.velocity_buffer)
 		var final_health = HEALTH - _get_damage(max_velocity)
-		body.toggle_freeze(true)
 		if final_health <= 0:
 			HEALTH = final_health
 			onready_paths.audio.break.play()
 			onready_paths.respawn_timer.start()
-			_start_freeze_timeout_timer_for_player(body,2)
+			body.respawn()
 			CameraEffects.emit_signal_focus_on(body.global_position,0.5,8.0,2)
 			_play_break_animation()
 			emit_signal("explode_fragments", max_velocity)
 			rpc("_toggle_activated", false)
 			_toggle_respawn_collision_detection_activated(true)
 		else:
+			body.toggle_freeze(true)
 			_start_freeze_timeout_timer_for_player(body)
 			_remove_health_by_velocity(max_velocity)
 			onready_paths.audio.hit.play()

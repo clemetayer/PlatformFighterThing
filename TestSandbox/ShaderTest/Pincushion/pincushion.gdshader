@@ -1,6 +1,6 @@
 shader_type canvas_item;
 
-uniform sampler2D SCREEN_TEXTURE : hint_screen_texture, filter_linear_mipmap;
+uniform sampler2D SCREEN_TEXTURE : hint_screen_texture, repeat_disable, filter_nearest;
 uniform float DISTORTION : hint_range(0.0,2.0) = 1.0;
 
 // Inspired from https://godotshaders.com/shader/crt-with-variable-fisheye/
