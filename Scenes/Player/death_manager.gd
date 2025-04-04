@@ -11,7 +11,7 @@ extends Node
 
 ##### VARIABLES #####
 #---- CONSTANTS -----
-const DEATH_ANIM_TIME := 1 #s
+const DEATH_ANIM_TIME := 2 #s
 
 #---- EXPORTS -----
 # @export var EXPORT_NAME := 10.0 # Optionnal comment
@@ -26,7 +26,8 @@ const DEATH_ANIM_TIME := 1 #s
 #==== ONREADY ====
 @onready var onready_paths_node := $"../Paths"
 @onready var onready_paths := {
-	"particles": $"DeathParticles"
+	"particles": $"DeathParticles",
+	"sound": $"DeathSound"
 }
 
 ##### PROCESSING #####
@@ -49,6 +50,7 @@ func set_particles_color(color : Color) -> void:
 # Triggers the death animation
 func kill() -> void:
 	onready_paths.particles.emitting = true
+	onready_paths.sound.play()
 	onready_paths_node.player_root.toggle_freeze(true)
 	# disables the collisions, just in case
 	onready_paths_node.player_root.set_collision_layer(0)
@@ -56,7 +58,7 @@ func kill() -> void:
 	onready_paths_node.damage_label.hide()
 	onready_paths_node.sprites.hide()
 	onready_paths_node.primary_weapon.hide()
-	await get_tree().create_timer(DEATH_ANIM_TIME / Engine.time_scale).timeout
+	await get_tree().create_timer(DEATH_ANIM_TIME).timeout
 	onready_paths_node.player_root.emit_signal("killed", onready_paths_node.player_root.id)
 	onready_paths_node.player_root.queue_free()
 
