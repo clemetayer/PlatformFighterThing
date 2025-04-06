@@ -48,7 +48,7 @@ var _piano_cnt := 0
 	},
 	"particles": {
 		"arpeggios":$"BackLayer/Static/ArpeggiosParticles",
-		"lead":$"MidLayer/Static/Lead"
+		"lead":$"MidLayer/Lead"
 	},
 	"song": $"FittingTitle"
 }

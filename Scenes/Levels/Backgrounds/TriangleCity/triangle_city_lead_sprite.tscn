@@ -1,12 +1,10 @@
 [gd_scene load_steps=3 format=3 uid="uid://vqxu3qicwg70"]
 
-[ext_resource type="Texture2D" uid="uid://ca1tnodjwjtd3" path="res://Misc/Particles/kenney_particle-pack/trace_07.png" id="1_h8mou"]
+[ext_resource type="Texture2D" uid="uid://b554km1qmk1dh" path="res://Misc/Particles/kenney_particle-pack/trace_06.png" id="1_6xf6o"]
 [ext_resource type="Script" uid="uid://5ue5eln4iv6t" path="res://Scenes/Levels/Backgrounds/TriangleCity/triangle_city_lead_sprite.gd" id="1_v3fbo"]
 
 [node name="TriangleCityLeadSprite" type="Sprite2D"]
-rotation = -1.5708
-scale = Vector2(0.5, 3)
-texture = ExtResource("1_h8mou")
+texture = ExtResource("1_6xf6o")
 offset = Vector2(-30, 150)
 script = ExtResource("1_v3fbo")
 

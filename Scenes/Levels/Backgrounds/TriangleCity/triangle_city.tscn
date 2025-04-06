@@ -969,7 +969,7 @@ points = PackedVector2Array(234, 650, 576, -36, 918, 650)
 width = 8.0
 width_curve = SubResource("Curve_y11xo")
 
-[node name="Lead" type="Node2D" parent="MidLayer/Static"]
+[node name="Lead" type="Node2D" parent="MidLayer"]
 script = ExtResource("28_gp0ot")
 GRADIENT = ExtResource("22_dht4p")
 
