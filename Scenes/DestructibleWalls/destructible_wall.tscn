@@ -444,10 +444,12 @@ bus = &"EffectsBGMSidechain"
 
 [node name="WallHitBreakTrebble" type="AudioStreamPlayer" parent="Audio"]
 stream = ExtResource("9_kwvrj")
+bus = &"EffectsBGMSidechain"
 
 [node name="WallBreak" type="AudioStreamPlayer" parent="Audio"]
 stream = ExtResource("10_7vn65")
 volume_db = -3.0
+bus = &"EffectsBGMSidechain"
 
 [node name="DamageWallArea" type="Area2D" parent="."]
 visible = false
