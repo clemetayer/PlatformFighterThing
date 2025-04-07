@@ -24,25 +24,11 @@ var _whitelist := [] # to avoid duplicating too much (with the fresh new project
 var _contacts_count := 0
 
 #==== ONREADY ====
-# onready var onready_var # Optionnal comment
-
-##### PROCESSING #####
-# Called when the object is initialized.
-func _init():
-	pass
-
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass
-
-# Called every frame. 'delta' is the elapsed time since the previous frame. Remove the "_" to use it.
-func _process(_delta):
-	pass
-
-##### PUBLIC METHODS #####
-# Methods that are intended to be "visible" to other nodes or scripts
-# func public_method(arg ):
-#     pass
+@onready var onready_paths := {
+	"audio":$"AudioStreamPlayer2D",
+	"collision": $"Hitbox/CollisionShape2D",
+	"sprite": $"Sprite2D"
+}
 
 ##### PROTECTED METHODS #####
 func _spawn_projectile(projectile) -> void:
@@ -65,6 +51,7 @@ func _duplicate_projectile_with_angle(projectile : Node, angle : float) -> void:
 func _on_hitbox_area_entered(area):
 	if RuntimeUtils.is_authority():
 		if area.is_in_group("projectile") and not _whitelist.has(area):
+			onready_paths.audio.play()
 			for duplicate_idx in range(1,PROJECTILE_DUPLICATES + 1):
 				var dup_angle = (duplicate_idx * ((PI/2)/(PROJECTILE_DUPLICATES+1))) - PI/4
 				if dup_angle != PI/2: # PI/2 angle (forward) is reserved for the original projectile
@@ -76,6 +63,9 @@ func _on_hitbox_area_entered(area):
 			if _contacts_count < MAX_CONTACTS - 1:
 				_contacts_count += 1
 			else:
+				onready_paths.collision.set_deferred("disabled", true)
+				onready_paths.sprite.hide()
+				await onready_paths.audio.finished
 				emit_signal("destroyed", self)
 				queue_free()
 
