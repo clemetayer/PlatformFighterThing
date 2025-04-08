@@ -133,7 +133,7 @@ func _start_freeze_timeout_timer_for_player(player : Node2D, time : float = FREE
 	onready_paths.freeze_timers_path.add_child(timer)
 	timer.start()
 
-@rpc()
+@rpc("authority", "call_local", "unreliable")
 func _play_break_animation() -> void:
 	FullScreenEffects.monochrome(2)
 	FullScreenEffects.pincushion(2)
