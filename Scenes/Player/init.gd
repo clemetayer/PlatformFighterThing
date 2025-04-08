@@ -46,10 +46,10 @@ func initialize(config : PlayerConfig) -> void:
 	onready_paths_node.damage_label.text = "%f" % onready_paths_node.player_root.DAMAGE
 	if get_multiplayer_authority() == multiplayer.get_unique_id():
 		onready_paths_node.primary_weapon.owner_color = config.SPRITE_CUSTOMIZATION.BODY_COLOR
+		onready_paths_node.death_manager.set_particles_color(config.SPRITE_CUSTOMIZATION.OUTLINE_COLOR)
 	onready_paths_node.player_root.add_child(onready_paths_node.primary_weapon)
 	onready_paths_node.player_root.add_child(onready_paths_node.movement_bonus)
 	onready_paths_node.player_root.add_child(onready_paths_node.powerup_manager)
-	onready_paths_node.death_manager.set_particles_color(config.SPRITE_CUSTOMIZATION.OUTLINE_COLOR)
 
 ##### PROTECTED METHODS #####
 # Methods that are intended to be used exclusively by this scripts

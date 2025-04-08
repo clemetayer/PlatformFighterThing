@@ -133,6 +133,7 @@ func _start_freeze_timeout_timer_for_player(player : Node2D, time : float = FREE
 	onready_paths.freeze_timers_path.add_child(timer)
 	timer.start()
 
+@rpc()
 func _play_break_animation() -> void:
 	FullScreenEffects.monochrome(2)
 	FullScreenEffects.pincushion(2)
@@ -160,7 +161,7 @@ func _on_damage_wall_area_body_entered(body: Node2D) -> void:
 			onready_paths.respawn_timer.start()
 			body.respawn()
 			CameraEffects.emit_signal_focus_on(body.global_position,0.5,8.0,2)
-			_play_break_animation()
+			rpc("_play_break_animation")
 			emit_signal("explode_fragments", max_velocity)
 			rpc("_toggle_activated", false)
 			_toggle_respawn_collision_detection_activated(true)
