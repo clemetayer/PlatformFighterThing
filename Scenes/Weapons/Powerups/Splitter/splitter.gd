@@ -4,21 +4,12 @@ extends Node2D
 ##### SIGNALS #####
 signal destroyed
 
-##### ENUMS #####
-# enumerations
-
 ##### VARIABLES #####
 #---- CONSTANTS -----
 const MAX_CONTACTS := 3
 const PROJECTILE_DUPLICATES := 5 # note : most likely should be an uneven number (to let the original projectile keep its trajectory)
 
-#---- EXPORTS -----
-# export(int) var EXPORT_NAME # Optionnal comment
-
 #---- STANDARD -----
-#==== PUBLIC ====
-# var public_var # Optionnal comment
-
 #==== PRIVATE ====
 var _whitelist := [] # to avoid duplicating too much (with the fresh new projectiles for instance)
 var _contacts_count := 0
@@ -27,8 +18,14 @@ var _contacts_count := 0
 @onready var onready_paths := {
 	"audio":$"AudioStreamPlayer2D",
 	"collision": $"Hitbox/CollisionShape2D",
-	"sprite": $"Sprite2D"
+	"sprite": $"Sprite2D",
+	"circles": $"Circles"
 }
+
+##### PROCESSING #####
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	onready_paths.circles.init(MAX_CONTACTS)
 
 ##### PROTECTED METHODS #####
 func _spawn_projectile(projectile) -> void:
@@ -52,6 +49,7 @@ func _on_hitbox_area_entered(area):
 	if RuntimeUtils.is_authority():
 		if area.is_in_group("projectile") and not _whitelist.has(area):
 			onready_paths.audio.play()
+			onready_paths.circles.remove_circle()
 			for duplicate_idx in range(1,PROJECTILE_DUPLICATES + 1):
 				var dup_angle = (duplicate_idx * ((PI/2)/(PROJECTILE_DUPLICATES+1))) - PI/4
 				if dup_angle != PI/2: # PI/2 angle (forward) is reserved for the original projectile
