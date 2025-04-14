@@ -1,0 +1,10 @@
+[gd_resource type="SystemFont" load_steps=2 format=3 uid="uid://25yexk2q7ssr"]
+
+[ext_resource type="FontFile" uid="uid://cnp1ao52csvwj" path="res://Misc/InterDisplay-Light.ttf" id="1_ui4ji"]
+
+[resource]
+fallbacks = Array[Font]([ExtResource("1_ui4ji")])
+font_names = PackedStringArray("Inter Display")
+font_italic = true
+font_weight = 300
+oversampling = 2.0

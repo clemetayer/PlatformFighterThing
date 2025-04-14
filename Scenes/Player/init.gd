@@ -43,7 +43,7 @@ func initialize(config : PlayerConfig) -> void:
 	onready_paths_node.input_synchronizer.set_action_handler(ACTION_HANDLER)
 	onready_paths_node.movement_bonus.player = onready_paths_node.player_root
 	onready_paths_node.primary_weapon.projectile_owner = onready_paths_node.player_root
-	onready_paths_node.damage_label.text = "%f" % onready_paths_node.player_root.DAMAGE
+	onready_paths_node.damage_label.init_damage()
 	if get_multiplayer_authority() == multiplayer.get_unique_id():
 		onready_paths_node.primary_weapon.owner_color = config.SPRITE_CUSTOMIZATION.BODY_COLOR
 		onready_paths_node.death_manager.set_particles_color(config.SPRITE_CUSTOMIZATION.OUTLINE_COLOR)

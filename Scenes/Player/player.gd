@@ -97,7 +97,7 @@ func _integrate_forces(state: PhysicsDirectBodyState2D):
 ##### PUBLIC METHODS #####
 func hurt(p_damage : float, knockback : float, kb_direction : Vector2) -> void:
 	DAMAGE = min(DAMAGE + p_damage,MAX_DAMAGE)
-	onready_paths_node.damage_label.text = "%f" % DAMAGE
+	onready_paths_node.damage_label.update_damage(DAMAGE)
 	_additional_vector += kb_direction.normalized() * DAMAGE * knockback
 	onready_paths_node.hitstun_manager.start_hitstun(DAMAGE)
 
