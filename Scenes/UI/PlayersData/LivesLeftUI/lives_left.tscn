@@ -1,0 +1,42 @@
+[gd_scene load_steps=3 format=3 uid="uid://rec7oacmf3px"]
+
+[ext_resource type="Texture2D" uid="uid://ccae3ny56f3ox" path="res://Misc/Inkscape/heart.svg" id="1_so5tr"]
+[ext_resource type="Texture2D" uid="uid://cfdv2q6wok3qm" path="res://Misc/Inkscape/white_circle.svg" id="2_2al4c"]
+
+[node name="LivesLeft" type="HBoxContainer"]
+size_flags_vertical = 3
+
+[node name="Icon" type="TextureRect" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+texture = ExtResource("1_so5tr")
+expand_mode = 3
+
+[node name="AmountLeft" type="VBoxContainer" parent="."]
+layout_mode = 2
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="AmountLeft"]
+layout_mode = 2
+size_flags_vertical = 3
+texture = ExtResource("2_2al4c")
+expand_mode = 3
+
+[node name="TextureRect2" type="TextureRect" parent="AmountLeft"]
+layout_mode = 2
+size_flags_vertical = 3
+texture = ExtResource("2_2al4c")
+expand_mode = 3
+
+[node name="TextureRect3" type="TextureRect" parent="AmountLeft"]
+layout_mode = 2
+size_flags_vertical = 3
+texture = ExtResource("2_2al4c")
+expand_mode = 3
+
+[node name="Label" type="Label" parent="."]
+custom_minimum_size = Vector2(14, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+horizontal_alignment = 1
+vertical_alignment = 1

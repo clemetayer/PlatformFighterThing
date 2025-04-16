@@ -1,0 +1,25 @@
+[gd_scene load_steps=2 format=3 uid="uid://c8dp63orlv8fe"]
+
+[ext_resource type="PackedScene" uid="uid://bvec14mifjb10" path="res://Scenes/UI/PlayersData/PlayerData/player_data_ui.tscn" id="1_ccl0j"]
+
+[node name="PlayerDataUi" type="HBoxContainer"]
+custom_minimum_size = Vector2(0, 128)
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+alignment = 1
+
+[node name="PlayerDataUI" parent="." instance=ExtResource("1_ccl0j")]
+layout_mode = 2
+
+[node name="PlayerDataUI2" parent="." instance=ExtResource("1_ccl0j")]
+layout_mode = 2
+
+[node name="PlayerDataUI3" parent="." instance=ExtResource("1_ccl0j")]
+layout_mode = 2
+
+[node name="PlayerDataUI4" parent="." instance=ExtResource("1_ccl0j")]
+layout_mode = 2
