@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://cu158l2qd35cl"]
 
-[ext_resource type="Texture2D" uid="uid://c1gi3re5rscab" path="res://icon.svg" id="1_gcwp1"]
+[ext_resource type="Texture2D" uid="uid://5q8q7xma7uqd" path="res://Misc/Inkscape/dash.svg" id="1_gcwp1"]
 [ext_resource type="Texture2D" uid="uid://cfdv2q6wok3qm" path="res://Misc/Inkscape/white_circle.svg" id="2_mfasv"]
 
 [node name="Movement" type="HBoxContainer"]

@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://cdickctggm63h"]
 
-[ext_resource type="Texture2D" uid="uid://c1gi3re5rscab" path="res://icon.svg" id="1_nq4xy"]
+[ext_resource type="Texture2D" uid="uid://cvnhgdu8kddk7" path="res://Scenes/Weapons/Powerups/Splitter/splitter.png" id="1_nq4xy"]
 [ext_resource type="Texture2D" uid="uid://cfdv2q6wok3qm" path="res://Misc/Inkscape/white_circle.svg" id="2_w6rvr"]
 
 [node name="Powerup" type="HBoxContainer"]
