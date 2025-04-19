@@ -1,5 +1,5 @@
-extends Control
-# Manages the player data ui
+extends HBoxContainer
+# Manages the UI for all the players in the game
 
 ##### SIGNALS #####
 # Node signals
@@ -8,25 +8,34 @@ extends Control
 # enumerations
 
 ##### VARIABLES #####
+#---- CONSTANTS -----
+# const constant := 10 # Optionnal comment
+
 #---- EXPORTS -----
-@export var player_name : RigidBody2D
-@export var player_sprites : SpriteCustomizationResource
+# @export var EXPORT_NAME := 10.0 # Optionnal comment
 
 #---- STANDARD -----
+#==== PUBLIC ====
+# var public_var # Optionnal comment
+
+#==== PRIVATE ====
+# var _private_var # Optionnal comment
+
 #==== ONREADY ====
-@onready var onready_paths := {
-	"sprites": $"VBoxContainer/Data/CenterContainer/Sprite",
-	"movement": $"VBoxContainer/Data/ImportantData/Movement",
-	"powerup": $"VBoxContainer/Data/ImportantData/Powerup",
-	"lives": $"VBoxContainer/Data/ImportantData/Lives",
-	"name": $"VBoxContainer/Name"
-}
+# @onready var onready_var # Optionnal comment
 
 ##### PROCESSING #####
+# Called when the object is initialized.
+func _init():
+	pass
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	onready_paths.sprites.set_sprites(player_sprites)
-	onready_paths.name = player_name
+	pass
+
+# Called every frame. 'delta' is the elapsed time since the previous frame. Remove the "_" to use it.
+func _process(_delta):
+	pass
 
 ##### PUBLIC METHODS #####
 # Methods that are intended to be "visible" to other nodes or scripts

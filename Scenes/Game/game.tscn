@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://bypr1ueba3rju"]
+[gd_scene load_steps=5 format=3 uid="uid://bypr1ueba3rju"]
 
 [ext_resource type="Script" uid="uid://di807ybb5wuoh" path="res://Scenes/Game/game.gd" id="1_4jp85"]
 [ext_resource type="PackedScene" uid="uid://ew7gedlm3n8" path="res://Scenes/Camera/camera.tscn" id="2_0bomf"]
+[ext_resource type="PackedScene" uid="uid://c8dp63orlv8fe" path="res://Scenes/UI/PlayersData/players_data_ui.tscn" id="2_qikps"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_sgiw2"]
 properties/0/path = NodePath("Camera:enabled")
@@ -10,6 +11,11 @@ properties/0/replication_mode = 1
 
 [node name="Game" type="Node" groups=["game_root"]]
 script = ExtResource("1_4jp85")
+
+[node name="UI" type="CanvasLayer" parent="."]
+layer = 100
+
+[node name="PlayerDataUi" parent="UI" instance=ExtResource("2_qikps")]
 
 [node name="Players" type="CanvasLayer" parent="."]
 follow_viewport_enabled = true

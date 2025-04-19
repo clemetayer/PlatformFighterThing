@@ -31,7 +31,8 @@ const BASE_LIVES_AMOUNT := 3
 	"background": $"Background",
 	"camera": $"Camera",
 	"projectiles": $"Projectiles",
-	"powerups": $"Powerups"
+	"powerups": $"Powerups",
+	"game_ui": $"UI"
 }
 
 ##### PROCESSING #####
@@ -42,6 +43,7 @@ func _init():
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	onready_paths.camera.enabled = false
+	onready_paths.game_ui.hide()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame. Remove the "_" to use it.
 func _process(_delta):
@@ -55,6 +57,7 @@ func start(p_players_data : Dictionary, level_data : LevelConfig) -> void:
 		players_data[player_idx].lives = BASE_LIVES_AMOUNT
 	_add_players(players_data)
 	_add_level(level_data)
+	onready_paths.game_ui.show()
 	onready_paths.camera.enabled = true
 
 func spawn_powerup(powerup : Node) -> void:
