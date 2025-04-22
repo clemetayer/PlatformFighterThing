@@ -1,6 +1,5 @@
-[gd_scene load_steps=3 format=3 uid="uid://c8dp63orlv8fe"]
+[gd_scene load_steps=2 format=3 uid="uid://c8dp63orlv8fe"]
 
-[ext_resource type="PackedScene" uid="uid://bvec14mifjb10" path="res://Scenes/UI/PlayersData/PlayerData/player_data_ui.tscn" id="1_ccl0j"]
 [ext_resource type="Script" uid="uid://2qbry14oq0t4" path="res://Scenes/UI/PlayersData/players_data_ui.gd" id="1_on3sm"]
 
 [node name="PlayerDataUi" type="HBoxContainer"]
@@ -13,9 +12,3 @@ grow_horizontal = 2
 grow_vertical = 0
 alignment = 1
 script = ExtResource("1_on3sm")
-
-[node name="PlayerDataUI" parent="." instance=ExtResource("1_ccl0j")]
-layout_mode = 2
-
-[node name="PlayerDataUI2" parent="." instance=ExtResource("1_ccl0j")]
-layout_mode = 2

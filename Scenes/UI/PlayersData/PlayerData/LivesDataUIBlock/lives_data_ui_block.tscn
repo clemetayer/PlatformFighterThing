@@ -1,17 +1,18 @@
-[gd_scene load_steps=4 format=3 uid="uid://cu158l2qd35cl"]
+[gd_scene load_steps=4 format=3 uid="uid://ctlxmywqufgnr"]
 
-[ext_resource type="Script" uid="uid://m58his61jxmb" path="res://Scenes/UI/PlayersData/counter_block.gd" id="1_s5bs3"]
-[ext_resource type="Texture2D" uid="uid://c1gi3re5rscab" path="res://icon.svg" id="2_s5bs3"]
+[ext_resource type="Script" uid="uid://dcvsvdqunpl1b" path="res://Scenes/UI/PlayersData/PlayerData/LivesDataUIBlock/lives_data_ui_block.gd" id="1_8b5gb"]
+[ext_resource type="Texture2D" uid="uid://ccae3ny56f3ox" path="res://Misc/Inkscape/heart.svg" id="2_mqsek"]
 [ext_resource type="Texture2D" uid="uid://cfdv2q6wok3qm" path="res://Misc/Inkscape/white_circle.svg" id="3_uviwd"]
 
 [node name="CounterBlock" type="HBoxContainer"]
 size_flags_vertical = 3
-script = ExtResource("1_s5bs3")
+script = ExtResource("1_8b5gb")
+LIVES = null
 
 [node name="Icon" type="TextureRect" parent="."]
 layout_mode = 2
 size_flags_horizontal = 3
-texture = ExtResource("2_s5bs3")
+texture = ExtResource("2_mqsek")
 expand_mode = 3
 
 [node name="AmountLeft" type="VBoxContainer" parent="."]

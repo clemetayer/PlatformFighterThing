@@ -4,12 +4,14 @@ extends PowerupBase
 ##### VARIABLES #####
 #---- CONSTANTS -----
 const SPLITTER_PATH := "res://Scenes/Weapons/Powerups/Splitter/splitter.tscn"
-const MAX_SPLITTERS_ACTIVE := 6
+const MAX_SPLITTERS_ACTIVE := 3
+const COOLDOWN_TIMER := 3.0 #s
 
 #---- STANDARD -----
 #==== PRIVATE ====
 var _can_use_powerup := true 
 var _splitters_active := [] # splitters active for the player
+var _splitter_cooldown_tween : Tween
 
 #==== ONREADY ====
 @onready var _splitter_load = load(SPLITTER_PATH)
@@ -32,12 +34,24 @@ func use() -> void:
 		else:
 			Logger.error("game root is null or does not contain the method %s" % "spawn_powerup")
 		_can_use_powerup = false
-		onready_paths.cooldown_timer.start()
+		onready_paths.cooldown_timer.start(COOLDOWN_TIMER)
+		_start_update_value_tween()
 
 ##### PROTECTED METHODS #####
 func _remove_last_splitter() -> void:
 	var splitter = _splitters_active.pop_back()
 	splitter.queue_free()
+	
+func _start_update_value_tween() -> void:
+	if _splitter_cooldown_tween != null:
+		_splitter_cooldown_tween.kill()
+	_splitter_cooldown_tween = create_tween()
+	_splitter_cooldown_tween.tween_method(
+		func(value) : emit_signal("value_updated",value),
+		0.0,
+		1.0,
+		COOLDOWN_TIMER
+	)
 
 ##### SIGNAL MANAGEMENT #####
 func _on_cooldown_timer_timeout() -> void:

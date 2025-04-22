@@ -18,7 +18,6 @@ const MAX_DASHES := 3
 
 #---- STANDARD -----
 #==== PUBLIC ====
-# var public_var # Optionnal comment
 
 #==== PRIVATE ====
 var _dashes_available := MAX_DASHES
@@ -44,6 +43,7 @@ func _process(_delta):
 	if ActionHandlerBase.is_just_active(state) and _dashes_available > 0:
 		player.override_velocity(player.direction.normalized() * DASH_VELOCITY)
 		_dashes_available -= 1
+		emit_signal("value_updated",_dashes_available)
 		rpc("_emit_particles") # TODO : RPCs not really usefull here ? To test.
 		rpc("_play_sound")
 		if onready_paths.reload_timer.is_stopped():
@@ -71,5 +71,6 @@ func _play_sound() -> void:
 ##### SIGNAL MANAGEMENT #####
 func _on_reload_dash_timer_timeout():
 	_dashes_available += 1
+	emit_signal("value_updated",_dashes_available)
 	if _dashes_available < MAX_DASHES:
 		onready_paths.reload_timer.start()

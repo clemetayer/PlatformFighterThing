@@ -32,7 +32,7 @@ const BASE_LIVES_AMOUNT := 3
 	"camera": $"Camera",
 	"projectiles": $"Projectiles",
 	"powerups": $"Powerups",
-	"game_ui": $"UI"
+	"game_ui": $"UI/PlayersDataUi"
 }
 
 ##### PROCESSING #####
@@ -57,7 +57,7 @@ func start(p_players_data : Dictionary, level_data : LevelConfig) -> void:
 		players_data[player_idx].lives = BASE_LIVES_AMOUNT
 	_add_players(players_data)
 	_add_level(level_data)
-	onready_paths.game_ui.show()
+	_init_game_ui(players_data)
 	onready_paths.camera.enabled = true
 
 func spawn_powerup(powerup : Node) -> void:
@@ -112,8 +112,21 @@ func _clean_background() -> void:
 	for c in onready_paths.background.get_children():
 		c.queue_free()
 
+@rpc("authority","call_local","reliable")
+func _init_game_ui(p_players_data : Dictionary) -> void:
+	onready_paths.game_ui.clean()
+	for player_idx in p_players_data.keys():
+		onready_paths.game_ui.add_player(player_idx, p_players_data[player_idx].config, p_players_data[player_idx].lives)
+	onready_paths.game_ui.show()
+
 ##### SIGNAL MANAGEMENT #####
 func _on_player_killed(idx : int) -> void:
 	players_data[idx].lives -= 1
 	await get_tree().create_timer(RESPAWN_TIME).timeout
 	_spawn_player(idx)
+
+func _on_player_movement_updated(player_id : int, value) -> void:
+	onready_paths.game_ui.update_movement(player_id, value)
+
+func _on_player_powerup_updated(player_id : int, value) -> void:
+	onready_paths.game_ui.update_powerup(player_id, value)

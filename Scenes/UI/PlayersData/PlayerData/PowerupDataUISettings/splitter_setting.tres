@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="PowerupDataUISetting" load_steps=4 format=3 uid="uid://cym2tn88p3d28"]
+
+[ext_resource type="Texture2D" uid="uid://cvnhgdu8kddk7" path="res://Scenes/Weapons/Powerups/Splitter/splitter.png" id="1_kmm2u"]
+[ext_resource type="Script" uid="uid://dsvudvwdh53ag" path="res://Scenes/UI/PlayersData/PlayerData/PowerupDataUISettings/powerup_data_ui_setting.gd" id="1_raw4k"]
+[ext_resource type="PackedScene" uid="uid://bcdno67ojh2ne" path="res://Scenes/UI/PlayersData/PlayerData/Templates/progress_block.tscn" id="2_bu7nl"]
+
+[resource]
+script = ExtResource("1_raw4k")
+ICON = ExtResource("1_kmm2u")
+UI_SCENE = ExtResource("2_bu7nl")
+metadata/_custom_type_script = "uid://dsvudvwdh53ag"

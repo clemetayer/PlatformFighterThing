@@ -1,0 +1,29 @@
+[gd_scene load_steps=3 format=3 uid="uid://bcdno67ojh2ne"]
+
+[ext_resource type="Script" uid="uid://bk2e20cgkxbak" path="res://Scenes/UI/PlayersData/PlayerData/Templates/progress_block.gd" id="1_wjkfm"]
+[ext_resource type="Texture2D" uid="uid://c1gi3re5rscab" path="res://icon.svg" id="2_x4j1h"]
+
+[node name="ProgressBlock" type="HBoxContainer"]
+size_flags_vertical = 3
+script = ExtResource("1_wjkfm")
+
+[node name="Icon" type="TextureRect" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+texture = ExtResource("2_x4j1h")
+expand_mode = 3
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+custom_minimum_size = Vector2(8, 26)
+layout_mode = 2
+max_value = 1.0
+fill_mode = 3
+show_percentage = false
+
+[node name="Overflow" type="Label" parent="."]
+custom_minimum_size = Vector2(14, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "+1"
+horizontal_alignment = 1
+vertical_alignment = 1

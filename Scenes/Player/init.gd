@@ -50,6 +50,8 @@ func initialize(config : PlayerConfig) -> void:
 	onready_paths_node.player_root.add_child(onready_paths_node.primary_weapon)
 	onready_paths_node.player_root.add_child(onready_paths_node.movement_bonus)
 	onready_paths_node.player_root.add_child(onready_paths_node.powerup_manager)
+	onready_paths_node.movement_bonus.connect("value_updated",func(value): onready_paths_node.player_root.emit_signal("movement_updated", onready_paths_node.player_root.id, value))
+	onready_paths_node.powerup_manager.connect("value_updated",func(value): onready_paths_node.player_root.emit_signal("powerup_updated", onready_paths_node.player_root.id, value))
 
 ##### PROTECTED METHODS #####
 # Methods that are intended to be used exclusively by this scripts

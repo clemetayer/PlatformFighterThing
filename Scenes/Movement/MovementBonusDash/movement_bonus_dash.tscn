@@ -20,13 +20,14 @@ color_ramp = SubResource("GradientTexture1D_kj2cf")
 
 [node name="MovementBonusDash" type="Node2D"]
 script = ExtResource("1_eshou")
+handler_type = 1
 
 [node name="DashParticles" type="GPUParticles2D" parent="."]
 emitting = false
-process_material = SubResource("ParticleProcessMaterial_k6q73")
 texture = ExtResource("2_3l0pl")
 lifetime = 0.33
 one_shot = true
+process_material = SubResource("ParticleProcessMaterial_k6q73")
 
 [node name="DashSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("3_yj5pv")

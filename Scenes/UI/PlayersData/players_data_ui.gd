@@ -9,7 +9,6 @@ extends HBoxContainer
 
 ##### VARIABLES #####
 #---- CONSTANTS -----
-# const constant := 10 # Optionnal comment
 
 #---- EXPORTS -----
 # @export var EXPORT_NAME := 10.0 # Optionnal comment
@@ -19,7 +18,8 @@ extends HBoxContainer
 # var public_var # Optionnal comment
 
 #==== PRIVATE ====
-# var _private_var # Optionnal comment
+var _player_data_ui_scene := preload("res://Scenes/UI/PlayersData/PlayerData/player_data_ui.tscn")
+var _players := {}
 
 #==== ONREADY ====
 # @onready var onready_var # Optionnal comment
@@ -38,14 +38,24 @@ func _process(_delta):
 	pass
 
 ##### PUBLIC METHODS #####
-# Methods that are intended to be "visible" to other nodes or scripts
-# func public_method(arg : int) -> void:
-#     pass
+func clean() -> void:
+	for child in get_children():
+		child.queue_free()
 
-##### PROTECTED METHODS #####
-# Methods that are intended to be used exclusively by this scripts
-# func _private_method(arg):
-#     pass
+func add_player(player_id: int, config : PlayerConfig, lives : int) -> void:
+	var player_data = _player_data_ui_scene.instantiate()
+	add_child(player_data)
+	player_data.init(config.SPRITE_CUSTOMIZATION, config.MOVEMENT_BONUS_HANDLER, config.POWERUP_HANDLER, lives)
+	_players[player_id] = player_data
 
-##### SIGNAL MANAGEMENT #####
-# Functions that should be triggered when a specific signal is received
+func update_movement(player_id: int, value) -> void:
+	if _players.has(player_id):
+		_players[player_id].update_movement(value)
+	else:
+		Logger.error("player %s does not exist in the UI" % player_id)
+
+func update_powerup(player_id: int, value) -> void:
+	if _players.has(player_id):
+		_players[player_id].update_powerup(value)
+	else:
+		Logger.error("player %s does not exist in the UI" % player_id)

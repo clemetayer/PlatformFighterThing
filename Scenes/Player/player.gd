@@ -3,6 +3,8 @@ extends RigidBody2D
 
 ##### SIGNALS #####
 signal killed(id : int)
+signal movement_updated(id: int, value)
+signal powerup_updated(id: int, value)
 
 ##### ENUMS #####
 # enumerations
