@@ -90,6 +90,8 @@ func _spawn_player(player_idx : int) -> void:
 	player_instance.name = "player_%d" % player_idx
 	onready_paths.players.add_child(player_instance)
 	player_instance.connect("killed",_on_player_killed)
+	player_instance.connect("movement_updated", _on_player_movement_updated)
+	player_instance.connect("powerup_updated", _on_player_powerup_updated)
 	onready_paths.camera.PLAYERS_ROOT_PATH = onready_paths.camera.get_path_to(onready_paths.players)
 
 func _add_level(level_data : LevelConfig) -> void:
@@ -122,6 +124,7 @@ func _init_game_ui(p_players_data : Dictionary) -> void:
 ##### SIGNAL MANAGEMENT #####
 func _on_player_killed(idx : int) -> void:
 	players_data[idx].lives -= 1
+	onready_paths.game_ui.update_lives(idx, players_data[idx].lives)
 	await get_tree().create_timer(RESPAWN_TIME).timeout
 	_spawn_player(idx)
 

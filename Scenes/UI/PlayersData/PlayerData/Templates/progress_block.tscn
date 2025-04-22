@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://c1gi3re5rscab" path="res://icon.svg" id="2_x4j1h"]
 
 [node name="ProgressBlock" type="HBoxContainer"]
+custom_minimum_size = Vector2(63, 26)
 size_flags_vertical = 3
 script = ExtResource("1_wjkfm")
 

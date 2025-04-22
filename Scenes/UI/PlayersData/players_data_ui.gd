@@ -59,3 +59,9 @@ func update_powerup(player_id: int, value) -> void:
 		_players[player_id].update_powerup(value)
 	else:
 		Logger.error("player %s does not exist in the UI" % player_id)
+
+func update_lives(player_id: int, value : int) -> void:
+	if _players.has(player_id):
+		_players[player_id].update_lives(value)
+	else:
+		Logger.error("player %s does not exist in the UI" % player_id)

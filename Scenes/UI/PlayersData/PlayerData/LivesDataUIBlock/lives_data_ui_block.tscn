@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://cfdv2q6wok3qm" path="res://Misc/Inkscape/white_circle.svg" id="3_uviwd"]
 
 [node name="CounterBlock" type="HBoxContainer"]
+custom_minimum_size = Vector2(63, 26)
 size_flags_vertical = 3
 script = ExtResource("1_8b5gb")
 LIVES = null
