@@ -1,0 +1,36 @@
+[gd_scene load_steps=6 format=3 uid="uid://bjaegu471c3mg"]
+
+[ext_resource type="Texture2D" uid="uid://be8rqw2urijpd" path="res://Misc/Inkscape/chronometer_box.svg" id="1_80jby"]
+[ext_resource type="SystemFont" uid="uid://25yexk2q7ssr" path="res://Misc/InterDisplayLight.tres" id="1_t7fl1"]
+[ext_resource type="Script" uid="uid://dhmb8o4nbg88n" path="res://Scenes/UI/Chronometer/chronometer.gd" id="1_u4jyy"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_80jby"]
+texture = ExtResource("1_80jby")
+
+[sub_resource type="Theme" id="Theme_80jby"]
+default_font = ExtResource("1_t7fl1")
+default_font_size = 25
+RichTextLabel/styles/normal = SubResource("StyleBoxTexture_80jby")
+
+[node name="Chronometer" type="Control"]
+layout_mode = 3
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+grow_horizontal = 2
+script = ExtResource("1_u4jyy")
+
+[node name="Label" type="RichTextLabel" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 85.0
+offset_bottom = 32.0
+grow_horizontal = 2
+theme = SubResource("Theme_80jby")
+bbcode_enabled = true
+text = "00:00"
+horizontal_alignment = 1
+vertical_alignment = 1

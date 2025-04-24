@@ -13,6 +13,7 @@ const PLAYER_SCENE_PATH := "res://Scenes/Player/player.tscn"
 const SPAWN_POINT := Vector2(0, -200)
 const RESPAWN_TIME := 1 # seconds
 const BASE_LIVES_AMOUNT := 3
+const GAME_TIME := 120 #s
 
 #---- EXPORTS -----
 @export var players_data := {}
@@ -32,7 +33,8 @@ const BASE_LIVES_AMOUNT := 3
 	"camera": $"Camera",
 	"projectiles": $"Projectiles",
 	"powerups": $"Powerups",
-	"game_ui": $"UI/PlayersDataUi"
+	"game_ui": $"UI/PlayersDataUi",
+	"chronometer": $"UI/Chronometer"
 }
 
 ##### PROCESSING #####
@@ -44,6 +46,7 @@ func _init():
 func _ready():
 	onready_paths.camera.enabled = false
 	onready_paths.game_ui.hide()
+	onready_paths.chronometer.hide()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame. Remove the "_" to use it.
 func _process(_delta):
@@ -58,6 +61,7 @@ func start(p_players_data : Dictionary, level_data : LevelConfig) -> void:
 	_add_players(players_data)
 	_add_level(level_data)
 	_init_game_ui(players_data)
+	_init_chronometer()
 	onready_paths.camera.enabled = true
 
 func spawn_powerup(powerup : Node) -> void:
@@ -122,7 +126,15 @@ func _init_game_ui(p_players_data : Dictionary) -> void:
 		onready_paths.game_ui.update_lives(player_idx, players_data[player_idx].lives)
 	onready_paths.game_ui.show()
 
+func _init_chronometer() -> void:
+	onready_paths.chronometer.connect("time_over", _on_chronometer_time_over)
+	onready_paths.chronometer.start_timer(GAME_TIME)
+	onready_paths.chronometer.show()
+
 ##### SIGNAL MANAGEMENT #####
+func _on_chronometer_time_over() -> void:
+	Logger.debug("Time over, end game")
+
 func _on_player_killed(idx : int) -> void:
 	players_data[idx].lives -= 1
 	onready_paths.game_ui.update_lives(idx, players_data[idx].lives)
