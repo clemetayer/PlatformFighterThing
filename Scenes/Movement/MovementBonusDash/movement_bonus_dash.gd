@@ -21,6 +21,7 @@ const MAX_DASHES := 3
 
 #==== PRIVATE ====
 var _dashes_available := MAX_DASHES
+var _init_ui_done := false # just to update the UI once on the first frame
 
 #==== ONREADY ====
 @onready var onready_paths := {
@@ -40,6 +41,9 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame. Remove the "_" to use it.
 func _process(_delta):
+	if not _init_ui_done:
+		emit_signal("value_updated",_dashes_available)
+		_init_ui_done = true
 	if ActionHandlerBase.is_just_active(state) and _dashes_available > 0:
 		player.override_velocity(player.direction.normalized() * DASH_VELOCITY)
 		_dashes_available -= 1

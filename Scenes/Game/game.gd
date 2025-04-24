@@ -119,6 +119,7 @@ func _init_game_ui(p_players_data : Dictionary) -> void:
 	onready_paths.game_ui.clean()
 	for player_idx in p_players_data.keys():
 		onready_paths.game_ui.add_player(player_idx, p_players_data[player_idx].config, p_players_data[player_idx].lives)
+		onready_paths.game_ui.update_lives(player_idx, players_data[player_idx].lives)
 	onready_paths.game_ui.show()
 
 ##### SIGNAL MANAGEMENT #####

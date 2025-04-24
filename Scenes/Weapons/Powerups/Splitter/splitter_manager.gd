@@ -12,12 +12,19 @@ const COOLDOWN_TIMER := 3.0 #s
 var _can_use_powerup := true 
 var _splitters_active := [] # splitters active for the player
 var _splitter_cooldown_tween : Tween
+var _init_ui_done := false # to update the ui on the first frame
 
 #==== ONREADY ====
 @onready var _splitter_load = load(SPLITTER_PATH)
 @onready var onready_paths := {
 	"cooldown_timer": $"CooldownTimer"
 }
+
+##### PROCESSING #####
+# Called every frame. 'delta' is the elapsed time since the previous frame. Remove the "_" to use it.
+func _process(_delta):
+	if not _init_ui_done:
+		emit_signal("value_updated",1.0)
 
 ##### PUBLIC METHODS #####
 func use() -> void:
