@@ -34,7 +34,9 @@ const GAME_TIME := 120 #s
 	"projectiles": $"Projectiles",
 	"powerups": $"Powerups",
 	"game_ui": $"UI/PlayersDataUi",
-	"chronometer": $"UI/Chronometer"
+	"chronometer": $"UI/Chronometer",
+	"screen_message": $"UI/ScreenGameMessage",
+	"animation_player": $"AnimationPlayer"
 }
 
 ##### PROCESSING #####
@@ -47,6 +49,7 @@ func _ready():
 	onready_paths.camera.enabled = false
 	onready_paths.game_ui.hide()
 	onready_paths.chronometer.hide()
+	onready_paths.screen_message.hide()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame. Remove the "_" to use it.
 func _process(_delta):
@@ -62,7 +65,9 @@ func start(p_players_data : Dictionary, level_data : LevelConfig) -> void:
 	_add_level(level_data)
 	_init_game_ui(players_data)
 	_init_chronometer()
+	_init_screen_game_message()
 	onready_paths.camera.enabled = true
+	_init_start_game_animation()
 
 func spawn_powerup(powerup : Node) -> void:
 	powerup.name = "powerup_%d" % onready_paths.powerups.get_child_count()
@@ -130,6 +135,13 @@ func _init_chronometer() -> void:
 	onready_paths.chronometer.connect("time_over", _on_chronometer_time_over)
 	onready_paths.chronometer.start_timer(GAME_TIME)
 	onready_paths.chronometer.show()
+
+func _init_screen_game_message() -> void:
+	onready_paths.screen_message.init()
+	onready_paths.screen_message.show()
+
+func _init_start_game_animation() -> void:
+	onready_paths.animation_player.play("start_game")
 
 ##### SIGNAL MANAGEMENT #####
 func _on_chronometer_time_over() -> void:

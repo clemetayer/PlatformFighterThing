@@ -1,0 +1,98 @@
+[gd_scene load_steps=8 format=3 uid="uid://dyyr10js02uhh"]
+
+[ext_resource type="FontFile" uid="uid://dncl7x8virtei" path="res://Misc/InterDisplay-LightItalic.ttf" id="1_3mb7h"]
+[ext_resource type="Script" uid="uid://dpf1tb6f46l58" path="res://Scenes/UI/ScreenGameMessage/screen_game_message.gd" id="2_3mb7h"]
+
+[sub_resource type="Theme" id="Theme_3mb7h"]
+default_font = ExtResource("1_3mb7h")
+default_font_size = 100
+
+[sub_resource type="Animation" id="Animation_3mb7h"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("RichTextLabel:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(276, 224)]
+}
+
+[sub_resource type="Animation" id="Animation_axc0u"]
+resource_name = "enter"
+length = 0.25
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("RichTextLabel:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(0.25, 0.25),
+"update": 0,
+"values": [Vector2(1152, 224), Vector2(276, 224)]
+}
+
+[sub_resource type="Animation" id="Animation_71s0v"]
+resource_name = "exit"
+length = 0.25
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("RichTextLabel:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(4, 4),
+"update": 0,
+"values": [Vector2(276, 224), Vector2(-600, 224)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_3mb7h"]
+_data = {
+&"RESET": SubResource("Animation_3mb7h"),
+&"enter": SubResource("Animation_axc0u"),
+&"exit": SubResource("Animation_71s0v")
+}
+
+[node name="ScreenGameMessage" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_3mb7h")
+script = ExtResource("2_3mb7h")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+custom_minimum_size = Vector2(600, 200)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_top = -100.0
+offset_right = 300.0
+offset_bottom = 100.0
+grow_horizontal = 2
+grow_vertical = 2
+bbcode_enabled = true
+text = "HOOOOOOOOOOOOOOOOOOOOOOOOOOOO"
+scroll_active = false
+autowrap_mode = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_3mb7h")
+}

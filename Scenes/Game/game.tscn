@@ -1,14 +1,56 @@
-[gd_scene load_steps=6 format=3 uid="uid://bypr1ueba3rju"]
+[gd_scene load_steps=10 format=3 uid="uid://bypr1ueba3rju"]
 
 [ext_resource type="Script" uid="uid://di807ybb5wuoh" path="res://Scenes/Game/game.gd" id="1_4jp85"]
 [ext_resource type="PackedScene" uid="uid://ew7gedlm3n8" path="res://Scenes/Camera/camera.tscn" id="2_0bomf"]
 [ext_resource type="PackedScene" uid="uid://c8dp63orlv8fe" path="res://Scenes/UI/PlayersData/players_data_ui.tscn" id="2_qikps"]
 [ext_resource type="PackedScene" uid="uid://bjaegu471c3mg" path="res://Scenes/UI/Chronometer/chronometer.tscn" id="3_i1e5p"]
+[ext_resource type="PackedScene" uid="uid://dyyr10js02uhh" path="res://Scenes/UI/ScreenGameMessage/screen_game_message.tscn" id="4_ciybh"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_sgiw2"]
 properties/0/path = NodePath("Camera:enabled")
 properties/0/spawn = true
 properties/0/replication_mode = 1
+
+[sub_resource type="Animation" id="Animation_ciybh"]
+resource_name = "start_game"
+length = 5.0
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("UI/ScreenGameMessage")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.5, 2.5, 3.5, 4.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"values": [{
+"args": ["Ready ?", 1.0, true],
+"method": &"display_message"
+}, {
+"args": ["3", 0.5, true],
+"method": &"display_message"
+}, {
+"args": ["2", 0.5, true],
+"method": &"display_message"
+}, {
+"args": ["1", 0.5, true],
+"method": &"display_message"
+}, {
+"args": ["Shoot !", 0.5, true],
+"method": &"display_message"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_flgk0"]
+resource_name = "end_game"
+length = 5.0
+step = 0.1
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_vifcx"]
+_data = {
+&"end_game": SubResource("Animation_flgk0"),
+&"start_game": SubResource("Animation_ciybh")
+}
 
 [node name="Game" type="Node" groups=["game_root"]]
 script = ExtResource("1_4jp85")
@@ -19,6 +61,8 @@ layer = 100
 [node name="PlayersDataUi" parent="UI" instance=ExtResource("2_qikps")]
 
 [node name="Chronometer" parent="UI" instance=ExtResource("3_i1e5p")]
+
+[node name="ScreenGameMessage" parent="UI" instance=ExtResource("4_ciybh")]
 
 [node name="Players" type="CanvasLayer" parent="."]
 follow_viewport_enabled = true
@@ -57,3 +101,8 @@ spawn_path = NodePath("../Powerups")
 
 [node name="CameraSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_sgiw2")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_vifcx")
+}

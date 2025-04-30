@@ -1,7 +1,7 @@
 [gd_scene load_steps=12 format=3 uid="uid://bvec14mifjb10"]
 
-[ext_resource type="SystemFont" uid="uid://25yexk2q7ssr" path="res://Misc/InterDisplayLight.tres" id="1_8m0b7"]
 [ext_resource type="Texture2D" uid="uid://btcmiq31qee7d" path="res://Scenes/Player/CharacterBody.png" id="1_d8p1a"]
+[ext_resource type="FontFile" uid="uid://dncl7x8virtei" path="res://Misc/InterDisplay-LightItalic.ttf" id="1_lmlyt"]
 [ext_resource type="Texture2D" uid="uid://dy0q7mppvj7j1" path="res://Scenes/Player/CharacterOutline.png" id="2_8m0b7"]
 [ext_resource type="Script" uid="uid://gnrl3lw6w35u" path="res://Scenes/UI/PlayersData/PlayerData/player_data_ui.gd" id="2_lmlyt"]
 [ext_resource type="Script" uid="uid://cuvvsdedto8fs" path="res://Scenes/UI/PlayersData/PlayerData/players_sprite.gd" id="3_e5y0j"]
@@ -22,7 +22,7 @@ bg_color = Color(0, 0, 0, 1)
 bg_color = Color(1, 1, 1, 1)
 
 [sub_resource type="Theme" id="Theme_nhaxf"]
-default_font = ExtResource("1_8m0b7")
+default_font = ExtResource("1_lmlyt")
 default_font_size = 18
 HBoxContainer/constants/separation = 6
 HSeparator/constants/separation = 4

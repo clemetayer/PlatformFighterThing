@@ -1,6 +1,6 @@
 [gd_resource type="SystemFont" load_steps=2 format=3 uid="uid://25yexk2q7ssr"]
 
-[ext_resource type="FontFile" uid="uid://cnp1ao52csvwj" path="res://Misc/InterDisplay-Light.ttf" id="1_ui4ji"]
+[ext_resource type="FontFile" uid="uid://dncl7x8virtei" path="res://Misc/InterDisplay-LightItalic.ttf" id="1_ui4ji"]
 
 [resource]
 fallbacks = Array[Font]([ExtResource("1_ui4ji")])
