@@ -81,6 +81,10 @@ func add_background(level_data : LevelConfig) -> void:
 	_clean_background()
 	_spawn_background(level_data)
 
+func toggle_players_abilities(active : bool) -> void:
+	for player_idx in players_data.keys():
+		players_data[player_idx].instance.toggle_abilities(active)	
+
 ##### PROTECTED METHODS #####
 func _add_players(p_players_data : Dictionary) -> void:
 	_clean_players()
@@ -101,7 +105,9 @@ func _spawn_player(player_idx : int) -> void:
 	player_instance.connect("killed",_on_player_killed)
 	player_instance.connect("movement_updated", _on_player_movement_updated)
 	player_instance.connect("powerup_updated", _on_player_powerup_updated)
+	player_instance.toggle_abilities(true) # enabled by default in case it is a respawn of a player
 	onready_paths.camera.PLAYERS_ROOT_PATH = onready_paths.camera.get_path_to(onready_paths.players)
+	players_data[player_idx].instance = player_instance
 
 func _add_level(level_data : LevelConfig) -> void:
 	_clean_level()

@@ -3,7 +3,9 @@ class_name PrimaryWeaponBase
 # Base class for the primary weapon
 
 ##### VARIABLES #####
-#---- EXPORTS -----
+#---- STANDARD -----
+#==== PUBLIC ====
+var active := false
 
 ##### PUBLIC METHODS #####
 func fire() -> void:

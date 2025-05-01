@@ -28,7 +28,7 @@ func _process(_delta):
 
 ##### PUBLIC METHODS #####
 func use() -> void:
-	if _can_use_powerup:
+	if _can_use_powerup and active:
 		if _splitters_active.size() >= MAX_SPLITTERS_ACTIVE:
 			_remove_last_splitter()
 		var powerup = _splitter_load.instantiate()

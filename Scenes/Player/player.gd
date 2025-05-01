@@ -118,6 +118,12 @@ func toggle_freeze(active : bool) -> void:
 	set_deferred("sleeping", active)
 	_frozen = active
 
+# Activates the player's abilities (fire, powerup, movement). Especially usefull waiting for the game startup screen to end 
+func toggle_abilities(active : bool) -> void:
+	onready_paths_node.primary_weapon.active = active
+	onready_paths_node.movement_bonus.active = active
+	onready_paths_node.powerup_manager.active = active
+
 ##### PROTECTED METHODS #####
 func _is_on_floor() -> bool:
 	if onready_paths_node.floor_detector.is_colliding():

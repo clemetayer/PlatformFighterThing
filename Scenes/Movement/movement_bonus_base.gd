@@ -13,3 +13,4 @@ signal value_updated(value)
 #==== PUBLIC ====
 var state := ActionHandlerBase.states.INACTIVE
 var player : Node2D = null
+var active := false

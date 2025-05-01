@@ -50,7 +50,7 @@ func _physics_process(_delta):
 
 ##### PUBLIC METHODS #####
 func fire() -> void:
-	if not _on_cooldown:
+	if not _on_cooldown and active:
 		rpc("_fire_anim")
 		rpc("_play_gunshot")
 		_spawn_projectile(_create_projectile())

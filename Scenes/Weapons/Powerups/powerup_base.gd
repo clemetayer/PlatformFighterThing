@@ -5,6 +5,11 @@ class_name PowerupBase
 ##### SIGNALS #####
 signal value_updated(value)
 
+##### VARIABLES #####
+#---- STANDARD -----
+#==== PUBLIC ====
+var active := false
+
 ##### PUBLIC METHODS #####
 # to be overrided by children classes
 func use() -> void:
