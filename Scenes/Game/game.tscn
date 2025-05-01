@@ -15,6 +15,20 @@ properties/0/replication_mode = 1
 resource_name = "end_game"
 length = 5.0
 step = 0.1
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("UI/ScreenGameMessage")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": ["[wave amp=50.0 freq=5.0 connected=1]Game ![/wave]", 5.0, true],
+"method": &"display_message"
+}]
+}
 
 [sub_resource type="Animation" id="Animation_ciybh"]
 resource_name = "start_game"

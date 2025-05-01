@@ -44,19 +44,6 @@ const GAME_MANAGER_PATH := "res://Scenes/GameManagers/game_manager.tscn"
 	}
 }
 
-##### PROCESSING #####
-# Called when the object is initialized.
-func _init():
-	pass
-
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass
-
-# Called every frame. 'delta' is the elapsed time since the previous frame. Remove the "_" to use it.
-func _process(_delta):
-	pass
-
 ##### PUBLIC METHODS #####
 func update_host_player_numbers(number_of_players: int) -> void:
 	onready_paths.waiting_host_label.text = WAITING_TEXT_HOST_TEMPLATE % number_of_players

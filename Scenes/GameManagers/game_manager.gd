@@ -33,18 +33,10 @@ var _connected_players := {}
 }
 
 ##### PROCESSING #####
-# Called when the object is initialized.
-func _init():
-	pass
-
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	onready_paths.game_config_menu.show()
 	level_data = _create_level_data()
-
-# Called every frame. 'delta' is the elapsed time since the previous frame. Remove the "_" to use it.
-func _process(_delta):
-	pass
 
 func _exit_tree():
 	if not multiplayer.is_server():
@@ -108,8 +100,8 @@ func _delete_player(id : int) -> void:
 	onready_paths.game_config_menu.update_host_player_numbers(_connected_players.size())
 
 @rpc("authority", "call_local", "unreliable")
-func _hide_config_menu() -> void:
-	onready_paths.game_config_menu.hide()
+func _toggle_config_menu(active : bool) -> void:
+	onready_paths.game_config_menu.visible = active
 
 func _add_offline_default_players() -> void:
 	_connected_players[1] = {
@@ -126,7 +118,7 @@ func _add_background() -> void:
 
 ##### SIGNAL MANAGEMENT #####
 func _on_game_config_menu_init_offline() -> void:
-	_hide_config_menu()
+	_toggle_config_menu(false)
 	_add_offline_default_players()
 	_add_background()
 	RuntimeUtils.is_offline_game = true
@@ -140,6 +132,13 @@ func _on_game_config_menu_init_client(ip: String, port: int) -> void:
 
 func _on_game_config_menu_start_game() -> void:
 	Logger.debug("starting game")
-	rpc("_hide_config_menu")
+	rpc("_toggle_config_menu",false)
 	rpc("_add_background")
 	onready_paths.game.start(_connected_players, level_data)
+
+func _on_game_game_over() -> void:
+	Logger.debug("game over")
+	onready_paths.game.reset()
+	rpc("_toggle_config_menu", true)
+	for player_idx in _connected_players:
+		_delete_player(player_idx)

@@ -2,7 +2,7 @@ extends Node
 # Script that manages the game itself (slightly different from the game manager, which manages the game lobby)
 
 ##### SIGNALS #####
-# Node signals
+signal game_over
 
 ##### ENUMS #####
 # enumerations
@@ -85,6 +85,17 @@ func toggle_players_abilities(active : bool) -> void:
 	for player_idx in players_data.keys():
 		players_data[player_idx].instance.toggle_abilities(active)	
 
+func reset() -> void:
+	players_data = {}
+	_clean_players()
+	_clean_level()
+	_clean_background()
+	onready_paths.game_ui.clean()
+	onready_paths.game_ui.hide()
+	onready_paths.chronometer.hide()
+	onready_paths.screen_message.hide()
+	onready_paths.camera.enabled = false
+
 ##### PROTECTED METHODS #####
 func _add_players(p_players_data : Dictionary) -> void:
 	_clean_players()
@@ -149,15 +160,30 @@ func _init_screen_game_message() -> void:
 func _init_start_game_animation() -> void:
 	onready_paths.animation_player.play("start_game")
 
+func _is_game_over() -> bool:
+	var players_alive := 0
+	for player_idx in players_data.keys():
+		if players_data[player_idx].lives > 0:
+			players_alive += 1
+	return players_alive <= 1
+
+func _end_game() -> void:
+	onready_paths.animation_player.play("end_game")
+	await onready_paths.animation_player.animation_finished
+	emit_signal("game_over")
+
 ##### SIGNAL MANAGEMENT #####
 func _on_chronometer_time_over() -> void:
-	Logger.debug("Time over, end game")
+	_end_game()
 
 func _on_player_killed(idx : int) -> void:
 	players_data[idx].lives -= 1
 	onready_paths.game_ui.update_lives(idx, players_data[idx].lives)
-	await get_tree().create_timer(RESPAWN_TIME).timeout
-	_spawn_player(idx)
+	if players_data[idx].lives > 0:
+		await get_tree().create_timer(RESPAWN_TIME).timeout
+		_spawn_player(idx)
+	if _is_game_over():
+		_end_game()
 
 func _on_player_movement_updated(player_id : int, value) -> void:
 	onready_paths.game_ui.update_movement(player_id, value)
