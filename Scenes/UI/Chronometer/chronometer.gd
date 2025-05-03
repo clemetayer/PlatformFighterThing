@@ -59,9 +59,9 @@ func _time_over() -> void:
 	emit_signal("time_over")
 
 func _refresh_timer(current_time : int) -> void:
-	var time = int((current_time -  _start_time)/1000)
-	var seconds = time % 60
-	var minutes = int(time / 60.0)
+	var time_left = int((_end_time - current_time)/1000)
+	var seconds = time_left % 60
+	var minutes = int(time_left / 60.0)
 	onready_paths.label.text = "%02d:%02d" % [minutes,seconds]
 
 ##### SIGNAL MANAGEMENT #####
