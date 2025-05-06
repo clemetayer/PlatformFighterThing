@@ -1,26 +1,8 @@
 extends Node
 # Tool to initalize the player's config
 
-##### SIGNALS #####
-# Node signals
-
-##### ENUMS #####
-# enumerations
-
 ##### VARIABLES #####
-#---- CONSTANTS -----
-# const constant := 10 # Optionnal comment
-
-#---- EXPORTS -----
-# export(int) var EXPORT_NAME # Optionnal comment
-
 #---- STANDARD -----
-#==== PUBLIC ====
-# var public_var # Optionnal comment
-
-#==== PRIVATE ====
-# var _private_var # Optionnal comment
-
 #==== ONREADY ====
 @onready var onready_paths_node := $"../Paths"
 @export var ACTION_HANDLER : StaticActionHandlerStrategy.handlers
@@ -47,16 +29,9 @@ func initialize(config : PlayerConfig) -> void:
 	if get_multiplayer_authority() == multiplayer.get_unique_id():
 		onready_paths_node.primary_weapon.owner_color = config.SPRITE_CUSTOMIZATION.BODY_COLOR
 		onready_paths_node.death_manager.set_particles_color(config.SPRITE_CUSTOMIZATION.OUTLINE_COLOR)
+		onready_paths_node.appear_elements.init(config.SPRITE_CUSTOMIZATION.BODY_COLOR, config.SPRITE_CUSTOMIZATION.OUTLINE_COLOR)
 	onready_paths_node.player_root.add_child(onready_paths_node.primary_weapon)
 	onready_paths_node.player_root.add_child(onready_paths_node.movement_bonus)
 	onready_paths_node.player_root.add_child(onready_paths_node.powerup_manager)
 	onready_paths_node.movement_bonus.connect("value_updated",func(value): onready_paths_node.player_root.emit_signal("movement_updated", onready_paths_node.player_root.id, value))
 	onready_paths_node.powerup_manager.connect("value_updated",func(value): onready_paths_node.player_root.emit_signal("powerup_updated", onready_paths_node.player_root.id, value))
-
-##### PROTECTED METHODS #####
-# Methods that are intended to be used exclusively by this scripts
-# func _private_method(arg):
-#     pass
-
-##### SIGNAL MANAGEMENT #####
-# Functions that should be triggered when a specific signal is received

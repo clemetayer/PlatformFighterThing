@@ -6,9 +6,6 @@ signal killed(id : int)
 signal movement_updated(id: int, value)
 signal powerup_updated(id: int, value)
 
-##### ENUMS #####
-# enumerations
-
 ##### VARIABLES #####
 #---- CONSTANTS -----
 const TARGET_SPEED := 1000.0 # px/s
@@ -45,19 +42,18 @@ var _frozen := false
 var _velocity_override := Vector2.ZERO
 var _additional_vector := Vector2.ZERO # external forces that can have an effect on the player and needs to be added to the velocity on the next physics frame
 var _freeze_buffer_velocity := Vector2.ZERO
+var _damage_enabled := true
+var _truce_active := false # allows for players to move freely but can't shoot or use abilities. Usefull during the start countdown of the game 
 
 #==== ONREADY ====
 @onready var onready_paths_node := $"Paths"
 
 
 ##### PROCESSING #####
-# Called when the object is initialized.
-func _init():
-	pass
-
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	onready_paths_node.init.initialize(CONFIG)
+	_appear()
 	SceneUtils.connect("toggle_scene_freeze", _on_SceneUtils_toggle_scene_freeze)
 
 func _integrate_forces(state: PhysicsDirectBodyState2D):
@@ -98,10 +94,11 @@ func _integrate_forces(state: PhysicsDirectBodyState2D):
 
 ##### PUBLIC METHODS #####
 func hurt(p_damage : float, knockback : float, kb_direction : Vector2) -> void:
-	DAMAGE = min(DAMAGE + p_damage,MAX_DAMAGE)
-	onready_paths_node.damage_label.update_damage(DAMAGE)
-	_additional_vector += kb_direction.normalized() * DAMAGE * knockback
-	onready_paths_node.hitstun_manager.start_hitstun(DAMAGE)
+	if _damage_enabled:
+		DAMAGE = min(DAMAGE + p_damage,MAX_DAMAGE)
+		onready_paths_node.damage_label.update_damage(DAMAGE)
+		_additional_vector += kb_direction.normalized() * DAMAGE * knockback
+		onready_paths_node.hitstun_manager.start_hitstun(DAMAGE)
 
 func toggle_hitstun_bounce(active : bool) -> void:
 	physics_material_override.bounce = HITSTUN_BOUNCE if active else NORMAL_BOUNCE
@@ -120,11 +117,32 @@ func toggle_freeze(active : bool) -> void:
 
 # Activates the player's abilities (fire, powerup, movement). Especially usefull waiting for the game startup screen to end 
 func toggle_abilities(active : bool) -> void:
-	onready_paths_node.primary_weapon.active = active
-	onready_paths_node.movement_bonus.active = active
-	onready_paths_node.powerup_manager.active = active
+	if not _truce_active:
+		onready_paths_node.primary_weapon.active = active
+		onready_paths_node.movement_bonus.active = active
+		onready_paths_node.powerup_manager.active = active
+		onready_paths_node.parry_area.toggle_parry(active)
+
+func toggle_damage(active : bool) -> void:
+	_damage_enabled = active
+
+func toggle_truce(active : bool) -> void:
+	# Note : calls the toggle abilities twice to make sure it is updated 
+	toggle_abilities(not active)
+	_truce_active = active
+	toggle_abilities(not active)
 
 ##### PROTECTED METHODS #####
+func _appear() -> void:
+	toggle_freeze(true)
+	toggle_abilities(false)
+	toggle_damage(false)
+	onready_paths_node.appear_elements.play_spawn_animation()
+	await onready_paths_node.appear_elements.appear_animation_finished
+	toggle_freeze(false)
+	toggle_abilities(true)
+	toggle_damage(true)
+
 func _is_on_floor() -> bool:
 	if onready_paths_node.floor_detector.is_colliding():
 		var collision_normal = onready_paths_node.floor_detector.get_collision_normal()

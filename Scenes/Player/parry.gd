@@ -4,23 +4,11 @@ extends Area2D
 ##### SIGNALS #####
 signal parried
 
-##### ENUMS #####
-# enumerations
-
-##### VARIABLES #####
-#---- CONSTANTS -----
-# const constant = 10 # Optionnal comment
-
-#---- EXPORTS -----
-# export(int) var EXPORT_NAME # Optionnal comment
-
 #---- STANDARD -----
-#==== PUBLIC ====
-
-
 #==== PRIVATE ====
 var _parrying := false
 var _can_parry := true
+var _enabled := true
 
 #==== ONREADY ====
 @onready var _owner := get_parent()
@@ -32,15 +20,19 @@ var _can_parry := true
 }
 
 ##### PUBLIC METHODS #####
+func toggle_parry(active : bool) -> void:
+	_enabled = active 
+
 func parry() -> void:
-	if _can_parry:
-		_parrying = true
-		monitoring = true
-		onready_paths.parry_timer.start()
-		onready_paths.animation_player.rpc("remote_play_animation","parrying")
-		onready_paths_node.parry_active_sound.play()
-	else:
-		onready_paths_node.parry_wrong.play()
+	if _enabled:
+		if _can_parry:
+			_parrying = true
+			monitoring = true
+			onready_paths.parry_timer.start()
+			onready_paths.animation_player.rpc("remote_play_animation","parrying")
+			onready_paths_node.parry_active_sound.play()
+		else:
+			onready_paths_node.parry_wrong.play()
 
 ##### SIGNAL MANAGEMENT #####
 func _on_area_entered(area):

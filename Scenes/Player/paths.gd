@@ -21,6 +21,7 @@ extends Node
 @export var PARRY_ACTIVE_SOUND_PATH : NodePath
 @export var PARRY_WRONG_PATH : NodePath
 @export var DEATH_MANAGER_PATH : NodePath
+@export var APPEAR_ELEMENTS : NodePath
 
 #---- STANDARD -----
 #==== PUBLIC ====
@@ -46,3 +47,4 @@ var action_handler
 @onready var parry_active_sound := get_node(PARRY_ACTIVE_SOUND_PATH)
 @onready var parry_wrong := get_node(PARRY_WRONG_PATH)
 @onready var death_manager := get_node(DEATH_MANAGER_PATH)
+@onready var appear_elements := get_node(APPEAR_ELEMENTS)
