@@ -39,7 +39,8 @@ var _update_health_tween : Tween
 		"hit":$"Audio/WallHit",
 		"break":$"Audio/WallBreak",
 		"trebble":$"Audio/WallHitBreakTrebble"
-	}
+	},
+	"spawn_animation":$"SpawnAnimation"
 }
 
 ##### PROCESSING #####
@@ -48,6 +49,7 @@ func _ready():
 	_toggle_activated(true)
 	_toggle_respawn_collision_detection_activated(false)
 	_update_texture_color(BASE_HEALTH)
+	onready_paths.spawn_animation.play_spawn_animation(BOUNCE_BACK_DIRECTION)
 
 ##### PROTECTED METHODS #####
 func _get_damage(velocity) -> float:
@@ -124,6 +126,7 @@ func _check_and_respawn() -> void:
 	else: 
 		rpc("_toggle_activated",true)
 		_toggle_respawn_collision_detection_activated(false)
+		onready_paths.spawn_animation.play_spawn_animation(BOUNCE_BACK_DIRECTION)
 
 func _start_freeze_timeout_timer_for_player(player : Node2D, time : float = FREEZE_PLAYER_TIMEOUT) -> void:
 	var timer = Timer.new()
@@ -181,6 +184,5 @@ func _on_freeze_player_timer_timeout(timer_to_free : Timer, player : Node2D) -> 
 			player.override_velocity(BOUNCE_BACK_DIRECTION.normalized() * BOUNCE_BACK_FORCE)
 		timer_to_free.queue_free()
 		
-
 func _on_wait_for_respawn_timer_timeout() -> void:
 	_check_and_respawn()

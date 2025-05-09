@@ -23,7 +23,7 @@ const GAME_TIME := 120 #s
 # var public_var # Optionnal comment
 
 #==== PRIVATE ====
-# var _private_var # Optionnal comment
+var _level : Node
 
 #==== ONREADY ====
 @onready var onready_paths := {
@@ -61,8 +61,8 @@ func start(p_players_data : Dictionary, level_data : LevelConfig) -> void:
 		players_data[player_idx] = {}
 		players_data[player_idx].config = p_players_data[player_idx].config
 		players_data[player_idx].lives = BASE_LIVES_AMOUNT
-	_add_players(players_data)
 	_add_level(level_data)
+	_add_players(players_data)
 	_init_game_ui(players_data)
 	_init_chronometer()
 	_init_screen_game_message()
@@ -113,6 +113,7 @@ func _spawn_player(player_idx : int) -> void:
 	player_instance.global_position = SPAWN_POINT
 	player_instance.name = "player_%d" % player_idx
 	onready_paths.players.add_child(player_instance)
+	player_instance.global_position = _level.get_next_spawn_position()
 	player_instance.connect("killed",_on_player_killed)
 	player_instance.connect("movement_updated", _on_player_movement_updated)
 	player_instance.connect("powerup_updated", _on_player_powerup_updated)
@@ -125,6 +126,7 @@ func _add_level(level_data : LevelConfig) -> void:
 
 func _spawn_level(level_data : LevelConfig) -> void:
 	var level = load(level_data.level_path).instantiate()
+	_level = level
 	onready_paths.level.add_child(level)
 
 func _clean_level() -> void:
