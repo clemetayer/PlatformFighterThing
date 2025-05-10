@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://dwikem0xs7d8t"]
+[gd_scene load_steps=25 format=3 uid="uid://dwikem0xs7d8t"]
 
 [ext_resource type="Script" uid="uid://boqypfe62ckdo" path="res://Scenes/DestructibleWalls/destructible_wall.gd" id="1_8dscf"]
 [ext_resource type="Texture2D" uid="uid://olwb2yraeuqe" path="res://Scenes/Levels/Tilesets/LevelPlatformsTileset.png" id="1_megce"]
@@ -11,6 +11,9 @@
 [ext_resource type="AudioStream" uid="uid://di4b47ufm34ow" path="res://Scenes/DestructibleWalls/wall_hit.mp3" id="8_wwj4h"]
 [ext_resource type="AudioStream" uid="uid://c07531stev7wx" path="res://Scenes/DestructibleWalls/wall_hit_break_trebble.mp3" id="9_kwvrj"]
 [ext_resource type="AudioStream" uid="uid://cpms6atcqxp1b" path="res://Scenes/DestructibleWalls/wall_break.mp3" id="10_7vn65"]
+[ext_resource type="Script" uid="uid://dk6hvh846p5s4" path="res://Scenes/DestructibleWalls/particles.gd" id="12_4kfsc"]
+[ext_resource type="Texture2D" uid="uid://defsg2qoo1m2f" path="res://Misc/Particles/kenney_particle-pack/spark_05.png" id="12_c1uyt"]
+[ext_resource type="Texture2D" uid="uid://b4t0oogv0yrr8" path="res://Misc/Particles/kenney_particle-pack/spark_02.png" id="13_1oe48"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_yaxuf"]
 texture = ExtResource("1_megce")
@@ -405,6 +408,31 @@ size = Vector2(32, 32)
 resource_local_to_scene = true
 size = Vector2(32, 32)
 
+[sub_resource type="Gradient" id="Gradient_c1uyt"]
+offsets = PackedFloat32Array(0, 0.2, 0.5, 0.8, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_1oe48"]
+gradient = SubResource("Gradient_c1uyt")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_c1uyt"]
+resource_local_to_scene = true
+particle_flag_rotate_y = true
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(3, 21, 0)
+angle_min = -720.0
+angle_max = 720.0
+direction = Vector3(1, 1, 0)
+spread = 180.0
+initial_velocity_max = 1000.0
+gravity = Vector3(0, 0, 0)
+scale_min = 0.1
+color_ramp = SubResource("GradientTexture1D_1oe48")
+turbulence_noise_speed_random = 1.26
+turbulence_influence_min = 0.0
+turbulence_influence_max = 1.0
+
 [node name="DestructibleWall" type="TileMapLayer" groups=["destructible_wall", "static_obstacle"]]
 tile_set = SubResource("TileSet_50xy0")
 script = ExtResource("1_8dscf")
@@ -470,6 +498,23 @@ script = ExtResource("6_d5y80")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CollisionDetectionArea"]
 shape = SubResource("RectangleShape2D_iaxsf")
+
+[node name="Particles" type="Node2D" parent="."]
+script = ExtResource("12_4kfsc")
+
+[node name="Sparks" type="GPUParticles2D" parent="Particles"]
+emitting = false
+amount = 16
+texture = ExtResource("12_c1uyt")
+lifetime = 0.08
+process_material = SubResource("ParticleProcessMaterial_c1uyt")
+
+[node name="Sparks2" type="GPUParticles2D" parent="Particles"]
+emitting = false
+amount = 16
+texture = ExtResource("13_1oe48")
+lifetime = 0.08
+process_material = SubResource("ParticleProcessMaterial_c1uyt")
 
 [connection signal="timeout" from="RespawnTimer" to="." method="_on_respawn_timer_timeout"]
 [connection signal="timeout" from="VelocityBufferTimer" to="." method="_on_velocity_buffer_timer_timeout"]

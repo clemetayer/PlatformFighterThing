@@ -40,7 +40,8 @@ var _update_health_tween : Tween
 		"break":$"Audio/WallBreak",
 		"trebble":$"Audio/WallHitBreakTrebble"
 	},
-	"spawn_animation":$"SpawnAnimation"
+	"spawn_animation":$"SpawnAnimation",
+	"particles": $"Particles"
 }
 
 ##### PROCESSING #####
@@ -84,6 +85,7 @@ func _play_break_trebble(final_health : float) -> void:
 func _update_texture_color(new_health: float) -> void:
 	var health_ratio =(BASE_HEALTH - new_health)/BASE_HEALTH
 	modulate = _wall_gradient.sample(health_ratio)
+	onready_paths.particles.set_color(modulate)
 	onready_paths.cracks.material.set_shader_parameter("destruction_amount", health_ratio * VORONOI_MAX_DESTRUCTION_PERCENTS)
 
 @rpc("authority","call_local","unreliable")
@@ -152,7 +154,6 @@ func _on_respawn_timer_timeout() -> void:
 	HEALTH = BASE_HEALTH
 	rpc("_update_texture_color", HEALTH)
 	_check_and_respawn()
-
 
 func _on_damage_wall_area_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player") and collision_enabled and RuntimeUtils.is_authority():
