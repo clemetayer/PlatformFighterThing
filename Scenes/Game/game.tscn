@@ -1,10 +1,16 @@
-[gd_scene load_steps=10 format=3 uid="uid://bypr1ueba3rju"]
+[gd_scene load_steps=16 format=3 uid="uid://bypr1ueba3rju"]
 
 [ext_resource type="Script" uid="uid://di807ybb5wuoh" path="res://Scenes/Game/game.gd" id="1_4jp85"]
 [ext_resource type="PackedScene" uid="uid://ew7gedlm3n8" path="res://Scenes/Camera/camera.tscn" id="2_0bomf"]
 [ext_resource type="PackedScene" uid="uid://c8dp63orlv8fe" path="res://Scenes/UI/PlayersData/players_data_ui.tscn" id="2_qikps"]
 [ext_resource type="PackedScene" uid="uid://bjaegu471c3mg" path="res://Scenes/UI/Chronometer/chronometer.tscn" id="3_i1e5p"]
 [ext_resource type="PackedScene" uid="uid://dyyr10js02uhh" path="res://Scenes/UI/ScreenGameMessage/screen_game_message.tscn" id="4_ciybh"]
+[ext_resource type="AudioStream" uid="uid://bt0lcs24ec6ve" path="res://Scenes/UI/Audio/game.mp3" id="6_qtymf"]
+[ext_resource type="AudioStream" uid="uid://b0g1unghkxgqj" path="res://Scenes/UI/Audio/ready.mp3" id="7_ypmwd"]
+[ext_resource type="AudioStream" uid="uid://bu2fr4i6balr1" path="res://Scenes/UI/Audio/3.mp3" id="8_oejk7"]
+[ext_resource type="AudioStream" uid="uid://bxtr6lc6ct7yg" path="res://Scenes/UI/Audio/2.mp3" id="9_upfqs"]
+[ext_resource type="AudioStream" uid="uid://dlgw5da7123au" path="res://Scenes/UI/Audio/1.mp3" id="10_8e3kh"]
+[ext_resource type="AudioStream" uid="uid://c6xv7t5jy4dcx" path="res://Scenes/UI/Audio/shoot.mp3" id="11_56qi8"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_sgiw2"]
 properties/0/path = NodePath("Camera:enabled")
@@ -29,6 +35,21 @@ tracks/0/keys = {
 "method": &"display_message"
 }]
 }
+tracks/1/type = "audio"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("IntroOutroSounds")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("6_qtymf")
+}],
+"times": PackedFloat32Array(0)
+}
+tracks/1/use_blend = true
 
 [sub_resource type="Animation" id="Animation_ciybh"]
 resource_name = "start_game"
@@ -77,6 +98,37 @@ tracks/1/keys = {
 "method": &"toggle_players_truce"
 }]
 }
+tracks/2/type = "audio"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("IntroOutroSounds")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("7_ypmwd")
+}, {
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("8_oejk7")
+}, {
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("9_upfqs")
+}, {
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("10_8e3kh")
+}, {
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("11_56qi8")
+}],
+"times": PackedFloat32Array(0, 1.5, 2.5, 3.5, 4.5)
+}
+tracks/2/use_blend = true
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_vifcx"]
 _data = {
@@ -133,6 +185,9 @@ spawn_path = NodePath("../Powerups")
 
 [node name="CameraSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_sgiw2")
+
+[node name="IntroOutroSounds" type="AudioStreamPlayer" parent="."]
+bus = &"Effects"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
