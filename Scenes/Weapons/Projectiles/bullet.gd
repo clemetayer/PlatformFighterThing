@@ -70,7 +70,7 @@ func _on_area_entered(area):
 func _on_body_entered(body):
 	if RuntimeUtils.is_authority():
 		if body.is_in_group("player") and current_owner != body and body.has_method("hurt"):
-			body.hurt(damage, knockback, _direction)
+			body.hurt(damage, knockback, _direction, current_owner)
 			queue_free()
 		elif body.is_in_group("static_obstacle"): 
 			queue_free()

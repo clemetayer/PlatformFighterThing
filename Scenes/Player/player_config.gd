@@ -9,3 +9,4 @@ class_name PlayerConfig
 @export var MOVEMENT_BONUS_HANDLER : StaticMovementBonusHandler.handlers
 @export var POWERUP_HANDLER : StaticPowerupHandler.handlers
 @export var SPRITE_CUSTOMIZATION : SpriteCustomizationResource
+@export var ELIMINATION_TEXT : String

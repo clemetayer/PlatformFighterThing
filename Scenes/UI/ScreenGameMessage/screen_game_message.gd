@@ -28,11 +28,11 @@ func display_message(message : String, duration : float, display_all_characters 
 	if display_all_characters:
 		onready_paths.label.visible_characters = -1
 	else:
-		onready_paths.label.visible_characters = 0
+		onready_paths.label.visible_ratio = 0
 		if _display_characters_tween != null:
 			_display_characters_tween.kill()
 		_display_characters_tween = create_tween()
-		_display_characters_tween.tween_property(onready_paths.label,"visible_characters",1.0,duration)
+		_display_characters_tween.tween_property(onready_paths.label,"visible_ratio",1.0,duration)
 	await onready_paths.animation.animation_finished
 	if on_mid_screen_time > 0:
 		await get_tree().create_timer(on_mid_screen_time).timeout

@@ -14,6 +14,7 @@ const SPAWN_POINT := Vector2(0, -200)
 const RESPAWN_TIME := 1 # seconds
 const BASE_LIVES_AMOUNT := 3
 const GAME_TIME := 120 #s
+const PLAYER_GAME_MESSAGE_DURATION := 1 #s
 
 #---- EXPORTS -----
 @export var players_data := {}
@@ -117,6 +118,7 @@ func _spawn_player(player_idx : int) -> void:
 	player_instance.connect("killed",_on_player_killed)
 	player_instance.connect("movement_updated", _on_player_movement_updated)
 	player_instance.connect("powerup_updated", _on_player_powerup_updated)
+	player_instance.connect("game_message_triggered", _on_player_game_message_triggered)
 	onready_paths.camera.PLAYERS_ROOT_PATH = onready_paths.camera.get_path_to(onready_paths.players)
 	players_data[player_idx].instance = player_instance
 
@@ -191,3 +193,6 @@ func _on_player_movement_updated(player_id : int, value) -> void:
 
 func _on_player_powerup_updated(player_id : int, value) -> void:
 	onready_paths.game_ui.update_powerup(player_id, value)
+
+func _on_player_game_message_triggered(message : String) -> void:
+	onready_paths.screen_message.display_message(message, PLAYER_GAME_MESSAGE_DURATION, false)

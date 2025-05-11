@@ -6,6 +6,7 @@
 [sub_resource type="Theme" id="Theme_3mb7h"]
 default_font = ExtResource("1_3mb7h")
 default_font_size = 100
+RichTextLabel/constants/outline_size = 15
 
 [sub_resource type="Animation" id="Animation_3mb7h"]
 length = 0.001

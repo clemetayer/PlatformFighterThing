@@ -5,6 +5,7 @@ extends RigidBody2D
 signal killed(id : int)
 signal movement_updated(id: int, value)
 signal powerup_updated(id: int, value)
+signal game_message_triggered(message : String)
 
 ##### VARIABLES #####
 #---- CONSTANTS -----
@@ -93,12 +94,13 @@ func _integrate_forces(state: PhysicsDirectBodyState2D):
 		_buffer_velocity(velocity)
 
 ##### PUBLIC METHODS #####
-func hurt(p_damage : float, knockback : float, kb_direction : Vector2) -> void:
+func hurt(p_damage : float, knockback : float, kb_direction : Vector2, owner : RigidBody2D = null) -> void:
 	if _damage_enabled:
 		DAMAGE = min(DAMAGE + p_damage,MAX_DAMAGE)
 		onready_paths_node.damage_label.update_damage(DAMAGE)
 		_additional_vector += kb_direction.normalized() * DAMAGE * knockback
 		onready_paths_node.hitstun_manager.start_hitstun(DAMAGE)
+		onready_paths_node.death_manager.set_last_hit_owner(owner)
 
 func toggle_hitstun_bounce(active : bool) -> void:
 	physics_material_override.bounce = HITSTUN_BOUNCE if active else NORMAL_BOUNCE
