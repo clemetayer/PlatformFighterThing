@@ -187,6 +187,7 @@ spawn_path = NodePath("../Powerups")
 replication_config = SubResource("SceneReplicationConfig_sgiw2")
 
 [node name="IntroOutroSounds" type="AudioStreamPlayer" parent="."]
+volume_db = -5.0
 bus = &"Effects"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
