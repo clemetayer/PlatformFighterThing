@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://dwikem0xs7d8t"]
+[gd_scene load_steps=26 format=3 uid="uid://dwikem0xs7d8t"]
 
 [ext_resource type="Script" uid="uid://boqypfe62ckdo" path="res://Scenes/DestructibleWalls/destructible_wall.gd" id="1_8dscf"]
 [ext_resource type="Texture2D" uid="uid://olwb2yraeuqe" path="res://Scenes/Levels/Tilesets/LevelPlatformsTileset.png" id="1_megce"]
@@ -14,6 +14,7 @@
 [ext_resource type="Script" uid="uid://dk6hvh846p5s4" path="res://Scenes/DestructibleWalls/particles.gd" id="12_4kfsc"]
 [ext_resource type="Texture2D" uid="uid://defsg2qoo1m2f" path="res://Misc/Particles/kenney_particle-pack/spark_05.png" id="12_c1uyt"]
 [ext_resource type="Texture2D" uid="uid://b4t0oogv0yrr8" path="res://Misc/Particles/kenney_particle-pack/spark_02.png" id="13_1oe48"]
+[ext_resource type="AudioStream" uid="uid://bj8mwit43p5q4" path="res://Scenes/DestructibleWalls/wall_spawn.mp3" id="15_0lr1d"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_yaxuf"]
 texture = ExtResource("1_megce")
@@ -420,7 +421,7 @@ resource_local_to_scene = true
 particle_flag_rotate_y = true
 particle_flag_disable_z = true
 emission_shape = 3
-emission_box_extents = Vector3(3, 21, 0)
+emission_box_extents = Vector3(0, 0, 0)
 angle_min = -720.0
 angle_max = 720.0
 direction = Vector3(1, 1, 0)
@@ -440,6 +441,10 @@ HEALTH = 5000
 
 [node name="SpawnAnimation" type="Node" parent="."]
 script = ExtResource("3_jis8i")
+
+[node name="SpawnSound" type="AudioStreamPlayer" parent="SpawnAnimation"]
+stream = ExtResource("15_0lr1d")
+bus = &"Effects"
 
 [node name="MovingPattern" type="ColorRect" parent="."]
 material = SubResource("ShaderMaterial_qcnym")

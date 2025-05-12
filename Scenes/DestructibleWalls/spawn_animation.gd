@@ -14,7 +14,8 @@ var _animation_tween : Tween
 #==== ONREADY ====
 @onready var root := get_parent()
 @onready var onready_paths := {
-	"particles": $"../Particles"
+	"particles": $"../Particles",
+	"audio": $"SpawnSound"
 }
 
 ##### PROCESSING #####
@@ -24,6 +25,7 @@ func _ready():
 
 ##### PUBLIC METHODS #####
 func play_spawn_animation(direction : Vector2) -> void:
+	onready_paths.audio.play()
 	root.position = -direction * BASE_OFFSET
 	if _animation_tween != null:
 		_animation_tween.kill()
