@@ -35,6 +35,7 @@ var _connected_players := {}
 ##### PROCESSING #####
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	FullScreenEffects.toggle_active(false)
 	onready_paths.game_config_menu.show()
 	level_data = _create_level_data()
 
@@ -122,6 +123,7 @@ func _on_game_config_menu_init_offline() -> void:
 	_add_offline_default_players()
 	_add_background()
 	RuntimeUtils.is_offline_game = true
+	FullScreenEffects.toggle_active(true)
 	onready_paths.game.start(_connected_players, level_data)
 
 func _on_game_config_menu_init_host(port: int) -> void:
@@ -134,11 +136,13 @@ func _on_game_config_menu_start_game() -> void:
 	Logger.debug("starting game")
 	rpc("_toggle_config_menu",false)
 	rpc("_add_background")
+	FullScreenEffects.toggle_active(true)
 	onready_paths.game.start(_connected_players, level_data)
 
 func _on_game_game_over() -> void:
 	Logger.debug("game over")
 	onready_paths.game.reset()
 	rpc("_toggle_config_menu", true)
+	FullScreenEffects.toggle_active(false)
 	for player_idx in _connected_players:
 		_delete_player(player_idx)

@@ -8,12 +8,20 @@ var _chromatic_aberration_tween : Tween
 
 #==== ONREADY ====
 @onready var onready_paths := {
+	"layers": {
+		"front": $"FrontLayer",
+		"back": $"BackLayer"
+	},
 	"chromatic_aberration": $"FrontLayer/ChromaticAberrationBuffer/ChromaticAberration",
 	"monochrome": $"BackLayer/MonochromeBuffer/Monochrome",
 	"pincushion": $"FrontLayer/PinCushionBuffer/PinCushion"
 }
 
 ##### PUBLIC METHODS #####
+func toggle_active(active : bool) -> void:
+	for layer_key in onready_paths.layers.keys():
+		onready_paths.layers[layer_key].visible = active
+
 func chromatic_aberration(strength : float, duration : float, duration_divider : float) -> void:
 	if _chromatic_aberration_tween:
 		_chromatic_aberration_tween.kill() # Abort the previous animation.
