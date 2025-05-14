@@ -25,6 +25,7 @@ script = ExtResource("1_rflc2")
 layer = 100
 
 [node name="ChromaticAberrationBuffer" type="BackBufferCopy" parent="FrontLayer"]
+copy_mode = 2
 rect = Rect2(0, 0, 1152, 648)
 
 [node name="ChromaticAberration" type="ColorRect" parent="FrontLayer/ChromaticAberrationBuffer"]
@@ -37,6 +38,7 @@ grow_vertical = 2
 mouse_filter = 2
 
 [node name="PinCushionBuffer" type="BackBufferCopy" parent="FrontLayer"]
+copy_mode = 2
 rect = Rect2(0, 0, 1152, 648)
 
 [node name="PinCushion" type="ColorRect" parent="FrontLayer/PinCushionBuffer"]
@@ -54,6 +56,7 @@ editor_description = "Only changes the background"
 layer = 0
 
 [node name="MonochromeBuffer" type="BackBufferCopy" parent="BackLayer"]
+copy_mode = 2
 rect = Rect2(0, 0, 1152, 648)
 
 [node name="Monochrome" type="ColorRect" parent="BackLayer/MonochromeBuffer"]
