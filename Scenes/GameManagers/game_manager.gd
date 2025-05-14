@@ -136,13 +136,13 @@ func _on_game_config_menu_start_game() -> void:
 	Logger.debug("starting game")
 	rpc("_toggle_config_menu",false)
 	rpc("_add_background")
-	FullScreenEffects.toggle_active(true)
+	FullScreenEffects.rpc("toggle_active",true)
 	onready_paths.game.start(_connected_players, level_data)
 
 func _on_game_game_over() -> void:
 	Logger.debug("game over")
 	onready_paths.game.reset()
 	rpc("_toggle_config_menu", true)
-	FullScreenEffects.toggle_active(false)
+	FullScreenEffects.rpc("toggle_active",false)
 	for player_idx in _connected_players:
 		_delete_player(player_idx)
