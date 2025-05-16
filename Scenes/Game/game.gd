@@ -66,9 +66,9 @@ func start(p_players_data : Dictionary, level_data : LevelConfig) -> void:
 	_add_players(players_data)
 	_init_game_ui(players_data)
 	_init_chronometer()
-	_init_screen_game_message()
+	rpc("_init_screen_game_message")
 	onready_paths.camera.enabled = true
-	_init_start_game_animation()
+	rpc("_init_start_game_animation")
 
 func spawn_powerup(powerup : Node) -> void:
 	powerup.name = "powerup_%d" % onready_paths.powerups.get_child_count()
@@ -156,10 +156,12 @@ func _init_chronometer() -> void:
 	onready_paths.chronometer.start_timer(GAME_TIME)
 	onready_paths.chronometer.show()
 
+@rpc("authority","call_local","reliable")
 func _init_screen_game_message() -> void:
 	onready_paths.screen_message.init()
 	onready_paths.screen_message.show()
 
+@rpc("authority","call_local","reliable")
 func _init_start_game_animation() -> void:
 	onready_paths.animation_player.play("start_game")
 
@@ -195,4 +197,4 @@ func _on_player_powerup_updated(player_id : int, value) -> void:
 	onready_paths.game_ui.update_powerup(player_id, value)
 
 func _on_player_game_message_triggered(message : String) -> void:
-	onready_paths.screen_message.display_message(message, PLAYER_GAME_MESSAGE_DURATION, false)
+	onready_paths.screen_message.rpc("display_message",message, PLAYER_GAME_MESSAGE_DURATION, false)
