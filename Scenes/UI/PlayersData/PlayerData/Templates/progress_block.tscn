@@ -15,7 +15,6 @@ properties/1/replication_mode = 2
 custom_minimum_size = Vector2(63, 26)
 size_flags_vertical = 3
 script = ExtResource("1_wjkfm")
-DATA_ICON = null
 
 [node name="Icon" type="TextureRect" parent="."]
 layout_mode = 2
