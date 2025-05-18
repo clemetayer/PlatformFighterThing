@@ -1,12 +1,10 @@
-[gd_scene load_steps=12 format=3 uid="uid://bvec14mifjb10"]
+[gd_scene load_steps=11 format=3 uid="uid://bvec14mifjb10"]
 
 [ext_resource type="Texture2D" uid="uid://btcmiq31qee7d" path="res://Scenes/Player/CharacterBody.png" id="1_d8p1a"]
 [ext_resource type="FontFile" uid="uid://dncl7x8virtei" path="res://Misc/InterDisplay-LightItalic.ttf" id="1_lmlyt"]
 [ext_resource type="Texture2D" uid="uid://dy0q7mppvj7j1" path="res://Scenes/Player/CharacterOutline.png" id="2_8m0b7"]
 [ext_resource type="Script" uid="uid://gnrl3lw6w35u" path="res://Scenes/UI/PlayersData/PlayerData/player_data_ui.gd" id="2_lmlyt"]
 [ext_resource type="Script" uid="uid://cuvvsdedto8fs" path="res://Scenes/UI/PlayersData/PlayerData/players_sprite.gd" id="3_e5y0j"]
-[ext_resource type="PackedScene" uid="uid://cu158l2qd35cl" path="res://Scenes/UI/PlayersData/PlayerData/Templates/counter_block.tscn" id="4_e5y0j"]
-[ext_resource type="PackedScene" uid="uid://bcdno67ojh2ne" path="res://Scenes/UI/PlayersData/PlayerData/Templates/progress_block.tscn" id="7_lmlyt"]
 
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_8m0b7"]
 content_margin_left = 4.0
@@ -29,6 +27,17 @@ HSeparator/constants/separation = 4
 HSeparator/styles/separator = SubResource("StyleBoxLine_8m0b7")
 ProgressBar/styles/background = SubResource("StyleBoxFlat_lmlyt")
 ProgressBar/styles/fill = SubResource("StyleBoxFlat_nipxg")
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_lmlyt"]
+properties/0/path = NodePath("VBoxContainer/Name:text")
+properties/0/spawn = true
+properties/0/replication_mode = 2
+properties/1/path = NodePath("VBoxContainer/Data/CenterContainer/Sprite/Body:modulate")
+properties/1/spawn = true
+properties/1/replication_mode = 2
+properties/2/path = NodePath("VBoxContainer/Data/CenterContainer/Sprite/Outline:modulate")
+properties/2/spawn = true
+properties/2/replication_mode = 2
 
 [node name="PlayerDataUI" type="Control"]
 layout_mode = 3
@@ -96,23 +105,15 @@ expand_mode = 3
 layout_mode = 2
 alignment = 1
 
-[node name="Movement" parent="VBoxContainer/Data/ImportantData" instance=ExtResource("4_e5y0j")]
-layout_mode = 2
-
-[node name="HSeparator" type="HSeparator" parent="VBoxContainer/Data/ImportantData"]
-layout_mode = 2
-
-[node name="Powerup" parent="VBoxContainer/Data/ImportantData" instance=ExtResource("7_lmlyt")]
-layout_mode = 2
-
-[node name="HSeparator2" type="HSeparator" parent="VBoxContainer/Data/ImportantData"]
-layout_mode = 2
-
-[node name="Lives" parent="VBoxContainer/Data/ImportantData" instance=ExtResource("4_e5y0j")]
-layout_mode = 2
-
 [node name="Name" type="Label" parent="VBoxContainer"]
 layout_mode = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 text = "Player 1"
 horizontal_alignment = 1
+
+[node name="DataSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_lmlyt")
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("uid://cu158l2qd35cl", "uid://j1e6vlicetdp", "uid://b4pwgs0q5npl5", "uid://ctlxmywqufgnr")
+spawn_path = NodePath("../VBoxContainer/Data/ImportantData")

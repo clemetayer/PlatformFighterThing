@@ -1,11 +1,10 @@
-[gd_resource type="Resource" script_class="MovementDataUiSetting" load_steps=4 format=3 uid="uid://ci1ic18axplfb"]
+[gd_resource type="Resource" script_class="MovementDataUiSetting" load_steps=3 format=3 uid="uid://ci1ic18axplfb"]
 
-[ext_resource type="Texture2D" uid="uid://5q8q7xma7uqd" path="res://Misc/Inkscape/dash.svg" id="1_hojtl"]
 [ext_resource type="Script" uid="uid://bnuetv8f25et4" path="res://Scenes/UI/PlayersData/PlayerData/MovementDataUISettings/movement_data_ui_setting.gd" id="1_ng3p5"]
 [ext_resource type="PackedScene" uid="uid://cu158l2qd35cl" path="res://Scenes/UI/PlayersData/PlayerData/Templates/counter_block.tscn" id="2_qlx4f"]
 
 [resource]
 script = ExtResource("1_ng3p5")
-ICON = ExtResource("1_hojtl")
+ICON_PATH = "res://Misc/Inkscape/dash.svg"
 UI_SCENE = ExtResource("2_qlx4f")
 metadata/_custom_type_script = "uid://bnuetv8f25et4"

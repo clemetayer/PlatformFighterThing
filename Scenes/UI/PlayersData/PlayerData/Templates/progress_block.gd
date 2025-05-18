@@ -4,7 +4,7 @@ extends HBoxContainer
 
 ##### VARIABLES #####
 #---- EXPORTS -----
-@export var DATA_ICON : Texture : set = set_icon
+@export var DATA_ICON : String : set = set_icon
 @export var PROGRESS : float : set = set_progress
 
 #---- STANDARD -----
@@ -19,9 +19,10 @@ extends HBoxContainer
 func set_value(value) -> void:
 	set_progress(float(value))
 
-func set_icon(icon : Texture) -> void:
-	onready_paths.icon.texture = icon
-	DATA_ICON = icon
+@rpc("authority","call_local","reliable")
+func set_icon(icon_path : String) -> void:
+	onready_paths.icon.texture = load(icon_path)
+	DATA_ICON = icon_path
 
 func set_progress(value : float) -> void:
 	onready_paths.progress.value = fmod(value,1.0)

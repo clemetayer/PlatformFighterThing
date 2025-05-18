@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://bjaegu471c3mg"]
+[gd_scene load_steps=7 format=3 uid="uid://bjaegu471c3mg"]
 
 [ext_resource type="Texture2D" uid="uid://be8rqw2urijpd" path="res://Misc/Inkscape/chronometer_box.svg" id="1_80jby"]
 [ext_resource type="Script" uid="uid://dhmb8o4nbg88n" path="res://Scenes/UI/Chronometer/chronometer.gd" id="1_u4jyy"]
@@ -11,6 +11,14 @@ texture = ExtResource("1_80jby")
 default_font = ExtResource("3_u4jyy")
 default_font_size = 25
 RichTextLabel/styles/normal = SubResource("StyleBoxTexture_80jby")
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_u4jyy"]
+properties/0/path = NodePath("Label:text")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:visible")
+properties/1/spawn = true
+properties/1/replication_mode = 1
 
 [node name="Chronometer" type="Control"]
 layout_mode = 3
@@ -34,3 +42,6 @@ bbcode_enabled = true
 text = "00:00"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_u4jyy")

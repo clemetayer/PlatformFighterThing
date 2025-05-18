@@ -4,5 +4,5 @@ class_name PowerupDataUISetting
 
 ##### VARIABLES #####
 #---- EXPORTS -----
-@export var ICON : Texture
+@export var ICON_PATH : String
 @export var UI_SCENE : PackedScene

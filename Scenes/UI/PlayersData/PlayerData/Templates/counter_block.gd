@@ -4,7 +4,7 @@ extends HBoxContainer
 
 ##### VARIABLES #####
 #---- EXPORTS -----
-@export var DATA_ICON : Texture : set = set_icon
+@export var DATA_ICON : String : set = set_icon
 @export var QUANTITY : int : set = set_quantity
 
 #---- STANDARD -----
@@ -19,9 +19,10 @@ extends HBoxContainer
 func set_value(value) -> void:
 	set_quantity(int(value))
 
-func set_icon(icon : Texture) -> void:
-	onready_paths.icon.texture = icon
-	DATA_ICON = icon
+@rpc("authority","call_local","reliable")
+func set_icon(icon_path : String) -> void:
+	onready_paths.icon.texture = load(icon_path)
+	DATA_ICON = icon_path
 
 func set_quantity(quantity : int) -> void:
 	for child in onready_paths.tokens.get_children():

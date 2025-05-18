@@ -54,6 +54,10 @@ replication_config = SubResource("SceneReplicationConfig_2f2n3")
 stream = ExtResource("3_o5ews")
 bus = &"Effects"
 
+[node name="CirclesSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("uid://desj3idaswbi5")
+spawn_path = NodePath("../Circles")
+
 [connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]
 [connection signal="area_exited" from="Hitbox" to="." method="_on_hitbox_area_exited"]
 [connection signal="body_entered" from="Hitbox" to="." method="_on_hitbox_body_entered"]

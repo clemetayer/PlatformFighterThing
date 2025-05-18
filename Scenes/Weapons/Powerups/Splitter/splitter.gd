@@ -49,7 +49,7 @@ func _on_hitbox_area_entered(area):
 	if RuntimeUtils.is_authority():
 		if area.is_in_group("projectile") and not _whitelist.has(area):
 			onready_paths.audio.play()
-			onready_paths.circles.remove_circle()
+			onready_paths.circles.rpc("remove_circle")
 			for duplicate_idx in range(1,PROJECTILE_DUPLICATES + 1):
 				var dup_angle = (duplicate_idx * ((PI/2)/(PROJECTILE_DUPLICATES+1))) - PI/4
 				if dup_angle != PI/2: # PI/2 angle (forward) is reserved for the original projectile

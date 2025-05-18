@@ -18,6 +18,7 @@ const TEMP_PLAYER_NAME := "temporary_man"
 #---- STANDARD -----
 #==== PRIVATE ====
 var _lives_ui_load = preload("res://Scenes/UI/PlayersData/PlayerData/LivesDataUIBlock/lives_data_ui_block.tscn")
+var _separator = preload("res://Scenes/UI/PlayersData/PlayerData/Templates/player_data_ui_separator.tscn")
 var _movement_ui
 var _powerup_ui
 var _lives_ui
@@ -62,8 +63,8 @@ func _clean() -> void:
 		child.queue_free()
 
 func _add_h_separator() -> void:
-	var separator = HSeparator.new()
-	onready_paths.important_data.add_child(separator)
+	var separator = _separator.instantiate()
+	onready_paths.important_data.add_child(separator,true)
 
 func _init_sprites(body : Color, outline : Color) -> void:
 	onready_paths.sprites.body.modulate = body
@@ -73,20 +74,20 @@ func _init_movement(handler : int) -> void:
 	var setting = load(MovementDataUiSettings.data[handler])
 	var ui = setting.UI_SCENE.instantiate()
 	_movement_ui = ui
-	onready_paths.important_data.add_child(ui)
-	ui.set_icon(setting.ICON)
+	onready_paths.important_data.add_child(ui,true)
+	ui.rpc("set_icon", setting.ICON_PATH)
 
 func _init_powerup(powerup : int) -> void:
 	var setting = load(PowerupDataUISettings.data[powerup])
 	var ui = setting.UI_SCENE.instantiate()
 	_powerup_ui = ui
-	onready_paths.important_data.add_child(ui)
-	ui.set_icon(setting.ICON)
+	onready_paths.important_data.add_child(ui,true)
+	ui.rpc("set_icon", setting.ICON_PATH)
 
 func _init_lives(lives : int) -> void:
 	var ui = _lives_ui_load.instantiate()
 	_lives_ui = ui
-	onready_paths.important_data.add_child(ui)
+	onready_paths.important_data.add_child(ui,true)
 	ui.set_value(lives)
 
 func _init_name(p_name : String) -> void:

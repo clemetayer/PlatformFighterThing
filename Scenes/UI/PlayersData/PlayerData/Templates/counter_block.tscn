@@ -1,13 +1,28 @@
-[gd_scene load_steps=4 format=3 uid="uid://cu158l2qd35cl"]
+[gd_scene load_steps=5 format=3 uid="uid://cu158l2qd35cl"]
 
 [ext_resource type="Script" uid="uid://m58his61jxmb" path="res://Scenes/UI/PlayersData/PlayerData/Templates/counter_block.gd" id="1_s5bs3"]
 [ext_resource type="Texture2D" uid="uid://c1gi3re5rscab" path="res://icon.svg" id="2_s5bs3"]
 [ext_resource type="Texture2D" uid="uid://cfdv2q6wok3qm" path="res://Misc/Inkscape/white_circle.svg" id="3_uviwd"]
 
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_u4d01"]
+properties/0/path = NodePath("Overflow:text")
+properties/0/spawn = true
+properties/0/replication_mode = 2
+properties/1/path = NodePath("AmountLeft/TextureRect:visible")
+properties/1/spawn = true
+properties/1/replication_mode = 2
+properties/2/path = NodePath("AmountLeft/TextureRect2:visible")
+properties/2/spawn = true
+properties/2/replication_mode = 2
+properties/3/path = NodePath("AmountLeft/TextureRect3:visible")
+properties/3/spawn = true
+properties/3/replication_mode = 2
+
 [node name="CounterBlock" type="HBoxContainer"]
 custom_minimum_size = Vector2(63, 26)
 size_flags_vertical = 3
 script = ExtResource("1_s5bs3")
+DATA_ICON = null
 
 [node name="Icon" type="TextureRect" parent="."]
 layout_mode = 2
@@ -48,3 +63,6 @@ theme_override_font_sizes/font_size = 16
 text = "+3"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_u4d01")
