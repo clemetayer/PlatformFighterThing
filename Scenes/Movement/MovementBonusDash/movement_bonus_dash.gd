@@ -34,14 +34,6 @@ func _process(_delta):
 	if not _init_ui_done:
 		emit_signal("value_updated",_dashes_available)
 		_init_ui_done = true
-	if ActionHandlerBase.is_just_active(state) and _dashes_available > 0 and active:
-		player.override_velocity(player.direction.normalized() * DASH_VELOCITY)
-		_dashes_available -= 1
-		emit_signal("value_updated",_dashes_available)
-		_emit_particles()
-		_play_sound()
-		if onready_paths.reload_timer.is_stopped():
-			onready_paths.reload_timer.start()
 
 ##### PROTECTED METHODS #####
 func _print_dashes_available() -> void:
@@ -55,6 +47,18 @@ func _emit_particles() -> void:
 func _play_sound() -> void:
 	onready_paths.sound.play()
  
+##### PUBLIC METHODS #####
+@rpc("authority", "call_local", "reliable")
+func activate() -> void:
+	if _dashes_available > 0 and active:
+		player.override_velocity(player.direction.normalized() * DASH_VELOCITY)
+		_dashes_available -= 1
+		emit_signal("value_updated",_dashes_available)
+		_emit_particles()
+		_play_sound()
+		if onready_paths.reload_timer.is_stopped():
+			onready_paths.reload_timer.start()
+
 ##### SIGNAL MANAGEMENT #####
 func _on_reload_dash_timer_timeout():
 	_dashes_available += 1

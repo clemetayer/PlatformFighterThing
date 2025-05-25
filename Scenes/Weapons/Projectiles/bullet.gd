@@ -39,7 +39,7 @@ func _init():
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	onready_paths.trail.modulatet = trail_color
+	onready_paths.trail.modulate = trail_color
 	SceneUtils.connect("toggle_scene_freeze", _on_SceneUtils_toggle_scene_freeze)
 	_direction = Vector2.RIGHT.rotated(rotation).normalized()
 

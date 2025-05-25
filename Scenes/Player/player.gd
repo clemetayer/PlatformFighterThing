@@ -105,12 +105,15 @@ func hurt(p_damage : float, knockback : float, kb_direction : Vector2, p_owner :
 func toggle_hitstun_bounce(active : bool) -> void:
 	physics_material_override.bounce = HITSTUN_BOUNCE if active else NORMAL_BOUNCE
 
+@rpc("authority", "call_local", "reliable")
 func respawn() -> void:
 	onready_paths_node.death_manager.kill()
 
+@rpc("authority", "call_local", "reliable")
 func override_velocity(velocity_override : Vector2) -> void:
 	_velocity_override += velocity_override
 
+@rpc("authority", "call_local", "reliable")
 func toggle_freeze(active : bool) -> void:
 	_freeze_buffer_velocity = velocity
 	set_deferred("freeze", active)

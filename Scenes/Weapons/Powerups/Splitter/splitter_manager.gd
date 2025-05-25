@@ -27,6 +27,7 @@ func _process(_delta):
 		emit_signal("value_updated",1.0)
 
 ##### PUBLIC METHODS #####
+@rpc("authority", "call_local", "reliable")
 func use() -> void:
 	if _can_use_powerup and active:
 		if _splitters_active.size() >= MAX_SPLITTERS_ACTIVE:

@@ -2,11 +2,6 @@ extends Node
 class_name GameManager
 # Manages the game (online or offline)
 
-##### SIGNALS #####
-# Node signals
-
-##### ENUMS #####
-
 ##### VARIABLES #####
 #---- CONSTANTS -----
 const SPRITE_PRESETS_PATH := "res://Scenes/Player/SpriteCustomizationPresets/presets.tres"
@@ -111,15 +106,10 @@ func _add_offline_default_players() -> void:
 		"config" : _create_player_data(RECORD_PLAYER_CONFIG_PATH)
 	}
 
-# FIXME : this method should be in the game itself, but for some reason, the remote call does not happen in it
-func _add_background() -> void:
-	onready_paths.game.add_background(level_data)
-
 ##### SIGNAL MANAGEMENT #####
 func _on_game_config_menu_init_offline() -> void:
 	_toggle_config_menu(false)
 	_add_offline_default_players()
-	_add_background()
 	RuntimeUtils.is_offline_game = true
 	FullScreenEffects.toggle_active(true)
 	onready_paths.game.start(_connected_players, level_data)
@@ -133,7 +123,6 @@ func _on_game_config_menu_init_client(ip: String, port: int) -> void:
 func _on_game_config_menu_start_game() -> void:
 	Logger.debug("starting game")
 	_toggle_config_menu(false)
-	_add_background()
 	FullScreenEffects.toggle_active(true)
 	onready_paths.game.start(_connected_players, level_data)
 

@@ -8,6 +8,7 @@ class_name PrimaryWeaponBase
 var active := false
 
 ##### PUBLIC METHODS #####
+@rpc("authority", "call_local", "reliable")
 func fire() -> void:
 	pass
 

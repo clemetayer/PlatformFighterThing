@@ -64,6 +64,7 @@ func start(p_players_data : Dictionary, level_data : LevelConfig) -> void:
 		players_data[player_idx].lives = BASE_LIVES_AMOUNT
 	_add_level(level_data)
 	_add_players(players_data)
+	_add_background(level_data)
 	_init_game_ui(players_data)
 	_init_chronometer()
 	_init_screen_game_message()
@@ -77,10 +78,6 @@ func spawn_powerup(powerup : Node) -> void:
 func spawn_projectile(projectile : Node) -> void:
 	projectile.name = "projectile_%d" % onready_paths.projectiles.get_child_count()
 	onready_paths.projectiles.call_deferred("add_child",projectile, true)
-
-func add_background(level_data : LevelConfig) -> void:
-	_clean_background()
-	_spawn_background(level_data)
 
 func toggle_players_truce(active : bool) -> void:
 	for player_idx in players_data.keys():
@@ -121,6 +118,10 @@ func _spawn_player(player_idx : int) -> void:
 	player_instance.connect("game_message_triggered", _on_player_game_message_triggered)
 	onready_paths.camera.PLAYERS_ROOT_PATH = onready_paths.camera.get_path_to(onready_paths.players)
 	players_data[player_idx].instance = player_instance
+
+func _add_background(level_data : LevelConfig) -> void:
+	_clean_background()
+	_spawn_background(level_data)
 
 func _add_level(level_data : LevelConfig) -> void:
 	_clean_level()

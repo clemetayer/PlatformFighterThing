@@ -33,6 +33,7 @@ func _ready():
 	_set_los_init_modulate()
 
 ##### PUBLIC METHODS #####
+@rpc("authority","call_local","reliable")
 func fire() -> void:
 	if not _on_cooldown and active:
 		_fire_anim()

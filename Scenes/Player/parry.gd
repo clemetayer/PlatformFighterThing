@@ -23,6 +23,7 @@ var _enabled := true
 func toggle_parry(active : bool) -> void:
 	_enabled = active 
 
+@rpc("authority","call_local","reliable")
 func parry() -> void:
 	if _enabled:
 		if _can_parry:

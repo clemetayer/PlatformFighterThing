@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://dwikem0xs7d8t"]
+[gd_scene load_steps=26 format=3 uid="uid://dwikem0xs7d8t"]
 
 [ext_resource type="Script" uid="uid://boqypfe62ckdo" path="res://Scenes/DestructibleWalls/destructible_wall.gd" id="1_8dscf"]
 [ext_resource type="Texture2D" uid="uid://olwb2yraeuqe" path="res://Scenes/Levels/Tilesets/LevelPlatformsTileset.png" id="1_megce"]
@@ -423,6 +423,11 @@ turbulence_noise_speed_random = 1.26
 turbulence_influence_min = 0.0
 turbulence_influence_max = 1.0
 
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_0lr1d"]
+properties/0/path = NodePath(".:HEALTH")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+
 [node name="DestructibleWall" type="TileMapLayer" groups=["destructible_wall", "static_obstacle"]]
 tile_set = SubResource("TileSet_50xy0")
 script = ExtResource("1_8dscf")
@@ -506,6 +511,9 @@ amount = 16
 texture = ExtResource("13_1oe48")
 lifetime = 0.08
 process_material = SubResource("ParticleProcessMaterial_c1uyt")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_0lr1d")
 
 [connection signal="timeout" from="RespawnTimer" to="." method="_on_respawn_timer_timeout"]
 [connection signal="timeout" from="VelocityBufferTimer" to="." method="_on_velocity_buffer_timer_timeout"]

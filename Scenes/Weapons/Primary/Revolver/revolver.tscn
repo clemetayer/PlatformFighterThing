@@ -28,11 +28,11 @@ gradient = SubResource("Gradient_5vcv6")
 [node name="ShootCooldown" type="Timer" parent="."]
 wait_time = 0.5
 
-[node name="RevolverSynchronizer" type="MultiplayerSynchronizer" parent="."]
-replication_config = SubResource("SceneReplicationConfig_jsuls")
-
 [node name="Gunshot" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("3_105xf")
 bus = &"Effects"
+
+[node name="RevolverSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_jsuls")
 
 [connection signal="timeout" from="ShootCooldown" to="." method="_on_shoot_cooldown_timeout"]

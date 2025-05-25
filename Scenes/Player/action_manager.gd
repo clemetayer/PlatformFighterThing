@@ -78,8 +78,8 @@ func _handle_fire() -> void:
 		onready_paths_node.primary_weapon.fire()
 
 func _handle_movement_bonus() -> void:
-	if onready_paths_node.input_synchronizer.action_states.has(ActionHandlerBase.actions.MOVEMENT_BONUS):
-		onready_paths_node.movement_bonus.state = onready_paths_node.input_synchronizer.action_states.get(ActionHandlerBase.actions.MOVEMENT_BONUS)
+	if _is_action_just_active(ActionHandlerBase.actions.MOVEMENT_BONUS):
+		onready_paths_node.movement_bonus.activate()
 
 func _handle_parry() -> void:
 	if _is_action_just_active(ActionHandlerBase.actions.PARRY):
