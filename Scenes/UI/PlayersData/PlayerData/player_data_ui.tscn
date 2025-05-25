@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://bvec14mifjb10"]
+[gd_scene load_steps=10 format=3 uid="uid://bvec14mifjb10"]
 
 [ext_resource type="Texture2D" uid="uid://btcmiq31qee7d" path="res://Scenes/Player/CharacterBody.png" id="1_d8p1a"]
 [ext_resource type="FontFile" uid="uid://dncl7x8virtei" path="res://Misc/InterDisplay-LightItalic.ttf" id="1_lmlyt"]
@@ -27,17 +27,6 @@ HSeparator/constants/separation = 4
 HSeparator/styles/separator = SubResource("StyleBoxLine_8m0b7")
 ProgressBar/styles/background = SubResource("StyleBoxFlat_lmlyt")
 ProgressBar/styles/fill = SubResource("StyleBoxFlat_nipxg")
-
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_lmlyt"]
-properties/0/path = NodePath("VBoxContainer/Name:text")
-properties/0/spawn = true
-properties/0/replication_mode = 2
-properties/1/path = NodePath("VBoxContainer/Data/CenterContainer/Sprite/Body:modulate")
-properties/1/spawn = true
-properties/1/replication_mode = 2
-properties/2/path = NodePath("VBoxContainer/Data/CenterContainer/Sprite/Outline:modulate")
-properties/2/spawn = true
-properties/2/replication_mode = 2
 
 [node name="PlayerDataUI" type="Control"]
 layout_mode = 3
@@ -110,10 +99,3 @@ layout_mode = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 text = "Player 1"
 horizontal_alignment = 1
-
-[node name="DataSynchronizer" type="MultiplayerSynchronizer" parent="."]
-replication_config = SubResource("SceneReplicationConfig_lmlyt")
-
-[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("uid://cu158l2qd35cl", "uid://j1e6vlicetdp", "uid://b4pwgs0q5npl5", "uid://ctlxmywqufgnr")
-spawn_path = NodePath("../VBoxContainer/Data/ImportantData")

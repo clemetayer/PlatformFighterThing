@@ -66,9 +66,9 @@ func start(p_players_data : Dictionary, level_data : LevelConfig) -> void:
 	_add_players(players_data)
 	_init_game_ui(players_data)
 	_init_chronometer()
-	rpc("_init_screen_game_message")
+	_init_screen_game_message()
 	onready_paths.camera.enabled = true
-	rpc("_init_start_game_animation")
+	_init_start_game_animation()
 
 func spawn_powerup(powerup : Node) -> void:
 	powerup.name = "powerup_%d" % onready_paths.powerups.get_child_count()
@@ -86,7 +86,6 @@ func toggle_players_truce(active : bool) -> void:
 	for player_idx in players_data.keys():
 		players_data[player_idx].instance.toggle_truce(active)	
 
-@rpc("authority","call_local","reliable")
 func reset() -> void:
 	players_data = {}
 	_clean_players()
@@ -156,12 +155,10 @@ func _init_chronometer() -> void:
 	onready_paths.chronometer.start_timer(GAME_TIME)
 	onready_paths.chronometer.show()
 
-@rpc("authority","call_local","reliable")
 func _init_screen_game_message() -> void:
 	onready_paths.screen_message.init()
 	onready_paths.screen_message.show()
 
-@rpc("authority","call_local","reliable")
 func _init_start_game_animation() -> void:
 	onready_paths.animation_player.play("start_game")
 
@@ -172,7 +169,6 @@ func _is_game_over() -> bool:
 			players_alive += 1
 	return players_alive <= 1
 
-@rpc("authority","call_local","reliable")
 func _end_game() -> void:
 	onready_paths.animation_player.play("end_game")
 	await onready_paths.animation_player.animation_finished
@@ -180,7 +176,7 @@ func _end_game() -> void:
 
 ##### SIGNAL MANAGEMENT #####
 func _on_chronometer_time_over() -> void:
-	rpc("_end_game")
+	_end_game()
 
 func _on_player_killed(idx : int) -> void:
 	players_data[idx].lives -= 1
@@ -189,7 +185,7 @@ func _on_player_killed(idx : int) -> void:
 		await get_tree().create_timer(RESPAWN_TIME).timeout
 		_spawn_player(idx)
 	if _is_game_over():
-		rpc("_end_game")
+		_end_game()
 
 func _on_player_movement_updated(player_id : int, value) -> void:
 	onready_paths.game_ui.update_movement(player_id, value)
@@ -198,4 +194,4 @@ func _on_player_powerup_updated(player_id : int, value) -> void:
 	onready_paths.game_ui.update_powerup(player_id, value)
 
 func _on_player_game_message_triggered(message : String) -> void:
-	onready_paths.screen_message.rpc("display_message",message, PLAYER_GAME_MESSAGE_DURATION, false)
+	onready_paths.screen_message.display_message(message, PLAYER_GAME_MESSAGE_DURATION, false)

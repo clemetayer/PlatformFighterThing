@@ -94,19 +94,19 @@ func _integrate_forces(state: PhysicsDirectBodyState2D):
 		_buffer_velocity(velocity)
 
 ##### PUBLIC METHODS #####
-func hurt(p_damage : float, knockback : float, kb_direction : Vector2, owner : RigidBody2D = null) -> void:
+func hurt(p_damage : float, knockback : float, kb_direction : Vector2, p_owner : RigidBody2D = null) -> void:
 	if _damage_enabled:
 		DAMAGE = min(DAMAGE + p_damage,MAX_DAMAGE)
 		onready_paths_node.damage_label.update_damage(DAMAGE)
 		_additional_vector += kb_direction.normalized() * DAMAGE * knockback
 		onready_paths_node.hitstun_manager.start_hitstun(DAMAGE)
-		onready_paths_node.death_manager.set_last_hit_owner(owner)
+		onready_paths_node.death_manager.set_last_hit_owner(p_owner)
 
 func toggle_hitstun_bounce(active : bool) -> void:
 	physics_material_override.bounce = HITSTUN_BOUNCE if active else NORMAL_BOUNCE
 
 func respawn() -> void:
-	onready_paths_node.death_manager.rpc("kill")
+	onready_paths_node.death_manager.kill()
 
 func override_velocity(velocity_override : Vector2) -> void:
 	_velocity_override += velocity_override

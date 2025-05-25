@@ -75,14 +75,14 @@ func _init_movement(handler : int) -> void:
 	var ui = setting.UI_SCENE.instantiate()
 	_movement_ui = ui
 	onready_paths.important_data.add_child(ui,true)
-	ui.rpc("set_icon", setting.ICON_PATH)
+	ui.set_icon(setting.ICON_PATH)
 
 func _init_powerup(powerup : int) -> void:
 	var setting = load(PowerupDataUISettings.data[powerup])
 	var ui = setting.UI_SCENE.instantiate()
 	_powerup_ui = ui
 	onready_paths.important_data.add_child(ui,true)
-	ui.rpc("set_icon", setting.ICON_PATH)
+	ui.set_icon(setting.ICON_PATH)
 
 func _init_lives(lives : int) -> void:
 	var ui = _lives_ui_load.instantiate()

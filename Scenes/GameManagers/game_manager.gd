@@ -100,7 +100,6 @@ func _delete_player(id : int) -> void:
 	_connected_players.erase(id)
 	onready_paths.game_config_menu.update_host_player_numbers(_connected_players.size())
 
-@rpc("authority", "call_local", "unreliable")
 func _toggle_config_menu(active : bool) -> void:
 	onready_paths.game_config_menu.visible = active
 
@@ -113,7 +112,6 @@ func _add_offline_default_players() -> void:
 	}
 
 # FIXME : this method should be in the game itself, but for some reason, the remote call does not happen in it
-@rpc("authority", "call_remote", "reliable")
 func _add_background() -> void:
 	onready_paths.game.add_background(level_data)
 
@@ -134,16 +132,16 @@ func _on_game_config_menu_init_client(ip: String, port: int) -> void:
 
 func _on_game_config_menu_start_game() -> void:
 	Logger.debug("starting game")
-	rpc("_toggle_config_menu",false)
-	rpc("_add_background")
-	FullScreenEffects.rpc("toggle_active",true)
+	_toggle_config_menu(false)
+	_add_background()
+	FullScreenEffects.toggle_active(true)
 	onready_paths.game.start(_connected_players, level_data)
 
 func _on_game_game_over() -> void:
 	Logger.debug("game over")
-	onready_paths.game.rpc("reset")
-	rpc("_toggle_config_menu", true)
-	onready_paths.game_config_menu.rpc("reset")
-	FullScreenEffects.rpc("toggle_active",false)
+	onready_paths.game.reset()
+	_toggle_config_menu(true)
+	onready_paths.game_config_menu.reset()
+	FullScreenEffects.toggle_active(false)
 	for player_idx in _connected_players:
 		_delete_player(player_idx)

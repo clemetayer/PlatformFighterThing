@@ -61,19 +61,19 @@ func _get_damage(velocity) -> float:
 func _remove_health_by_velocity(velocity: Vector2) -> void:
 	var final_health = HEALTH - _get_damage(velocity)
 	if BOUNCE_BACK_DIRECTION.x != 0:
-		rpc("_shake_camera_by_velocity", velocity.x)
+		_shake_camera_by_velocity(velocity.x)
 	elif BOUNCE_BACK_DIRECTION.y != 0:
-		rpc("_shake_camera_by_velocity", velocity.y)
+		_shake_camera_by_velocity(velocity.y)
 	_play_break_trebble(final_health)
 	if _update_health_tween:
 		_update_health_tween.kill() # Abort the previous animation.
 	_update_health_tween = create_tween()
 	_update_health_tween.tween_method(_update_health, HEALTH, final_health,FREEZE_PLAYER_TIMEOUT)
-	rpc("_update_texture_color", HEALTH)
+	_update_texture_color(HEALTH)
 
 func _update_health(new_health : float) -> void:
 	HEALTH = new_health
-	rpc("_update_texture_color", new_health)
+	_update_texture_color(new_health)
 
 func _play_break_trebble(final_health : float) -> void:
 	var final_damage_ratio = min(1.0 - final_health/BASE_HEALTH, 1.0)
@@ -81,21 +81,18 @@ func _play_break_trebble(final_health : float) -> void:
 	var initial_stream_play_time = max(0.0,final_stream_play_time - FREEZE_PLAYER_TIMEOUT)
 	onready_paths.audio.trebble.play(initial_stream_play_time)
 
-@rpc("authority","call_local","unreliable")
 func _update_texture_color(new_health: float) -> void:
 	var health_ratio =(BASE_HEALTH - new_health)/BASE_HEALTH
 	modulate = _wall_gradient.sample(health_ratio)
 	onready_paths.particles.set_color(modulate)
 	onready_paths.cracks.material.set_shader_parameter("destruction_amount", health_ratio * VORONOI_MAX_DESTRUCTION_PERCENTS)
 
-@rpc("authority","call_local","unreliable")
 func _toggle_activated(active : bool) -> void:
 	visible = active
 	collision_enabled = active
 	onready_paths.damage_wall_area.set_deferred("monitoring", active)
 	onready_paths.damage_wall_area.set_deferred("monitorable", active)
 
-@rpc("authority","call_local","unreliable")
 func _toggle_respawn_collision_detection_activated(active : bool) -> void:
 	onready_paths.collision_detection_area.set_deferred("monitoring", active)
 	onready_paths.collision_detection_area.set_deferred("monitorable", active)
@@ -110,7 +107,6 @@ func _get_max_velocity_in_buffer(velocity_buffer : Array) -> Vector2:
 			max_vel = velocity
 	return max_vel
 
-@rpc("authority","call_local","unreliable")
 func _shake_camera_by_velocity(velocity : float) -> void:
 	var camera_shake = _get_shake_type_by_velocity(abs(velocity))
 	CameraEffects.emit_signal_start_camera_impact(FREEZE_PLAYER_TIMEOUT,camera_shake, CameraEffects.CAMERA_IMPACT_PRIORITY.HIGH)
@@ -126,7 +122,7 @@ func _check_and_respawn() -> void:
 		Logger.debug("wait before respawning")
 		onready_paths.wait_respawn_timer.start()
 	else: 
-		rpc("_toggle_activated",true)
+		_toggle_activated(true)
 		_toggle_respawn_collision_detection_activated(false)
 		onready_paths.spawn_animation.play_spawn_animation(BOUNCE_BACK_DIRECTION)
 
@@ -138,11 +134,10 @@ func _start_freeze_timeout_timer_for_player(player : Node2D, time : float = FREE
 	onready_paths.freeze_timers_path.add_child(timer)
 	timer.start()
 
-@rpc("authority", "call_local", "unreliable")
 func _play_break_animation() -> void:
 	FullScreenEffects.monochrome(2)
 	FullScreenEffects.pincushion(2)
-	rpc("_shake_camera_by_velocity", WALL_BREAK_KNOCKBACK_STRENGTH)
+	_shake_camera_by_velocity(WALL_BREAK_KNOCKBACK_STRENGTH)
 	await get_tree().create_timer(2).timeout
 
 ##### SIGNAL MANAGEMENT #####
@@ -152,7 +147,7 @@ func _on_area_entered(area):
 
 func _on_respawn_timer_timeout() -> void:
 	HEALTH = BASE_HEALTH
-	rpc("_update_texture_color", HEALTH)
+	_update_texture_color(HEALTH)
 	_check_and_respawn()
 
 func _on_damage_wall_area_body_entered(body: Node2D) -> void:
@@ -165,9 +160,9 @@ func _on_damage_wall_area_body_entered(body: Node2D) -> void:
 			onready_paths.respawn_timer.start()
 			body.respawn()
 			CameraEffects.emit_signal_focus_on(body.global_position,0.5,8.0,2)
-			rpc("_play_break_animation")
+			_play_break_animation()
 			emit_signal("explode_fragments", max_velocity)
-			rpc("_toggle_activated", false)
+			_toggle_activated(false)
 			_toggle_respawn_collision_detection_activated(true)
 		else:
 			body.toggle_freeze(true)

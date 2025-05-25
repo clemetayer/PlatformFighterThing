@@ -15,9 +15,8 @@ extends HBoxContainer
 
 ##### PUBLIC METHODS #####
 func set_value(value) -> void:
-	rpc("set_lives", int(value))
+	set_lives(int(value))
 
-@rpc("authority","call_local","reliable")
 func set_lives(lives : int) -> void:
 	for child in onready_paths.tokens.get_children():
 		child.hide()

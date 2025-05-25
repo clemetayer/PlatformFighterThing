@@ -48,7 +48,6 @@ const GAME_MANAGER_PATH := "res://Scenes/GameManagers/game_manager.tscn"
 func update_host_player_numbers(number_of_players: int) -> void:
 	onready_paths.waiting_host_label.text = WAITING_TEXT_HOST_TEMPLATE % number_of_players
 
-@rpc("authority","call_local","reliable")
 func reset() -> void:
 	onready_paths.config_menu.show()
 	onready_paths.waiting_host.hide()

@@ -24,7 +24,6 @@ func set_last_hit_owner(last_hit_owner : RigidBody2D) -> void:
 	_last_hit_owner = last_hit_owner
 
 # Triggers the death animation
-@rpc("any_peer", "call_local", "reliable")
 func kill() -> void:
 	if is_instance_valid(_last_hit_owner):
 		onready_paths_node.player_root.emit_signal("game_message_triggered", _get_last_hit_owner_message(_last_hit_owner))

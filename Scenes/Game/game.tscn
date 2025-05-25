@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://bypr1ueba3rju"]
+[gd_scene load_steps=15 format=3 uid="uid://bypr1ueba3rju"]
 
 [ext_resource type="Script" uid="uid://di807ybb5wuoh" path="res://Scenes/Game/game.gd" id="1_4jp85"]
 [ext_resource type="PackedScene" uid="uid://ew7gedlm3n8" path="res://Scenes/Camera/camera.tscn" id="2_0bomf"]
@@ -11,16 +11,6 @@
 [ext_resource type="AudioStream" uid="uid://bxtr6lc6ct7yg" path="res://Scenes/UI/Audio/2.mp3" id="9_upfqs"]
 [ext_resource type="AudioStream" uid="uid://dlgw5da7123au" path="res://Scenes/UI/Audio/1.mp3" id="10_8e3kh"]
 [ext_resource type="AudioStream" uid="uid://c6xv7t5jy4dcx" path="res://Scenes/UI/Audio/shoot.mp3" id="11_56qi8"]
-
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_sgiw2"]
-properties/0/path = NodePath("Camera:enabled")
-properties/0/spawn = true
-properties/0/replication_mode = 1
-
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_qtymf"]
-properties/0/path = NodePath("UI/PlayersDataUi:visible")
-properties/0/spawn = true
-properties/0/replication_mode = 2
 
 [sub_resource type="Animation" id="Animation_flgk0"]
 resource_name = "end_game"
@@ -187,16 +177,6 @@ spawn_path = NodePath("../Projectiles")
 [node name="PowerupSpawner" type="MultiplayerSpawner" parent="."]
 _spawnable_scenes = PackedStringArray("uid://cto1bewda5gwm")
 spawn_path = NodePath("../Powerups")
-
-[node name="PlayersDataUISpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("uid://bvec14mifjb10")
-spawn_path = NodePath("../UI/PlayersDataUi")
-
-[node name="CameraSynchronizer" type="MultiplayerSynchronizer" parent="."]
-replication_config = SubResource("SceneReplicationConfig_sgiw2")
-
-[node name="VisibilitySynchronizer" type="MultiplayerSynchronizer" parent="."]
-replication_config = SubResource("SceneReplicationConfig_qtymf")
 
 [node name="IntroOutroSounds" type="AudioStreamPlayer" parent="."]
 volume_db = -5.0
