@@ -14,8 +14,6 @@ func serialize() -> Dictionary:
         "background_and_music"= background_and_music
     }
 
-static func deserialize(data : Dictionary) -> LevelConfig:
-    var level_config = LevelConfig.new()
-    StaticUtils.map_if_exists(data, "level_path", level_config, "level_path")
-    StaticUtils.map_if_exists(data, "background_and_music", level_config, "background_and_music")
-    return level_config    
+func deserialize(data : Dictionary) -> void:
+    StaticUtils.map_if_exists(data, "level_path", self, "level_path")
+    StaticUtils.map_if_exists(data, "background_and_music", self, "background_and_music")

@@ -106,13 +106,21 @@ func _add_offline_default_players() -> void:
 		"config" : _create_player_data(RECORD_PLAYER_CONFIG_PATH)
 	}
 
+func serialize_players(players : Dictionary) -> Dictionary:
+	var serialized_players = {}
+	for player_key in players.keys():
+		serialized_players[player_key] = {
+			"config": players[player_key].config.serialize()
+		}
+	return serialized_players
+
 ##### SIGNAL MANAGEMENT #####
 func _on_game_config_menu_init_offline() -> void:
 	_toggle_config_menu(false)
 	_add_offline_default_players()
 	RuntimeUtils.is_offline_game = true
 	FullScreenEffects.toggle_active(true)
-	onready_paths.game.start(_connected_players, level_data)
+	onready_paths.game.start(serialize_players(_connected_players), level_data.serialize())
 
 func _on_game_config_menu_init_host(port: int) -> void:
 	_init_server(port) 
@@ -124,7 +132,7 @@ func _on_game_config_menu_start_game() -> void:
 	Logger.debug("starting game")
 	_toggle_config_menu(false)
 	FullScreenEffects.toggle_active(true)
-	onready_paths.game.start(_connected_players, level_data)
+	onready_paths.game.rpc("start",serialize_players(_connected_players), level_data.serialize())
 
 func _on_game_game_over() -> void:
 	Logger.debug("game over")

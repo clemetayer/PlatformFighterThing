@@ -57,10 +57,15 @@ func _process(_delta):
 	pass
 
 ##### PUBLIC METHODS #####
-func start(p_players_data : Dictionary, level_data : LevelConfig) -> void:
+@rpc("authority", "call_local", "reliable")
+func start(p_players_data : Dictionary, p_level_data : Dictionary) -> void:
+	var level_data = LevelConfig.new()
+	level_data.deserialize(p_level_data)
 	for player_idx in p_players_data.keys():
+		var player_config = PlayerConfig.new()
+		player_config.deserialize(p_players_data[player_idx].config)
 		players_data[player_idx] = {}
-		players_data[player_idx].config = p_players_data[player_idx].config
+		players_data[player_idx].config = player_config
 		players_data[player_idx].lives = BASE_LIVES_AMOUNT
 	_add_level(level_data)
 	_add_players(players_data)
@@ -144,6 +149,7 @@ func _clean_background() -> void:
 	for c in onready_paths.background.get_children():
 		c.queue_free()
 
+# TODO : move this in the initialization node
 func _init_game_ui(p_players_data : Dictionary) -> void:
 	onready_paths.game_ui.clean()
 	for player_idx in p_players_data.keys():
@@ -151,15 +157,18 @@ func _init_game_ui(p_players_data : Dictionary) -> void:
 		onready_paths.game_ui.update_lives(player_idx, p_players_data[player_idx].lives)
 	onready_paths.game_ui.show()
 
+# TODO : move this in the initialization node
 func _init_chronometer() -> void:
 	onready_paths.chronometer.connect("time_over", _on_chronometer_time_over)
 	onready_paths.chronometer.start_timer(GAME_TIME)
 	onready_paths.chronometer.show()
 
+# TODO : move this in the initialization node
 func _init_screen_game_message() -> void:
 	onready_paths.screen_message.init()
 	onready_paths.screen_message.show()
 
+# TODO : move this in the initialization node
 func _init_start_game_animation() -> void:
 	onready_paths.animation_player.play("start_game")
 
