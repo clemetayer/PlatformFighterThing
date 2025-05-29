@@ -4,9 +4,6 @@ extends Node
 ##### SIGNALS #####
 signal game_over
 
-##### ENUMS #####
-# enumerations
-
 ##### VARIABLES #####
 #---- CONSTANTS -----
 const PLAYER_SCENE_PATH := "res://Scenes/Player/player.tscn"
@@ -20,9 +17,6 @@ const PLAYER_GAME_MESSAGE_DURATION := 1 #s
 @export var players_data := {}
 
 #---- STANDARD -----
-#==== PUBLIC ====
-# var public_var # Optionnal comment
-
 #==== PRIVATE ====
 var _level : Node
 
@@ -41,20 +35,12 @@ var _level : Node
 }
 
 ##### PROCESSING #####
-# Called when the object is initialized.
-func _init():
-	pass
-
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	onready_paths.camera.enabled = false
 	onready_paths.game_ui.hide()
 	onready_paths.chronometer.hide()
 	onready_paths.screen_message.hide()
-
-# Called every frame. 'delta' is the elapsed time since the previous frame. Remove the "_" to use it.
-func _process(_delta):
-	pass
 
 ##### PUBLIC METHODS #####
 @rpc("authority", "call_local", "reliable")
@@ -111,6 +97,7 @@ func _clean_players():
 
 func _spawn_player(player_idx : int) -> void:
 	var player_instance = load(PLAYER_SCENE_PATH).instantiate()
+	Logger.debug("config from %s of %s = %s" % [multiplayer.get_unique_id(), player_idx, players_data[player_idx].config.serialize()])
 	player_instance.CONFIG = players_data[player_idx].config
 	player_instance.id = player_idx
 	player_instance.global_position = SPAWN_POINT

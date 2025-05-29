@@ -2,9 +2,6 @@ extends Node
 # Script to manage the death animation of the player
 
 ##### VARIABLES #####
-#---- CONSTANTS -----
-const DEATH_ANIM_TIME := 2 #s
-
 #---- STANDARD -----
 #==== PRIVATE ====
 var _last_hit_owner : RigidBody2D = null
@@ -13,7 +10,8 @@ var _last_hit_owner : RigidBody2D = null
 @onready var onready_paths_node := $"../Paths"
 @onready var onready_paths := {
 	"particles": $"DeathParticles",
-	"sound": $"DeathSound"
+	"sound": $"DeathSound",
+	"death_anim_time": $"DeathAnimTime"
 }
 
 ##### PUBLIC METHODS #####
@@ -24,6 +22,7 @@ func set_last_hit_owner(last_hit_owner : RigidBody2D) -> void:
 	_last_hit_owner = last_hit_owner
 
 # Triggers the death animation
+@rpc("authority", "call_local", "reliable")
 func kill() -> void:
 	if is_instance_valid(_last_hit_owner):
 		onready_paths_node.player_root.emit_signal("game_message_triggered", _get_last_hit_owner_message(_last_hit_owner))
@@ -36,9 +35,7 @@ func kill() -> void:
 	onready_paths_node.sprites.hide()
 	onready_paths_node.primary_weapon.hide()
 	onready_paths.sound.play()
-	await get_tree().create_timer(DEATH_ANIM_TIME).timeout
-	onready_paths_node.player_root.emit_signal("killed", onready_paths_node.player_root.id)
-	onready_paths_node.player_root.queue_free()
+	onready_paths.death_anim_time.start()
 
 ##### PROTECTED METHODS #####
 func _get_last_hit_owner_message(last_hit_owner : RigidBody2D) -> String:
@@ -46,3 +43,7 @@ func _get_last_hit_owner_message(last_hit_owner : RigidBody2D) -> String:
 		return last_hit_owner.CONFIG.ELIMINATION_TEXT
 	Logger.warn("Error while getting the opponent elimination text")
 	return ""
+
+func _on_death_anim_time_timeout() -> void:
+	onready_paths_node.player_root.emit_signal("killed", onready_paths_node.player_root.id)
+	onready_paths_node.player_root.queue_free()

@@ -173,7 +173,7 @@ func _on_damage_wall_area_body_entered(body: Node2D) -> void:
 		var final_health = HEALTH - _get_damage(max_velocity)
 		if final_health <= 0:
 			rpc("_destroy_wall", final_health, body.global_position, max_velocity)
-			body.rpc("respawn")
+			body.rpc("kill")
 		else:
 			body.rpc("toggle_freeze", true)
 			_start_freeze_timeout_timer_for_player(body)

@@ -15,5 +15,14 @@ func serialize() -> Dictionary:
 	}
 
 func deserialize(data : Dictionary) -> void:
-	StaticUtils.map_if_exists(data,"body_color",self,"BODY_COLOR")
-	StaticUtils.map_if_exists(data,"outline_color",self,"OUTLINE_COLOR")
+	map_color_if_exists(data,"body_color",self,"BODY_COLOR")
+	map_color_if_exists(data,"outline_color",self,"OUTLINE_COLOR")
+
+static func map_color_if_exists(data : Dictionary, key, object, variable_name : String) -> void:
+	if data.has(key):
+		if variable_name in object:
+			object.set(variable_name, Color.from_string(data[key], Color.WHITE))
+		else:
+			Logger.warn("object %s does not contain the variable %s, at %s" % [object, variable_name, get_stack()])
+	else:
+		Logger.warn("%s does not contain the key %s, at %s" % [data, key, get_stack()])

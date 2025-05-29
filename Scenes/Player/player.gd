@@ -58,11 +58,10 @@ func _ready():
 	SceneUtils.connect("toggle_scene_freeze", _on_SceneUtils_toggle_scene_freeze)
 
 func _integrate_forces(state: PhysicsDirectBodyState2D):
-	if not _frozen and RuntimeUtils.is_authority():
+	if not _frozen:
 		velocity = state.get_linear_velocity()
 		var delta = state.get_step()
 		
-		# override the velocity if needed
 		if _freeze_buffer_velocity != Vector2.ZERO:
 			velocity = _freeze_buffer_velocity
 			_freeze_buffer_velocity = Vector2.ZERO
@@ -72,25 +71,19 @@ func _integrate_forces(state: PhysicsDirectBodyState2D):
 
 		var is_on_floor = _is_on_floor()
 
-		# Handle jump
 		if jump_triggered and is_on_floor:
 			velocity.y = JUMP_VELOCITY
 		
-		# Adds the additional vector
 		velocity += _additional_vector
 		_additional_vector = Vector2.ZERO
 
-		# Get the input direction and handle the movement/deceleration.
 		var acceleration = FLOOR_ACCELERATION if is_on_floor else AIR_ACCELERATION
 		velocity.x = move_toward(velocity.x, direction.x * TARGET_SPEED, acceleration * delta)
 		
-		# Predict potential bounces
 		_predict_bounces()
 		
-		# sets the velocity
 		state.set_linear_velocity(velocity)
 
-		# Buffer the velocity 
 		_buffer_velocity(velocity)
 
 ##### PUBLIC METHODS #####
@@ -106,7 +99,7 @@ func toggle_hitstun_bounce(active : bool) -> void:
 	physics_material_override.bounce = HITSTUN_BOUNCE if active else NORMAL_BOUNCE
 
 @rpc("authority", "call_local", "reliable")
-func respawn() -> void:
+func kill() -> void:
 	onready_paths_node.death_manager.kill()
 
 @rpc("authority", "call_local", "reliable")
