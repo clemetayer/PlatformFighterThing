@@ -3,11 +3,12 @@
 importer="oggvorbisstr"
 type="AudioStreamOggVorbis"
 uid="uid://b7uotjtu1n7cx"
-valid=false
+path="res://.godot/imported/fitting_title_loop.ogg-63a541d659855026daee0b8240ce9766.oggvorbisstr"
 
 [deps]
 
 source_file="res://Audio/BGM/FittingTitle/fitting_title_loop.ogg"
+dest_files=["res://.godot/imported/fitting_title_loop.ogg-63a541d659855026daee0b8240ce9766.oggvorbisstr"]
 
 [params]
 

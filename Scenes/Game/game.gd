@@ -85,6 +85,9 @@ func reset() -> void:
 	onready_paths.screen_message.hide()
 	onready_paths.camera.enabled = false
 
+func get_player_config(idx : int) -> PlayerConfig:
+	return players_data[idx].config
+
 ##### PROTECTED METHODS #####
 func _add_players(p_players_data : Dictionary) -> void:
 	_clean_players()
@@ -98,7 +101,6 @@ func _clean_players():
 func _spawn_player(player_idx : int) -> void:
 	var player_instance = load(PLAYER_SCENE_PATH).instantiate()
 	Logger.debug("config from %s of %s = %s" % [multiplayer.get_unique_id(), player_idx, players_data[player_idx].config.serialize()])
-	player_instance.CONFIG = players_data[player_idx].config
 	player_instance.id = player_idx
 	player_instance.global_position = SPAWN_POINT
 	player_instance.name = "player_%d" % player_idx

@@ -39,8 +39,8 @@ func kill() -> void:
 
 ##### PROTECTED METHODS #####
 func _get_last_hit_owner_message(last_hit_owner : RigidBody2D) -> String:
-	if "CONFIG" in last_hit_owner and last_hit_owner.CONFIG is PlayerConfig:
-		return last_hit_owner.CONFIG.ELIMINATION_TEXT
+	if last_hit_owner.has_method("get_config"):
+		return last_hit_owner.get_config().ELIMINATION_TEXT
 	Logger.warn("Error while getting the opponent elimination text")
 	return ""
 

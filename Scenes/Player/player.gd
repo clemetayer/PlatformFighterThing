@@ -22,8 +22,9 @@ const MAX_DAMAGE := 999
 const MAX_BOUNCE_PREDICTIONS := 10
 
 #---- EXPORTS -----
-@export var CONFIG : PlayerConfig
 @export var DAMAGE := 0.0
+@export var GAME_PROXY_PATH := ".."
+
 #==== MOSTLY FOR MULTIPLAYER PURPOSES ====
 @export var id := 1 :
 	set(player_idx):
@@ -53,7 +54,7 @@ var _truce_active := false # allows for players to move freely but can't shoot o
 ##### PROCESSING #####
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	onready_paths_node.init.initialize(CONFIG)
+	onready_paths_node.init.initialize(get_node(GAME_PROXY_PATH).get_player_config(id))
 	_appear()
 	SceneUtils.connect("toggle_scene_freeze", _on_SceneUtils_toggle_scene_freeze)
 
@@ -129,6 +130,9 @@ func toggle_truce(active : bool) -> void:
 	toggle_abilities(not active)
 	_truce_active = active
 	toggle_abilities(not active)
+
+func get_config() -> PlayerConfig:
+	return get_node(GAME_PROXY_PATH).get_player_config(id)
 
 ##### PROTECTED METHODS #####
 func _appear() -> void:
