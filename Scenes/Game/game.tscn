@@ -180,6 +180,11 @@ spawn_path = NodePath("../Projectiles")
 _spawnable_scenes = PackedStringArray("uid://cto1bewda5gwm")
 spawn_path = NodePath("../Powerups")
 
+[node name="BackgroundSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("uid://lpdxuv2lqgps")
+spawn_path = NodePath("../Background")
+spawn_limit = 1
+
 [node name="IntroOutroSounds" type="AudioStreamPlayer" parent="."]
 volume_db = -5.0
 bus = &"Effects"

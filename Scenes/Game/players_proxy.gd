@@ -7,5 +7,8 @@ extends CanvasLayer
 @onready var root = $".."
 
 ##### PUBLIC METHODS #####
+func get_player_instance(idx : int) -> Node2D:
+	return get_node("player_%d" % idx)
+
 func get_player_config(idx : int) -> PlayerConfig:
 	return root.get_player_config(idx)

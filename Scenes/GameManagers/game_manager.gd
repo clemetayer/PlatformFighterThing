@@ -119,8 +119,10 @@ func _on_game_config_menu_init_offline() -> void:
 	_toggle_config_menu(false)
 	_add_offline_default_players()
 	RuntimeUtils.is_offline_game = true
-	FullScreenEffects.toggle_active(true)
-	onready_paths.game.start(serialize_players(_connected_players), level_data.serialize())
+	onready_paths.game.init_level_data(level_data.serialize())
+	onready_paths.game.init_players_data(serialize_players(_connected_players))
+	onready_paths.game.add_game_elements()
+	onready_paths.game.init_game_elements()
 
 func _on_game_config_menu_init_host(port: int) -> void:
 	_init_server(port) 
@@ -131,9 +133,11 @@ func _on_game_config_menu_init_client(ip: String, port: int) -> void:
 func _on_game_config_menu_start_game() -> void:
 	Logger.debug("starting game")
 	_toggle_config_menu(false)
-	FullScreenEffects.toggle_active(true)
-	onready_paths.game.rpc("start",serialize_players(_connected_players), level_data.serialize())
-
+	onready_paths.game.rpc("init_level_data", level_data.serialize())
+	onready_paths.game.rpc("init_players_data", serialize_players(_connected_players))
+	onready_paths.game.add_game_elements()
+	onready_paths.game.rpc("init_game_elements")
+	
 func _on_game_game_over() -> void:
 	Logger.debug("game over")
 	onready_paths.game.reset()

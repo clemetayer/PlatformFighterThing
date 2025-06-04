@@ -15,6 +15,7 @@ const PLAYER_GAME_MESSAGE_DURATION := 1 #s
 
 #---- EXPORTS -----
 @export var players_data := {}
+@export var level_data : LevelConfig
 
 #---- STANDARD -----
 #==== PRIVATE ====
@@ -44,18 +45,27 @@ func _ready():
 
 ##### PUBLIC METHODS #####
 @rpc("authority", "call_local", "reliable")
-func start(p_players_data : Dictionary, p_level_data : Dictionary) -> void:
-	var level_data = LevelConfig.new()
+func init_level_data(p_level_data : Dictionary) -> void:
+	level_data = LevelConfig.new()
 	level_data.deserialize(p_level_data)
+
+@rpc("authority", "call_local", "reliable")
+func init_players_data(p_players_data : Dictionary) -> void:
 	for player_idx in p_players_data.keys():
 		var player_config = PlayerConfig.new()
 		player_config.deserialize(p_players_data[player_idx].config)
 		players_data[player_idx] = {}
 		players_data[player_idx].config = player_config
 		players_data[player_idx].lives = BASE_LIVES_AMOUNT
+
+func add_game_elements() -> void:
 	_add_level(level_data)
 	_add_players(players_data)
-	_add_background(level_data)
+	_add_background(level_data)	
+
+@rpc("authority", "call_local", "reliable")
+func init_game_elements() -> void:
+	FullScreenEffects.toggle_active(true)
 	_init_game_ui(players_data)
 	_init_chronometer()
 	_init_screen_game_message()
@@ -72,7 +82,7 @@ func spawn_projectile(projectile : Node) -> void:
 
 func toggle_players_truce(active : bool) -> void:
 	for player_idx in players_data.keys():
-		players_data[player_idx].instance.toggle_truce(active)	
+		onready_paths.players.get_player_instance(player_idx).toggle_truce(active)	
 
 func reset() -> void:
 	players_data = {}
@@ -111,7 +121,6 @@ func _spawn_player(player_idx : int) -> void:
 	player_instance.connect("powerup_updated", _on_player_powerup_updated)
 	player_instance.connect("game_message_triggered", _on_player_game_message_triggered)
 	onready_paths.camera.PLAYERS_ROOT_PATH = onready_paths.camera.get_path_to(onready_paths.players)
-	players_data[player_idx].instance = player_instance
 
 func _add_background(level_data : LevelConfig) -> void:
 	_clean_background()
