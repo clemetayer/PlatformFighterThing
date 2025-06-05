@@ -122,16 +122,16 @@ func _spawn_player(player_idx : int) -> void:
 	player_instance.connect("game_message_triggered", _on_player_game_message_triggered)
 	onready_paths.camera.PLAYERS_ROOT_PATH = onready_paths.camera.get_path_to(onready_paths.players)
 
-func _add_background(level_data : LevelConfig) -> void:
+func _add_background(p_level_data : LevelConfig) -> void:
 	_clean_background()
-	_spawn_background(level_data)
+	_spawn_background(p_level_data)
 
-func _add_level(level_data : LevelConfig) -> void:
+func _add_level(p_level_data : LevelConfig) -> void:
 	_clean_level()
-	_spawn_level(level_data)
+	_spawn_level(p_level_data)
 
-func _spawn_level(level_data : LevelConfig) -> void:
-	var level = load(level_data.level_path).instantiate()
+func _spawn_level(p_level_data : LevelConfig) -> void:
+	var level = load(p_level_data.level_path).instantiate()
 	_level = level
 	onready_paths.level.add_child(level)
 
@@ -139,8 +139,8 @@ func _clean_level() -> void:
 	for c in onready_paths.level.get_children():
 		c.queue_free()
 
-func _spawn_background(level_data : LevelConfig) -> void:
-	var background = load(level_data.background_and_music).instantiate()
+func _spawn_background(p_level_data : LevelConfig) -> void:
+	var background = load(p_level_data.background_and_music).instantiate()
 	onready_paths.background.add_child(background)
 
 func _clean_background() -> void:

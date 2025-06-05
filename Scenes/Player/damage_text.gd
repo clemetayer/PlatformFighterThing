@@ -14,6 +14,7 @@ const DAMAGE_TEXT_HIT := "[hit amplitude=%d progress=%f seed=%d]%s[/hit]"
 #==== PRIVATE ====
 var _damage_text_gradient = preload("res://Scenes/Player/damage_text_gradient.tres")
 var _hit_text_tween : Tween
+var _current_damage : float
 
 ##### PUBLIC METHODS #####
 func init_damage() -> void:
@@ -21,20 +22,22 @@ func init_damage() -> void:
 	damage_label = _update_text_color(damage_label,0)
 
 func update_damage(new_val : float) -> void:
-	var damage_label = "%d" % new_val
-	damage_label = _update_text_color(damage_label,new_val)
-	var amplitude = min(new_val/MAX_DAMAGE_SHAKE_VALUE, 1.0) * MAX_HIT_AMPLITUDE
-	var duration = min(new_val/MAX_DAMAGE_SHAKE_VALUE, 1.0) * HIT_TEXT_DURATION
-	var damage_seed = randi_range(1,20)
-	if _hit_text_tween:
-		_hit_text_tween.kill() # stops the previous animation
-	_hit_text_tween = create_tween()
-	_hit_text_tween.tween_method(
-		func(value): _set_hit_text_tween(damage_label,amplitude,damage_seed,value),
-		0.0,
-		1.0,
-		HIT_TEXT_DURATION
-	)
+	if _current_damage != new_val:
+		var damage_label = "%d" % new_val
+		damage_label = _update_text_color(damage_label,new_val)
+		var amplitude = min(new_val/MAX_DAMAGE_SHAKE_VALUE, 1.0) * MAX_HIT_AMPLITUDE
+		var duration = min(new_val/MAX_DAMAGE_SHAKE_VALUE, 1.0) * HIT_TEXT_DURATION
+		var damage_seed = randi_range(1,20)
+		if _hit_text_tween:
+			_hit_text_tween.kill() # stops the previous animation
+		_hit_text_tween = create_tween()
+		_hit_text_tween.tween_method(
+			func(value): _set_hit_text_tween(damage_label,amplitude,damage_seed,value),
+			0.0,
+			1.0,
+			duration
+		)
+		_current_damage = new_val
 
 ##### PROTECTED METHODS #####
 func _update_text_color(damage_label : String, new_val : float) -> String:

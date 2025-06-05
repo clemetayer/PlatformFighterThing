@@ -31,6 +31,8 @@ const MAX_BOUNCE_PREDICTIONS := 10
 		id = player_idx
 		# Give authority over the player input to the appropriate peer.
 		$InputSynchronizer.set_multiplayer_authority(id)
+@export var sync_velocity : Vector2
+@export var sync_position : Vector2
 
 #---- STANDARD -----
 #==== PUBLIC ====
@@ -57,9 +59,15 @@ func _ready():
 	onready_paths_node.init.initialize(get_node(GAME_PROXY_PATH).get_player_config(id))
 	_appear()
 	SceneUtils.connect("toggle_scene_freeze", _on_SceneUtils_toggle_scene_freeze)
+	_load_sync_physics()
+
+func _process(_delta):
+	onready_paths_node.damage_label.update_damage(DAMAGE)
 
 func _integrate_forces(state: PhysicsDirectBodyState2D):
 	if not _frozen:
+		_load_sync_physics()
+
 		velocity = state.get_linear_velocity()
 		var delta = state.get_step()
 		
@@ -87,11 +95,12 @@ func _integrate_forces(state: PhysicsDirectBodyState2D):
 
 		_buffer_velocity(velocity)
 
+		_save_sync_physics()
+
 ##### PUBLIC METHODS #####
 func hurt(p_damage : float, knockback : float, kb_direction : Vector2, p_owner : RigidBody2D = null) -> void:
 	if _damage_enabled:
 		DAMAGE = min(DAMAGE + p_damage,MAX_DAMAGE)
-		onready_paths_node.damage_label.update_damage(DAMAGE)
 		_additional_vector += kb_direction.normalized() * DAMAGE * knockback
 		onready_paths_node.hitstun_manager.start_hitstun(DAMAGE)
 		onready_paths_node.death_manager.set_last_hit_owner(p_owner)
@@ -177,6 +186,16 @@ func _predict_bounces() -> void:
 			query = PhysicsRayQueryParameters2D.create(position, position + travel_distance_next_frame, 1)
 			intersection = space_state.intersect_ray(query)
 		predict_bounce_cnt += 1
+
+func _save_sync_physics() -> void:
+	if RuntimeUtils.is_authority():
+		sync_velocity = velocity
+		sync_position = global_position
+
+func _load_sync_physics() -> void:
+	if not RuntimeUtils.is_authority():
+		velocity = sync_velocity
+		global_position = sync_position
 
 ##### SIGNAL MANAGEMENT #####
 func _on_SceneUtils_toggle_scene_freeze(value: bool) -> void:

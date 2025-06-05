@@ -38,13 +38,13 @@ bounce = 0.05
 properties/0/path = NodePath(".:DAMAGE")
 properties/0/spawn = true
 properties/0/replication_mode = 1
-properties/1/path = NodePath(".:linear_velocity")
+properties/1/path = NodePath(".:id")
 properties/1/spawn = true
 properties/1/replication_mode = 1
-properties/2/path = NodePath(".:position")
+properties/2/path = NodePath(".:sync_velocity")
 properties/2/spawn = true
 properties/2/replication_mode = 1
-properties/3/path = NodePath(".:id")
+properties/3/path = NodePath(".:sync_position")
 properties/3/spawn = true
 properties/3/replication_mode = 1
 
@@ -817,6 +817,10 @@ one_shot = true
 [node name="Hitstun" type="Timer" parent="."]
 one_shot = true
 
+[node name="MultiplayerSyncPhysicsTimer" type="Timer" parent="."]
+wait_time = 0.1
+autostart = true
+
 [node name="FloorDetector" type="RayCast2D" parent="."]
 collision_mask = 3
 
@@ -827,3 +831,4 @@ collision_mask = 3
 [connection signal="body_entered" from="BounceArea" to="BounceArea" method="_on_body_entered"]
 [connection signal="timeout" from="UsePowerupCooldown" to="." method="_on_use_powerup_cooldown_timeout"]
 [connection signal="timeout" from="Hitstun" to="HitstunManager" method="_on_hitstun_timeout"]
+[connection signal="timeout" from="MultiplayerSyncPhysicsTimer" to="." method="_on_multiplayer_sync_physics_timer_timeout"]
