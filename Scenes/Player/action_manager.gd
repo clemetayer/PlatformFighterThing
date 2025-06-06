@@ -63,7 +63,7 @@ func _handle_parry() -> void:
 
 func _handle_powerup() -> void:
 	if _is_action_just_active(ActionHandlerBase.actions.POWERUP):
-		onready_paths_node.powerup_manager.use()
+		onready_paths_node.powerup_manager.rpc("use")
 
 # mostly to improve readability
 func _is_action_active(action : ActionHandlerBase.actions) -> bool:

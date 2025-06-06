@@ -43,13 +43,26 @@ func _duplicate_projectile_with_angle(projectile : Node, angle : float) -> void:
 	duplicated_projectile._direction = Vector2.RIGHT.rotated(duplicated_projectile.rotation).normalized()
 	_whitelist.append(duplicated_projectile)
 
+@rpc("authority", "call_local", "reliable")
+func _handle_feedback() -> void:
+	onready_paths.audio.play()
+	onready_paths.circles.remove_circle()
+
+@rpc("authority", "call_local", "reliable")
+func _prepare_for_deletion() -> void:
+	onready_paths.collision.set_deferred("disabled", true)
+	onready_paths.sprite.hide()
+	if onready_paths.audio.playing:
+		await onready_paths.audio.finished
+	emit_signal("destroyed", self)
+	queue_free()
+
 ##### SIGNAL MANAGEMENT #####
 # Note : the PROJECTILE_DUPLICATES + 1 thing seems weird, but it's actually needed to spawn an even amount of bullets
 func _on_hitbox_area_entered(area):
 	if RuntimeUtils.is_authority():
 		if area.is_in_group("projectile") and not _whitelist.has(area):
-			onready_paths.audio.play()
-			onready_paths.circles.remove_circle()
+			rpc("_handle_feedback")
 			for duplicate_idx in range(1,PROJECTILE_DUPLICATES + 1):
 				var dup_angle = (duplicate_idx * ((PI/2)/(PROJECTILE_DUPLICATES+1))) - PI/4
 				if dup_angle != PI/2: # PI/2 angle (forward) is reserved for the original projectile
@@ -61,11 +74,7 @@ func _on_hitbox_area_entered(area):
 			if _contacts_count < MAX_CONTACTS - 1:
 				_contacts_count += 1
 			else:
-				onready_paths.collision.set_deferred("disabled", true)
-				onready_paths.sprite.hide()
-				await onready_paths.audio.finished
-				emit_signal("destroyed", self)
-				queue_free()
+				rpc("_prepare_for_deletion")
 
 func _on_hitbox_body_entered(body):
 	pass # Replace with function body.

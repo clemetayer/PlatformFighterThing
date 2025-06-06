@@ -9,10 +9,10 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_06q05"]
 size = Vector2(128, 128)
 
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_2f2n3"]
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_risov"]
 properties/0/path = NodePath(".:position")
 properties/0/spawn = true
-properties/0/replication_mode = 1
+properties/0/replication_mode = 2
 
 [node name="Splitter" type="Node2D"]
 script = ExtResource("1_tp6dn")
@@ -38,12 +38,12 @@ shape = SubResource("RectangleShape2D_06q05")
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("2_jxrl0")
 
-[node name="SplitterSynchronizer" type="MultiplayerSynchronizer" parent="."]
-replication_config = SubResource("SceneReplicationConfig_2f2n3")
-
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("3_o5ews")
 bus = &"Effects"
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_risov")
 
 [connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]
 [connection signal="area_exited" from="Hitbox" to="." method="_on_hitbox_area_exited"]
