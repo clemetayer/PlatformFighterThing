@@ -157,6 +157,10 @@ func _destroy_wall(final_health : int, hit_position : Vector2, hit_velocity : Ve
 	_toggle_activated(false)
 	_toggle_respawn_collision_detection_activated(true)
 
+@rpc("authority", "call_local", "unreliable")
+func _end_damage_wall_animation() -> void:
+	onready_paths.audio.trebble.stop()	
+ 
 ##### SIGNAL MANAGEMENT #####
 func _on_area_entered(area):
 	if area.is_in_group("projectile") and RuntimeUtils.is_authority():
@@ -181,13 +185,13 @@ func _on_damage_wall_area_body_entered(body: Node2D) -> void:
 
 func _on_freeze_player_timer_timeout(timer_to_free : Timer, player : Node2D) -> void:
 	if RuntimeUtils.is_authority() and is_instance_valid(player):
+		rpc("_end_damage_wall_animation")
 		player.rpc("toggle_freeze", false)
-		onready_paths.audio.trebble.stop()
 		if HEALTH <= 0:
 			player.rpc("override_velocity", -BOUNCE_BACK_DIRECTION.normalized() * WALL_BREAK_KNOCKBACK_STRENGTH)
 		else:
 			player.rpc("override_velocity", BOUNCE_BACK_DIRECTION.normalized() * BOUNCE_BACK_FORCE)
 		timer_to_free.queue_free()
-		
+
 func _on_wait_for_respawn_timer_timeout() -> void:
 	_check_and_respawn()
