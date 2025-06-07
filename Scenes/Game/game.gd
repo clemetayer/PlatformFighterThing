@@ -177,6 +177,7 @@ func _is_game_over() -> bool:
 			players_alive += 1
 	return players_alive <= 1
 
+@rpc("authority", "call_local", "reliable")
 func _end_game() -> void:
 	onready_paths.animation_player.play("end_game")
 	await onready_paths.animation_player.animation_finished
@@ -184,7 +185,7 @@ func _end_game() -> void:
 
 ##### SIGNAL MANAGEMENT #####
 func _on_chronometer_time_over() -> void:
-	_end_game()
+	rpc("_end_game")
 
 func _on_player_killed(idx : int) -> void:
 	players_data[idx].lives -= 1
@@ -193,7 +194,7 @@ func _on_player_killed(idx : int) -> void:
 		await get_tree().create_timer(RESPAWN_TIME).timeout
 		_spawn_player(idx)
 	if _is_game_over():
-		_end_game()
+		rpc("_end_game")
 
 func _on_player_movement_updated(player_id : int, value) -> void:
 	onready_paths.game_ui.update_movement(player_id, value)
