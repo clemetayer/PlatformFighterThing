@@ -152,7 +152,7 @@ func _init_game_ui(p_players_data : Dictionary) -> void:
 	onready_paths.game_ui.clean()
 	for player_idx in p_players_data.keys():
 		onready_paths.game_ui.add_player(player_idx, p_players_data[player_idx].config, p_players_data[player_idx].lives)
-		onready_paths.game_ui.update_lives(player_idx, p_players_data[player_idx].lives)
+		onready_paths.game_ui.rpc("update_lives", player_idx, p_players_data[player_idx].lives)
 	onready_paths.game_ui.show()
 
 # TODO : move this in the initialization node
@@ -189,7 +189,7 @@ func _on_chronometer_time_over() -> void:
 
 func _on_player_killed(idx : int) -> void:
 	players_data[idx].lives -= 1
-	onready_paths.game_ui.update_lives(idx, players_data[idx].lives)
+	onready_paths.game_ui.rpc("update_lives", idx, players_data[idx].lives)
 	if players_data[idx].lives > 0:
 		await get_tree().create_timer(RESPAWN_TIME).timeout
 		_spawn_player(idx)
@@ -197,10 +197,10 @@ func _on_player_killed(idx : int) -> void:
 		rpc("_end_game")
 
 func _on_player_movement_updated(player_id : int, value) -> void:
-	onready_paths.game_ui.update_movement(player_id, value)
+	onready_paths.game_ui.rpc("update_movement", player_id, value)
 
 func _on_player_powerup_updated(player_id : int, value) -> void:
-	onready_paths.game_ui.update_powerup(player_id, value)
+	onready_paths.game_ui.rpc("update_powerup", player_id, value)
 
 func _on_player_game_message_triggered(message : String) -> void:
 	onready_paths.screen_message.display_message(message, PLAYER_GAME_MESSAGE_DURATION, false)
