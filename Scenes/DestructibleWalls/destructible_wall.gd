@@ -163,7 +163,7 @@ func _end_damage_wall_animation() -> void:
  
 ##### SIGNAL MANAGEMENT #####
 func _on_area_entered(area):
-	if area.is_in_group("projectile") and RuntimeUtils.is_authority():
+	if area.is_in_group("projectile"):
 		area.queue_free()
 
 func _on_respawn_timer_timeout() -> void:

@@ -20,21 +20,21 @@ func add_player(player_id: int, config : PlayerConfig, lives : int) -> void:
 
 @rpc("authority", "call_local", "reliable")
 func update_movement(player_id: int, value) -> void:
-	if _players.has(player_id):
+	if _players.has(player_id) and is_instance_valid(_players[player_id]):
 		_players[player_id].update_movement(value)
 	else:
 		Logger.error("player %s does not exist in the UI" % player_id)
 
 @rpc("authority", "call_local", "reliable")
 func update_powerup(player_id: int, value) -> void:
-	if _players.has(player_id):
+	if _players.has(player_id) and is_instance_valid(_players[player_id]):
 		_players[player_id].update_powerup(value)
 	else:
 		Logger.error("player %s does not exist in the UI" % player_id)
 
 @rpc("authority", "call_local", "reliable")
 func update_lives(player_id: int, value : int) -> void:
-	if _players.has(player_id):
+	if _players.has(player_id) and is_instance_valid(_players[player_id]):
 		_players[player_id].update_lives(value)
 	else:
 		Logger.error("player %s does not exist in the UI" % player_id)

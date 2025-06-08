@@ -110,7 +110,6 @@ func _clean_players():
 
 func _spawn_player(player_idx : int) -> void:
 	var player_instance = load(PLAYER_SCENE_PATH).instantiate()
-	Logger.debug("config from %s of %s = %s" % [multiplayer.get_unique_id(), player_idx, players_data[player_idx].config.serialize()])
 	player_instance.id = player_idx
 	player_instance.global_position = SPAWN_POINT
 	player_instance.name = "player_%d" % player_idx
@@ -203,4 +202,4 @@ func _on_player_powerup_updated(player_id : int, value) -> void:
 	onready_paths.game_ui.rpc("update_powerup", player_id, value)
 
 func _on_player_game_message_triggered(message : String) -> void:
-	onready_paths.screen_message.display_message(message, PLAYER_GAME_MESSAGE_DURATION, false)
+	onready_paths.screen_message.rpc("display_message", message, PLAYER_GAME_MESSAGE_DURATION, false)

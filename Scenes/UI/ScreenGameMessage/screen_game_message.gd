@@ -21,6 +21,7 @@ func init() -> void:
 	onready_paths.label.text = ""
 
 # displays a message on the screen for a specific duration (in seconds). There is also an option to try to display all the characters at once
+@rpc("authority", "call_local", "reliable")
 func display_message(message : String, duration : float, display_all_characters : bool = false) -> void:
 	var on_mid_screen_time = max(duration - (ENTER_ANIM_TIME + EXIT_ANIM_TIME),0.0)
 	onready_paths.label.text = message

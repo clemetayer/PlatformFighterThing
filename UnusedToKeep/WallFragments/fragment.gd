@@ -25,7 +25,6 @@ func _ready():
 
 func _integrate_forces(_state: PhysicsDirectBodyState2D) -> void:
 	if _impulse != Vector2.ZERO and not freeze:
-		Logger.debug("impulse %s = %s" % [name,_impulse])
 		apply_central_impulse(_impulse)
 		_impulse = Vector2.ZERO
 
