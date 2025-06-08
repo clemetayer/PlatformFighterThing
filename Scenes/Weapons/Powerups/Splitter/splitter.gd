@@ -29,18 +29,19 @@ func _ready():
 
 ##### PROTECTED METHODS #####
 func _spawn_projectile(projectile) -> void:
-	var game_root = RuntimeUtils.get_game_root()
-	if game_root != null and game_root.has_method("spawn_projectile"):
-		game_root.spawn_projectile(projectile)
-	else: 
-		Logger.error("Game root does not exist or does not have the method '%s'" % "spawn_projectile")
+	if RuntimeUtils.is_authority():
+		var game_root = RuntimeUtils.get_game_root()
+		if game_root != null and game_root.has_method("spawn_projectile"):
+			game_root.spawn_projectile(projectile)
+		else: 
+			Logger.error("Game root does not exist or does not have the method '%s'" % "spawn_projectile")
 
 func _duplicate_projectile_with_angle(projectile : Node, angle : float) -> void:
 	var duplicated_projectile = projectile.duplicate()
 	duplicated_projectile.current_owner = projectile.current_owner
+	duplicated_projectile.init_rotation = duplicated_projectile.rotation + angle
+	duplicated_projectile.init_position = duplicated_projectile.global_position
 	_spawn_projectile(duplicated_projectile)
-	duplicated_projectile.rotate(angle)
-	duplicated_projectile._direction = Vector2.RIGHT.rotated(duplicated_projectile.rotation).normalized()
 	_whitelist.append(duplicated_projectile)
 
 @rpc("authority", "call_local", "reliable")
@@ -76,12 +77,6 @@ func _on_hitbox_area_entered(area):
 			else:
 				rpc("_prepare_for_deletion")
 
-func _on_hitbox_body_entered(body):
-	pass # Replace with function body.
-
 func _on_hitbox_area_exited(area):
 	if _whitelist.has(area) and RuntimeUtils.is_authority():
 		_whitelist.erase(area)
-
-func _on_hitbox_body_exited(body):
-	pass # Replace with function body.

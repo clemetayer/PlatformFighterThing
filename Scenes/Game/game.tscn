@@ -175,6 +175,7 @@ spawn_limit = 1
 [node name="ProjectileSpawner" type="MultiplayerSpawner" parent="."]
 _spawnable_scenes = PackedStringArray("uid://cra571gjijhyj")
 spawn_path = NodePath("../Projectiles")
+spawn_limit = 100
 
 [node name="PowerupSpawner" type="MultiplayerSpawner" parent="."]
 _spawnable_scenes = PackedStringArray("uid://cto1bewda5gwm")

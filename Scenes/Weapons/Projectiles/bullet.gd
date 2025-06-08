@@ -8,6 +8,8 @@ const DAMAGE := 15.0
 const KNOCKBACK := 20.0
 
 #---- EXPORTS -----
+@export var init_position : Vector2 
+@export var init_rotation : float
 @export var speed := SPEED
 @export var damage := DAMAGE
 @export var knockback := KNOCKBACK
@@ -29,6 +31,8 @@ var _direction := Vector2.ZERO
 ##### PROCESSING #####
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	global_position = init_position
+	rotation = init_rotation
 	onready_paths.trail.modulate = trail_color
 	SceneUtils.connect("toggle_scene_freeze", _on_SceneUtils_toggle_scene_freeze)
 	_direction = Vector2.RIGHT.rotated(rotation).normalized()
@@ -52,11 +56,12 @@ func _on_area_entered(area):
 	pass
 
 func _on_body_entered(body):
-	if body.is_in_group("player") and current_owner != body and body.has_method("hurt"):
-		body.hurt(damage, knockback, _direction, current_owner)
-		queue_free()
-	elif body.is_in_group("static_obstacle"): 
-		queue_free()
+	if RuntimeUtils.is_authority():
+		if body.is_in_group("player") and current_owner != body and body.has_method("hurt"):
+			body.hurt(damage, knockback, _direction, current_owner)
+			queue_free()
+		elif body.is_in_group("static_obstacle"): 
+			queue_free()
 
 func _on_SceneUtils_toggle_scene_freeze(value : bool) -> void:
 	freeze = value

@@ -38,7 +38,8 @@ func fire() -> void:
 	if not _on_cooldown and active:
 		_fire_anim()
 		_play_gunshot()
-		_spawn_projectile(_create_projectile())
+		if RuntimeUtils.is_authority():
+			_spawn_projectile(_create_projectile())
 		_on_cooldown = true
 		onready_paths.shoot_cooldown_timer.start()
 
@@ -55,8 +56,8 @@ func aim(relative_aim_position : Vector2) -> void:
 func _create_projectile() -> Node:
 	var projectile = load(PROJECTILE_SCENE_PATH).instantiate()
 	projectile.current_owner = projectile_owner
-	projectile.global_position = global_position
-	projectile.rotation = rotation
+	projectile.init_position = global_position
+	projectile.init_rotation = rotation
 	projectile.trail_color = owner_color
 	return projectile
 

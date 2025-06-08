@@ -77,8 +77,7 @@ func spawn_powerup(powerup : Node) -> void:
 	onready_paths.powerups.call_deferred("add_child",powerup, true)
 
 func spawn_projectile(projectile : Node) -> void:
-	projectile.name = "projectile_%d" % onready_paths.projectiles.get_child_count()
-	onready_paths.projectiles.call_deferred("add_child",projectile, true)
+	onready_paths.projectiles.call_deferred("add_child", projectile, true)
 
 func toggle_players_truce(active : bool) -> void:
 	for player_idx in players_data.keys():
