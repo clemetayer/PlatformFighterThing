@@ -1,4 +1,4 @@
-[gd_scene load_steps=55 format=3 uid="uid://fgxha8wl55pa"]
+[gd_scene load_steps=54 format=3 uid="uid://fgxha8wl55pa"]
 
 [ext_resource type="Script" uid="uid://bxq3finp4gfep" path="res://Scenes/Player/player.gd" id="1_b1dbg"]
 [ext_resource type="Script" uid="uid://bq2rya8sinnf" path="res://Scenes/Player/paths.gd" id="2_8lsum"]
@@ -27,12 +27,6 @@
 [ext_resource type="Texture2D" uid="uid://2ebef4pu2k81" path="res://Scenes/Player/CharacterSpawnSprite.png" id="23_rqdc0"]
 [ext_resource type="Texture2D" uid="uid://daqpwwlyh78yf" path="res://Misc/Particles/kenney_particle-pack/star_07.png" id="24_qr1w5"]
 [ext_resource type="Texture2D" uid="uid://bv0r8mi6wpacw" path="res://Misc/Particles/kenney_particle-pack/star_08.png" id="25_ythyg"]
-
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_cl61g"]
-resource_local_to_scene = true
-friction = 0.0
-rough = true
-bounce = 0.05
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_igkwr"]
 properties/0/path = NodePath(".:DAMAGE")
@@ -595,13 +589,9 @@ _data = {
 &"hitstun": SubResource("Animation_8vk0k")
 }
 
-[node name="Player" type="RigidBody2D" groups=["player"]]
+[node name="Player" type="CharacterBody2D" groups=["player"]]
 collision_layer = 2
 collision_mask = 5
-physics_material_override = SubResource("PhysicsMaterial_cl61g")
-gravity_scale = 2.5
-lock_rotation = true
-continuous_cd = 1
 script = ExtResource("1_b1dbg")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
@@ -829,6 +819,4 @@ collision_mask = 3
 [connection signal="timeout" from="ParryArea/ParryTimer" to="ParryArea" method="_on_parry_timer_timeout"]
 [connection signal="timeout" from="ParryArea/LockoutTimer" to="ParryArea" method="_on_lockout_timer_timeout"]
 [connection signal="body_entered" from="BounceArea" to="BounceArea" method="_on_body_entered"]
-[connection signal="timeout" from="UsePowerupCooldown" to="." method="_on_use_powerup_cooldown_timeout"]
 [connection signal="timeout" from="Hitstun" to="HitstunManager" method="_on_hitstun_timeout"]
-[connection signal="timeout" from="MultiplayerSyncPhysicsTimer" to="." method="_on_multiplayer_sync_physics_timer_timeout"]

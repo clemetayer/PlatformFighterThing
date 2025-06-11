@@ -12,7 +12,6 @@ extends Control
 const TEMP_PLAYER_NAME := "temporary_man"
 
 #---- EXPORTS -----
-@export var player_name : RigidBody2D
 @export var player_sprites : SpriteCustomizationResource
 
 #---- STANDARD -----

@@ -1,4 +1,4 @@
-extends RigidBody2D
+extends CharacterBody2D
 # player script
 
 ##### SIGNALS #####
@@ -20,6 +20,7 @@ const PREDICT_BOUNCE_OFFSET := 64.0
 const BOUNCE_DAMPING := 0.85
 const MAX_DAMAGE := 999
 const MAX_BOUNCE_PREDICTIONS := 10
+const WEIGHT := 2.5 # multiplier for the gravity
 
 #---- EXPORTS -----
 @export var DAMAGE := 0.0
@@ -36,12 +37,12 @@ const MAX_BOUNCE_PREDICTIONS := 10
 
 #---- STANDARD -----
 #==== PUBLIC ====
-var velocity := Vector2.ZERO
 var direction := Vector2.ZERO
 var jump_triggered := false
 var velocity_buffer := [Vector2.ZERO, Vector2.ZERO, Vector2.ZERO] # 3 frame buffer for the velocity. Usefull to keep track of the velocity when elements are going too fast
 
 #==== PRIVATE ====
+var _gravity : float = ProjectSettings.get_setting("physics/2d/default_gravity") * WEIGHT
 var _frozen := false
 var _velocity_override := Vector2.ZERO
 var _additional_vector := Vector2.ZERO # external forces that can have an effect on the player and needs to be added to the velocity on the next physics frame
@@ -64,12 +65,14 @@ func _ready():
 func _process(_delta):
 	onready_paths_node.damage_label.update_damage(DAMAGE)
 
-func _integrate_forces(state: PhysicsDirectBodyState2D):
+func _physics_process(delta: float) -> void:
 	if not _frozen:
 		_load_sync_physics()
 
-		velocity = state.get_linear_velocity()
-		var delta = state.get_step()
+		if not is_on_floor():
+			velocity.y += _gravity * delta
+		elif velocity.y > 0 and is_on_floor(): # to bounce back on horizontal destroyable walls
+			velocity.y = 0
 		
 		if _freeze_buffer_velocity != Vector2.ZERO:
 			velocity = _freeze_buffer_velocity
@@ -78,27 +81,31 @@ func _integrate_forces(state: PhysicsDirectBodyState2D):
 			velocity = _velocity_override
 			_velocity_override = Vector2.ZERO
 
-		var is_on_floor = _is_on_floor()
-
-		if jump_triggered and is_on_floor:
+		if jump_triggered and is_on_floor():
 			velocity.y = JUMP_VELOCITY
 		
 		velocity += _additional_vector
 		_additional_vector = Vector2.ZERO
 
-		var acceleration = FLOOR_ACCELERATION if is_on_floor else AIR_ACCELERATION
+		var acceleration = FLOOR_ACCELERATION if is_on_floor() else AIR_ACCELERATION
 		velocity.x = move_toward(velocity.x, direction.x * TARGET_SPEED, acceleration * delta)
 		
 		_predict_bounces()
+
+		if onready_paths_node.hitstun_manager.hitstunned:
+			var collision_normal = _get_collisions_normal()
+			if collision_normal != Vector2.ZERO:
+				velocity.bounce(collision_normal)
 		
-		state.set_linear_velocity(velocity)
+		move_and_slide()
 
 		_buffer_velocity(velocity)
 
 		_save_sync_physics()
 
+
 ##### PUBLIC METHODS #####
-func hurt(p_damage : float, knockback : float, kb_direction : Vector2, p_owner : RigidBody2D = null) -> void:
+func hurt(p_damage : float, knockback : float, kb_direction : Vector2, p_owner : Node2D = null) -> void:
 	if _damage_enabled:
 		DAMAGE = min(DAMAGE + p_damage,MAX_DAMAGE)
 		_additional_vector += kb_direction.normalized() * DAMAGE * knockback
@@ -106,7 +113,8 @@ func hurt(p_damage : float, knockback : float, kb_direction : Vector2, p_owner :
 		onready_paths_node.death_manager.set_last_hit_owner(p_owner)
 
 func toggle_hitstun_bounce(active : bool) -> void:
-	physics_material_override.bounce = HITSTUN_BOUNCE if active else NORMAL_BOUNCE
+	pass
+	# physics_material_override.bounce = HITSTUN_BOUNCE if active else NORMAL_BOUNCE
 
 @rpc("authority", "call_local", "reliable")
 func kill() -> void:
@@ -196,6 +204,14 @@ func _load_sync_physics() -> void:
 	if not RuntimeUtils.is_authority():
 		velocity = sync_velocity
 		global_position = sync_position
+
+func _get_collisions_normal() -> Vector2:
+	var collision_normal_sum = Vector2.ZERO
+	for col_idx in get_slide_collision_count():
+		collision_normal_sum = get_slide_collision(col_idx).get_normal()
+	if collision_normal_sum == Vector2.ZERO:
+		return collision_normal_sum
+	return (collision_normal_sum / get_slide_collision_count()).normalized()
 
 ##### SIGNAL MANAGEMENT #####
 func _on_SceneUtils_toggle_scene_freeze(value: bool) -> void:

@@ -8,7 +8,7 @@ const CAMERA_DEATH_IMPACT_TIME := 1 #s
 
 #---- STANDARD -----
 #==== PRIVATE ====
-var _last_hit_owner : RigidBody2D = null
+var _last_hit_owner : Node2D = null
 
 #==== ONREADY ====
 @onready var onready_paths_node := $"../Paths"
@@ -22,7 +22,7 @@ var _last_hit_owner : RigidBody2D = null
 func set_particles_color(color : Color) -> void:
 	onready_paths.particles.modulate = color
 
-func set_last_hit_owner(last_hit_owner : RigidBody2D) -> void:
+func set_last_hit_owner(last_hit_owner : Node2D) -> void:
 	_last_hit_owner = last_hit_owner
 
 # Triggers the death animation
@@ -43,7 +43,7 @@ func kill() -> void:
 	onready_paths.death_anim_time.start()
 
 ##### PROTECTED METHODS #####
-func _get_last_hit_owner_message(last_hit_owner : RigidBody2D) -> String:
+func _get_last_hit_owner_message(last_hit_owner : Node2D) -> String:
 	if last_hit_owner.has_method("get_config"):
 		return last_hit_owner.get_config().ELIMINATION_TEXT
 	Logger.warn("Error while getting the opponent elimination text")
