@@ -1,11 +1,6 @@
 extends PrimaryWeaponBase
 # Basic revolver
 
-##### SIGNALS #####
-
-##### ENUMS #####
-# enumerations
-
 ##### VARIABLES #####
 #---- CONSTANTS -----
 const PROJECTILE_SCENE_PATH := "res://Scenes/Weapons/Projectiles/bullet.tscn"
@@ -33,27 +28,18 @@ var _fire_anim_tween : Tween
 }
 
 ##### PROCESSING #####
-# Called when the object is initialized.
-func _init():
-	pass
-
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	_set_los_init_modulate()
 
-# Called every frame. 'delta' is the elapsed time since the previous frame. Remove the "_" to use it.
-func _process(_delta):
-	pass
-
-func _physics_process(_delta):
-	pass
-
 ##### PUBLIC METHODS #####
+@rpc("authority","call_local","reliable")
 func fire() -> void:
 	if not _on_cooldown and active:
-		rpc("_fire_anim")
-		rpc("_play_gunshot")
-		_spawn_projectile(_create_projectile())
+		_fire_anim()
+		_play_gunshot()
+		if RuntimeUtils.is_authority():
+			_spawn_projectile(_create_projectile())
 		_on_cooldown = true
 		onready_paths.shoot_cooldown_timer.start()
 
@@ -70,12 +56,11 @@ func aim(relative_aim_position : Vector2) -> void:
 func _create_projectile() -> Node:
 	var projectile = load(PROJECTILE_SCENE_PATH).instantiate()
 	projectile.current_owner = projectile_owner
-	projectile.global_position = global_position
-	projectile.rotation = rotation
+	projectile.init_position = global_position
+	projectile.init_rotation = rotation
 	projectile.trail_color = owner_color
 	return projectile
 
-@rpc("call_local","authority","unreliable")
 func _fire_anim() -> void:
 	if _fire_anim_tween:
 		_fire_anim_tween.kill() # Abort the previous animation.
@@ -85,7 +70,6 @@ func _fire_anim() -> void:
 	_fire_anim_tween.tween_property(onready_paths.line_of_sight,"modulate",owner_color,FIRE_ANIM_TIME)
 	_fire_anim_tween.tween_property(onready_paths.line_of_sight,"width",LOS_DEFAULT_WIDTH,FIRE_ANIM_TIME)
 
-@rpc("call_local","authority","unreliable")
 func _play_gunshot() -> void:
 	onready_paths.gunshot.play()
 

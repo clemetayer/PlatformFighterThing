@@ -12,5 +12,6 @@ var active := false
 
 ##### PUBLIC METHODS #####
 # to be overrided by children classes
+@rpc("authority", "call_local", "reliable")
 func use() -> void:
     pass

@@ -38,46 +38,22 @@ bounce = 0.05
 properties/0/path = NodePath(".:DAMAGE")
 properties/0/spawn = true
 properties/0/replication_mode = 1
-properties/1/path = NodePath("Sprites/Body:modulate")
+properties/1/path = NodePath(".:id")
 properties/1/spawn = true
-properties/1/replication_mode = 2
-properties/2/path = NodePath("Sprites/Outline:modulate")
+properties/1/replication_mode = 1
+properties/2/path = NodePath(".:sync_velocity")
 properties/2/spawn = true
-properties/2/replication_mode = 2
-properties/3/path = NodePath(".:linear_velocity")
+properties/2/replication_mode = 1
+properties/3/path = NodePath(".:sync_position")
 properties/3/spawn = true
 properties/3/replication_mode = 1
-properties/4/path = NodePath(".:position")
-properties/4/spawn = true
-properties/4/replication_mode = 1
-properties/5/path = NodePath(".:id")
-properties/5/spawn = true
-properties/5/replication_mode = 1
-properties/6/path = NodePath("Init:ACTION_HANDLER")
-properties/6/spawn = true
-properties/6/replication_mode = 1
-properties/7/path = NodePath("Init:PRIMARY_WEAPON")
-properties/7/spawn = true
-properties/7/replication_mode = 1
-properties/8/path = NodePath("Init:MOVEMENT_BONUS_HANDLER")
-properties/8/spawn = true
-properties/8/replication_mode = 1
-properties/9/path = NodePath("Init:POWERUP_HANDLER")
-properties/9/spawn = true
-properties/9/replication_mode = 1
-properties/10/path = NodePath("DeathManager/DeathParticles:modulate")
-properties/10/spawn = true
-properties/10/replication_mode = 2
-properties/11/path = NodePath("DamageLabel:text")
-properties/11/spawn = true
-properties/11/replication_mode = 1
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_wpobp"]
 properties/0/path = NodePath("InputSynchronizer:action_states")
-properties/0/spawn = false
+properties/0/spawn = true
 properties/0/replication_mode = 1
 properties/1/path = NodePath("InputSynchronizer:relative_aim_position")
-properties/1/spawn = false
+properties/1/spawn = true
 properties/1/replication_mode = 1
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ks1b7"]
@@ -682,6 +658,10 @@ process_material = SubResource("ParticleProcessMaterial_ks1b7")
 stream = ExtResource("9_aqm4k")
 bus = &"EffectsBGMSidechain"
 
+[node name="DeathAnimTime" type="Timer" parent="DeathManager"]
+wait_time = 2.0
+one_shot = true
+
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
 scale = Vector2(0.33, 0.33)
 polygon = PackedVector2Array(64, -128, -64, -128, -128, -64, -128, 64, -64, 128, 64, 128, 128, 64, 128, -64)
@@ -837,12 +817,18 @@ one_shot = true
 [node name="Hitstun" type="Timer" parent="."]
 one_shot = true
 
+[node name="MultiplayerSyncPhysicsTimer" type="Timer" parent="."]
+wait_time = 0.1
+autostart = true
+
 [node name="FloorDetector" type="RayCast2D" parent="."]
 collision_mask = 3
 
+[connection signal="timeout" from="DeathManager/DeathAnimTime" to="DeathManager" method="_on_death_anim_time_timeout"]
 [connection signal="area_entered" from="ParryArea" to="ParryArea" method="_on_area_entered"]
 [connection signal="timeout" from="ParryArea/ParryTimer" to="ParryArea" method="_on_parry_timer_timeout"]
 [connection signal="timeout" from="ParryArea/LockoutTimer" to="ParryArea" method="_on_lockout_timer_timeout"]
 [connection signal="body_entered" from="BounceArea" to="BounceArea" method="_on_body_entered"]
 [connection signal="timeout" from="UsePowerupCooldown" to="." method="_on_use_powerup_cooldown_timeout"]
 [connection signal="timeout" from="Hitstun" to="HitstunManager" method="_on_hitstun_timeout"]
+[connection signal="timeout" from="MultiplayerSyncPhysicsTimer" to="." method="_on_multiplayer_sync_physics_timer_timeout"]

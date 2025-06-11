@@ -61,19 +61,19 @@ func _get_damage(velocity) -> float:
 func _remove_health_by_velocity(velocity: Vector2) -> void:
 	var final_health = HEALTH - _get_damage(velocity)
 	if BOUNCE_BACK_DIRECTION.x != 0:
-		rpc("_shake_camera_by_velocity", velocity.x)
+		_shake_camera_by_velocity(velocity.x)
 	elif BOUNCE_BACK_DIRECTION.y != 0:
-		rpc("_shake_camera_by_velocity", velocity.y)
+		_shake_camera_by_velocity(velocity.y)
 	_play_break_trebble(final_health)
 	if _update_health_tween:
 		_update_health_tween.kill() # Abort the previous animation.
 	_update_health_tween = create_tween()
 	_update_health_tween.tween_method(_update_health, HEALTH, final_health,FREEZE_PLAYER_TIMEOUT)
-	rpc("_update_texture_color", HEALTH)
+	_update_texture_color(HEALTH)
 
 func _update_health(new_health : float) -> void:
 	HEALTH = new_health
-	rpc("_update_texture_color", new_health)
+	_update_texture_color(new_health)
 
 func _play_break_trebble(final_health : float) -> void:
 	var final_damage_ratio = min(1.0 - final_health/BASE_HEALTH, 1.0)
@@ -81,21 +81,19 @@ func _play_break_trebble(final_health : float) -> void:
 	var initial_stream_play_time = max(0.0,final_stream_play_time - FREEZE_PLAYER_TIMEOUT)
 	onready_paths.audio.trebble.play(initial_stream_play_time)
 
-@rpc("authority","call_local","unreliable")
 func _update_texture_color(new_health: float) -> void:
 	var health_ratio =(BASE_HEALTH - new_health)/BASE_HEALTH
 	modulate = _wall_gradient.sample(health_ratio)
 	onready_paths.particles.set_color(modulate)
 	onready_paths.cracks.material.set_shader_parameter("destruction_amount", health_ratio * VORONOI_MAX_DESTRUCTION_PERCENTS)
 
-@rpc("authority","call_local","unreliable")
+@rpc("authority", "call_local", "reliable")
 func _toggle_activated(active : bool) -> void:
 	visible = active
 	collision_enabled = active
 	onready_paths.damage_wall_area.set_deferred("monitoring", active)
 	onready_paths.damage_wall_area.set_deferred("monitorable", active)
 
-@rpc("authority","call_local","unreliable")
 func _toggle_respawn_collision_detection_activated(active : bool) -> void:
 	onready_paths.collision_detection_area.set_deferred("monitoring", active)
 	onready_paths.collision_detection_area.set_deferred("monitorable", active)
@@ -110,7 +108,6 @@ func _get_max_velocity_in_buffer(velocity_buffer : Array) -> Vector2:
 			max_vel = velocity
 	return max_vel
 
-@rpc("authority","call_local","unreliable")
 func _shake_camera_by_velocity(velocity : float) -> void:
 	var camera_shake = _get_shake_type_by_velocity(abs(velocity))
 	CameraEffects.emit_signal_start_camera_impact(FREEZE_PLAYER_TIMEOUT,camera_shake, CameraEffects.CAMERA_IMPACT_PRIORITY.HIGH)
@@ -138,21 +135,40 @@ func _start_freeze_timeout_timer_for_player(player : Node2D, time : float = FREE
 	onready_paths.freeze_timers_path.add_child(timer)
 	timer.start()
 
-@rpc("authority", "call_local", "unreliable")
 func _play_break_animation() -> void:
 	FullScreenEffects.monochrome(2)
 	FullScreenEffects.pincushion(2)
-	rpc("_shake_camera_by_velocity", WALL_BREAK_KNOCKBACK_STRENGTH)
+	_shake_camera_by_velocity(WALL_BREAK_KNOCKBACK_STRENGTH)
 	await get_tree().create_timer(2).timeout
 
+@rpc("authority", "call_local", "reliable")
+func _damage_wall(max_velocity : Vector2) -> void:
+	_remove_health_by_velocity(max_velocity)
+	onready_paths.audio.hit.play()
+
+@rpc("authority", "call_local", "reliable")
+func _destroy_wall(final_health : int, hit_position : Vector2, hit_velocity : Vector2) -> void:
+	HEALTH = final_health
+	onready_paths.audio.break.play()
+	onready_paths.respawn_timer.start()
+	CameraEffects.emit_signal_focus_on(hit_position,0.5,8.0,2)
+	_play_break_animation()
+	emit_signal("explode_fragments", hit_velocity)
+	_toggle_activated(false)
+	_toggle_respawn_collision_detection_activated(true)
+
+@rpc("authority", "call_local", "unreliable")
+func _end_damage_wall_animation() -> void:
+	onready_paths.audio.trebble.stop()	
+ 
 ##### SIGNAL MANAGEMENT #####
 func _on_area_entered(area):
-	if area.is_in_group("projectile") and RuntimeUtils.is_authority():
+	if area.is_in_group("projectile"):
 		area.queue_free()
 
 func _on_respawn_timer_timeout() -> void:
 	HEALTH = BASE_HEALTH
-	rpc("_update_texture_color", HEALTH)
+	_update_texture_color(HEALTH)
 	_check_and_respawn()
 
 func _on_damage_wall_area_body_entered(body: Node2D) -> void:
@@ -160,30 +176,22 @@ func _on_damage_wall_area_body_entered(body: Node2D) -> void:
 		var max_velocity = _get_max_velocity_in_buffer(body.velocity_buffer)
 		var final_health = HEALTH - _get_damage(max_velocity)
 		if final_health <= 0:
-			HEALTH = final_health
-			onready_paths.audio.break.play()
-			onready_paths.respawn_timer.start()
-			body.respawn()
-			CameraEffects.emit_signal_focus_on(body.global_position,0.5,8.0,2)
-			rpc("_play_break_animation")
-			emit_signal("explode_fragments", max_velocity)
-			rpc("_toggle_activated", false)
-			_toggle_respawn_collision_detection_activated(true)
+			rpc("_destroy_wall", final_health, body.global_position, max_velocity)
+			body.rpc("kill")
 		else:
-			body.toggle_freeze(true)
+			body.rpc("toggle_freeze", true)
 			_start_freeze_timeout_timer_for_player(body)
-			_remove_health_by_velocity(max_velocity)
-			onready_paths.audio.hit.play()
+			rpc("_damage_wall", max_velocity)
 
 func _on_freeze_player_timer_timeout(timer_to_free : Timer, player : Node2D) -> void:
 	if RuntimeUtils.is_authority() and is_instance_valid(player):
-		player.toggle_freeze(false)
-		onready_paths.audio.trebble.stop()
+		rpc("_end_damage_wall_animation")
+		player.rpc("toggle_freeze", false)
 		if HEALTH <= 0:
-			player.override_velocity(-BOUNCE_BACK_DIRECTION.normalized() * WALL_BREAK_KNOCKBACK_STRENGTH)
+			player.rpc("override_velocity", -BOUNCE_BACK_DIRECTION.normalized() * WALL_BREAK_KNOCKBACK_STRENGTH)
 		else:
-			player.override_velocity(BOUNCE_BACK_DIRECTION.normalized() * BOUNCE_BACK_FORCE)
+			player.rpc("override_velocity", BOUNCE_BACK_DIRECTION.normalized() * BOUNCE_BACK_FORCE)
 		timer_to_free.queue_free()
-		
+
 func _on_wait_for_respawn_timer_timeout() -> void:
 	_check_and_respawn()

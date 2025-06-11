@@ -1,12 +1,6 @@
 extends Area2D
 # A default bullet
 
-##### SIGNALS #####
-# Node signals
-
-##### ENUMS #####
-# enumerations
-
 ##### VARIABLES #####
 #---- CONSTANTS -----
 const SPEED := 2200.0 # px/s
@@ -14,6 +8,8 @@ const DAMAGE := 15.0
 const KNOCKBACK := 20.0
 
 #---- EXPORTS -----
+@export var init_position : Vector2 
+@export var init_rotation : float
 @export var speed := SPEED
 @export var damage := DAMAGE
 @export var knockback := KNOCKBACK
@@ -33,19 +29,17 @@ var _direction := Vector2.ZERO
 }
 
 ##### PROCESSING #####
-# Called when the object is initialized.
-func _init():
-	pass
-
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	global_position = init_position
+	rotation = init_rotation
 	onready_paths.trail.modulate = trail_color
 	SceneUtils.connect("toggle_scene_freeze", _on_SceneUtils_toggle_scene_freeze)
 	_direction = Vector2.RIGHT.rotated(rotation).normalized()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame. Remove the "_" to use it.
 func _process(delta):
-	if not freeze and RuntimeUtils.is_authority():
+	if not freeze:
 		position += _direction * speed * delta
 
 ##### PUBLIC METHODS #####
@@ -57,13 +51,7 @@ func parried(p_owner : Node2D, relative_aim_position : Vector2) -> void:
 	damage *= 2
 	knockback *= 2
 
-##### PROTECTED METHODS #####
-# Methods that are intended to be used exclusively by this scripts
-# func _private_method(arg):
-#     pass
-
 ##### SIGNAL MANAGEMENT #####
-# Functions that should be triggered when a specific signal is received
 func _on_area_entered(area):
 	pass
 

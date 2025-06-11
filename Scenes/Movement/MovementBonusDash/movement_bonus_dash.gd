@@ -7,9 +7,11 @@ extends MovementBonusBase
 const DASH_VELOCITY := Vector2(2500,1700)
 const MAX_DASHES := 3
 
+#---- EXPORTS -----
+@export var DASHES_AVAILABLE := MAX_DASHES
+
 #---- STANDARD -----
 #==== PRIVATE ====
-var _dashes_available := MAX_DASHES
 var _init_ui_done := false # just to update the UI once on the first frame
 
 #==== ONREADY ====
@@ -20,46 +22,36 @@ var _init_ui_done := false # just to update the UI once on the first frame
 }
 
 ##### PROCESSING #####
-# Called when the object is initialized.
-func _init():
-	pass
-
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass
-
 # Called every frame. 'delta' is the elapsed time since the previous frame. Remove the "_" to use it.
-# REFACTOR : maybe put this in various functions
 func _process(_delta):
 	if not _init_ui_done:
-		emit_signal("value_updated",_dashes_available)
+		emit_signal("value_updated",DASHES_AVAILABLE)
 		_init_ui_done = true
-	if ActionHandlerBase.is_just_active(state) and _dashes_available > 0 and active:
-		player.override_velocity(player.direction.normalized() * DASH_VELOCITY)
-		_dashes_available -= 1
-		emit_signal("value_updated",_dashes_available)
-		rpc("_emit_particles") # TODO : RPCs not really usefull here ? To test.
-		rpc("_play_sound")
-		if onready_paths.reload_timer.is_stopped():
-			onready_paths.reload_timer.start()
 
 ##### PROTECTED METHODS #####
-func _print_dashes_available() -> void:
-	Logger.debug("dashes available = %d" % _dashes_available)
-
-@rpc("call_local","authority","unreliable")
 func _emit_particles() -> void:
 	if onready_paths.dash_particles.emitting:
 		onready_paths.dash_particles.restart()
 	onready_paths.dash_particles.emitting = true
 
-@rpc("call_local","authority","unreliable")
 func _play_sound() -> void:
 	onready_paths.sound.play()
  
+##### PUBLIC METHODS #####
+@rpc("authority", "call_local", "reliable")
+func activate() -> void:
+	if DASHES_AVAILABLE > 0 and active:
+		player.override_velocity(player.direction.normalized() * DASH_VELOCITY)
+		DASHES_AVAILABLE -= 1
+		emit_signal("value_updated",DASHES_AVAILABLE)
+		_emit_particles()
+		_play_sound()
+		if onready_paths.reload_timer.is_stopped():
+			onready_paths.reload_timer.start()
+
 ##### SIGNAL MANAGEMENT #####
 func _on_reload_dash_timer_timeout():
-	_dashes_available += 1
-	emit_signal("value_updated",_dashes_available)
-	if _dashes_available < MAX_DASHES:
+	DASHES_AVAILABLE += 1
+	emit_signal("value_updated",DASHES_AVAILABLE)
+	if DASHES_AVAILABLE < MAX_DASHES:
 		onready_paths.reload_timer.start()

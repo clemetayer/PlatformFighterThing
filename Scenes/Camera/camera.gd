@@ -54,11 +54,6 @@ func _process(delta):
 		if best_zoom > 0 :
 			zoom = zoom.move_toward(Vector2.ONE * best_zoom * _zoom_multiplier, delta * ZOOM_DAMPING)
 
-##### PUBLIC METHODS #####
-# Methods that are intended to be "visible" to other nodes or scripts
-# func public_method(arg ):
-#     pass
-
 ##### PROTECTED METHODS #####
 func _get_average_position() -> Vector2:
 	var sum = Vector2.ZERO
@@ -98,7 +93,6 @@ func _get_global_min_max_pos() -> Dictionary:
 		"max": max_pos
 	}
 
-@rpc("call_local", "authority", "unreliable")
 func _start_camera_impact(duration : float, intensity : CameraEffects.CAMERA_IMPACT_INTENSITY, priority: CameraEffects.CAMERA_IMPACT_PRIORITY) -> void:
 	if priority >= _current_impact_priority:
 		_current_impact_priority = priority
@@ -195,8 +189,7 @@ func _start_chromatic_aberration(duration : float, intensity : CameraEffects.CAM
 
 ##### SIGNAL MANAGEMENT #####
 func _on_start_camera_impact(duration : float, intensity : CameraEffects.CAMERA_IMPACT_INTENSITY, priority: CameraEffects.CAMERA_IMPACT_PRIORITY) -> void:
-	if RuntimeUtils.is_authority():
-		rpc("_start_camera_impact", duration, intensity, priority)
+	_start_camera_impact(duration, intensity, priority)
 
 func _on_focus_on(p_position : Vector2, p_zoom : float, p_time_to_focus : float, duration : float) -> void:
 	_focus_on = {

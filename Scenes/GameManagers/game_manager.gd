@@ -2,11 +2,6 @@ extends Node
 class_name GameManager
 # Manages the game (online or offline)
 
-##### SIGNALS #####
-# Node signals
-
-##### ENUMS #####
-
 ##### VARIABLES #####
 #---- CONSTANTS -----
 const SPRITE_PRESETS_PATH := "res://Scenes/Player/SpriteCustomizationPresets/presets.tres"
@@ -20,9 +15,6 @@ const DEFAULT_BACKGROUND_PATH := "res://Scenes/Levels/Backgrounds/TriangleCity/t
 @export var level_data : LevelConfig
 
 #---- STANDARD -----
-#==== PUBLIC ====
-# var public_var # Optionnal comment
-
 #==== PRIVATE ====
 var _connected_players := {}
 
@@ -100,7 +92,6 @@ func _delete_player(id : int) -> void:
 	_connected_players.erase(id)
 	onready_paths.game_config_menu.update_host_player_numbers(_connected_players.size())
 
-@rpc("authority", "call_local", "unreliable")
 func _toggle_config_menu(active : bool) -> void:
 	onready_paths.game_config_menu.visible = active
 
@@ -112,19 +103,23 @@ func _add_offline_default_players() -> void:
 		"config" : _create_player_data(RECORD_PLAYER_CONFIG_PATH)
 	}
 
-# FIXME : this method should be in the game itself, but for some reason, the remote call does not happen in it
-@rpc("authority", "call_remote", "reliable")
-func _add_background() -> void:
-	onready_paths.game.add_background(level_data)
+func serialize_players(players : Dictionary) -> Dictionary:
+	var serialized_players = {}
+	for player_key in players.keys():
+		serialized_players[player_key] = {
+			"config": players[player_key].config.serialize()
+		}
+	return serialized_players
 
 ##### SIGNAL MANAGEMENT #####
 func _on_game_config_menu_init_offline() -> void:
 	_toggle_config_menu(false)
 	_add_offline_default_players()
-	_add_background()
 	RuntimeUtils.is_offline_game = true
-	FullScreenEffects.toggle_active(true)
-	onready_paths.game.start(_connected_players, level_data)
+	onready_paths.game.init_level_data(level_data.serialize())
+	onready_paths.game.init_players_data(serialize_players(_connected_players))
+	onready_paths.game.add_game_elements()
+	onready_paths.game.init_game_elements()
 
 func _on_game_config_menu_init_host(port: int) -> void:
 	_init_server(port) 
@@ -134,16 +129,17 @@ func _on_game_config_menu_init_client(ip: String, port: int) -> void:
 
 func _on_game_config_menu_start_game() -> void:
 	Logger.debug("starting game")
-	rpc("_toggle_config_menu",false)
-	rpc("_add_background")
-	FullScreenEffects.rpc("toggle_active",true)
-	onready_paths.game.start(_connected_players, level_data)
-
+	_toggle_config_menu(false)
+	onready_paths.game.rpc("init_level_data", level_data.serialize())
+	onready_paths.game.rpc("init_players_data", serialize_players(_connected_players))
+	onready_paths.game.add_game_elements()
+	onready_paths.game.rpc("init_game_elements")
+	
 func _on_game_game_over() -> void:
 	Logger.debug("game over")
-	onready_paths.game.rpc("reset")
-	rpc("_toggle_config_menu", true)
-	onready_paths.game_config_menu.rpc("reset")
-	FullScreenEffects.rpc("toggle_active",false)
+	onready_paths.game.reset()
+	_toggle_config_menu(true)
+	onready_paths.game_config_menu.reset()
+	FullScreenEffects.toggle_active(false)
 	for player_idx in _connected_players:
 		_delete_player(player_idx)

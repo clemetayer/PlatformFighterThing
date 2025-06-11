@@ -1,20 +1,20 @@
-[gd_scene load_steps=12 format=3 uid="uid://cpimiv0j0cie5"]
+[gd_scene load_steps=14 format=3 uid="uid://cpimiv0j0cie5"]
 
-[ext_resource type="AudioStream" uid="uid://cxd5ecqalqqdl" path="res://Audio/BGM/FittingTitle/fitting_title_intro.ogg" id="1_djra5"]
 [ext_resource type="Script" uid="uid://cbnhof5cc5q8t" path="res://Audio/BGM/FittingTitle/fitting_title.gd" id="1_i7qbf"]
 [ext_resource type="Script" uid="uid://dai80ok0ov0ou" path="res://Audio/BGM/FittingTitle/test_signal.gd" id="2_ihn6u"]
-[ext_resource type="AudioStream" uid="uid://b7uotjtu1n7cx" path="res://Audio/BGM/FittingTitle/fitting_title_loop.ogg" id="2_o6rhb"]
-[ext_resource type="Script" uid="uid://cbyc5xbfw5wbd" path="res://addons/rhythm_notifier/rhythm_notifier.gd" id="2_yqyba"]
+[ext_resource type="Script" uid="uid://cet2jfh1gb443" path="res://addons/rhythm_notifier/rhythm_notifier.gd" id="2_yqyba"]
 [ext_resource type="Script" uid="uid://cjmjux7etpwf3" path="res://Audio/BGM/interactive_song.gd" id="3_udxl2"]
+[ext_resource type="AudioStream" uid="uid://cxd5ecqalqqdl" path="res://Audio/BGM/FittingTitle/fitting_title_intro.ogg" id="4_eydag"]
+[ext_resource type="AudioStream" uid="uid://b7uotjtu1n7cx" path="res://Audio/BGM/FittingTitle/fitting_title_loop.ogg" id="5_m37aa"]
 
 [sub_resource type="AudioStreamInteractive" id="AudioStreamInteractive_v4tr6"]
 clip_count = 2
 clip_0/name = &"Intro"
-clip_0/stream = ExtResource("1_djra5")
+clip_0/stream = ExtResource("4_eydag")
 clip_0/auto_advance = 1
 clip_0/next_clip = 1
 clip_1/name = &"Loop"
-clip_1/stream = ExtResource("2_o6rhb")
+clip_1/stream = ExtResource("5_m37aa")
 clip_1/auto_advance = 1
 clip_1/next_clip = 1
 _transitions = {
@@ -25,6 +25,9 @@ Vector2i(0, 1): {
 "to_time": 1
 }
 }
+
+[sub_resource type="Resource" id="Resource_syauw"]
+metadata/__load_path__ = "res://Audio/BGM/FittingTitle/fitting_title_intro.ogg"
 
 [sub_resource type="Animation" id="Animation_g3ts7"]
 resource_name = "Intro"
@@ -40,7 +43,7 @@ tracks/0/keys = {
 "clips": [{
 "end_offset": 0.0,
 "start_offset": 0.0,
-"stream": ExtResource("1_djra5")
+"stream": SubResource("Resource_syauw")
 }],
 "times": PackedFloat32Array(0)
 }
@@ -118,6 +121,9 @@ tracks/6/keys = {
 "values": [true]
 }
 
+[sub_resource type="Resource" id="Resource_bbg0f"]
+metadata/__load_path__ = "res://Audio/BGM/FittingTitle/fitting_title_loop.ogg"
+
 [sub_resource type="Animation" id="Animation_s8nm1"]
 resource_name = "Loop"
 length = 270.0
@@ -133,7 +139,7 @@ tracks/0/keys = {
 "clips": [{
 "end_offset": 0.0,
 "start_offset": 0.0,
-"stream": ExtResource("2_o6rhb")
+"stream": SubResource("Resource_bbg0f")
 }],
 "times": PackedFloat32Array(0)
 }

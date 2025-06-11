@@ -19,7 +19,6 @@ extends HBoxContainer
 func set_value(value) -> void:
 	set_quantity(int(value))
 
-@rpc("authority","call_local","reliable")
 func set_icon(icon_path : String) -> void:
 	onready_paths.icon.texture = load(icon_path)
 	DATA_ICON = icon_path

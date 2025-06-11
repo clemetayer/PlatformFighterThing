@@ -12,15 +12,6 @@ colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0)
 properties/0/path = NodePath(".:rotation")
 properties/0/spawn = true
 properties/0/replication_mode = 1
-properties/1/path = NodePath(".:owner_color")
-properties/1/spawn = true
-properties/1/replication_mode = 1
-properties/2/path = NodePath("Sprite2D:scale")
-properties/2/spawn = true
-properties/2/replication_mode = 1
-properties/3/path = NodePath("Line2D:modulate")
-properties/3/spawn = true
-properties/3/replication_mode = 1
 
 [node name="Revolver" type="Node2D"]
 script = ExtResource("1_71ky4")
@@ -37,11 +28,11 @@ gradient = SubResource("Gradient_5vcv6")
 [node name="ShootCooldown" type="Timer" parent="."]
 wait_time = 0.5
 
-[node name="RevolverSynchronizer" type="MultiplayerSynchronizer" parent="."]
-replication_config = SubResource("SceneReplicationConfig_jsuls")
-
 [node name="Gunshot" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("3_105xf")
 bus = &"Effects"
+
+[node name="RevolverSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_jsuls")
 
 [connection signal="timeout" from="ShootCooldown" to="." method="_on_shoot_cooldown_timeout"]

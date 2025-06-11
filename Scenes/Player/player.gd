@@ -22,14 +22,17 @@ const MAX_DAMAGE := 999
 const MAX_BOUNCE_PREDICTIONS := 10
 
 #---- EXPORTS -----
-@export var CONFIG : PlayerConfig
 @export var DAMAGE := 0.0
+@export var GAME_PROXY_PATH := ".."
+
 #==== MOSTLY FOR MULTIPLAYER PURPOSES ====
 @export var id := 1 :
 	set(player_idx):
 		id = player_idx
 		# Give authority over the player input to the appropriate peer.
 		$InputSynchronizer.set_multiplayer_authority(id)
+@export var sync_velocity : Vector2
+@export var sync_position : Vector2
 
 #---- STANDARD -----
 #==== PUBLIC ====
@@ -53,16 +56,21 @@ var _truce_active := false # allows for players to move freely but can't shoot o
 ##### PROCESSING #####
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	onready_paths_node.init.initialize(CONFIG)
+	onready_paths_node.init.initialize(get_node(GAME_PROXY_PATH).get_player_config(id))
 	_appear()
 	SceneUtils.connect("toggle_scene_freeze", _on_SceneUtils_toggle_scene_freeze)
+	_load_sync_physics()
+
+func _process(_delta):
+	onready_paths_node.damage_label.update_damage(DAMAGE)
 
 func _integrate_forces(state: PhysicsDirectBodyState2D):
-	if not _frozen and RuntimeUtils.is_authority():
+	if not _frozen:
+		_load_sync_physics()
+
 		velocity = state.get_linear_velocity()
 		var delta = state.get_step()
 		
-		# override the velocity if needed
 		if _freeze_buffer_velocity != Vector2.ZERO:
 			velocity = _freeze_buffer_velocity
 			_freeze_buffer_velocity = Vector2.ZERO
@@ -72,45 +80,43 @@ func _integrate_forces(state: PhysicsDirectBodyState2D):
 
 		var is_on_floor = _is_on_floor()
 
-		# Handle jump
 		if jump_triggered and is_on_floor:
 			velocity.y = JUMP_VELOCITY
 		
-		# Adds the additional vector
 		velocity += _additional_vector
 		_additional_vector = Vector2.ZERO
 
-		# Get the input direction and handle the movement/deceleration.
 		var acceleration = FLOOR_ACCELERATION if is_on_floor else AIR_ACCELERATION
 		velocity.x = move_toward(velocity.x, direction.x * TARGET_SPEED, acceleration * delta)
 		
-		# Predict potential bounces
 		_predict_bounces()
 		
-		# sets the velocity
 		state.set_linear_velocity(velocity)
 
-		# Buffer the velocity 
 		_buffer_velocity(velocity)
 
+		_save_sync_physics()
+
 ##### PUBLIC METHODS #####
-func hurt(p_damage : float, knockback : float, kb_direction : Vector2, owner : RigidBody2D = null) -> void:
+func hurt(p_damage : float, knockback : float, kb_direction : Vector2, p_owner : RigidBody2D = null) -> void:
 	if _damage_enabled:
 		DAMAGE = min(DAMAGE + p_damage,MAX_DAMAGE)
-		onready_paths_node.damage_label.update_damage(DAMAGE)
 		_additional_vector += kb_direction.normalized() * DAMAGE * knockback
 		onready_paths_node.hitstun_manager.start_hitstun(DAMAGE)
-		onready_paths_node.death_manager.set_last_hit_owner(owner)
+		onready_paths_node.death_manager.set_last_hit_owner(p_owner)
 
 func toggle_hitstun_bounce(active : bool) -> void:
 	physics_material_override.bounce = HITSTUN_BOUNCE if active else NORMAL_BOUNCE
 
-func respawn() -> void:
-	onready_paths_node.death_manager.rpc("kill")
+@rpc("authority", "call_local", "reliable")
+func kill() -> void:
+	onready_paths_node.death_manager.kill()
 
+@rpc("authority", "call_local", "reliable")
 func override_velocity(velocity_override : Vector2) -> void:
 	_velocity_override += velocity_override
 
+@rpc("authority", "call_local", "reliable")
 func toggle_freeze(active : bool) -> void:
 	_freeze_buffer_velocity = velocity
 	set_deferred("freeze", active)
@@ -133,6 +139,9 @@ func toggle_truce(active : bool) -> void:
 	toggle_abilities(not active)
 	_truce_active = active
 	toggle_abilities(not active)
+
+func get_config() -> PlayerConfig:
+	return get_node(GAME_PROXY_PATH).get_player_config(id)
 
 ##### PROTECTED METHODS #####
 func _appear() -> void:
@@ -177,6 +186,16 @@ func _predict_bounces() -> void:
 			query = PhysicsRayQueryParameters2D.create(position, position + travel_distance_next_frame, 1)
 			intersection = space_state.intersect_ray(query)
 		predict_bounce_cnt += 1
+
+func _save_sync_physics() -> void:
+	if RuntimeUtils.is_authority():
+		sync_velocity = velocity
+		sync_position = global_position
+
+func _load_sync_physics() -> void:
+	if not RuntimeUtils.is_authority():
+		velocity = sync_velocity
+		global_position = sync_position
 
 ##### SIGNAL MANAGEMENT #####
 func _on_SceneUtils_toggle_scene_freeze(value: bool) -> void:

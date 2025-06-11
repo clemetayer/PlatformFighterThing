@@ -1,15 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://b4pwgs0q5npl5"]
+[gd_scene load_steps=3 format=3 uid="uid://b4pwgs0q5npl5"]
 
 [ext_resource type="Script" uid="uid://bk2e20cgkxbak" path="res://Scenes/UI/PlayersData/PlayerData/Templates/progress_block.gd" id="1_wjkfm"]
 [ext_resource type="Texture2D" uid="uid://c1gi3re5rscab" path="res://icon.svg" id="2_x4j1h"]
-
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_wjkfm"]
-properties/0/path = NodePath("ProgressBar:value")
-properties/0/spawn = true
-properties/0/replication_mode = 2
-properties/1/path = NodePath("Overflow:text")
-properties/1/spawn = true
-properties/1/replication_mode = 2
 
 [node name="ProgressBlock" type="HBoxContainer"]
 custom_minimum_size = Vector2(63, 26)
@@ -36,6 +28,3 @@ theme_override_font_sizes/font_size = 16
 text = "+1"
 horizontal_alignment = 1
 vertical_alignment = 1
-
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
-replication_config = SubResource("SceneReplicationConfig_wjkfm")

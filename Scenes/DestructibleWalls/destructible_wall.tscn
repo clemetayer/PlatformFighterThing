@@ -390,17 +390,6 @@ shader = ExtResource("8_1gtvk")
 shader_parameter/fract_size = Vector2(0, 0)
 shader_parameter/destruction_amount = 0.276
 
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_wjnwb"]
-properties/0/path = NodePath(".:HEALTH")
-properties/0/spawn = true
-properties/0/replication_mode = 2
-properties/1/path = NodePath(".:BOUNCE_BACK_FORCE")
-properties/1/spawn = true
-properties/1/replication_mode = 2
-properties/2/path = NodePath(".:BOUNCE_BACK_DIRECTION")
-properties/2/spawn = true
-properties/2/replication_mode = 2
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_iceyh"]
 resource_local_to_scene = true
 size = Vector2(32, 32)
@@ -433,6 +422,11 @@ color_ramp = SubResource("GradientTexture1D_1oe48")
 turbulence_noise_speed_random = 1.26
 turbulence_influence_min = 0.0
 turbulence_influence_max = 1.0
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_0lr1d"]
+properties/0/path = NodePath(".:HEALTH")
+properties/0/spawn = true
+properties/0/replication_mode = 1
 
 [node name="DestructibleWall" type="TileMapLayer" groups=["destructible_wall", "static_obstacle"]]
 tile_set = SubResource("TileSet_50xy0")
@@ -468,9 +462,6 @@ one_shot = true
 [node name="WaitRespawnTimer" type="Timer" parent="."]
 wait_time = 0.5
 one_shot = true
-
-[node name="DestructibleWallSynchronizer" type="MultiplayerSynchronizer" parent="."]
-replication_config = SubResource("SceneReplicationConfig_wjnwb")
 
 [node name="Audio" type="Node" parent="."]
 
@@ -520,6 +511,9 @@ amount = 16
 texture = ExtResource("13_1oe48")
 lifetime = 0.08
 process_material = SubResource("ParticleProcessMaterial_c1uyt")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_0lr1d")
 
 [connection signal="timeout" from="RespawnTimer" to="." method="_on_respawn_timer_timeout"]
 [connection signal="timeout" from="VelocityBufferTimer" to="." method="_on_velocity_buffer_timer_timeout"]

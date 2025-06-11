@@ -7,13 +7,16 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_g77nu"]
 size = Vector2(50, 10)
 
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_k5d1u"]
-properties/0/path = NodePath(".:position")
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_8hapl"]
+properties/0/path = NodePath(".:init_position")
 properties/0/spawn = true
 properties/0/replication_mode = 2
-properties/1/path = NodePath(".:rotation")
+properties/1/path = NodePath(".:init_rotation")
 properties/1/spawn = true
 properties/1/replication_mode = 2
+properties/2/path = NodePath(".:trail_color")
+properties/2/spawn = true
+properties/2/replication_mode = 2
 
 [node name="Bullet" type="Area2D" groups=["projectile"]]
 collision_layer = 4
@@ -30,7 +33,7 @@ shape = SubResource("RectangleShape2D_g77nu")
 [node name="Trail" parent="." instance=ExtResource("2_udptv")]
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
-replication_config = SubResource("SceneReplicationConfig_k5d1u")
+replication_config = SubResource("SceneReplicationConfig_8hapl")
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

@@ -14,3 +14,8 @@ signal value_updated(value)
 var state := ActionHandlerBase.states.INACTIVE
 var player : Node2D = null
 var active := false
+
+##### PUBLIC METHODS #####
+@rpc("authority", "call_local", "reliable")
+func activate() -> void:
+    pass 

@@ -18,7 +18,6 @@ var _chromatic_aberration_tween : Tween
 }
 
 ##### PUBLIC METHODS #####
-@rpc("call_local", "authority", "unreliable")
 func toggle_active(active : bool) -> void:
 	for layer_key in onready_paths.layers.keys():
 		onready_paths.layers[layer_key].visible = active

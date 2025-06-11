@@ -27,17 +27,18 @@ func _process(_delta):
 		emit_signal("value_updated",1.0)
 
 ##### PUBLIC METHODS #####
+@rpc("authority", "call_local", "reliable")
 func use() -> void:
-	if _can_use_powerup and active:
+	if RuntimeUtils.is_authority() and _can_use_powerup and active:
 		if _splitters_active.size() >= MAX_SPLITTERS_ACTIVE:
 			_remove_last_splitter()
 		var powerup = _splitter_load.instantiate()
 		powerup.global_position = self.global_position
 		var game_root = RuntimeUtils.get_game_root()
 		if game_root != null and game_root.has_method("spawn_powerup"):
-			RuntimeUtils.get_game_root().spawn_powerup(powerup)
-			_splitters_active.push_front(powerup)
 			powerup.connect("destroyed",_on_splitter_destroyed)
+			game_root.spawn_powerup(powerup) # TODO : rather communicate with an interface (kind of like the player rather than with the game directly)
+			_splitters_active.push_front(powerup)
 		else:
 			Logger.error("game root is null or does not contain the method %s" % "spawn_powerup")
 		_can_use_powerup = false
