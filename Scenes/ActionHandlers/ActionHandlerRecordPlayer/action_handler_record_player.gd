@@ -2,16 +2,7 @@ extends ActionHandlerBase
 class_name ActionHandlerRecord
 # records/replays a recording of the actions triggered
 
-##### SIGNALS #####
-# Node signals
-
-##### ENUMS #####
-# enumerations
-
 ##### VARIABLES #####
-#---- CONSTANTS -----
-# const constant = 10 # Optionnal comment
-
 #---- EXPORTS -----
 @export var loop := true
 
@@ -24,8 +15,6 @@ var _current_frame_time := 0.0
 var _current_frame_index := 0
 var _recording := false
 
-#==== ONREADY ====
-# onready var onready_var # Optionnal comment
 
 ##### PROCESSING #####
 # Called every frame. 'delta' is the elapsed time since the previous frame. Remove the "_" to use it.
@@ -43,11 +32,6 @@ func _process(delta):
 		_replay_frame(_find_closest_frame())
 		_current_frame_time += delta
 
-##### PUBLIC METHODS #####
-# Methods that are intended to be "visible" to other nodes or scripts
-# func public_method(arg ):
-#     pass
-
 ##### PROTECTED METHODS #####
 func _start_record() -> void:
 	record = InputRecord.new()
@@ -60,7 +44,6 @@ func _stop_recording() -> void:
 	record.final_frame_time = _current_frame_time
 	_current_frame_time = 0.0
 	_current_frame_index = 0
-
 
 func _record_frame() -> void:
 	var frame = FrameInputRecord.new()
@@ -108,13 +91,14 @@ func _find_closest_frame() -> FrameInputRecord:
 		# find the next closest frame
 		while _current_frame_time > record.inputs[_current_frame_index].frame_time and _current_frame_index < record.inputs.size() - 1: # oooh, dangerous ! 
 			_current_frame_index += 1  
-	return record.inputs[_current_frame_index]
+	return null if record == null else record.inputs[_current_frame_index]
 
 func _replay_frame(frame : FrameInputRecord) -> void:
 	_reset_action_values()
-	relative_aim_position = frame.relative_aim_position
-	for input in frame.inputs:
-		_action_states[input.action] = input.state
+	if frame != null:
+		relative_aim_position = frame.relative_aim_position
+		for input in frame.inputs:
+			_action_states[input.action] = input.state
 
 func _reset_action_values() -> void:
 	for action in actions:
@@ -122,6 +106,3 @@ func _reset_action_values() -> void:
 
 func _set_relative_aim_position() -> void:
 	relative_aim_position = get_global_mouse_position() - global_position
-
-##### SIGNAL MANAGEMENT #####
-# Functions that should be triggered when a specific signal is received

@@ -25,6 +25,11 @@ func after_each():
 
 ##### TESTS #####
 func test_something():
+	# given
+
+	# when
+
+	# then
 	pass
 
 ##### UTILS #####
