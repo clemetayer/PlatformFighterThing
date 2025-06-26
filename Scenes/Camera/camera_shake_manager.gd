@@ -46,11 +46,11 @@ func _tilt_camera(angle : float, duration : float, duration_divider : float) -> 
 	if _tilt_tween:
 		_tilt_tween.kill() # Abort the previous animation.
 	_tilt_tween = create_tween()
-	root.rotation = 0.0
-	_tilt_tween.tween_property(self,"rotation",angle,duration / duration_divider)
+	_tilt_tween.tween_method(root.set_rotation, 0.0, angle, duration / duration_divider)
 	await _tilt_tween.finished
-	_tilt_tween.stop()
-	_tilt_tween.tween_property(self,"rotation",0.0, duration - duration / duration_divider)
-	_tilt_tween.play()
+	_tilt_tween.kill() # Abort the previous animation.
+	_tilt_tween = create_tween()
+	root.rotation = angle
+	_tilt_tween.tween_method(root.set_rotation, angle, 0.0, duration - duration / duration_divider)
 	await _tilt_tween.finished
 	root.rotation = 0.0

@@ -35,4 +35,8 @@ script = ExtResource("6_7v6iw")
 [node name="CameraEffectsManager" type="Node" parent="."]
 script = ExtResource("7_bebdx")
 
+[node name="FocusOnTimer" type="Timer" parent="."]
+one_shot = true
+
 [connection signal="shake_finished" from="Shaker" to="." method="_on_shaker_shake_finished"]
+[connection signal="timeout" from="FocusOnTimer" to="." method="_on_focus_on_timer_timeout"]

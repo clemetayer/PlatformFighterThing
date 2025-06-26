@@ -17,7 +17,8 @@ var _focus_on = null
 	"position_manager": $"CameraPositionManager",
 	"zoom_manager": $"CameraZoomManager",
 	"shake_manager": $"CameraShakeManager",
-	"effect_manager": $"CameraEffectsManager"
+	"effect_manager": $"CameraEffectsManager",
+	"focus_on_timer": $"FocusOnTimer"
 }
 
 ##### PROCESSING #####
@@ -37,7 +38,7 @@ func _process(delta):
 		if best_zoom > 0 :
 			zoom = zoom.move_toward(
 				Vector2.ONE * best_zoom * onready_paths.zoom_manager.zoom_multiplier, 
-				delta * onready_paths.zoom_manager.ZOOM_DAMPING
+				delta * onready_paths.zoom_manager.get_zoom_damping()
 			)
 
 ##### PROTECTED METHODS #####
@@ -59,8 +60,10 @@ func _on_focus_on(p_position : Vector2, p_zoom : float, p_time_to_focus : float,
 		"zoom": p_zoom,
 		"time_to_focus": p_time_to_focus
 	}
-	await get_tree().create_timer(duration).timeout
-	_focus_on = null
+	onready_paths.focus_on_timer.start(duration)
 
 func _on_shaker_shake_finished() -> void:
 	_current_impact_priority = CameraEffects.CAMERA_IMPACT_PRIORITY.NONE
+
+func _on_focus_on_timer_timeout() -> void:
+	_focus_on = null

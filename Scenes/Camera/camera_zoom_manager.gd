@@ -15,15 +15,20 @@ var zoom_multiplier := ZOOM_BASE_MULTIPLIER
 var _zoom_tween : Tween
 
 ##### PUBLIC METHODS #####
+func get_zoom_damping() -> float:
+	return ZOOM_DAMPING
+
 func get_best_zoom(players: Array) -> float:
-	var min_max_pos = _get_global_min_max_pos(players)
-	var min_pos = min_max_pos.min
-	var max_pos = min_max_pos.max
-	var screen_size_offset = DisplayServer.screen_get_size() - ZOOM_OFFSET
-	var best_zoom := Vector2.ZERO
-	best_zoom.x = max(abs(min_pos.x - max_pos.x)/(screen_size_offset.x/2),1)
-	best_zoom.y = max(abs(min_pos.y - max_pos.y)/(screen_size_offset.y/2),1)
-	return 1/max(best_zoom.x, best_zoom.y)
+	if players.size() >= 2:
+		var min_max_pos = _get_global_min_max_pos(players)
+		var min_pos = min_max_pos.min
+		var max_pos = min_max_pos.max
+		var screen_size_offset = DisplayServer.screen_get_size() - ZOOM_OFFSET
+		var best_zoom := Vector2.ZERO
+		best_zoom.x = max(abs(min_pos.x - max_pos.x)/(screen_size_offset.x/2),ZOOM_BASE_MULTIPLIER)
+		best_zoom.y = max(abs(min_pos.y - max_pos.y)/(screen_size_offset.y/2),ZOOM_BASE_MULTIPLIER)
+		return 1/max(best_zoom.x, best_zoom.y)
+	return ZOOM_BASE_MULTIPLIER
 
 func start_fast_zoom(duration : float, intensity : CameraEffects.CAMERA_IMPACT_INTENSITY) -> void:
 	var final_zoom_val = ZOOM_BASE_MULTIPLIER

@@ -4,7 +4,7 @@ extends Node
 ##### PUBLIC METHODS #####
 func get_average_position(players: Array) -> Vector2:
 	var sum = Vector2.ZERO
-	if players != null:
+	if players != null and players.size() > 0:
 		for player in players:
 			sum += player.global_position
 		return sum / players.size()

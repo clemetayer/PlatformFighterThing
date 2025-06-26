@@ -5,13 +5,19 @@ extends "res://addons/gut/test.gd"
 var action_handler : ActionHandlerRecord
 
 ##### SETUP #####
+func before_all():
+	await wait_frames(1)
+
 func before_each():
 	action_handler = ActionHandlerRecord.new()
 
 ##### TEARDOWN #####
 func after_each():
 	action_handler.free()
-	await wait_frames(1) # wait a frame to ensure the action handler is indeed freed
+	await wait_frames(1) # wait a frame to ensure the action handler is indeed freed # OPTIMIZATION : find the tests that really needs to wait one frame
+
+func after_all():
+	await wait_frames(1)
 
 ##### TESTS #####
 func test_start_record():
