@@ -8,7 +8,7 @@ const OFFSET := 32 # in pixels
 
 #---- STANDARD -----
 #==== ONREADY ====
-@onready var tilemap := $".."
+@onready var tilemap := $"../.."
 @onready var collision_shape := $"CollisionShape2D"
 
 ##### PROCESSING #####

@@ -22,7 +22,7 @@ extends ColorRect
 # var _private_var # Optionnal comment
 
 #==== ONREADY ====
-@onready var tilemap := $".."
+@onready var tilemap := $"../.."
 
 ##### PROCESSING #####
 # Called when the object is initialized.

@@ -39,6 +39,7 @@ func _connect_explode_signal() -> void:
 
 ##### SIGNAL MANAGEMENT #####
 func _on_tilemap_explode(force : Vector2) -> void:
+	Logger.debug("exploding with force %s" % force)
 	for emitter in get_children():
 		if emitter is GPUParticles2D:
 			var particles_process = emitter.process_material

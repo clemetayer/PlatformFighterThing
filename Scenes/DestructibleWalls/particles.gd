@@ -5,7 +5,7 @@ extends Node2D
 ##### VARIABLES #####
 #---- STANDARD -----
 #==== ONREADY ====
-@onready var tilemap := $".."
+@onready var tilemap := $"../.."
 @onready var onready_paths := {
 	"sparks": [
 		$"Sparks",

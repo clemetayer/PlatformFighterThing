@@ -1,13 +1,19 @@
-[gd_scene load_steps=26 format=3 uid="uid://dwikem0xs7d8t"]
+[gd_scene load_steps=32 format=3 uid="uid://dwikem0xs7d8t"]
 
 [ext_resource type="Script" uid="uid://boqypfe62ckdo" path="res://Scenes/DestructibleWalls/destructible_wall.gd" id="1_8dscf"]
 [ext_resource type="Texture2D" uid="uid://olwb2yraeuqe" path="res://Scenes/Levels/Tilesets/LevelPlatformsTileset.png" id="1_megce"]
 [ext_resource type="Shader" uid="uid://cefkfdgdjunyg" path="res://Scenes/DestructibleWalls/diagonal.gdshader" id="2_5vcqb"]
+[ext_resource type="Script" uid="uid://07ibvfmbhhyo" path="res://Scenes/DestructibleWalls/health_manager.gd" id="3_5dy7q"]
 [ext_resource type="Texture2D" uid="uid://bd8nij4xne6y6" path="res://Scenes/DestructibleWalls/SimpleDiagonal.png" id="3_c1sg8"]
 [ext_resource type="Script" uid="uid://5vcccnltjpq7" path="res://Scenes/DestructibleWalls/spawn_animation.gd" id="3_jis8i"]
 [ext_resource type="Script" uid="uid://bvmoyw03d0aie" path="res://Scenes/DestructibleWalls/moving_pattern.gd" id="4_2peem"]
+[ext_resource type="Script" uid="uid://brbgj6mk2j1j8" path="res://Scenes/DestructibleWalls/visual_effects_manager.gd" id="4_jedvq"]
+[ext_resource type="Script" uid="uid://cf8hh2im4rr1y" path="res://Scenes/DestructibleWalls/player_interaction_manager.gd" id="5_k5ou3"]
 [ext_resource type="Script" uid="uid://bhp1lra78ushv" path="res://Scenes/DestructibleWalls/damage_wall_area.gd" id="6_d5y80"]
+[ext_resource type="Script" uid="uid://bog2kobtsf4lm" path="res://Scenes/DestructibleWalls/collision_manager.gd" id="6_yj50p"]
+[ext_resource type="Script" uid="uid://dlbqibed860nw" path="res://Scenes/DestructibleWalls/audio_manager.gd" id="7_k68wi"]
 [ext_resource type="Shader" uid="uid://boltyocanot7r" path="res://Scenes/DestructibleWalls/wall_cracks_voronoi.gdshader" id="8_1gtvk"]
+[ext_resource type="Script" uid="uid://cif8k5ee2blk" path="res://Scenes/DestructibleWalls/respawn_manager.gd" id="8_v2ebb"]
 [ext_resource type="AudioStream" uid="uid://di4b47ufm34ow" path="res://Scenes/DestructibleWalls/wall_hit.mp3" id="8_wwj4h"]
 [ext_resource type="AudioStream" uid="uid://c07531stev7wx" path="res://Scenes/DestructibleWalls/wall_hit_break_trebble.mp3" id="9_kwvrj"]
 [ext_resource type="AudioStream" uid="uid://cpms6atcqxp1b" path="res://Scenes/DestructibleWalls/wall_break.mp3" id="10_7vn65"]
@@ -377,27 +383,6 @@ terrain_set_0/terrain_0/name = "border"
 terrain_set_0/terrain_0/color = Color(0, 0, 0, 1)
 sources/0 = SubResource("TileSetAtlasSource_yaxuf")
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_qcnym"]
-resource_local_to_scene = true
-shader = ExtResource("2_5vcqb")
-shader_parameter/moving_tex = ExtResource("3_c1sg8")
-shader_parameter/fract_size = Vector2(0, 0)
-shader_parameter/speed = 2.0
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_h6emg"]
-resource_local_to_scene = true
-shader = ExtResource("8_1gtvk")
-shader_parameter/fract_size = Vector2(0, 0)
-shader_parameter/destruction_amount = 0.276
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_iceyh"]
-resource_local_to_scene = true
-size = Vector2(32, 32)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_iaxsf"]
-resource_local_to_scene = true
-size = Vector2(32, 32)
-
 [sub_resource type="Gradient" id="Gradient_c1uyt"]
 offsets = PackedFloat32Array(0, 0.2, 0.5, 0.8, 1)
 colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
@@ -423,6 +408,27 @@ turbulence_noise_speed_random = 1.26
 turbulence_influence_min = 0.0
 turbulence_influence_max = 1.0
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qcnym"]
+resource_local_to_scene = true
+shader = ExtResource("2_5vcqb")
+shader_parameter/moving_tex = ExtResource("3_c1sg8")
+shader_parameter/fract_size = Vector2(0, 0)
+shader_parameter/speed = 2.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_h6emg"]
+resource_local_to_scene = true
+shader = ExtResource("8_1gtvk")
+shader_parameter/fract_size = Vector2(0, 0)
+shader_parameter/destruction_amount = 0.276
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_iceyh"]
+resource_local_to_scene = true
+size = Vector2(32, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_iaxsf"]
+resource_local_to_scene = true
+size = Vector2(32, 32)
+
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_0lr1d"]
 properties/0/path = NodePath(".:HEALTH")
 properties/0/spawn = true
@@ -431,92 +437,110 @@ properties/0/replication_mode = 1
 [node name="DestructibleWall" type="TileMapLayer" groups=["destructible_wall", "static_obstacle"]]
 tile_set = SubResource("TileSet_50xy0")
 script = ExtResource("1_8dscf")
-HEALTH = 5000
 
-[node name="SpawnAnimation" type="Node" parent="."]
-script = ExtResource("3_jis8i")
+[node name="HealthManager" type="Node" parent="."]
+script = ExtResource("3_5dy7q")
 
-[node name="SpawnSound" type="AudioStreamPlayer" parent="SpawnAnimation"]
-stream = ExtResource("15_0lr1d")
-bus = &"Effects"
+[node name="VisualEffectsManager" type="Node2D" parent="."]
+script = ExtResource("4_jedvq")
 
-[node name="MovingPattern" type="ColorRect" parent="."]
-material = SubResource("ShaderMaterial_qcnym")
-script = ExtResource("4_2peem")
-metadata/_edit_use_anchors_ = true
-
-[node name="Cracks" type="ColorRect" parent="."]
-material = SubResource("ShaderMaterial_h6emg")
-script = ExtResource("4_2peem")
-
-[node name="RespawnTimer" type="Timer" parent="."]
-wait_time = 20.0
-one_shot = true
-
-[node name="VelocityBufferTimer" type="Timer" parent="."]
-wait_time = 0.05
-one_shot = true
-
-[node name="FreezePlayerTimers" type="Node" parent="."]
-
-[node name="WaitRespawnTimer" type="Timer" parent="."]
-wait_time = 0.5
-one_shot = true
-
-[node name="Audio" type="Node" parent="."]
-
-[node name="WallHit" type="AudioStreamPlayer" parent="Audio"]
-stream = ExtResource("8_wwj4h")
-volume_db = -3.0
-bus = &"EffectsBGMSidechain"
-
-[node name="WallHitBreakTrebble" type="AudioStreamPlayer" parent="Audio"]
-stream = ExtResource("9_kwvrj")
-bus = &"EffectsBGMSidechain"
-
-[node name="WallBreak" type="AudioStreamPlayer" parent="Audio"]
-stream = ExtResource("10_7vn65")
-volume_db = -3.0
-bus = &"EffectsBGMSidechain"
-
-[node name="DamageWallArea" type="Area2D" parent="."]
-visible = false
-collision_mask = 2
-script = ExtResource("6_d5y80")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="DamageWallArea"]
-shape = SubResource("RectangleShape2D_iceyh")
-
-[node name="CollisionDetectionArea" type="Area2D" parent="."]
-visible = false
-collision_mask = 2
-script = ExtResource("6_d5y80")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CollisionDetectionArea"]
-shape = SubResource("RectangleShape2D_iaxsf")
-
-[node name="Particles" type="Node2D" parent="."]
+[node name="Particles" type="Node2D" parent="VisualEffectsManager"]
 script = ExtResource("12_4kfsc")
 
-[node name="Sparks" type="GPUParticles2D" parent="Particles"]
+[node name="Sparks" type="GPUParticles2D" parent="VisualEffectsManager/Particles"]
 emitting = false
 amount = 16
 texture = ExtResource("12_c1uyt")
 lifetime = 0.08
 process_material = SubResource("ParticleProcessMaterial_c1uyt")
 
-[node name="Sparks2" type="GPUParticles2D" parent="Particles"]
+[node name="Sparks2" type="GPUParticles2D" parent="VisualEffectsManager/Particles"]
 emitting = false
 amount = 16
 texture = ExtResource("13_1oe48")
 lifetime = 0.08
 process_material = SubResource("ParticleProcessMaterial_c1uyt")
 
+[node name="MovingPattern" type="ColorRect" parent="VisualEffectsManager"]
+material = SubResource("ShaderMaterial_qcnym")
+script = ExtResource("4_2peem")
+metadata/_edit_use_anchors_ = true
+
+[node name="Cracks" type="ColorRect" parent="VisualEffectsManager"]
+material = SubResource("ShaderMaterial_h6emg")
+script = ExtResource("4_2peem")
+
+[node name="SpawnAnimation" type="Node" parent="VisualEffectsManager"]
+script = ExtResource("3_jis8i")
+
+[node name="SpawnSound" type="AudioStreamPlayer" parent="VisualEffectsManager/SpawnAnimation"]
+stream = ExtResource("15_0lr1d")
+bus = &"Effects"
+
+[node name="PlayerInteractionsManager" type="Node" parent="."]
+script = ExtResource("5_k5ou3")
+
+[node name="FreezePlayerTimers" type="Node" parent="PlayerInteractionsManager"]
+
+[node name="CollisionManager" type="Node2D" parent="."]
+script = ExtResource("6_yj50p")
+
+[node name="DamageWallArea" type="Area2D" parent="CollisionManager"]
+visible = false
+collision_mask = 2
+script = ExtResource("6_d5y80")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CollisionManager/DamageWallArea"]
+shape = SubResource("RectangleShape2D_iceyh")
+
+[node name="AudioManager" type="Node" parent="."]
+script = ExtResource("7_k68wi")
+
+[node name="WallHit" type="AudioStreamPlayer" parent="AudioManager"]
+stream = ExtResource("8_wwj4h")
+volume_db = -3.0
+bus = &"EffectsBGMSidechain"
+
+[node name="WallHitBreakTrebble" type="AudioStreamPlayer" parent="AudioManager"]
+stream = ExtResource("9_kwvrj")
+bus = &"EffectsBGMSidechain"
+
+[node name="WallBreak" type="AudioStreamPlayer" parent="AudioManager"]
+stream = ExtResource("10_7vn65")
+volume_db = -3.0
+bus = &"EffectsBGMSidechain"
+
+[node name="RespawnManager" type="Node2D" parent="."]
+script = ExtResource("8_v2ebb")
+
+[node name="RespawnTimer" type="Timer" parent="RespawnManager"]
+wait_time = 20.0
+one_shot = true
+
+[node name="WaitRespawnTimer" type="Timer" parent="RespawnManager"]
+wait_time = 0.5
+one_shot = true
+
+[node name="CollisionDetectionArea" type="Area2D" parent="RespawnManager"]
+visible = false
+collision_mask = 2
+script = ExtResource("6_d5y80")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RespawnManager/CollisionDetectionArea"]
+shape = SubResource("RectangleShape2D_iaxsf")
+
+[node name="VelocityBufferTimer" type="Timer" parent="."]
+wait_time = 0.05
+one_shot = true
+
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_0lr1d")
 
-[connection signal="timeout" from="RespawnTimer" to="." method="_on_respawn_timer_timeout"]
+[connection signal="health_changed" from="HealthManager" to="." method="_on_health_manager_health_changed"]
+[connection signal="health_empty" from="HealthManager" to="." method="_on_health_manager_health_empty"]
+[connection signal="player_hit" from="CollisionManager" to="." method="_on_collision_manager_player_hit"]
+[connection signal="body_entered" from="CollisionManager/DamageWallArea" to="CollisionManager" method="_on_damage_wall_area_body_entered"]
+[connection signal="wall_respawned" from="RespawnManager" to="." method="_on_respawn_manager_wall_respawned"]
+[connection signal="timeout" from="RespawnManager/RespawnTimer" to="RespawnManager" method="_on_respawn_timer_timeout"]
+[connection signal="timeout" from="RespawnManager/WaitRespawnTimer" to="RespawnManager" method="_on_wait_respawn_timer_timeout"]
 [connection signal="timeout" from="VelocityBufferTimer" to="." method="_on_velocity_buffer_timer_timeout"]
-[connection signal="timeout" from="WaitRespawnTimer" to="." method="_on_wait_for_respawn_timer_timeout"]
-[connection signal="body_entered" from="DamageWallArea" to="." method="_on_damage_wall_area_body_entered"]
-[connection signal="body_entered" from="CollisionDetectionArea" to="." method="_on_damage_wall_area_body_entered"]

@@ -12,16 +12,11 @@ const SPARKS_TIME := 0.25 #s
 var _animation_tween : Tween
 
 #==== ONREADY ====
-@onready var root := get_parent()
+@onready var root := $"../../"
 @onready var onready_paths := {
 	"particles": $"../Particles",
 	"audio": $"SpawnSound"
 }
-
-##### PROCESSING #####
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass
 
 ##### PUBLIC METHODS #####
 func play_spawn_animation(direction : Vector2) -> void:
