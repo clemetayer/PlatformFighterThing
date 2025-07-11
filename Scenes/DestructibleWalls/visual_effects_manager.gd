@@ -12,6 +12,8 @@ const UPDATE_VISUALS_ANIMATION_TIME := 1 #s
 #==== PRIVATE ====
 var _bounce_back_direction := Vector2.RIGHT
 var _update_visuals_tween : Tween
+var _full_screen_effects := FullScreenEffects
+var _camera_effects := CameraEffects
 
 #==== ONREADY ====
 @onready var wall_gradient := load(WALL_COLOR_GRADIENT_RES_PATH)
@@ -37,9 +39,9 @@ func play_spawn_animation() -> void:
 	onready_paths.spawn_animation.play_spawn_animation(_bounce_back_direction)
 
 func play_break_animation(hit_position : Vector2) -> void:
-	FullScreenEffects.monochrome(2)
-	FullScreenEffects.pincushion(2)
-	CameraEffects.emit_signal_focus_on(hit_position, 0.5, 8.0, 2)
+	_full_screen_effects.monochrome(2)
+	_full_screen_effects.pincushion(2)
+	_camera_effects.emit_signal_focus_on(hit_position, 0.5, 8.0, 2)
 	shake_camera(CameraEffects.CAMERA_IMPACT_INTENSITY.HIGH)
 
 func shake_camera_by_velocity(velocity : float) -> void:
@@ -47,7 +49,7 @@ func shake_camera_by_velocity(velocity : float) -> void:
 	shake_camera(camera_shake)
 
 func shake_camera(intensity: int) -> void:
-	CameraEffects.emit_signal_start_camera_impact(1.0, intensity, CameraEffects.CAMERA_IMPACT_PRIORITY.HIGH)
+	_camera_effects.emit_signal_start_camera_impact(1.0, intensity, CameraEffects.CAMERA_IMPACT_PRIORITY.HIGH)
 
 func update_visuals(health_ratio : float) -> void:
 	var new_color = wall_gradient.sample(health_ratio)

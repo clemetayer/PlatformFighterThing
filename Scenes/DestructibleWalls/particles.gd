@@ -4,6 +4,10 @@ extends Node2D
 
 ##### VARIABLES #####
 #---- STANDARD -----
+#==== PRIVATE ====
+var _engine := Engine
+
+
 #==== ONREADY ====
 @onready var tilemap := $"../.."
 @onready var onready_paths := {
@@ -20,7 +24,7 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame. Remove the "_" to use it.
 func _process(_delta):
-	if Engine.is_editor_hint():
+	if _engine.is_editor_hint():
 		_update_size()
 
 ##### PUBLIC METHODS #####
@@ -37,4 +41,4 @@ func _update_size() -> void:
 	position = tilemap_rect.position * 64 + tilemap_rect.size * 64 / 2
 	var tilemap_size = tilemap_rect.size * 64
 	for particle in onready_paths.sparks:
-		particle.process_material.emission_box_extents = Vector3(tilemap_size.x / 2.0, tilemap_size.y / 2.0, 0)
+		particle.get_process_material().set_emission_box_extents(Vector3(tilemap_size.x / 2.0, tilemap_size.y / 2.0, 0))

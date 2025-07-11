@@ -39,7 +39,6 @@ const WEIGHT := 2.5 # multiplier for the gravity
 #==== PUBLIC ====
 var direction := Vector2.ZERO
 var jump_triggered := false
-var velocity_buffer := [Vector2.ZERO, Vector2.ZERO, Vector2.ZERO] # 3 frame buffer for the velocity. Usefull to keep track of the velocity when elements are going too fast
 
 #==== PRIVATE ====
 var _gravity : float = ProjectSettings.get_setting("physics/2d/default_gravity") * WEIGHT
@@ -49,6 +48,7 @@ var _additional_vector := Vector2.ZERO # external forces that can have an effect
 var _freeze_buffer_velocity := Vector2.ZERO
 var _damage_enabled := true
 var _truce_active := false # allows for players to move freely but can't shoot or use abilities. Usefull during the start countdown of the game 
+var _velocity_buffer := [Vector2.ZERO, Vector2.ZERO, Vector2.ZERO] # 3 frame buffer for the velocity. Usefull to keep track of the velocity when elements are going too fast
 
 #==== ONREADY ====
 @onready var onready_paths_node := $"Paths"
@@ -151,6 +151,9 @@ func toggle_truce(active : bool) -> void:
 func get_config() -> PlayerConfig:
 	return get_node(GAME_PROXY_PATH).get_player_config(id)
 
+func get_velocity_buffer() -> Array:
+	return _velocity_buffer
+
 ##### PROTECTED METHODS #####
 func _appear() -> void:
 	toggle_freeze(true)
@@ -169,8 +172,8 @@ func _is_on_floor() -> bool:
 	return false
 
 func _buffer_velocity(vel_to_buffer : Vector2) -> void:
-	velocity_buffer.pop_back()
-	velocity_buffer.push_front(vel_to_buffer)
+	_velocity_buffer.pop_back()
+	_velocity_buffer.push_front(vel_to_buffer)
 
 func _predict_bounces() -> void:
 	var travel_distance_next_frame = velocity * 1.0 / Engine.get_physics_ticks_per_second()

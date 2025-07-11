@@ -24,13 +24,22 @@ signal explode_fragments(force : Vector2)
 ##### PROCESSING #####
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	_init_node()
+
+##### PUBLIC METHODS #####
+# mostly for testing purposes
+func get_collision_enabled() -> bool: 
+	return collision_enabled
+
+##### PROTECTED METHODS #####
+# mostly for test purposes, since calling _ready resets the onready_paths
+func _init_node() -> void:
 	onready_paths.health_manager.init(BASE_HEALTH)
 	onready_paths.collision_manager.init(BOUNCE_BACK_DIRECTION)
 	onready_paths.visual_effects_manager.init(BOUNCE_BACK_DIRECTION)
 	_toggle_activated(true)
 	onready_paths.visual_effects_manager.play_spawn_animation()
 
-##### PROTECTED METHODS #####
 func _get_damage(velocity) -> float:
 	if BOUNCE_BACK_DIRECTION.x != 0:
 		return abs(velocity.x)

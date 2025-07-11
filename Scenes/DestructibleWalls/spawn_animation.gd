@@ -28,5 +28,17 @@ func play_spawn_animation(direction : Vector2) -> void:
 	_animation_tween.tween_property(root, "position", Vector2.ZERO, ANIMATION_TIME).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_EXPO)
 	await _animation_tween.finished
 	onready_paths.particles.toggle_emit(true)
-	await get_tree().create_timer(SPARKS_TIME).timeout
+	_add_sparks_time_timer()
+
+##### PROTECTED METHODS #####
+func _add_sparks_time_timer():
+	var timer = Timer.new()
+	timer.connect("timeout",_on_sparks_timer_timeout)
+	add_child(timer)
+	timer.start(SPARKS_TIME)
+	await timer.timeout
+	timer.queue_free()
+
+##### SIGNAL MANAGEMENT #####
+func _on_sparks_timer_timeout() -> void:
 	onready_paths.particles.toggle_emit(false)

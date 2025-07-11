@@ -7,6 +7,8 @@ extends Area2D
 const OFFSET := 32 # in pixels
 
 #---- STANDARD -----
+#==== PRIVATE ====
+var _engine := Engine
 #==== ONREADY ====
 @onready var tilemap := $"../.."
 @onready var collision_shape := $"CollisionShape2D"
@@ -18,7 +20,7 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame. Remove the "_" to use it.
 func _process(_delta):
-	if Engine.is_editor_hint():
+	if _engine.is_editor_hint():
 		_update_size()
 
 ##### PROTECTED METHODS #####
