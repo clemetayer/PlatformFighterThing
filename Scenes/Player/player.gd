@@ -5,7 +5,7 @@ extends CharacterBody2D
 signal killed(id : int)
 signal movement_updated(id: int, value)
 signal powerup_updated(id: int, value)
-signal game_message_triggered(message : String)
+signal game_message_triggered(id : int)
 
 ##### VARIABLES #####
 #---- CONSTANTS -----

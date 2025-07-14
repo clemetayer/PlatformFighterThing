@@ -11,7 +11,8 @@ var _spawn_counter := 0
 @onready var spawn_points := $"SpawnPoints"
 
 ##### PUBLIC METHODS #####
-func get_next_spawn_position() -> Vector2:
-	var spawn_position = spawn_points.get_child(_spawn_counter).global_position
-	_spawn_counter = (_spawn_counter + 1) % spawn_points.get_child_count()
-	return spawn_position
+func get_spawn_points() -> Array:
+	var spawn_positions = []
+	for child in spawn_points.get_children():
+		spawn_positions.append(child.global_position)
+	return spawn_positions

@@ -30,7 +30,7 @@ func set_last_hit_owner(last_hit_owner : Node2D) -> void:
 func kill() -> void:
 	CameraEffects.emit_signal_start_camera_impact(CAMERA_DEATH_IMPACT_TIME,CameraEffects.CAMERA_IMPACT_INTENSITY.HIGH, CameraEffects.CAMERA_IMPACT_PRIORITY.HIGH)
 	if is_instance_valid(_last_hit_owner):
-		onready_paths_node.player_root.emit_signal("game_message_triggered", _get_last_hit_owner_message(_last_hit_owner))
+		onready_paths_node.player_root.emit_signal("game_message_triggered", _get_last_hit_owner_id(_last_hit_owner))
 	onready_paths.particles.emitting = true
 	onready_paths_node.player_root.toggle_freeze(true)
 	# disables the collisions, just in case
@@ -43,11 +43,11 @@ func kill() -> void:
 	onready_paths.death_anim_time.start()
 
 ##### PROTECTED METHODS #####
-func _get_last_hit_owner_message(last_hit_owner : Node2D) -> String:
-	if last_hit_owner.has_method("get_config"):
-		return last_hit_owner.get_config().ELIMINATION_TEXT
-	Logger.warn("Error while getting the opponent elimination text")
-	return ""
+func _get_last_hit_owner_id(last_hit_owner : Node2D) -> int:
+	if "id" in last_hit_owner:
+		return last_hit_owner.id
+	Logger.warn("Error while getting the opponent id to show the elmination message")
+	return -1
 
 func _on_death_anim_time_timeout() -> void:
 	onready_paths_node.player_root.emit_signal("killed", onready_paths_node.player_root.id)
