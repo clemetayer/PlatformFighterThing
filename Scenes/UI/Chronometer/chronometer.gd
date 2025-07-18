@@ -4,20 +4,10 @@ extends Control
 ##### SIGNALS #####
 signal time_over
 
-##### ENUMS #####
-# enumerations
-
 ##### VARIABLES #####
 #---- CONSTANTS -----
 const END_TEXT := "[wave amp=50.0 freq=5.0 connected=1]END[/wave]"
-
-#---- EXPORTS -----
-# @export var EXPORT_NAME := 10.0 # Optionnal comment
-
 #---- STANDARD -----
-#==== PUBLIC ====
-# var public_var # Optionnal comment
-
 #==== PRIVATE ====
 var _start_time
 var _end_time
@@ -28,14 +18,6 @@ var _end_time
 }
 
 ##### PROCESSING #####
-# Called when the object is initialized.
-func _init():
-	pass
-
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass
-
 # Called every frame. 'delta' is the elapsed time since the previous frame. Remove the "_" to use it.
 func _process(_delta):
 	if _start_time != null and _end_time != null:
@@ -63,6 +45,3 @@ func _refresh_timer(current_time : int) -> void:
 	var seconds = time_left % 60
 	var minutes = int(time_left / 60.0)
 	onready_paths.label.text = "%02d:%02d" % [minutes,seconds]
-
-##### SIGNAL MANAGEMENT #####
-# Functions that should be triggered when a specific signal is received

@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://bvy6v3k6u0l4y"]
+
+[ext_resource type="Script" uid="uid://cbw5nekq4e1t0" path="res://Scenes/Levels/level_map_base.gd" id="1_rh2dv"]
+
+[node name="Level" type="Node2D"]
+script = ExtResource("1_rh2dv")
+
+[node name="SpawnPoints" type="Node2D" parent="."]
+
+[node name="Point1" type="Node2D" parent="SpawnPoints"]
+position = Vector2(-10, 5)
+
+[node name="Point2" type="Node2D" parent="SpawnPoints"]
+position = Vector2(8, -12)

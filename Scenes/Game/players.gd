@@ -12,7 +12,6 @@ signal game_message_triggered(message : String)
 #---- CONSTANTS -----
 const BASE_LIVES_AMOUNT := 3
 const PLAYER_SCENE_PATH := "res://Scenes/Player/player.tscn"
-const SPAWN_POINT := Vector2(0, -200)
 const RESPAWN_TIME := 1 # seconds
 
 
@@ -26,6 +25,7 @@ var _current_spawn_idx := 0
 
 #==== ONREADY ====
 @onready var root = $".."
+@onready var tree = get_tree()
 
 ##### PUBLIC METHODS #####
 func init_players_data(p_players_data : Dictionary) -> void:
@@ -70,7 +70,6 @@ func get_players_data() -> Dictionary:
 func _spawn_player(player_idx : int, spawn_position : Vector2) -> void:
 	var player_instance = load(PLAYER_SCENE_PATH).instantiate()
 	player_instance.id = player_idx
-	player_instance.global_position = SPAWN_POINT
 	player_instance.name = "player_%d" % player_idx
 	add_child(player_instance)
 	player_instance.global_position = spawn_position
@@ -96,7 +95,7 @@ func _on_player_killed(idx : int) -> void:
 	_players_data[idx].lives -= 1
 	emit_signal("lives_updated", idx, _players_data[idx].lives)
 	if _players_data[idx].lives > 0:
-		await get_tree().create_timer(RESPAWN_TIME).timeout
+		await tree.create_timer(RESPAWN_TIME).timeout
 		_spawn_player(idx, _get_spawn_position_and_go_next())
 	if _is_only_one_player_alive():
 		emit_signal("player_won")

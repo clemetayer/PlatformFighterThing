@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://bypr1ueba3rju"]
+[gd_scene load_steps=19 format=3 uid="uid://bypr1ueba3rju"]
 
 [ext_resource type="Script" uid="uid://di807ybb5wuoh" path="res://Scenes/Game/game.gd" id="1_4jp85"]
 [ext_resource type="PackedScene" uid="uid://ew7gedlm3n8" path="res://Scenes/Camera/camera.tscn" id="2_0bomf"]
@@ -11,8 +11,6 @@
 [ext_resource type="Script" uid="uid://dg3cnlnehqxa8" path="res://Scenes/Game/level.gd" id="7_2vowc"]
 [ext_resource type="AudioStream" uid="uid://b0g1unghkxgqj" path="res://Scenes/UI/Audio/ready.mp3" id="7_ypmwd"]
 [ext_resource type="AudioStream" uid="uid://bu2fr4i6balr1" path="res://Scenes/UI/Audio/3.mp3" id="8_oejk7"]
-[ext_resource type="Script" uid="uid://bx441bj2jmywx" path="res://Scenes/Game/projectiles.gd" id="8_yox4t"]
-[ext_resource type="Script" uid="uid://bupojyufbh06t" path="res://Scenes/Game/powerups.gd" id="9_lemb1"]
 [ext_resource type="AudioStream" uid="uid://bxtr6lc6ct7yg" path="res://Scenes/UI/Audio/2.mp3" id="9_upfqs"]
 [ext_resource type="AudioStream" uid="uid://dlgw5da7123au" path="res://Scenes/UI/Audio/1.mp3" id="10_8e3kh"]
 [ext_resource type="Script" uid="uid://choowpdj3rck1" path="res://Scenes/Game/background.gd" id="10_a6ftd"]
@@ -160,11 +158,9 @@ script = ExtResource("7_2vowc")
 
 [node name="Projectiles" type="CanvasLayer" parent="."]
 follow_viewport_enabled = true
-script = ExtResource("8_yox4t")
 
 [node name="Powerups" type="CanvasLayer" parent="."]
 follow_viewport_enabled = true
-script = ExtResource("9_lemb1")
 
 [node name="Background" type="Node" parent="."]
 script = ExtResource("10_a6ftd")
