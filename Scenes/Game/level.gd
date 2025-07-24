@@ -2,8 +2,6 @@ extends CanvasLayer
 # Manages the level within the scene
 
 ##### VARIABLES #####
-#---- EXPORTS -----
-
 #---- STANDARD -----
 #==== PRIVATE ====
 var _level_data : LevelConfig

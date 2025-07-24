@@ -10,6 +10,9 @@ const GAME_TIME := 120 #s
 const PLAYER_GAME_MESSAGE_DURATION := 1 #s
 
 #---- STANDARD -----
+#==== PRIVATE ====
+var _full_screen_effects := FullScreenEffects
+
 #==== ONREADY ====
 @onready var onready_paths := {
 	"players": $"Players",
@@ -45,7 +48,7 @@ func add_game_elements() -> void:
 
 @rpc("authority", "call_local", "reliable")
 func init_game_elements() -> void:
-	FullScreenEffects.toggle_active(true)
+	_full_screen_effects.toggle_active(true)
 	onready_paths.ui.init_game_ui(onready_paths.players.get_players_data())
 	onready_paths.ui.init_chronometer(GAME_TIME)
 	onready_paths.ui.init_screen_game_message()
@@ -76,8 +79,6 @@ func _init_start_game_animation() -> void:
 @rpc("authority", "call_local", "reliable")
 func _end_game() -> void:
 	onready_paths.animation_player.play("end_game")
-	await onready_paths.animation_player.animation_finished
-	emit_signal("game_over")
 
 ##### SIGNAL MANAGEMENT #####
 func _on_ui_time_over() -> void:
@@ -97,3 +98,7 @@ func _on_players_powerup_updated(player_id : int, value) -> void:
 
 func _on_players_game_message_triggered(message : String) -> void:
 	onready_paths.ui.display_message(message, false)
+
+func _on_animation_player_animation_finished(anim_name: StringName) -> void:
+	if anim_name == "end_game":
+		emit_signal("game_over")
