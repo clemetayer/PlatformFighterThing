@@ -14,13 +14,7 @@ signal piano
 signal lead
 signal drone_1_octave_up
 
-##### ENUMS #####
-# enumerations
-
 ##### VARIABLES #####
-#---- CONSTANTS -----
-# const constant := 10 # Optionnal comment
-
 #---- EXPORTS -----
 @export var KICK_ACTIVE : bool = false
 @export var DRONE_1_ACTIVE : bool = false
@@ -35,9 +29,6 @@ signal drone_1_octave_up
 @export var DRONE_1_OCTAVE_UP_ACTIVE : bool = false
 
 #---- STANDARD -----
-#==== PUBLIC ====
-# var public_var # Optionnal comment
-
 #==== PRIVATE ====
 var _beat_count := 0
 
@@ -49,25 +40,12 @@ var _beat_count := 0
 }
 
 ##### PROCESSING #####
-# Called when the object is initialized.
-func _init():
-	pass
-
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	_connect_rythm_notifier()
 	onready_paths.song.play()
 	onready_paths.animation.play("Intro")
 	onready_paths.rythm.running = true
-
-# Called every frame. 'delta' is the elapsed time since the previous frame. Remove the "_" to use it.
-func _process(_delta):
-	pass
-
-##### PUBLIC METHODS #####
-# Methods that are intended to be "visible" to other nodes or scripts
-# func public_method(arg : int) -> void:
-#     pass
 
 ##### PROTECTED METHODS #####
 func _connect_rythm_notifier() -> void:
@@ -122,6 +100,3 @@ func _lead(count) -> void:
 	var lead_time_notes = [0,4,7,8,12,16,19,20,22,24,28,31] # there is an offset compared to the lmms file
 	if count % 32 in lead_time_notes:
 		emit_signal("lead")
-
-##### SIGNAL MANAGEMENT #####
-# Functions that should be triggered when a specific signal is received
