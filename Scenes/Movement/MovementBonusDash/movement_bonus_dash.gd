@@ -41,7 +41,7 @@ func _play_sound() -> void:
 @rpc("authority", "call_local", "reliable")
 func activate() -> void:
 	if DASHES_AVAILABLE > 0 and active:
-		player.override_velocity(player.direction.normalized() * DASH_VELOCITY)
+		player.override_velocity(player.get_direction().normalized() * DASH_VELOCITY)
 		DASHES_AVAILABLE -= 1
 		emit_signal("value_updated",DASHES_AVAILABLE)
 		_emit_particles()

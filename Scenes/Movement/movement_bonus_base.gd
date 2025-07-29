@@ -18,4 +18,4 @@ var active := false
 ##### PUBLIC METHODS #####
 @rpc("authority", "call_local", "reliable")
 func activate() -> void:
-    pass 
+	pass 

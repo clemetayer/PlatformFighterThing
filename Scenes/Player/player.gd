@@ -154,6 +154,9 @@ func get_config() -> PlayerConfig:
 func get_velocity_buffer() -> Array:
 	return _velocity_buffer
 
+func get_direction() -> Vector2:
+	return direction
+
 ##### PROTECTED METHODS #####
 func _appear() -> void:
 	toggle_freeze(true)
