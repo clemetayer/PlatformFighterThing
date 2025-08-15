@@ -7,6 +7,9 @@ extends MultiplayerSynchronizer
 @export var action_states : Dictionary
 @export var relative_aim_position := Vector2.ZERO
 
+#==== PRIVATE ====
+var _runtime_utils := RuntimeUtils
+
 #==== ONREADY ====
 @onready var onready_paths_node := $"../Paths"
 
@@ -24,8 +27,8 @@ func _process(_delta):
 ##### PUBLIC METHODS #####
 func start_input_detection() -> void:
 	set_process(
-		RuntimeUtils.is_own_id(onready_paths_node.player_root.id)
-		or RuntimeUtils.is_offline_game
+		_runtime_utils.is_own_id(onready_paths_node.player_root.id)
+		or _runtime_utils.is_offline_game
 	)
 
 func set_action_handler(handler : StaticActionHandlerStrategy.handlers) -> void:

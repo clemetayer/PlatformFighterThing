@@ -16,6 +16,14 @@ var _damage_text_gradient = preload("res://Scenes/Player/damage_text_gradient.tr
 var _hit_text_tween : Tween
 var _current_damage : float
 
+#==== ONREADY ====
+@onready var onready_paths_node := $"../Paths"
+
+##### PROCESSING #####
+# Called every frame. 'delta' is the elapsed time since the previous frame. Remove the "_" to use it.
+func _process(_delta):
+	update_damage(onready_paths_node.player_root.DAMAGE)
+
 ##### PUBLIC METHODS #####
 func init_damage() -> void:
 	var damage_label = "%d" % 0

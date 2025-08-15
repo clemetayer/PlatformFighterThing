@@ -1,0 +1,39 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "GUT help",
+            "type": "shell",
+            "group": "test",
+            "command": "flatpak run org.godotengine.Godot -d -s --path \"$PWD\" addons/gut/gut_cmdln.gd -gh -gexit"
+        },
+        {
+            "label": "run all GUT tests",
+            "type": "shell",
+            "group": "test",
+            "command": "flatpak run org.godotengine.Godot -d -s --path \"$PWD\" addons/gut/gut_cmdln.gd -gconfig \"res://config_gut.conf\" -gexit"
+        },
+        {
+            "label": "run GUT file test",
+            "type": "shell",
+            "group": "test",
+            "command": "flatpak run org.godotengine.Godot -d -s --path \"$PWD\" addons/gut/gut_cmdln.gd -gtest \"res://${relativeFile}\" -gexit"
+        },
+        {
+            "label": "run GUT file single test",
+            "type": "shell",
+            "group": "test",
+            "command": "flatpak run org.godotengine.Godot -d -s --path \"$PWD\" addons/gut/gut_cmdln.gd -gtest \"res://${relativeFile}\" -gunit_test_name \"${input:test_name}\" -gexit"
+        }
+    ],
+    "inputs": [
+        {
+            "id": "test_name",
+            "description": "GUT test name",
+            "default": "",
+            "type": "promptString"
+        }
+    ]
+}

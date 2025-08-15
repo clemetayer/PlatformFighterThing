@@ -149,6 +149,7 @@ script = ExtResource("2_oejk7")
 [node name="ScreenGameMessage" parent="UI" instance=ExtResource("4_ciybh")]
 
 [node name="Players" type="CanvasLayer" parent="."]
+visible = false
 follow_viewport_enabled = true
 script = ExtResource("5_ypmwd")
 

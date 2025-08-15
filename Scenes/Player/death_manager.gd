@@ -2,13 +2,13 @@ extends Node
 # Script to manage the death animation of the player
 
 ##### VARIABLES #####
-##### VARIABLES #####
 #---- CONSTANTS -----
 const CAMERA_DEATH_IMPACT_TIME := 1 #s
 
 #---- STANDARD -----
 #==== PRIVATE ====
 var _last_hit_owner : Node2D = null
+var _camera_effects := CameraEffects
 
 #==== ONREADY ====
 @onready var onready_paths_node := $"../Paths"
@@ -28,11 +28,11 @@ func set_last_hit_owner(last_hit_owner : Node2D) -> void:
 # Triggers the death animation
 @rpc("authority", "call_local", "reliable")
 func kill() -> void:
-	CameraEffects.emit_signal_start_camera_impact(CAMERA_DEATH_IMPACT_TIME,CameraEffects.CAMERA_IMPACT_INTENSITY.HIGH, CameraEffects.CAMERA_IMPACT_PRIORITY.HIGH)
+	_camera_effects.emit_signal_start_camera_impact(CAMERA_DEATH_IMPACT_TIME, CameraEffects.CAMERA_IMPACT_INTENSITY.HIGH, CameraEffects.CAMERA_IMPACT_PRIORITY.HIGH)
 	if is_instance_valid(_last_hit_owner):
 		onready_paths_node.player_root.emit_signal("game_message_triggered", _get_last_hit_owner_id(_last_hit_owner))
 	onready_paths.particles.emitting = true
-	onready_paths_node.player_root.toggle_freeze(true)
+	onready_paths_node.player_root.rpc("toggle_freeze", true)
 	# disables the collisions, just in case
 	onready_paths_node.player_root.set_collision_layer(0)
 	onready_paths_node.player_root.set_collision_mask(0) 

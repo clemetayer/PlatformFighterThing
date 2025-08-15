@@ -30,7 +30,7 @@ func parry() -> void:
 			_parrying = true
 			monitoring = true
 			onready_paths.parry_timer.start()
-			onready_paths.animation_player.remote_play_animation("parrying")
+			onready_paths.animation_player.play("parrying")
 			onready_paths_node.parry_active_sound.play()
 		else:
 			onready_paths_node.parry_wrong.play()
@@ -38,7 +38,7 @@ func parry() -> void:
 ##### SIGNAL MANAGEMENT #####
 func _on_area_entered(area):
 	if area.is_in_group("projectile") and _parrying:
-		onready_paths.animation_player.remote_play_animation("parried")
+		onready_paths.animation_player.play("parried")
 		onready_paths_node.parry_sound.play()
 		onready_paths.parry_timer.stop()
 		_can_parry = true
@@ -53,7 +53,7 @@ func _on_lockout_timer_timeout():
 	_can_parry = true
 
 func _on_parry_timer_timeout():
-	onready_paths.animation_player.remote_play_animation("parry_lockout")
+	onready_paths.animation_player.play("parry_lockout")
 	_can_parry = false
 	_parrying = false
 	monitoring = false

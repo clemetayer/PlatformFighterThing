@@ -5,6 +5,9 @@ extends Node2D
 signal appear_animation_finished
 
 ##### VARIABLES #####
+#---- CONSTANTS -----
+const APPEAR_ANIM_NAME := "appear"
+
 #---- STANDARD -----
 #==== ONREADY ====
 @onready var onready_paths_node := $"../Paths"
@@ -28,5 +31,8 @@ func init(main_color : Color, secondary_color : Color) -> void:
 
 func play_spawn_animation() -> void:
 	onready_paths_node.animation_player.play("appear")
-	await onready_paths_node.animation_player.animation_finished
-	emit_signal("appear_animation_finished")
+
+##### SIGNAL MANAGEMENT #####
+func _on_animation_player_animation_finished(anim_name: StringName) -> void:
+	if anim_name == "appear":
+		emit_signal("appear_animation_finished")

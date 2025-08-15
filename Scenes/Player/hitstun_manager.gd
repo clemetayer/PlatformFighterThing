@@ -24,7 +24,6 @@ func start_hitstun(damage : float) -> void:
 	var time = StaticUtils.cubic_ease_out(x) * MAX_HITSTUN_TIME
 	onready_paths_node.hitstun_timer.start(time)
 	onready_paths_node.animation_player.play("hitstun")
-	onready_paths_node.player_root.toggle_hitstun_bounce(true)
 	onready_paths_node.bounce_area.toggle_active(true)
 	hitstunned = true
 
@@ -32,6 +31,5 @@ func start_hitstun(damage : float) -> void:
 func _on_hitstun_timeout() -> void:
 	hitstunned = false
 	onready_paths_node.bounce_area.toggle_active(false)
-	onready_paths_node.player_root.toggle_hitstun_bounce(false)
 	onready_paths_node.animation_player.stop()
 	onready_paths_node.animation_player.play("RESET")

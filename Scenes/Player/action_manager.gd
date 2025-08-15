@@ -5,6 +5,8 @@ extends Node
 #---- STANDARD -----
 #==== PRIVATE ====
 var _frozen : bool
+var _action_handler_base = ActionHandlerBase
+var _runtime_utils := RuntimeUtils
 
 #==== ONREADY ====
 @onready var onready_paths_node := $"../Paths"
@@ -31,13 +33,13 @@ func _handle_actions() -> void:
 
 func _handle_direction() -> void:
 	var direction = Vector2.ZERO
-	if _is_action_active(ActionHandlerBase.actions.LEFT):
+	if _is_action_active(_action_handler_base.actions.LEFT):
 		direction.x -= 1
-	if _is_action_active(ActionHandlerBase.actions.RIGHT):
+	if _is_action_active(_action_handler_base.actions.RIGHT):
 		direction.x += 1
-	if _is_action_active(ActionHandlerBase.actions.UP):
+	if _is_action_active(_action_handler_base.actions.UP):
 		direction.y -= 1
-	if _is_action_active(ActionHandlerBase.actions.DOWN):
+	if _is_action_active(_action_handler_base.actions.DOWN):
 		direction.y += 1
 	onready_paths_node.player_root.direction = direction
 
@@ -47,34 +49,35 @@ func _handle_aim() -> void:
 	onready_paths_node.crosshair.position = relative_aim_position
 
 func _handle_jump() -> void:
-	onready_paths_node.player_root.jump_triggered = _is_action_active(ActionHandlerBase.actions.JUMP)
+	onready_paths_node.player_root.jump_triggered = _is_action_active(_action_handler_base.actions.JUMP)
 
 func _handle_fire() -> void:
-	if _is_action_active(ActionHandlerBase.actions.FIRE):
+	if _is_action_active(_action_handler_base.actions.FIRE):
 		onready_paths_node.primary_weapon.fire()
 
 func _handle_movement_bonus() -> void:
-	if _is_action_just_active(ActionHandlerBase.actions.MOVEMENT_BONUS):
+	if _is_action_just_active(_action_handler_base.actions.MOVEMENT_BONUS):
 		onready_paths_node.movement_bonus.activate()
 
 func _handle_parry() -> void:
-	if _is_action_just_active(ActionHandlerBase.actions.PARRY):
+	if _is_action_just_active(_action_handler_base.actions.PARRY):
 		onready_paths_node.parry_area.parry()
 
+# TODO : Why is is_authority here ?
 func _handle_powerup() -> void:
-	if _is_action_just_active(ActionHandlerBase.actions.POWERUP) and RuntimeUtils.is_authority():
+	if _is_action_just_active(_action_handler_base.actions.POWERUP) and _runtime_utils.is_authority():
 		onready_paths_node.powerup_manager.rpc("use")
 
 # mostly to improve readability
 func _is_action_active(action : ActionHandlerBase.actions) -> bool:
 	if onready_paths_node.input_synchronizer.action_states.has(action):
-		return ActionHandlerBase.is_active(onready_paths_node.input_synchronizer.action_states.get(action))
+		return _action_handler_base.is_active(onready_paths_node.input_synchronizer.action_states.get(action))
 	return false
 
 # mostly to improve readability
 func _is_action_just_active(action : ActionHandlerBase.actions) -> bool:
 	if onready_paths_node.input_synchronizer.action_states.has(action):
-		return ActionHandlerBase.is_just_active(onready_paths_node.input_synchronizer.action_states.get(action))
+		return _action_handler_base.is_just_active(onready_paths_node.input_synchronizer.action_states.get(action))
 	return false
 
 # mostly to improve readability

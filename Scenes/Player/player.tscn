@@ -1,4 +1,4 @@
-[gd_scene load_steps=54 format=3 uid="uid://fgxha8wl55pa"]
+[gd_scene load_steps=53 format=3 uid="uid://fgxha8wl55pa"]
 
 [ext_resource type="Script" uid="uid://bxq3finp4gfep" path="res://Scenes/Player/player.gd" id="1_b1dbg"]
 [ext_resource type="Script" uid="uid://bq2rya8sinnf" path="res://Scenes/Player/paths.gd" id="2_8lsum"]
@@ -7,8 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://dy0q7mppvj7j1" path="res://Scenes/Player/CharacterOutline.png" id="3_b0wk1"]
 [ext_resource type="Script" uid="uid://cxgx4xa4np0of" path="res://Scenes/Player/action_manager.gd" id="4_cguhm"]
 [ext_resource type="Script" uid="uid://boqrq2bt7pf5v" path="res://Scenes/Player/bounce_area.gd" id="4_d6e7m"]
-[ext_resource type="Script" uid="uid://cq3sjr3u65u2x" path="res://Scenes/Player/animation_player.gd" id="5_b3kqx"]
-[ext_resource type="Script" uid="uid://bmq88d80dxhn7" path="res://Scenes/Player/sprites.gd" id="5_f7agn"]
+[ext_resource type="Script" uid="uid://bmq88d80dxhn7" path="res://Scenes/Player/sprites.gd" id="5_b3kqx"]
 [ext_resource type="Script" uid="uid://bk14t15ya0u7n" path="res://Scenes/Player/init.gd" id="5_q62wf"]
 [ext_resource type="Script" uid="uid://cvh6fq6fc37ba" path="res://Scenes/Player/input_synchronizer.gd" id="5_uow23"]
 [ext_resource type="Script" uid="uid://vpgyhxg8g8t4" path="res://Scenes/Player/hitstun_manager.gd" id="6_lv0e8"]
@@ -702,7 +701,6 @@ one_shot = true
 libraries = {
 &"": SubResource("AnimationLibrary_owers")
 }
-script = ExtResource("5_b3kqx")
 
 [node name="BounceArea" type="Area2D" parent="."]
 collision_layer = 2
@@ -743,7 +741,7 @@ script = ExtResource("17_rcvs5")
 [node name="Sprites" type="Node2D" parent="."]
 material = SubResource("ShaderMaterial_rqdc0")
 scale = Vector2(0.33, 0.33)
-script = ExtResource("5_f7agn")
+script = ExtResource("5_b3kqx")
 
 [node name="Body" type="Sprite2D" parent="Sprites"]
 modulate = Color(0, 1, 1, 1)
@@ -798,7 +796,6 @@ process_material = SubResource("ParticleProcessMaterial_ythyg")
 libraries = {
 &"": SubResource("AnimationLibrary_2b586")
 }
-script = ExtResource("5_b3kqx")
 
 [node name="UsePowerupCooldown" type="Timer" parent="."]
 wait_time = 3.0
@@ -819,4 +816,6 @@ collision_mask = 3
 [connection signal="timeout" from="ParryArea/ParryTimer" to="ParryArea" method="_on_parry_timer_timeout"]
 [connection signal="timeout" from="ParryArea/LockoutTimer" to="ParryArea" method="_on_lockout_timer_timeout"]
 [connection signal="body_entered" from="BounceArea" to="BounceArea" method="_on_body_entered"]
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
+[connection signal="animation_finished" from="AnimationPlayer" to="AppearElements" method="_on_animation_player_animation_finished"]
 [connection signal="timeout" from="Hitstun" to="HitstunManager" method="_on_hitstun_timeout"]

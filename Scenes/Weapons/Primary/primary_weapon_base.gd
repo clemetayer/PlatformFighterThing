@@ -3,9 +3,14 @@ class_name PrimaryWeaponBase
 # Base class for the primary weapon
 
 ##### VARIABLES #####
+#---- EXPORTS -----
+@export var owner_color := Color.WHITE
+
 #---- STANDARD -----
 #==== PUBLIC ====
 var active := false
+var projectile_owner = null # the owner of the projectile that will spawn, i.e : the player with the weapon
+
 
 ##### PUBLIC METHODS #####
 @rpc("authority", "call_local", "reliable")

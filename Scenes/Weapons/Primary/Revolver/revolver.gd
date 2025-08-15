@@ -8,13 +8,7 @@ const LOS_DEFAULT_WIDTH := 2
 const FIRE_ANIM_MAX_WIDTH := 20
 const FIRE_ANIM_TIME := 0.2
 
-#---- EXPORTS -----
-@export var owner_color := Color.WHITE
-
 #---- STANDARD -----
-#==== PUBLIC ====
-var projectile_owner = null # the owner of the projectile that will spawn, i.e : the player with the weapon
-
 #==== PRIVATE ====
 var _on_cooldown := false
 var _fire_anim_tween : Tween
