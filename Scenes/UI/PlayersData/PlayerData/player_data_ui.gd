@@ -1,12 +1,6 @@
 extends Control
 # Manages the player data ui
 
-##### SIGNALS #####
-# Node signals
-
-##### ENUMS #####
-# enumerations
-
 ##### VARIABLES #####
 #---- CONSTANTS -----
 const TEMP_PLAYER_NAME := "temporary_man"

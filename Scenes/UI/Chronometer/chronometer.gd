@@ -21,7 +21,7 @@ var _end_time
 # Called every frame. 'delta' is the elapsed time since the previous frame. Remove the "_" to use it.
 func _process(_delta):
 	if _start_time != null and _end_time != null:
-		var current_time = Time.get_ticks_msec()
+		var current_time = _get_current_time()
 		if current_time >= _end_time:
 			_time_over()
 		else:
@@ -30,7 +30,7 @@ func _process(_delta):
 ##### PUBLIC METHODS #####
 # starts the timer for a specific duration (in seconds)
 func start_timer(duration : int) -> void:
-	_start_time = Time.get_ticks_msec()
+	_start_time = _get_current_time()
 	_end_time = _start_time + duration * 1000.0
 
 ##### PROTECTED METHODS #####
@@ -45,3 +45,6 @@ func _refresh_timer(current_time : int) -> void:
 	var seconds = time_left % 60
 	var minutes = int(time_left / 60.0)
 	onready_paths.label.text = "%02d:%02d" % [minutes,seconds]
+
+func _get_current_time() -> int:
+	return Time.get_ticks_msec()

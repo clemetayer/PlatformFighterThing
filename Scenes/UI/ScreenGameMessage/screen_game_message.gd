@@ -13,7 +13,8 @@ var _display_characters_tween : Tween
 #==== ONREADY ====
 @onready var onready_paths : ={
 	"label": $"RichTextLabel",
-	"animation": $"AnimationPlayer"
+	"animation": $"AnimationPlayer",
+	"mid_screen_timer": $"MidScreenTimer"
 }
 
 ##### PUBLIC METHODS #####
@@ -34,7 +35,12 @@ func display_message(message : String, duration : float, display_all_characters 
 			_display_characters_tween.kill()
 		_display_characters_tween = create_tween()
 		_display_characters_tween.tween_property(onready_paths.label,"visible_ratio",1.0,duration)
-	await onready_paths.animation.animation_finished
 	if on_mid_screen_time > 0:
-		await get_tree().create_timer(on_mid_screen_time).timeout
+		onready_paths.mid_screen_timer.wait_time = on_mid_screen_time
+	
+func _on_animation_player_animation_finished(anim_name: StringName) -> void:
+	if anim_name == "enter":
+		onready_paths.mid_screen_timer.start()
+
+func _on_mid_screen_timer_timeout() -> void:
 	onready_paths.animation.play("exit")
