@@ -13,6 +13,7 @@ var _can_use_powerup := true
 var _splitters_active := [] # splitters active for the player
 var _splitter_cooldown_tween : Tween
 var _init_ui_done := false # to update the ui on the first frame
+var _runtime_utils := RuntimeUtils
 
 #==== ONREADY ====
 @onready var _splitter_load = load(SPLITTER_PATH)
@@ -29,12 +30,12 @@ func _process(_delta):
 ##### PUBLIC METHODS #####
 @rpc("authority", "call_local", "reliable")
 func use() -> void:
-	if RuntimeUtils.is_authority() and _can_use_powerup and active:
+	if _runtime_utils.is_authority() and _can_use_powerup and active:
 		if _splitters_active.size() >= MAX_SPLITTERS_ACTIVE:
 			_remove_last_splitter()
 		var powerup = _splitter_load.instantiate()
 		powerup.global_position = self.global_position
-		var game_root = RuntimeUtils.get_game_root()
+		var game_root = _runtime_utils.get_game_root()
 		if game_root != null and game_root.has_method("spawn_powerup"):
 			powerup.connect("destroyed",_on_splitter_destroyed)
 			game_root.spawn_powerup(powerup) # TODO : rather communicate with an interface (kind of like the player rather than with the game directly)
