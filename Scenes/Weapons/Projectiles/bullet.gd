@@ -22,6 +22,7 @@ var current_owner # the current "owner" of the bullet (i.e, the last thing that 
 
 #==== PRIVATE ====
 var _direction := Vector2.ZERO
+var _runtime_utils := RuntimeUtils
 
 #==== ONREADY ====
 @onready var onready_paths := {
@@ -46,17 +47,14 @@ func _process(delta):
 func parried(p_owner : Node2D, relative_aim_position : Vector2) -> void:
 	current_owner = p_owner
 	rotation = Vector2.ZERO.angle_to_point(relative_aim_position)
-	_direction = Vector2.RIGHT.rotated(rotation).normalized()
+	_direction = relative_aim_position.normalized()
 	speed *= 2
 	damage *= 2
 	knockback *= 2
 
 ##### SIGNAL MANAGEMENT #####
-func _on_area_entered(area):
-	pass
-
 func _on_body_entered(body):
-	if RuntimeUtils.is_authority():
+	if _runtime_utils.is_authority():
 		if body.is_in_group("player") and current_owner != body and body.has_method("hurt"):
 			body.hurt(damage, knockback, _direction, current_owner)
 			queue_free()

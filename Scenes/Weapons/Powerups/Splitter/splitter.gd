@@ -13,6 +13,7 @@ const PROJECTILE_DUPLICATES := 5 # note : most likely should be an uneven number
 #==== PRIVATE ====
 var _whitelist := [] # to avoid duplicating too much (with the fresh new projectiles for instance)
 var _contacts_count := 0
+var _runtime_utils := RuntimeUtils
 
 #==== ONREADY ====
 @onready var onready_paths := {
@@ -29,8 +30,8 @@ func _ready():
 
 ##### PROTECTED METHODS #####
 func _spawn_projectile(projectile) -> void:
-	if RuntimeUtils.is_authority():
-		var game_root = RuntimeUtils.get_game_root()
+	if _runtime_utils.is_authority():
+		var game_root = _runtime_utils.get_game_root()
 		if game_root != null and game_root.has_method("spawn_projectile"):
 			game_root.spawn_projectile(projectile)
 		else: 
@@ -61,7 +62,7 @@ func _prepare_for_deletion() -> void:
 ##### SIGNAL MANAGEMENT #####
 # Note : the PROJECTILE_DUPLICATES + 1 thing seems weird, but it's actually needed to spawn an even amount of bullets
 func _on_hitbox_area_entered(area):
-	if RuntimeUtils.is_authority():
+	if _runtime_utils.is_authority():
 		if area.is_in_group("projectile") and not _whitelist.has(area):
 			rpc("_handle_feedback")
 			for duplicate_idx in range(1,PROJECTILE_DUPLICATES + 1):
@@ -78,5 +79,5 @@ func _on_hitbox_area_entered(area):
 				rpc("_prepare_for_deletion")
 
 func _on_hitbox_area_exited(area):
-	if _whitelist.has(area) and RuntimeUtils.is_authority():
+	if _whitelist.has(area) and _runtime_utils.is_authority():
 		_whitelist.erase(area)

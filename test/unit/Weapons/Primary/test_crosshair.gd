@@ -1,35 +1,22 @@
 extends "res://addons/gut/test.gd"
 
 ##### VARIABLES #####
-#---- CONSTANTS -----
-# const CONST := "value"
-
 #---- VARIABLES -----
-# var variable := "value"
+var crosshair
 
 ##### SETUP #####
-func before_all():
-	pass
-
 func before_each():
-	pass
+	crosshair = load("res://Scenes/Weapons/Primary/crosshair.gd").new()
 
 ##### TEARDOWN #####
-func after_all():
-	pass
-
 func after_each():
-	pass
+	crosshair.free()
 
 ##### TESTS #####
-func test_something():
+func test_set_color():
 	# given
-
+	crosshair.modulate = Color.WHITE
 	# when
-
+	crosshair.set_color(Color.ANTIQUE_WHITE)
 	# then
-	pass
-
-##### UTILS #####
-func _something_useful():
-	pass
+	assert_eq(crosshair.modulate, Color.ANTIQUE_WHITE)
