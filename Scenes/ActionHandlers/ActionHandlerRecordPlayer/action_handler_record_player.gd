@@ -14,12 +14,12 @@ var record : InputRecord = null
 var _current_frame_time := 0.0
 var _current_frame_index := 0
 var _recording := false
-
+var _input := Input
 
 ##### PROCESSING #####
 # Called every frame. 'delta' is the elapsed time since the previous frame. Remove the "_" to use it.
 func _process(delta):
-	if Input.is_action_just_pressed("record_inputs"):
+	if _is_record_pressed():
 		if _recording:
 			_stop_recording()
 		else:
@@ -33,6 +33,10 @@ func _process(delta):
 		_current_frame_time += delta
 
 ##### PROTECTED METHODS #####
+# workaround for tests since _process makes the input mock act weird
+func _is_record_pressed() -> bool:
+	return _input.is_action_just_pressed("record_inputs")  
+
 func _start_record() -> void:
 	record = InputRecord.new()
 	_recording = true
@@ -73,11 +77,11 @@ func _listen_to_inputs() -> void:
 	_set_relative_aim_position()
 
 func _generic_get_action_state(input_action : String) -> states:
-	if Input.is_action_just_pressed(input_action):
+	if _input.is_action_just_pressed(input_action):
 		return states.JUST_ACTIVE
-	elif Input.is_action_pressed(input_action):
+	elif _input.is_action_pressed(input_action):
 		return states.ACTIVE
-	elif Input.is_action_just_released(input_action):
+	elif _input.is_action_just_released(input_action):
 		return states.JUST_INACTIVE
 	return states.INACTIVE
 

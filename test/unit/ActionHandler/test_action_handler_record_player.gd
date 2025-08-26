@@ -5,19 +5,12 @@ extends "res://addons/gut/test.gd"
 var action_handler : ActionHandlerRecord
 
 ##### SETUP #####
-func before_all():
-	await wait_frames(1)
-
 func before_each():
 	action_handler = ActionHandlerRecord.new()
 
 ##### TEARDOWN #####
 func after_each():
 	action_handler.free()
-	await wait_frames(1) # wait a frame to ensure the action handler is indeed freed # OPTIMIZATION : find the tests that really needs to wait one frame
-
-func after_all():
-	await wait_frames(1)
 
 ##### TESTS #####
 func test_start_record():
@@ -76,50 +69,48 @@ func test_record_frame():
 
 func test_listen_to_inputs_just_active():
 	# given
-	var input_sender = InputSender.new(Input)
-	input_sender.action_down("jump").wait_frames(1)
-	await input_sender.idle
+	var input = double(load("res://test/unit/ActionHandler/test_action_handler_record_player_mocks/input.gd")).new()
+	stub(input, "is_action_just_pressed").to_return(false)
+	stub(input, "is_action_pressed").to_return(false)
+	stub(input, "is_action_just_released").to_return(false)
+	stub(input, "is_action_just_pressed").when_passed("jump").to_return(true)
+	action_handler._input = input
 	# when
 	action_handler._listen_to_inputs()
 	# then
 	assert_eq(action_handler._action_states[ActionHandlerBase.actions.JUMP], ActionHandlerBase.states.JUST_ACTIVE)
 	assert_eq(action_handler._action_states[ActionHandlerBase.actions.UP], ActionHandlerBase.states.INACTIVE)
 	assert_eq(action_handler.relative_aim_position, action_handler.get_global_mouse_position() - action_handler.global_position) 
-	# clean up
-	input_sender.release_all()
-	input_sender.clear()
 
 func test_listen_to_inputs_active():
 	# given
-	var input_sender = InputSender.new(Input)
-	input_sender.action_down("jump").wait_frames(2)
-	await input_sender.idle
+	var input = double(load("res://test/unit/ActionHandler/test_action_handler_record_player_mocks/input.gd")).new()
+	stub(input, "is_action_just_pressed").to_return(false)
+	stub(input, "is_action_pressed").to_return(false)
+	stub(input, "is_action_just_released").to_return(false)
+	stub(input, "is_action_pressed").when_passed("jump").to_return(true)
+	action_handler._input = input
 	# when
 	action_handler._listen_to_inputs()
 	# then
 	assert_eq(action_handler._action_states[ActionHandlerBase.actions.JUMP], ActionHandlerBase.states.ACTIVE)
 	assert_eq(action_handler._action_states[ActionHandlerBase.actions.UP], ActionHandlerBase.states.INACTIVE)
 	assert_eq(action_handler.relative_aim_position, action_handler.get_global_mouse_position() - action_handler.global_position) 
-	# clean up
-	input_sender.release_all()
-	input_sender.clear()
 
 func test_listen_to_inputs_just_inactive():
 	# given
-	var input_sender = InputSender.new(Input)
-	input_sender.action_down("jump").wait_frames(1)
-	await input_sender.idle
-	input_sender.action_up("jump").wait_frames(1)
-	await input_sender.idle
+	var input = double(load("res://test/unit/ActionHandler/test_action_handler_record_player_mocks/input.gd")).new()
+	stub(input, "is_action_just_pressed").to_return(false)
+	stub(input, "is_action_pressed").to_return(false)
+	stub(input, "is_action_just_released").to_return(false)
+	stub(input, "is_action_just_released").when_passed("jump").to_return(true)
+	action_handler._input = input
 	# when
 	action_handler._listen_to_inputs()
 	# then
 	assert_eq(action_handler._action_states[ActionHandlerBase.actions.JUMP], ActionHandlerBase.states.JUST_INACTIVE)
 	assert_eq(action_handler._action_states[ActionHandlerBase.actions.UP], ActionHandlerBase.states.INACTIVE)
 	assert_eq(action_handler.relative_aim_position, action_handler.get_global_mouse_position() - action_handler.global_position) 
-	# clean up
-	input_sender.release_all()
-	input_sender.clear()
 
 func test_find_closest_frame():
 	# given
@@ -208,38 +199,41 @@ func test_reset_action_values():
 
 func test_process_starts_recording():
 	# given
-	var input_sender = InputSender.new(Input)
-	action_handler._recording = false
+	var mock_action_handler = partial_double(load("res://Scenes/ActionHandlers/ActionHandlerRecordPlayer/action_handler_record_player.gd")).new()
+	stub(mock_action_handler, "_is_record_pressed").to_return(true)
+	var input = double(load("res://test/unit/ActionHandler/test_action_handler_record_player_mocks/input.gd")).new()
+	stub(input, "is_action_just_pressed").to_return(false)
+	stub(input, "is_action_pressed").to_return(false)
+	stub(input, "is_action_just_released").to_return(false)
+	mock_action_handler._input = input
+	mock_action_handler._recording = false
 	# when
-	input_sender.action_down("record_inputs").wait_frames(1)
-	await input_sender.idle
-	action_handler._process(0.16)
+	mock_action_handler._process(0.16)
 	# then
-	assert_true(action_handler._recording)
-	assert_not_null(action_handler.record)
-	# clean up
-	input_sender.release_all()
-	input_sender.clear()
+	assert_true(mock_action_handler._recording)
+	assert_not_null(mock_action_handler.record)
 
 func test_process_stops_recording():
 	# given
-	var input_sender = InputSender.new(Input)
-	action_handler._recording = true
-	action_handler._current_frame_time = 1.5
-	action_handler.record = InputRecord.new()
+	var mock_action_handler = partial_double(load("res://Scenes/ActionHandlers/ActionHandlerRecordPlayer/action_handler_record_player.gd")).new()
+	stub(mock_action_handler, "_is_record_pressed").to_return(true)
+	var input = double(load("res://test/unit/ActionHandler/test_action_handler_record_player_mocks/input.gd")).new()
+	stub(input, "is_action_just_pressed").to_return(false)
+	stub(input, "is_action_pressed").to_return(false)
+	stub(input, "is_action_just_released").to_return(false)
+	stub(input, "is_action_just_pressed").when_passed("record_inputs").to_return(true)
+	mock_action_handler._input = input
+	mock_action_handler._recording = true
+	mock_action_handler._current_frame_time = 1.5
+	mock_action_handler.record = InputRecord.new()
 	var frame = FrameInputRecord.new()
 	frame.relative_aim_position = Vector2(100, 200)
-	action_handler.record.inputs.append(frame)
+	mock_action_handler.record.inputs.append(frame)
 	# when
-	input_sender.action_down("record_inputs").wait_frames(1)
-	await input_sender.idle
-	action_handler._process(0.16)
+	mock_action_handler._process(0.16)
 	# then
-	assert_false(action_handler._recording)
-	assert_eq(action_handler.record.final_frame_time, 1.5)
-	# clean up
-	input_sender.release_all()
-	input_sender.clear()
+	assert_false(mock_action_handler._recording)
+	assert_eq(mock_action_handler.record.final_frame_time, 1.5)
 
 func test_process_records_frame():
 	# given
@@ -289,3 +283,21 @@ func test_process_do_nothing():
 	assert_eq(action_handler._current_frame_time, 0.0)
 	assert_null(action_handler.record)
 	assert_false(action_handler._recording)
+
+var is_record_pressed_params := [
+	[true],
+	[false]
+]
+func test_is_record_pressed(params = use_parameters(is_record_pressed_params)):
+	# given
+	var record_pressed = params[0]
+	var input = double(load("res://test/unit/ActionHandler/test_action_handler_record_player_mocks/input.gd")).new()
+	stub(input, "is_action_pressed").to_return(false)
+	stub(input, "is_action_just_released").to_return(false)
+	stub(input, "is_action_just_pressed").to_return(record_pressed)
+	action_handler._input = input
+	# when
+	var res = action_handler._is_record_pressed()
+	# then
+	assert_eq(res, record_pressed) 
+	assert_called(input, "is_action_just_pressed", ["record_inputs"])

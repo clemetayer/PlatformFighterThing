@@ -2,6 +2,11 @@ extends ActionHandlerBase
 class_name ActionHandlerInput
 # Action handler with inputs (key pressed, etc.) 
 
+##### VARIABLES #####
+#---- STANDARD -----
+#==== PRIVATE ====
+var _input := Input
+
 ##### PROCESSING #####
 # Called every frame. 'delta' is the elapsed time since the previous frame. Remove the "_" to use it.
 func _process(_delta):
@@ -18,11 +23,11 @@ func _process(_delta):
 
 ##### PROTECTED METHODS #####
 func _generic_get_action_state(input_action : String) -> states:
-	if Input.is_action_just_pressed(input_action):
+	if _input.is_action_just_pressed(input_action):
 		return states.JUST_ACTIVE
-	elif Input.is_action_pressed(input_action):
+	elif _input.is_action_pressed(input_action):
 		return states.ACTIVE
-	elif Input.is_action_just_released(input_action):
+	elif _input.is_action_just_released(input_action):
 		return states.JUST_INACTIVE
 	return states.INACTIVE
 
