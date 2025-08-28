@@ -816,6 +816,7 @@ collision_mask = 3
 [connection signal="timeout" from="ParryArea/ParryTimer" to="ParryArea" method="_on_parry_timer_timeout"]
 [connection signal="timeout" from="ParryArea/LockoutTimer" to="ParryArea" method="_on_lockout_timer_timeout"]
 [connection signal="body_entered" from="BounceArea" to="BounceArea" method="_on_body_entered"]
+[connection signal="appear_animation_finished" from="AppearElements" to="." method="_on_appear_elements_appear_animation_finished"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
 [connection signal="animation_finished" from="AnimationPlayer" to="AppearElements" method="_on_animation_player_animation_finished"]
 [connection signal="timeout" from="Hitstun" to="HitstunManager" method="_on_hitstun_timeout"]

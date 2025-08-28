@@ -544,11 +544,7 @@ func test_on_SceneUtils_toggle_scene_freeze(params = use_parameters(on_SceneUtil
 	# then
 	assert_called(mock_player, "toggle_freeze", [params[0]])
 
-var on_animation_player_animation_finished_params := [
-	["appear", true],
-	["not_appear", false]
-]
-func test_on_animation_player_animation_finished(params = use_parameters(on_animation_player_animation_finished_params)):
+func test_on_appear_elements_appear_animation_finished():
 	# given
 	var mock_player = partial_double(load("res://Scenes/Player/player.gd")).new()
 	stub(mock_player, "toggle_freeze").to_do_nothing()
@@ -559,16 +555,11 @@ func test_on_animation_player_animation_finished(params = use_parameters(on_anim
 	onready_paths_node.appear_elements = appear_elements
 	mock_player.onready_paths_node = onready_paths_node
 	# when
-	mock_player._on_animation_player_animation_finished(params[0])
+	mock_player._on_appear_elements_appear_animation_finished()
 	# then
-	if params[1]:
-		assert_called(mock_player, "toggle_freeze", [false])
-		assert_called(mock_player, "toggle_abilities", [true])
-		assert_called(mock_player, "toggle_damage", [true])
-	else:
-		assert_not_called(mock_player, "toggle_freeze")
-		assert_not_called(mock_player, "toggle_abilities")
-		assert_not_called(mock_player, "toggle_damage")
+	assert_called(mock_player, "toggle_freeze", [false])
+	assert_called(mock_player, "toggle_abilities", [true])
+	assert_called(mock_player, "toggle_damage", [true])
 	# cleanup
 	appear_elements.free()
 	onready_paths_node.free()

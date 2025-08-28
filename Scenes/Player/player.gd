@@ -211,8 +211,7 @@ func _is_on_floor() -> bool:
 func _on_SceneUtils_toggle_scene_freeze(value: bool) -> void:
 	toggle_freeze(value)
 
-func _on_animation_player_animation_finished(anim_name: StringName) -> void:
-	if anim_name == onready_paths_node.appear_elements.APPEAR_ANIM_NAME:
-		toggle_freeze(false)
-		toggle_abilities(true)
-		toggle_damage(true)
+func _on_appear_elements_appear_animation_finished() -> void:
+	toggle_freeze(false)
+	toggle_abilities(true)
+	toggle_damage(true)
