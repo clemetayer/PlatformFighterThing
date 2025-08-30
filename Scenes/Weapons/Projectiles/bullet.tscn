@@ -31,6 +31,7 @@ texture = ExtResource("2_fuia2")
 shape = SubResource("RectangleShape2D_g77nu")
 
 [node name="Trail" parent="." instance=ExtResource("2_udptv")]
+script = null
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_8hapl")
