@@ -1,12 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://bt216chbqhtsg"]
+[gd_scene load_steps=5 format=3 uid="uid://bt216chbqhtsg"]
 
 [ext_resource type="Script" uid="uid://bes0n8eyiy66e" path="res://addons/integrodot/ui/bottom_panel.gd" id="1_yi70t"]
-[ext_resource type="Script" uid="uid://d2ogfq0vtdn4f" path="res://addons/integrodot/ui/run_tests.gd" id="2_sqtcw"]
 [ext_resource type="Script" uid="uid://7pgncxhm7tym" path="res://addons/integrodot/ui/integration_tests_folder.gd" id="3_0fbks"]
-[ext_resource type="Script" uid="uid://c64i81eftxr0t" path="res://addons/integrodot/ui/results_folder.gd" id="4_nkr1s"]
-[ext_resource type="Script" uid="uid://d23p3c2ijs8jr" path="res://addons/integrodot/ui/record_inputs.gd" id="5_f7ese"]
-[ext_resource type="Script" uid="uid://cgdclyvfy3mmy" path="res://addons/integrodot/ui/inputs_filename.gd" id="6_v4gq2"]
-[ext_resource type="Script" uid="uid://b8tep1xvtd746" path="res://addons/integrodot/ui/saved_inputs_folder.gd" id="7_8rq47"]
+[ext_resource type="Script" uid="uid://dt5ifneqn6dhy" path="res://addons/integrodot/utils/config_manager.gd" id="4_dkg5n"]
+[ext_resource type="Script" uid="uid://b8tep1xvtd746" path="res://addons/integrodot/common/saved_inputs_folder.gd" id="7_8rq47"]
 
 [node name="BottomPanel" type="Control"]
 layout_mode = 3
@@ -32,15 +29,10 @@ size_flags_horizontal = 3
 
 [node name="RunTests" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
 layout_mode = 2
-script = ExtResource("2_sqtcw")
 
-[node name="RunAll" type="Button" parent="HBoxContainer/VBoxContainer/RunTests"]
+[node name="OpenRunner" type="Button" parent="HBoxContainer/VBoxContainer/RunTests"]
 layout_mode = 2
-text = "Run all tests"
-
-[node name="RunSpecificTest" type="Button" parent="HBoxContainer/VBoxContainer/RunTests"]
-layout_mode = 2
-text = "Run specific test"
+text = "Open runner"
 
 [node name="IntegrationTestsFolder" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
 layout_mode = 2
@@ -53,24 +45,10 @@ text = "Test folder : "
 [node name="LineEdit" type="LineEdit" parent="HBoxContainer/VBoxContainer/IntegrationTestsFolder"]
 layout_mode = 2
 size_flags_horizontal = 3
+text = "res://test/integration/"
+placeholder_text = "res://"
 
 [node name="SelectFolder" type="Button" parent="HBoxContainer/VBoxContainer/IntegrationTestsFolder"]
-layout_mode = 2
-text = "..."
-
-[node name="ResultsFolder" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
-layout_mode = 2
-script = ExtResource("4_nkr1s")
-
-[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/ResultsFolder"]
-layout_mode = 2
-text = "Test results folder : "
-
-[node name="LineEdit" type="LineEdit" parent="HBoxContainer/VBoxContainer/ResultsFolder"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="SelectFolder" type="Button" parent="HBoxContainer/VBoxContainer/ResultsFolder"]
 layout_mode = 2
 text = "..."
 
@@ -83,23 +61,10 @@ size_flags_horizontal = 3
 
 [node name="RecordInputs" type="HBoxContainer" parent="HBoxContainer/VBoxContainer2"]
 layout_mode = 2
-script = ExtResource("5_f7ese")
 
-[node name="Record" type="Button" parent="HBoxContainer/VBoxContainer2/RecordInputs"]
+[node name="OpenRecorder" type="Button" parent="HBoxContainer/VBoxContainer2/RecordInputs"]
 layout_mode = 2
-text = "Record test inputs"
-
-[node name="InputsFilename" type="HBoxContainer" parent="HBoxContainer/VBoxContainer2"]
-layout_mode = 2
-script = ExtResource("6_v4gq2")
-
-[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer2/InputsFilename"]
-layout_mode = 2
-text = "Inputs filename (without extension) : "
-
-[node name="LineEdit" type="LineEdit" parent="HBoxContainer/VBoxContainer2/InputsFilename"]
-layout_mode = 2
-size_flags_horizontal = 3
+text = "Open recorder"
 
 [node name="SavedInputsFolder" type="HBoxContainer" parent="HBoxContainer/VBoxContainer2"]
 layout_mode = 2
@@ -112,56 +77,32 @@ text = "Saved inputs folder"
 [node name="LineEdit" type="LineEdit" parent="HBoxContainer/VBoxContainer2/SavedInputsFolder"]
 layout_mode = 2
 size_flags_horizontal = 3
+text = "res://test/integration/"
+placeholder_text = "res://"
 
 [node name="SelectFolder" type="Button" parent="HBoxContainer/VBoxContainer2/SavedInputsFolder"]
 layout_mode = 2
 text = "..."
 
-[node name="SelectSpecificTestToRun" type="FileDialog" parent="."]
-auto_translate_mode = 1
-title = "Select a specific test to run"
-ok_button_text = "Open"
-file_mode = 0
-filters = PackedStringArray("*.tscn")
+[node name="ConfigManager" type="Node" parent="."]
+script = ExtResource("4_dkg5n")
 
 [node name="SelectIntegrationTestFolder" type="FileDialog" parent="."]
-title = "Select the folder containing the integration tests"
+title = "Open a Directory"
 ok_button_text = "Select Current Folder"
 file_mode = 2
-
-[node name="SelectTestResultsFolder" type="FileDialog" parent="."]
-auto_translate_mode = 1
-title = "Select a folder where the results will be written"
-ok_button_text = "Select Current Folder"
-file_mode = 2
-
-[node name="SelectTestToRecord" type="FileDialog" parent="."]
-auto_translate_mode = 1
-title = "Open a File"
-ok_button_text = "Open"
-file_mode = 0
-filters = PackedStringArray("*.tscn")
 
 [node name="SelectSavedInputsFolder" type="FileDialog" parent="."]
 auto_translate_mode = 1
-title = "Select the directory where the recorded inputs will be saved"
+title = "Open a Directory"
 ok_button_text = "Select Current Folder"
 file_mode = 2
 
-[connection signal="run_all" from="HBoxContainer/VBoxContainer/RunTests" to="." method="_on_run_tests_run_all"]
-[connection signal="run_specific_test" from="HBoxContainer/VBoxContainer/RunTests" to="." method="_on_run_tests_run_specific_test"]
-[connection signal="pressed" from="HBoxContainer/VBoxContainer/RunTests/RunAll" to="HBoxContainer/VBoxContainer/RunTests" method="_on_run_all_pressed"]
-[connection signal="pressed" from="HBoxContainer/VBoxContainer/RunTests/RunSpecificTest" to="HBoxContainer/VBoxContainer/RunTests" method="_on_run_specific_test_pressed"]
+[connection signal="pressed" from="HBoxContainer/VBoxContainer/RunTests/OpenRunner" to="." method="_on_open_runner_pressed"]
 [connection signal="select_integration_tests_folder" from="HBoxContainer/VBoxContainer/IntegrationTestsFolder" to="." method="_on_integration_tests_folder_select_integration_tests_folder"]
 [connection signal="pressed" from="HBoxContainer/VBoxContainer/IntegrationTestsFolder/SelectFolder" to="HBoxContainer/VBoxContainer/IntegrationTestsFolder" method="_on_select_folder_pressed"]
-[connection signal="select_results_folder" from="HBoxContainer/VBoxContainer/ResultsFolder" to="." method="_on_results_folder_select_results_folder"]
-[connection signal="pressed" from="HBoxContainer/VBoxContainer/ResultsFolder/SelectFolder" to="HBoxContainer/VBoxContainer/ResultsFolder" method="_on_select_folder_pressed"]
-[connection signal="record_inputs" from="HBoxContainer/VBoxContainer2/RecordInputs" to="." method="_on_record_inputs_record_inputs"]
-[connection signal="pressed" from="HBoxContainer/VBoxContainer2/RecordInputs/Record" to="HBoxContainer/VBoxContainer2/RecordInputs" method="_on_record_pressed"]
+[connection signal="pressed" from="HBoxContainer/VBoxContainer2/RecordInputs/OpenRecorder" to="." method="_on_open_recorder_pressed"]
 [connection signal="select_saved_inputs_folder" from="HBoxContainer/VBoxContainer2/SavedInputsFolder" to="." method="_on_saved_inputs_folder_select_saved_inputs_folder"]
 [connection signal="pressed" from="HBoxContainer/VBoxContainer2/SavedInputsFolder/SelectFolder" to="HBoxContainer/VBoxContainer2/SavedInputsFolder" method="_on_select_folder_pressed"]
-[connection signal="file_selected" from="SelectSpecificTestToRun" to="." method="_on_select_specific_test_to_run_file_selected"]
 [connection signal="dir_selected" from="SelectIntegrationTestFolder" to="." method="_on_select_integration_test_folder_dir_selected"]
-[connection signal="dir_selected" from="SelectTestResultsFolder" to="." method="_on_select_test_results_folder_dir_selected"]
-[connection signal="file_selected" from="SelectTestToRecord" to="." method="_on_select_test_to_record_file_selected"]
 [connection signal="dir_selected" from="SelectSavedInputsFolder" to="." method="_on_select_saved_inputs_folder_dir_selected"]

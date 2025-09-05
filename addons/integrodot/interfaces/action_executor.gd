@@ -3,21 +3,20 @@ class_name IntegrodotActionExecutor
 # Interface to extend to replay actions for integration testing
 
 ##### SIGNALS #####
-# Node signals
+signal record_action_triggered(action_name : String, value)
 
 ##### ENUMS #####
 # enumerations
 
 ##### VARIABLES #####
 #---- CONSTANTS -----
-# const constant := 10 # Optionnal comment
+const INTEGRODOT_ACTION_EXECUTOR_GROUP_NAME := "integrodot_action_executor"
 
 #---- EXPORTS -----
-# @export var EXPORT_NAME := 10.0 # Optionnal comment
+@export var ID : String
 
 #---- STANDARD -----
 #==== PUBLIC ====
-# var public_var # Optionnal comment
 
 #==== PRIVATE ====
 # var _private_var # Optionnal comment
@@ -28,7 +27,7 @@ class_name IntegrodotActionExecutor
 ##### PROCESSING #####
 # Called when the object is initialized.
 func _init():
-	pass
+	add_to_group(INTEGRODOT_ACTION_EXECUTOR_GROUP_NAME)
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -39,9 +38,21 @@ func _process(_delta):
 	pass
 
 ##### PUBLIC METHODS #####
-# Methods that are intended to be "visible" to other nodes or scripts
-# func public_method(arg : int) -> void:
-#     pass
+static func get_executor(tree: SceneTree) -> Array:
+	return tree.get_nodes_in_group(INTEGRODOT_ACTION_EXECUTOR_GROUP_NAME)
+
+static func get_executor_with_id(tree: SceneTree, id : String) -> Array:
+	return get_executor(tree).filter(func(node): return node.ID == id)
+
+# To be overriden by children classes
+func replay_action(action : String, value) -> void:
+	pass
+
+func record_action(action : String, value) -> void:
+	emit_signal("record_action_triggered", action, value)
+
+func connect_record_action(method : Callable) -> void:
+	connect("record_action_triggered", method)
 
 ##### PROTECTED METHODS #####
 # Methods that are intended to be used exclusively by this scripts

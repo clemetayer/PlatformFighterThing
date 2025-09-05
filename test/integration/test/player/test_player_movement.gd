@@ -1,6 +1,5 @@
-extends Node
-class_name IntegrodotTestExecutor
-# Test executor
+extends Node2D
+# Integration test root : tests the player movement
 
 ##### SIGNALS #####
 # Node signals
@@ -39,9 +38,8 @@ func _process(_delta):
 	pass
 
 ##### PUBLIC METHODS #####
-# Methods that are intended to be "visible" to other nodes or scripts
-# func public_method(arg : int) -> void:
-#     pass
+func get_player_config(_id: int):
+	return load("res://test/integration/test/player/default_player_config.tres")
 
 ##### PROTECTED METHODS #####
 # Methods that are intended to be used exclusively by this scripts
@@ -50,4 +48,3 @@ func _process(_delta):
 
 ##### SIGNAL MANAGEMENT #####
 # Functions that should be triggered when a specific signal is received
-

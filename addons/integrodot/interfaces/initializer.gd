@@ -1,6 +1,6 @@
 extends Node
-class_name IntegrodotChecker
-# Interface to extend to verify elements
+class_name IntegrodotInitializer
+# Interface to initialize various elements of a scene 
 
 ##### SIGNALS #####
 # Node signals
@@ -10,15 +10,17 @@ class_name IntegrodotChecker
 
 ##### VARIABLES #####
 #---- CONSTANTS -----
-const INTEGRODOT_CHECKER_GROUP_NAME := "integrodot_checker"
+const INTEGRODOT_INITIALIZER_GROUP_NAME := "integrodot_initializer"
 
 #---- EXPORTS -----
 @export var ID : String
 
 #---- STANDARD -----
 #==== PUBLIC ====
+# var public_var # Optionnal comment
 
 #==== PRIVATE ====
+# var _private_var # Optionnal comment
 
 #==== ONREADY ====
 # @onready var onready_var # Optionnal comment
@@ -26,7 +28,7 @@ const INTEGRODOT_CHECKER_GROUP_NAME := "integrodot_checker"
 ##### PROCESSING #####
 # Called when the object is initialized.
 func _init():
-	add_to_group(INTEGRODOT_CHECKER_GROUP_NAME)
+	pass
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -37,11 +39,9 @@ func _process(_delta):
 	pass
 
 ##### PUBLIC METHODS #####
-static func get_checkers(tree: SceneTree) -> Array:
-	return tree.get_nodes_in_group(INTEGRODOT_CHECKER_GROUP_NAME)
-
-static func get_checkers_with_id(tree: SceneTree, id : String) -> Array:
-	return get_checkers(tree).filter(func(node): return node.ID == id)
+# Methods that are intended to be "visible" to other nodes or scripts
+# func public_method(arg : int) -> void:
+#     pass
 
 ##### PROTECTED METHODS #####
 # Methods that are intended to be used exclusively by this scripts
@@ -50,4 +50,3 @@ static func get_checkers_with_id(tree: SceneTree, id : String) -> Array:
 
 ##### SIGNAL MANAGEMENT #####
 # Functions that should be triggered when a specific signal is received
-

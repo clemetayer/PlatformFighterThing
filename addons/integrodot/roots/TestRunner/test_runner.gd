@@ -1,6 +1,6 @@
 extends Node
-class_name IntegrodotTestRecorder
-# Records actions to later replay for the integration test
+class_name IntegrodotTestRunner
+# Class that executes the tests
 
 ##### SIGNALS #####
 # Node signals
@@ -39,9 +39,6 @@ func _process(_delta):
 	pass
 
 ##### PUBLIC METHODS #####
-# Methods that are intended to be "visible" to other nodes or scripts
-# func public_method(arg : int) -> void:
-#     pass
 
 ##### PROTECTED METHODS #####
 # Methods that are intended to be used exclusively by this scripts
@@ -50,4 +47,3 @@ func _process(_delta):
 
 ##### SIGNAL MANAGEMENT #####
 # Functions that should be triggered when a specific signal is received
-
