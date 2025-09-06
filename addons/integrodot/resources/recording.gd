@@ -1,4 +1,4 @@
 extends Resource
 class_name IntegrodotRecording
 
-var recording : Array[IntegrodotFrameRecord] = []
+@export var recording : Array[IntegrodotFrameRecord] = []

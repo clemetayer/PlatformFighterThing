@@ -1,33 +1,37 @@
-[gd_scene load_steps=4 format=3 uid="uid://d0yp2n2lw67qv"]
+[gd_scene load_steps=5 format=3 uid="uid://d0yp2n2lw67qv"]
 
 [ext_resource type="Script" uid="uid://b06pk5u41ib8x" path="res://addons/integrodot/roots/TestRecorder/test_recorder.gd" id="1_safud"]
 [ext_resource type="Script" uid="uid://cgdclyvfy3mmy" path="res://addons/integrodot/roots/TestRecorder/inputs_filename.gd" id="2_rd38m"]
 [ext_resource type="Script" uid="uid://b8tep1xvtd746" path="res://addons/integrodot/common/saved_inputs_folder.gd" id="3_obkpk"]
+[ext_resource type="Script" uid="uid://dt5ifneqn6dhy" path="res://addons/integrodot/utils/config_manager.gd" id="4_6guro"]
 
-[node name="TestRecorder" type="Control"]
+[node name="TestRecorder" type="Node"]
+script = ExtResource("1_safud")
+
+[node name="UICanvasLayer" type="CanvasLayer" parent="."]
+layer = 128
+
+[node name="UI" type="Control" parent="UICanvasLayer"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_safud")
 
-[node name="CenterContainer" type="CenterContainer" parent="."]
+[node name="StopRecording" type="CenterContainer" parent="UICanvasLayer/UI"]
 visible = false
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
-offset_left = -61.0
-offset_right = 61.0
 offset_bottom = 31.0
 grow_horizontal = 2
 
-[node name="StopRecordingButton" type="Button" parent="CenterContainer"]
+[node name="StopRecordingButton" type="Button" parent="UICanvasLayer/UI/StopRecording"]
 layout_mode = 2
 text = "Stop recording"
 
-[node name="CenterContainer2" type="CenterContainer" parent="."]
+[node name="Config" type="CenterContainer" parent="UICanvasLayer/UI"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -35,59 +39,71 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer2"]
+[node name="VBoxContainer" type="VBoxContainer" parent="UICanvasLayer/UI/Config"]
 layout_mode = 2
 theme_override_constants/separation = 40
 
-[node name="OpenSceneToRecord" type="Button" parent="CenterContainer2/VBoxContainer"]
+[node name="OpenSceneToRecord" type="Button" parent="UICanvasLayer/UI/Config/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 text = "Open a scene to record"
 
-[node name="HSeparator" type="HSeparator" parent="CenterContainer2/VBoxContainer"]
+[node name="HSeparator" type="HSeparator" parent="UICanvasLayer/UI/Config/VBoxContainer"]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer2/VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="UICanvasLayer/UI/Config/VBoxContainer"]
 layout_mode = 2
 
-[node name="InputFileName" type="HBoxContainer" parent="CenterContainer2/VBoxContainer/VBoxContainer"]
+[node name="InputFileName" type="HBoxContainer" parent="UICanvasLayer/UI/Config/VBoxContainer/VBoxContainer"]
 layout_mode = 2
 script = ExtResource("2_rd38m")
 
-[node name="Label" type="Label" parent="CenterContainer2/VBoxContainer/VBoxContainer/InputFileName"]
+[node name="Label" type="Label" parent="UICanvasLayer/UI/Config/VBoxContainer/VBoxContainer/InputFileName"]
 layout_mode = 2
 text = "Inputs file name (without the extension) "
 
-[node name="LineEdit" type="LineEdit" parent="CenterContainer2/VBoxContainer/VBoxContainer/InputFileName"]
+[node name="LineEdit" type="LineEdit" parent="UICanvasLayer/UI/Config/VBoxContainer/VBoxContainer/InputFileName"]
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 text = "you_should_give_it_a_proper_name"
 placeholder_text = "you_should_give_it_a_proper_name"
 
-[node name="InputsFolder" type="HBoxContainer" parent="CenterContainer2/VBoxContainer/VBoxContainer"]
+[node name="InputsFolder" type="HBoxContainer" parent="UICanvasLayer/UI/Config/VBoxContainer/VBoxContainer"]
 layout_mode = 2
 script = ExtResource("3_obkpk")
 
-[node name="Label" type="Label" parent="CenterContainer2/VBoxContainer/VBoxContainer/InputsFolder"]
+[node name="Label" type="Label" parent="UICanvasLayer/UI/Config/VBoxContainer/VBoxContainer/InputsFolder"]
 layout_mode = 2
 text = "Saved inputs folder"
 
-[node name="LineEdit" type="LineEdit" parent="CenterContainer2/VBoxContainer/VBoxContainer/InputsFolder"]
+[node name="LineEdit" type="LineEdit" parent="UICanvasLayer/UI/Config/VBoxContainer/VBoxContainer/InputsFolder"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "res://"
 placeholder_text = "res://"
 
-[node name="SelectFolder" type="Button" parent="CenterContainer2/VBoxContainer/VBoxContainer/InputsFolder"]
+[node name="SelectFolder" type="Button" parent="UICanvasLayer/UI/Config/VBoxContainer/VBoxContainer/InputsFolder"]
 layout_mode = 2
 text = "..."
 
+[node name="ConfigManager" type="Node" parent="."]
+script = ExtResource("4_6guro")
+
 [node name="SelectTestToRecord" type="FileDialog" parent="."]
 auto_translate_mode = 1
-title = "Open a File"
+title = "Select a test to record"
 ok_button_text = "Open"
 file_mode = 0
 filters = PackedStringArray("*.tscn")
 
-[connection signal="pressed" from="CenterContainer/StopRecordingButton" to="." method="_on_stop_recording_button_pressed"]
-[connection signal="pressed" from="CenterContainer2/VBoxContainer/VBoxContainer/InputsFolder/SelectFolder" to="CenterContainer2/VBoxContainer/VBoxContainer/InputsFolder" method="_on_select_folder_pressed"]
+[node name="SelectSavedInputsFolder" type="FileDialog" parent="."]
+auto_translate_mode = 1
+title = "Select a directory to save the inputs"
+ok_button_text = "Select folder"
+file_mode = 2
+
+[connection signal="pressed" from="UICanvasLayer/UI/StopRecording/StopRecordingButton" to="." method="_on_stop_recording_button_pressed"]
+[connection signal="pressed" from="UICanvasLayer/UI/Config/VBoxContainer/OpenSceneToRecord" to="." method="_on_open_scene_to_record_pressed"]
+[connection signal="select_saved_inputs_folder" from="UICanvasLayer/UI/Config/VBoxContainer/VBoxContainer/InputsFolder" to="." method="_on_inputs_folder_select_saved_inputs_folder"]
+[connection signal="pressed" from="UICanvasLayer/UI/Config/VBoxContainer/VBoxContainer/InputsFolder/SelectFolder" to="UICanvasLayer/UI/Config/VBoxContainer/VBoxContainer/InputsFolder" method="_on_select_folder_pressed"]
+[connection signal="file_selected" from="SelectTestToRecord" to="." method="_on_select_test_to_record_file_selected"]

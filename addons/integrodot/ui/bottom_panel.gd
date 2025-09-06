@@ -4,8 +4,8 @@ extends Control
 
 ##### VARIABLES #####
 #---- CONSTANTS -----
-const TEST_RECORDER_SCENE_PATH := "res://addons/integrodot/roots/TestRunner/test_runner.tscn"
-const TEST_RUNNER_SCENE_PATH := "res://addons/integrodot/roots/TestRecorder/test_recorder.tscn"
+const TEST_RECORDER_SCENE_PATH := "res://addons/integrodot/roots/TestRecorder/test_recorder.tscn"
+const TEST_RUNNER_SCENE_PATH := "res://addons/integrodot/roots/TestRunner/test_runner.tscn"
 
 #---- STANDARD -----
 #==== ONREADY ====
