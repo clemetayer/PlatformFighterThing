@@ -35,6 +35,7 @@ SceneUtils="*res://Utils/scene_utils.gd"
 RuntimeUtils="*res://Utils/runtime_utils.gd"
 FullScreenEffects="*res://Scenes/Camera/FullScreenEffects/full_screen_effects.tscn"
 Shaker="*res://addons/shaker/src/Shaker.gd"
+IntegrodotGlobalVariables="*res://addons/integrodot/singletons/integrodot_global_variables.gd"
 
 [display]
 
@@ -47,7 +48,7 @@ script/templates_search_path="res://Utils/ScriptTemplates"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/gs_logger/plugin.cfg", "res://addons/gut/plugin.cfg", "res://addons/integrodot/plugin.cfg", "res://addons/shaker/plugin.cfg")
+enabled=PackedStringArray("res://addons/gs_logger/plugin.cfg", "res://addons/gut/plugin.cfg", "res://addons/shaker/plugin.cfg")
 
 [global_group]
 

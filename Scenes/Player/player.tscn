@@ -1,4 +1,4 @@
-[gd_scene load_steps=53 format=3 uid="uid://fgxha8wl55pa"]
+[gd_scene load_steps=56 format=3 uid="uid://fgxha8wl55pa"]
 
 [ext_resource type="Script" uid="uid://bxq3finp4gfep" path="res://Scenes/Player/player.gd" id="1_b1dbg"]
 [ext_resource type="Script" uid="uid://bq2rya8sinnf" path="res://Scenes/Player/paths.gd" id="2_8lsum"]
@@ -26,6 +26,9 @@
 [ext_resource type="Texture2D" uid="uid://2ebef4pu2k81" path="res://Scenes/Player/CharacterSpawnSprite.png" id="23_rqdc0"]
 [ext_resource type="Texture2D" uid="uid://daqpwwlyh78yf" path="res://Misc/Particles/kenney_particle-pack/star_07.png" id="24_qr1w5"]
 [ext_resource type="Texture2D" uid="uid://bv0r8mi6wpacw" path="res://Misc/Particles/kenney_particle-pack/star_08.png" id="25_ythyg"]
+[ext_resource type="Script" uid="uid://btgqroew6yqn2" path="res://Scenes/Player/test/player_test_initializer.gd" id="27_2ahak"]
+[ext_resource type="Script" uid="uid://4oexb73b58y5" path="res://Scenes/Player/test/player_test_action_executor.gd" id="28_rukb4"]
+[ext_resource type="Script" uid="uid://pj8ckm6v5yfc" path="res://Scenes/Player/test/player_test_checker.gd" id="29_4no11"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_igkwr"]
 properties/0/path = NodePath(".:DAMAGE")
