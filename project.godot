@@ -35,7 +35,6 @@ SceneUtils="*res://Utils/scene_utils.gd"
 RuntimeUtils="*res://Utils/runtime_utils.gd"
 FullScreenEffects="*res://Scenes/Camera/FullScreenEffects/full_screen_effects.tscn"
 Shaker="*res://addons/shaker/src/Shaker.gd"
-IntegrodotGlobalVariables="*res://addons/integrodot/singletons/integrodot_global_variables.gd"
 
 [display]
 

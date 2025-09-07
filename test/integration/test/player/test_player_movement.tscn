@@ -1,11 +1,9 @@
-[gd_scene load_steps=4 format=4 uid="uid://ds6beqsfr4cmr"]
+[gd_scene load_steps=3 format=4 uid="uid://ds6beqsfr4cmr"]
 
 [ext_resource type="TileSet" uid="uid://c8i1jwmobi66o" path="res://Scenes/Levels/Tilesets/tileset.tres" id="1_jhj5l"]
-[ext_resource type="Script" uid="uid://c080t6oai48dp" path="res://test/integration/test/player/test_player_movement.gd" id="1_qg2o7"]
 [ext_resource type="PackedScene" uid="uid://fgxha8wl55pa" path="res://Scenes/Player/player.tscn" id="2_qg2o7"]
 
 [node name="TestPlayerMovement" type="Node2D"]
-script = ExtResource("1_qg2o7")
 
 [node name="Player" parent="." instance=ExtResource("2_qg2o7")]
 position = Vector2(-1, -45)

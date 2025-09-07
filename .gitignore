@@ -17,5 +17,4 @@ mono_crash.*.json
 # my gitignores
 builds/
 addons/*
-!addons/integrodot/
 build.yml
