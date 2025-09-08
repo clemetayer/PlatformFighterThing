@@ -1,17 +1,11 @@
 extends "res://addons/gut/test.gd"
 
 ##### VARIABLES #####
-#---- CONSTANTS -----
-# const CONST := "value"
-
 #---- VARIABLES -----
 var scene
 var _sender = InputSender.new(Input)
 
 ##### SETUP #####
-func before_all():
-	pass
-
 func before_each():
 	scene = load("res://test/integration/player_movement/scene_player_movement.tscn").instantiate()
 	add_child_autofree(scene)
@@ -19,9 +13,6 @@ func before_each():
 	await wait_seconds(1.0) # waits 1s to make sure the player is initialized and on the floor
 
 ##### TEARDOWN #####
-func after_all():
-	pass
-
 func after_each():
 	_sender.release_all()
 	_sender.clear()

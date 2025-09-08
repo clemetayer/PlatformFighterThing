@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=4 uid="uid://f0o7458uc4ls"]
+
+[ext_resource type="PackedScene" uid="uid://fgxha8wl55pa" path="res://Scenes/Player/player.tscn" id="1_minhf"]
+[ext_resource type="TileSet" uid="uid://c8i1jwmobi66o" path="res://Scenes/Levels/Tilesets/tileset.tres" id="1_ulw0s"]
+[ext_resource type="Script" uid="uid://2e6ffjliw747" path="res://test/integration/parry/scene_parry.gd" id="1_w14dx"]
+
+[node name="SceneParry" type="Node2D"]
+script = ExtResource("1_w14dx")
+
+[node name="Player" parent="." instance=ExtResource("1_minhf")]
+position = Vector2(181, -43)
+
+[node name="TileMap" type="TileMapLayer" parent="."]
+tile_map_data = PackedByteArray("AAAKAAAAAAALAAAAAAAJAAAAAAAKAAAAAAAIAAAAAAAKAAAAAAAHAAAAAAAKAAAAAAAGAAAAAAAKAAAAAAAFAAAAAAAKAAAAAAAEAAAAAAAKAAAAAAADAAAAAAAKAAAAAAACAAAAAAAKAAAAAAABAAAAAAAKAAAAAAAAAAAAAAAKAAAAAAD//wAAAAAKAAAAAAD+/wAAAAAKAAAAAAD9/wAAAAAKAAAAAAD8/wAAAAAKAAAAAAD7/wAAAAAKAAAAAAD6/wAAAAAKAAAAAAD5/wAAAAAKAAAAAAD4/wAAAAAKAAAAAAD3/wAAAAAKAAAAAAD2/wAAAAAIAAAAAAAKAAEAAAALAAMAAAAJAAEAAAAJAAMAAAAIAAEAAAAJAAMAAAAHAAEAAAAJAAMAAAAGAAEAAAAJAAMAAAAFAAEAAAAJAAMAAAAEAAEAAAAJAAMAAAADAAEAAAAJAAMAAAACAAEAAAAJAAMAAAABAAEAAAAJAAMAAAAAAAEAAAAJAAMAAAD//wEAAAAJAAMAAAD+/wEAAAAJAAMAAAD9/wEAAAAJAAMAAAD8/wEAAAAJAAMAAAD7/wEAAAAJAAMAAAD6/wEAAAAJAAMAAAD5/wEAAAAJAAMAAAD4/wEAAAAJAAMAAAD3/wEAAAAJAAMAAAD2/wEAAAAIAAMAAAA=")
+tile_set = ExtResource("1_ulw0s")
+
+[node name="FirePosition" type="Node2D" parent="."]
+position = Vector2(-211, -49)
+
+[node name="Camera2D" type="Camera2D" parent="."]
