@@ -1,0 +1,44 @@
+[gd_scene load_steps=6 format=4 uid="uid://3wwk8kry4cgb"]
+
+[ext_resource type="Script" uid="uid://bmb87xe60h7tn" path="res://test/integration/DestructibleWall/scene_destructible_wall.gd" id="1_6xmuh"]
+[ext_resource type="TileSet" uid="uid://c8i1jwmobi66o" path="res://Scenes/Levels/Tilesets/tileset.tres" id="1_bfaij"]
+[ext_resource type="PackedScene" uid="uid://dwikem0xs7d8t" path="res://Scenes/DestructibleWalls/destructible_wall.tscn" id="1_jmt07"]
+[ext_resource type="PackedScene" uid="uid://fgxha8wl55pa" path="res://Scenes/Player/player.tscn" id="3_1bncd"]
+[ext_resource type="PackedScene" uid="uid://cc0fh31rsxvm5" path="res://Scenes/DestructibleWalls/WallBreakParticles/wall_break_particles.tscn" id="3_e1ajf"]
+
+[node name="SceneDestructibleWall" type="Node2D"]
+script = ExtResource("1_6xmuh")
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+tile_map_data = PackedByteArray("AAD8/wAAAAAIAAAAAAD9/wAAAAAKAAAAAAD+/wAAAAAKAAAAAAD//wAAAAAKAAAAAAAAAAAAAAAKAAAAAAABAAAAAAAKAAAAAAACAAAAAAAKAAAAAAADAAAAAAALAAAAAAADAAEAAAALAAMAAAACAAEAAAAJAAMAAAABAAEAAAAJAAMAAAAAAAEAAAAJAAMAAAD//wEAAAAJAAMAAAD+/wEAAAAJAAMAAAD9/wEAAAAJAAMAAAD8/wEAAAAIAAMAAAA=")
+tile_set = ExtResource("1_bfaij")
+
+[node name="WallBreakParticles" type="Node2D" parent="."]
+
+[node name="Down" parent="WallBreakParticles" instance=ExtResource("3_e1ajf")]
+TILEMAP_PATH = NodePath("../../DestructibleWalls/Down")
+
+[node name="Left" parent="WallBreakParticles" instance=ExtResource("3_e1ajf")]
+TILEMAP_PATH = NodePath("../../DestructibleWalls/Left")
+
+[node name="Right" parent="WallBreakParticles" instance=ExtResource("3_e1ajf")]
+TILEMAP_PATH = NodePath("../../DestructibleWalls/Right")
+
+[node name="DestructibleWalls" type="Node2D" parent="."]
+
+[node name="Down" parent="DestructibleWalls" instance=ExtResource("1_jmt07")]
+tile_map_data = PackedByteArray("AAADAAMAAAAJAAMAAAADAAIAAAAKAAAAAAACAAMAAAAJAAMAAAACAAIAAAAKAAAAAAABAAMAAAAJAAMAAAABAAIAAAAKAAAAAAAAAAMAAAAJAAMAAAAAAAIAAAAKAAAAAAD//wMAAAAJAAMAAAD//wIAAAAKAAAAAAD+/wMAAAAJAAMAAAD+/wIAAAAKAAAAAAD9/wMAAAAJAAMAAAD9/wIAAAAKAAAAAAD8/wMAAAAJAAMAAAD8/wIAAAAKAAAAAAD7/wMAAAAJAAMAAAD7/wIAAAAKAAAAAAD6/wMAAAAJAAMAAAD6/wIAAAAKAAAAAAD5/wMAAAAJAAMAAAD5/wIAAAAKAAAAAAD4/wMAAAAJAAMAAAD4/wIAAAAKAAAAAAAHAAMAAAAJAAMAAAAHAAIAAAAKAAAAAAAGAAMAAAAJAAMAAAAGAAIAAAAKAAAAAAAFAAMAAAAJAAMAAAAFAAIAAAAKAAAAAAAEAAMAAAAJAAMAAAAEAAIAAAAKAAAAAAALAAMAAAALAAMAAAALAAIAAAALAAAAAAAKAAMAAAAJAAMAAAAKAAIAAAAKAAAAAAAJAAMAAAAJAAMAAAAJAAIAAAAKAAAAAAAIAAMAAAAJAAMAAAAIAAIAAAAKAAAAAAD3/wMAAAAJAAMAAAD3/wIAAAAKAAAAAAD2/wMAAAAJAAMAAAD2/wIAAAAKAAAAAAD1/wMAAAAJAAMAAAD1/wIAAAAKAAAAAAD0/wMAAAAIAAMAAAD0/wIAAAAIAAAAAAA=")
+BOUNCE_BACK_DIRECTION = Vector2(0, -1)
+
+[node name="Left" parent="DestructibleWalls" instance=ExtResource("1_jmt07")]
+tile_map_data = PackedByteArray("AADz/wMAAAALAAMAAADz/wIAAAALAAIAAADz/wEAAAALAAIAAADz/wAAAAALAAIAAADz////AAALAAIAAADz//7/AAALAAIAAADz//3/AAALAAIAAADz//z/AAALAAIAAADz//v/AAALAAIAAADz//r/AAALAAAAAADy/wMAAAAIAAMAAADy/wIAAAAIAAEAAADy/wEAAAAIAAEAAADy/wAAAAAIAAEAAADy////AAAIAAEAAADy//7/AAAIAAEAAADy//3/AAAIAAEAAADy//z/AAAIAAEAAADy//v/AAAIAAEAAADy//r/AAAIAAAAAAA=")
+
+[node name="Right" parent="DestructibleWalls" instance=ExtResource("1_jmt07")]
+tile_map_data = PackedByteArray("AAANAAMAAAALAAMAAAANAAIAAAALAAIAAAANAAEAAAALAAIAAAANAAAAAAALAAIAAAANAP//AAALAAIAAAANAP7/AAALAAIAAAANAP3/AAALAAIAAAANAPz/AAALAAIAAAANAPv/AAALAAIAAAANAPr/AAALAAAAAAAMAAMAAAAIAAMAAAAMAAIAAAAIAAEAAAAMAAEAAAAIAAEAAAAMAAAAAAAIAAEAAAAMAP//AAAIAAEAAAAMAP7/AAAIAAEAAAAMAP3/AAAIAAEAAAAMAPz/AAAIAAEAAAAMAPv/AAAIAAEAAAAMAPr/AAAIAAAAAAA=")
+BOUNCE_BACK_DIRECTION = Vector2(-1, 0)
+
+[node name="Player" parent="." instance=ExtResource("3_1bncd")]
+position = Vector2(0, -44)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(0.5, 0.5)

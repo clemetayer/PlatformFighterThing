@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=4 uid="uid://ds6beqsfr4cmr"]
 
 [ext_resource type="PackedScene" uid="uid://fgxha8wl55pa" path="res://Scenes/Player/player.tscn" id="1_poqli"]
-[ext_resource type="Script" uid="uid://do7l7ouso500k" path="res://test/integration/player_movement/scene_player_movement.gd" id="1_wdp5u"]
+[ext_resource type="Script" uid="uid://do7l7ouso500k" path="res://test/integration/PlayerMovement/scene_player_movement.gd" id="1_wdp5u"]
 [ext_resource type="TileSet" uid="uid://c8i1jwmobi66o" path="res://Scenes/Levels/Tilesets/tileset.tres" id="2_wdp5u"]
 
 [node name="TestPlayerMovement" type="Node2D"]
