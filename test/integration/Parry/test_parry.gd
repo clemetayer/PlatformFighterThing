@@ -12,7 +12,7 @@ func before_each():
 	SceneUtils.connect("toggle_scene_freeze", _on_toggle_scene_freeze)
 	toggle_scene_freeze_times_called = 0
 	toggle_scene_freeze_args = []
-	scene = load("res://test/integration/parry/scene_parry.tscn").instantiate()
+	scene = load("res://test/integration/Parry/scene_parry.tscn").instantiate()
 	add_child_autofree(scene)
 	await wait_frames(1)
 	await wait_seconds(1.0) # waits 1s to make sure the player is initialized and on the floor

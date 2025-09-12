@@ -1,0 +1,29 @@
+[gd_scene load_steps=6 format=4 uid="uid://dy0ssokjrkxm0"]
+
+[ext_resource type="Script" uid="uid://d1q8dg64mx88o" path="res://test/integration/LevelBounds/scene_level_bounds.gd" id="1_ef2g4"]
+[ext_resource type="PackedScene" uid="uid://bc175bcim437d" path="res://Scenes/LevelBounds/level_bounds.tscn" id="2_x6ma2"]
+[ext_resource type="PackedScene" uid="uid://fgxha8wl55pa" path="res://Scenes/Player/player.tscn" id="3_q0v6v"]
+[ext_resource type="TileSet" uid="uid://c8i1jwmobi66o" path="res://Scenes/Levels/Tilesets/tileset.tres" id="4_6seer"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cqc7f"]
+size = Vector2(800, 600)
+
+[node name="LevelBounds" type="Node2D"]
+script = ExtResource("1_ef2g4")
+
+[node name="LevelBounds" parent="." instance=ExtResource("2_x6ma2")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LevelBounds"]
+position = Vector2(-2.5, 9)
+shape = SubResource("RectangleShape2D_cqc7f")
+
+[node name="Player" parent="." instance=ExtResource("3_q0v6v")]
+position = Vector2(0, -43)
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+position = Vector2(1, 0)
+tile_map_data = PackedByteArray("AAADAAEAAAALAAMAAAADAAAAAAALAAAAAAACAAEAAAAJAAMAAAACAAAAAAAKAAAAAAABAAEAAAAJAAMAAAABAAAAAAAKAAAAAAAAAAEAAAAJAAMAAAAAAAAAAAAKAAAAAAD//wEAAAAJAAMAAAD//wAAAAAKAAAAAAD+/wEAAAAJAAMAAAD+/wAAAAAKAAAAAAD9/wEAAAAJAAMAAAD9/wAAAAAKAAAAAAD8/wEAAAAIAAMAAAD8/wAAAAAIAAAAAAA=")
+tile_set = ExtResource("4_6seer")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(0.5, 0.5)
