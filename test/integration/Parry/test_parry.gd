@@ -54,18 +54,20 @@ func test_parry_bullet():
 	bullet.current_owner = previous_owner
 	scene.fire_projectile(bullet)
 	# when / then
-	await wait_seconds(0.1)
+	await wait_seconds(0.08)
 	_sender.action_down("parry").hold_for(.1)
 	await(_sender.idle)
 	await wait_seconds(0.25)
 	assert_false(scene.is_parry_lockout())
-	assert_ne(bullet.rotation, 0.0)
-	assert_eq(bullet.speed, 2 * bullet.SPEED)
-	assert_eq(bullet.damage, 2 * bullet.DAMAGE)
-	assert_eq(bullet.knockback, 2 * bullet.KNOCKBACK)
+	assert_true(is_instance_valid(bullet))
+	if is_instance_valid(bullet):
+		assert_ne(bullet.rotation, 0.0)
+		assert_eq(bullet.speed, 2 * bullet.SPEED)
+		assert_eq(bullet.damage, 2 * bullet.DAMAGE)
+		assert_eq(bullet.knockback, 2 * bullet.KNOCKBACK)
+		assert_eq(bullet.current_owner, scene.get_player())
 	assert_eq(toggle_scene_freeze_times_called, 2)
 	assert_eq(toggle_scene_freeze_args, [[true],[false]])
-	assert_eq(bullet.current_owner, scene.get_player())
 	# cleanup
 	previous_owner.free()
 	bullet.free()
