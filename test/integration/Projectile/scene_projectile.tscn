@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=4 uid="uid://c5sfnw5mkuf7d"]
+
+[ext_resource type="Script" uid="uid://k10xcuegbfwp" path="res://test/integration/Projectile/scene_projectile.gd" id="1_cgsmn"]
+[ext_resource type="PackedScene" uid="uid://fgxha8wl55pa" path="res://Scenes/Player/player.tscn" id="1_gvfxr"]
+[ext_resource type="TileSet" uid="uid://c8i1jwmobi66o" path="res://Scenes/Levels/Tilesets/tileset.tres" id="1_vtm0u"]
+
+[node name="SceneProjectile" type="Node2D"]
+script = ExtResource("1_cgsmn")
+
+[node name="FirePosition" type="Node2D" parent="."]
+position = Vector2(-198, -43)
+
+[node name="Player" parent="." instance=ExtResource("1_gvfxr")]
+position = Vector2(249, -44)
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+tile_map_data = PackedByteArray("AAAJAAEAAAAJAAMAAAAJAAAAAAAKAAAAAAAIAAEAAAAJAAMAAAAIAAAAAAAKAAAAAAAHAAEAAAAJAAMAAAAHAAAAAAAKAAAAAAAGAAEAAAAJAAMAAAAGAAAAAAAKAAAAAAAFAAEAAAAJAAMAAAAFAAAAAAAKAAAAAAAEAAEAAAAJAAMAAAAEAAAAAAAKAAAAAAADAAEAAAAJAAMAAAADAAAAAAAKAAAAAAACAAEAAAAJAAMAAAACAAAAAAAKAAAAAAABAAEAAAAJAAMAAAABAAAAAAAKAAAAAAAAAAEAAAAJAAMAAAAAAAAAAAAKAAAAAAD//wEAAAAJAAMAAAD//wAAAAAKAAAAAAD+/wEAAAAJAAMAAAD+/wAAAAAKAAAAAAD9/wEAAAAJAAMAAAD9/wAAAAAKAAAAAAD8/wEAAAAJAAMAAAD8/wAAAAAKAAAAAAD7/wEAAAAJAAMAAAD7/wAAAAAKAAAAAAD6/wEAAAAJAAMAAAD6/wAAAAAKAAAAAAD5/wEAAAAJAAMAAAD5/wAAAAAKAAAAAAD4/wEAAAAJAAMAAAD4/wAAAAAKAAAAAAD3/wEAAAAJAAMAAAD3/wAAAAAKAAAAAAD2/wEAAAAJAAMAAAD2/wAAAAAKAAAAAAD1/wEAAAAIAAMAAAD1/wAAAAAIAAAAAAAKAAAAAAALAAAAAAAKAAEAAAALAAMAAAA=")
+tile_set = ExtResource("1_vtm0u")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(0.5, 0.5)
