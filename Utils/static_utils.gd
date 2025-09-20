@@ -15,6 +15,6 @@ static func map_if_exists(data : Dictionary, key, object, variable_name : String
 		if variable_name in object:
 			object.set(variable_name, data[key])
 		else:
-			Logger.warn("object %s does not contain the variable %s, at %s" % [object, variable_name, get_stack()])
+			GSLogger.warn("object %s does not contain the variable %s, at %s" % [object, variable_name, get_stack()])
 	else:
-		Logger.warn("%s does not contain the key %s, at %s" % [data, key, get_stack()])
+		GSLogger.warn("%s does not contain the key %s, at %s" % [data, key, get_stack()])

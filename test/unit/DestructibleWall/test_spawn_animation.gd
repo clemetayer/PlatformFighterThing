@@ -7,10 +7,7 @@ var spawn_animation
 ##### SETUP #####
 func before_each():
 	spawn_animation = load("res://Scenes/DestructibleWalls/spawn_animation.gd").new()
-
-##### TEARDOWN #####
-func after_each():
-	spawn_animation.free()
+	add_child_autofree(spawn_animation)
 
 ##### TESTS #####
 func test_play_spawn_animation():

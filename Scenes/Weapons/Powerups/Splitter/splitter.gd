@@ -35,7 +35,7 @@ func _spawn_projectile(projectile) -> void:
 		if game_root != null and game_root.has_method("spawn_projectile"):
 			game_root.spawn_projectile(projectile)
 		else: 
-			Logger.error("Game root does not exist or does not have the method '%s'" % "spawn_projectile")
+			GSLogger.error("Game root does not exist or does not have the method '%s'" % "spawn_projectile")
 
 func _duplicate_projectile_with_angle(projectile : Node, angle : float) -> void:
 	var duplicated_projectile = projectile.duplicate()

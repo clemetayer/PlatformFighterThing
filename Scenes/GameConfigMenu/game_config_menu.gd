@@ -63,7 +63,7 @@ func _option_index_to_game_type_enum(index: int) -> StaticUtils.GAME_TYPES:
 			return StaticUtils.GAME_TYPES.HOST
 		2:
 			return StaticUtils.GAME_TYPES.CLIENT
-	Logger.error("No game type found for option %d" % index)
+	GSLogger.error("No game type found for option %d" % index)
 	return StaticUtils.GAME_TYPES.OFFLINE # Default case, should not go here
 
 func _toggle_menu_visible(menu_type : StaticUtils.GAME_TYPES) -> void:
@@ -74,30 +74,6 @@ func _toggle_menu_visible(menu_type : StaticUtils.GAME_TYPES) -> void:
 ##### SIGNAL MANAGEMENT #####
 func _on_option_button_item_selected(index: int) -> void:
 	_toggle_menu_visible(_option_index_to_game_type_enum(index))
-	
-func _on_button_pressed() -> void:
-	var type = _option_index_to_game_type_enum(onready_paths.option.selected)
-	match type:
-		StaticUtils.GAME_TYPES.OFFLINE:
-			emit_signal("init_offline")
-		StaticUtils.GAME_TYPES.HOST:
-			var port_str = onready_paths.host.port.text
-			if port_str.is_valid_int():
-				emit_signal("init_host",int(port_str))
-				onready_paths.config_menu.hide()
-				onready_paths.waiting_host.show()
-				update_host_player_numbers(0)
-			else:
-				Logger.error("Port %s is not valid !" % port_str)
-		StaticUtils.GAME_TYPES.CLIENT:
-			var port_str = onready_paths.client.port.text
-			var ip = onready_paths.client.ip.text
-			if port_str.is_valid_int() and ip.is_valid_ip_address():
-				emit_signal("init_client", ip, int(port_str))
-				onready_paths.config_menu.hide()
-				onready_paths.waiting_client.show()
-			else:
-				Logger.error("Port %s or ip %s is not valid !" % [port_str, ip])
 
 func _on_host_start_button_pressed() -> void:
 	emit_signal("start_game")
@@ -126,3 +102,28 @@ func _on_camera_effects_intensity_option_item_selected(index: int) -> void:
 			RuntimeConfig.set_camera_effects_intensity(RuntimeConfig.CAMERA_EFFECTS_INTENSITY.MID)
 		3:
 			RuntimeConfig.set_camera_effects_intensity(RuntimeConfig.CAMERA_EFFECTS_INTENSITY.HIGH)
+
+
+func _on_start_button_pressed() -> void:
+	var type = _option_index_to_game_type_enum(onready_paths.option.selected)
+	match type:
+		StaticUtils.GAME_TYPES.OFFLINE:
+			emit_signal("init_offline")
+		StaticUtils.GAME_TYPES.HOST:
+			var port_str = onready_paths.host.port.text
+			if port_str.is_valid_int():
+				emit_signal("init_host",int(port_str))
+				onready_paths.config_menu.hide()
+				onready_paths.waiting_host.show()
+				update_host_player_numbers(0)
+			else:
+				GSLogger.error("Port %s is not valid !" % port_str)
+		StaticUtils.GAME_TYPES.CLIENT:
+			var port_str = onready_paths.client.port.text
+			var ip = onready_paths.client.ip.text
+			if port_str.is_valid_int() and ip.is_valid_ip_address():
+				emit_signal("init_client", ip, int(port_str))
+				onready_paths.config_menu.hide()
+				onready_paths.waiting_client.show()
+			else:
+				GSLogger.error("Port %s or ip %s is not valid !" % [port_str, ip])

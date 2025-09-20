@@ -3,6 +3,7 @@ class_name MovementBonusBase
 # Base class for movement bonuses (literally does nothing here)
 
 ##### SIGNALS #####
+@warning_ignore("UNUSED_SIGNAL")
 signal value_updated(value)
 
 ##### VARIABLES #####

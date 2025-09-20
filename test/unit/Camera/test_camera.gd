@@ -18,11 +18,12 @@ func after_each():
 ##### TESTS #####
 func test_ready():
 	# given
+	var camera_scene = load("res://Scenes/Camera/camera.tscn").instantiate()
 	# when
-	camera._ready()
+	add_child_autofree(camera_scene)
 	# then
-	assert_true(CameraEffects.is_connected("start_camera_impact", camera._on_start_camera_impact))
-	assert_true(CameraEffects.is_connected("focus_on", camera._on_focus_on))
+	assert_true(CameraEffects.is_connected("start_camera_impact", camera_scene._on_start_camera_impact))
+	assert_true(CameraEffects.is_connected("focus_on", camera_scene._on_focus_on))
 
 func test_start_camera_impact():
 	# given

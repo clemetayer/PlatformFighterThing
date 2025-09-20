@@ -46,7 +46,7 @@ func kill() -> void:
 func _get_last_hit_owner_id(last_hit_owner : Node2D) -> int:
 	if "id" in last_hit_owner:
 		return last_hit_owner.id
-	Logger.warn("Error while getting the opponent id to show the elmination message")
+	GSLogger.warn("Error while getting the opponent id to show the elmination message")
 	return -1
 
 func _on_death_anim_time_timeout() -> void:

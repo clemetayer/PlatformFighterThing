@@ -22,7 +22,7 @@ func test_ready():
 	mock_player._scene_utils = scene_utils
 	var onready_paths_node = load("res://Scenes/Player/paths.gd").new()
 	onready_paths_node.name = "Paths"
-	mock_player.add_child(onready_paths_node)
+	mock_player.add_child(onready_paths_node, false, 0)
 	var init = double(load("res://Scenes/Player/init.gd")).new()
 	stub(init, "initialize").to_do_nothing()
 	onready_paths_node.init = init
@@ -72,7 +72,20 @@ var physics_process_falling_params := [
 ]
 func test_physics_process_falling(params = use_parameters(physics_process_falling_params)):
 	# given
+	var game_proxy = load("res://Scenes/Game/players.gd").new()
+	var player_config = load("res://test/unit/Player/default_player_config.tres")
+	game_proxy._players_data = {
+		1: {
+			"config": player_config
+		}
+	}
 	var mock_player = partial_double(load("res://Scenes/Player/player.gd"), DOUBLE_STRATEGY.INCLUDE_NATIVE).new()
+	game_proxy.add_child(mock_player)
+	stub(mock_player, "_ready").to_do_nothing()
+	var paths = Node2D.new()
+	paths.name = "Paths"
+	mock_player.add_child(paths,false,0)
+	add_child_autofree(game_proxy)
 	mock_player.velocity = Vector2.ZERO
 	mock_player._frozen = false
 	mock_player.direction = params[0]
@@ -109,7 +122,20 @@ var physics_process_on_floor_params := [
 ]
 func test_physics_process_on_floor(params = use_parameters(physics_process_on_floor_params)):
 	# given
+	var game_proxy = load("res://Scenes/Game/players.gd").new()
+	var player_config = load("res://test/unit/Player/default_player_config.tres")
+	game_proxy._players_data = {
+		1: {
+			"config": player_config
+		}
+	}
 	var mock_player = partial_double(load("res://Scenes/Player/player.gd"), DOUBLE_STRATEGY.INCLUDE_NATIVE).new()
+	game_proxy.add_child(mock_player)
+	stub(mock_player, "_ready").to_do_nothing()
+	var paths = Node2D.new()
+	paths.name = "Paths"
+	mock_player.add_child(paths,false,0)
+	add_child_autofree(game_proxy)
 	mock_player._frozen = false
 	mock_player.direction = params[0]
 	mock_player.velocity = params[1]
@@ -139,7 +165,20 @@ func test_physics_process_on_floor(params = use_parameters(physics_process_on_fl
 
 func test_physics_process_jumping():
 	# given
+	var game_proxy = load("res://Scenes/Game/players.gd").new()
+	var player_config = load("res://test/unit/Player/default_player_config.tres")
+	game_proxy._players_data = {
+		1: {
+			"config": player_config
+		}
+	}
 	var mock_player = partial_double(load("res://Scenes/Player/player.gd"), DOUBLE_STRATEGY.INCLUDE_NATIVE).new()
+	game_proxy.add_child(mock_player)
+	stub(mock_player, "_ready").to_do_nothing()
+	var paths = Node2D.new()
+	paths.name = "Paths"
+	mock_player.add_child(paths,false,0)
+	add_child_autofree(game_proxy)
 	mock_player.velocity = Vector2.ZERO
 	mock_player._frozen = false
 	mock_player.direction = Vector2.ZERO
@@ -170,7 +209,20 @@ func test_physics_process_jumping():
 
 func test_physics_process_hitstunned():
 	# given
+	var game_proxy = load("res://Scenes/Game/players.gd").new()
+	var player_config = load("res://test/unit/Player/default_player_config.tres")
+	game_proxy._players_data = {
+		1: {
+			"config": player_config
+		}
+	}
 	var mock_player = partial_double(load("res://Scenes/Player/player.gd"), DOUBLE_STRATEGY.INCLUDE_NATIVE).new()
+	game_proxy.add_child(mock_player)
+	stub(mock_player, "_ready").to_do_nothing()
+	var paths = Node2D.new()
+	paths.name = "Paths"
+	mock_player.add_child(paths,false,0)
+	add_child_autofree(game_proxy)
 	mock_player.velocity = Vector2.RIGHT
 	mock_player._frozen = false
 	mock_player.direction = Vector2.ZERO
@@ -202,7 +254,20 @@ func test_physics_process_hitstunned():
 
 func test_physics_processfreeze_buffer_velocity():
 	# given
+	var game_proxy = load("res://Scenes/Game/players.gd").new()
+	var player_config = load("res://test/unit/Player/default_player_config.tres")
+	game_proxy._players_data = {
+		1: {
+			"config": player_config
+		}
+	}
 	var mock_player = partial_double(load("res://Scenes/Player/player.gd"), DOUBLE_STRATEGY.INCLUDE_NATIVE).new()
+	game_proxy.add_child(mock_player)
+	stub(mock_player, "_ready").to_do_nothing()
+	var paths = Node2D.new()
+	paths.name = "Paths"
+	mock_player.add_child(paths,false,0)
+	add_child_autofree(game_proxy)
 	mock_player.velocity = Vector2.RIGHT
 	mock_player._frozen = false
 	mock_player.direction = Vector2.ZERO
@@ -235,7 +300,20 @@ func test_physics_processfreeze_buffer_velocity():
 
 func test_physics_process_override_velocity():
 	# given
+	var game_proxy = load("res://Scenes/Game/players.gd").new()
+	var player_config = load("res://test/unit/Player/default_player_config.tres")
+	game_proxy._players_data = {
+		1: {
+			"config": player_config
+		}
+	}
 	var mock_player = partial_double(load("res://Scenes/Player/player.gd"), DOUBLE_STRATEGY.INCLUDE_NATIVE).new()
+	game_proxy.add_child(mock_player)
+	stub(mock_player, "_ready").to_do_nothing()
+	var paths = Node2D.new()
+	paths.name = "Paths"
+	mock_player.add_child(paths,false,0)
+	add_child_autofree(game_proxy)
 	mock_player.velocity = Vector2.RIGHT
 	mock_player._frozen = false
 	mock_player.direction = Vector2.ZERO
@@ -268,7 +346,20 @@ func test_physics_process_override_velocity():
 
 func test_add_velocity():
 	# given
+	var game_proxy = load("res://Scenes/Game/players.gd").new()
+	var player_config = load("res://test/unit/Player/default_player_config.tres")
+	game_proxy._players_data = {
+		1: {
+			"config": player_config
+		}
+	}
 	var mock_player = partial_double(load("res://Scenes/Player/player.gd"), DOUBLE_STRATEGY.INCLUDE_NATIVE).new()
+	game_proxy.add_child(mock_player)
+	stub(mock_player, "_ready").to_do_nothing()
+	var paths = Node2D.new()
+	paths.name = "Paths"
+	mock_player.add_child(paths,false,0)
+	add_child_autofree(game_proxy)
 	mock_player.velocity = Vector2.LEFT
 	mock_player._frozen = false
 	mock_player.direction = Vector2.ZERO
@@ -432,7 +523,7 @@ func test_toggle_truce(params = use_parameters(toggle_truce_params)):
 func test_get_config():
 	# given
 	var proxy = double(load("res://Scenes/Game/players.gd")).new()
-	proxy.add_child(player)
+	proxy.add_child(player, false, 0)
 	var player_config = PlayerConfig.new()
 	stub(proxy, "get_player_config").to_return(player_config)
 	# when

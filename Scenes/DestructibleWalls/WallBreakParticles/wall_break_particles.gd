@@ -22,7 +22,7 @@ func _ready():
 				_fit_particles_to_tilemap(emitter)
 		_connect_explode_signal()
 	else:
-		Logger.error("Tilemap not set for %s" % name)
+		GSLogger.error("Tilemap not set for %s" % name)
 
 ##### PROTECTED METHODS #####
 func _fit_particles_to_tilemap(emitter : GPUParticles2D) -> void:

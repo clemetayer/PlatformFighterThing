@@ -43,5 +43,4 @@ func _debug_show_states() -> void:
 	DebugInterface.set_debug_text("powerup",_action_states[actions.POWERUP])
 
 func _set_relative_aim_position() -> void:
-	DebugInterface.set_debug_text("mouse_position", "mouse_position = %s; global_position = %s" % [get_global_mouse_position(), global_position])
 	relative_aim_position = get_global_mouse_position() - global_position

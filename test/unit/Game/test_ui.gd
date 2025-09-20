@@ -73,13 +73,14 @@ func test_init_game_ui():
 func test_init_chronometer():
 	# given
 	var game_time = 30.0
-	var mock_chronometer = double(load("res://Scenes/UI/Chronometer/chronometer.gd")).new()
+	var mock_chronometer = double(load("res://Scenes/UI/Chronometer/chronometer.gd"), DOUBLE_STRATEGY.INCLUDE_NATIVE).new()
 	stub(mock_chronometer, "start_timer").to_do_nothing()
+	stub(mock_chronometer, "connect").to_do_nothing()
 	ui.onready_paths.chronometer = mock_chronometer
 	# when
 	ui.init_chronometer(game_time)
 	# then
-	assert_true(ui.onready_paths.chronometer.is_connected("time_over", ui._on_chronometer_time_over))
+	assert_called(mock_chronometer, "connect", ["time_over", ui._on_chronometer_time_over, null])
 	assert_called(mock_chronometer, "start_timer", [game_time])
 	assert_true(mock_chronometer.visible)
 

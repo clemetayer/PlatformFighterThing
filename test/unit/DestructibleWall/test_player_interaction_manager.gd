@@ -12,15 +12,12 @@ var kill_called := false
 ##### SETUP #####
 func before_each():
 	player_interaction_manager = load("res://Scenes/DestructibleWalls/player_interaction_manager.gd").new()
+	add_child_autofree(player_interaction_manager)
 	toggle_freeze_called = false
 	toggle_freeze_args = []
 	override_velocity_called = false
 	override_velocity_args = []
 	kill_called = false
-
-##### TEARDOWN #####
-func after_each():
-	player_interaction_manager.free()
 
 ##### TESTS #####
 func test_player_hit():

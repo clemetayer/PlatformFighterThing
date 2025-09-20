@@ -78,7 +78,7 @@ func test_on_body_entered(params = use_parameters(on_body_entered_params)):
 	if is_player:
 		body = double(load("res://Scenes/Player/player.gd")).new()
 		stub(body, "hurt").to_do_nothing()
-		body.add_to_group("player")
+		body.add_to_group("player", false)
 	elif is_static_obstacle:
 		body = StaticBody2D.new()
 		body.add_to_group("static_obstacle")

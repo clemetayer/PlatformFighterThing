@@ -43,11 +43,11 @@ func get_game_root() -> Node:
 
 ##### PROTECTED METHODS #####
 func _init_server(port : int) -> void:
-	Logger.info("starting as host on port %s" % [port])
+	GSLogger.info("starting as host on port %s" % [port])
 	var peer = ENetMultiplayerPeer.new()
 	peer.create_server(port)
 	if peer.get_connection_status() == MultiplayerPeer.CONNECTION_DISCONNECTED:
-		Logger.error("Failed to start multiplayer server.")
+		GSLogger.error("Failed to start multiplayer server.")
 		OS.alert("Failed to start multiplayer server.")
 		return
 	multiplayer.multiplayer_peer = peer
@@ -56,12 +56,12 @@ func _init_server(port : int) -> void:
 	RuntimeUtils.is_offline_game = false
 
 func _connect_to_server(ip: String, port : int) -> void:
-	Logger.info("starting as client on %s:%s" % [ip,port])
+	GSLogger.info("starting as client on %s:%s" % [ip,port])
 	# Start as client.
 	var peer = ENetMultiplayerPeer.new()
 	peer.create_client(ip, port)
 	if peer.get_connection_status() == MultiplayerPeer.CONNECTION_DISCONNECTED:
-		Logger.error("Failed to start multiplayer client.")
+		GSLogger.error("Failed to start multiplayer client.")
 		OS.alert("Failed to start multiplayer client.")
 		return
 	multiplayer.multiplayer_peer = peer
@@ -81,14 +81,14 @@ func _create_level_data() -> LevelConfig:
 	return level_data
 
 func _add_player(id : int) -> void:
-	Logger.info("client %d connected" % id)
+	GSLogger.info("client %d connected" % id)
 	_connected_players[id] = {
 		"config":_create_player_data(INPUT_PLAYER_CONFIG_PATH)
 	}
 	onready_paths.game_config_menu.update_host_player_numbers(_connected_players.size())
 
 func _delete_player(id : int) -> void:
-	Logger.info("client %d disconnected" % id)
+	GSLogger.info("client %d disconnected" % id)
 	_connected_players.erase(id)
 	onready_paths.game_config_menu.update_host_player_numbers(_connected_players.size())
 
@@ -128,7 +128,7 @@ func _on_game_config_menu_init_client(ip: String, port: int) -> void:
 	_connect_to_server(ip, port)
 
 func _on_game_config_menu_start_game() -> void:
-	Logger.debug("starting game")
+	GSLogger.debug("starting game")
 	_toggle_config_menu(false)
 	onready_paths.game.rpc("init_level_data", level_data.serialize())
 	onready_paths.game.rpc("init_players_data", serialize_players(_connected_players))
@@ -136,7 +136,7 @@ func _on_game_config_menu_start_game() -> void:
 	onready_paths.game.rpc("init_game_elements")
 	
 func _on_game_game_over() -> void:
-	Logger.debug("game over")
+	GSLogger.debug("game over")
 	onready_paths.game.reset()
 	_toggle_config_menu(true)
 	onready_paths.game_config_menu.reset()

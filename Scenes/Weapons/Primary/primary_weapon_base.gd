@@ -17,6 +17,7 @@ var projectile_owner = null # the owner of the projectile that will spawn, i.e :
 func fire() -> void:
 	pass
 
+@warning_ignore("UNUSED_PARAMETER")
 func aim(relative_aim_position : Vector2) -> void:
 	pass
 
@@ -26,4 +27,4 @@ func _spawn_projectile(projectile : Node) -> void:
 	if game_root != null and game_root.has_method("spawn_projectile"):
 		game_root.spawn_projectile(projectile)
 	else: 
-		Logger.error("Game root does not exist or does not have the method '%s'" % "spawn_projectile")
+		GSLogger.error("Game root does not exist or does not have the method '%s'" % "spawn_projectile")

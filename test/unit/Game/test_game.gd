@@ -49,7 +49,7 @@ func test_add_game_elements():
 	# given
 	var mock_level = double(load("res://Scenes/Game/level.gd")).new()
 	var mock_players = double(load("res://Scenes/Game/players.gd")).new()
-	var mock_camera = load("res://Scenes/Camera/camera.gd").new()
+	var mock_camera = load("res://Scenes/Camera/camera.tscn").instantiate()
 	var mock_background = double(load("res://Scenes/Game/background.gd")).new()
 	stub(mock_level, "add_level").to_do_nothing()
 	stub(mock_level, "get_spawn_positions").to_return([Vector2.RIGHT])
@@ -57,12 +57,9 @@ func test_add_game_elements():
 	stub(mock_players, "init_spawn_positions").to_do_nothing()
 	stub(mock_players, "add_players").to_do_nothing()
 	stub(mock_background, "add_background").to_do_nothing()
-	add_child(mock_level)
-	wait_for_signal(mock_level.tree_entered, 0.25)
-	add_child(mock_players)
-	wait_for_signal(mock_players.tree_entered, 0.25)
-	add_child(mock_camera)
-	wait_for_signal(mock_camera.tree_entered, 0.25)
+	add_child_autofree(mock_level)
+	add_child_autofree(mock_players)
+	add_child_autofree(mock_camera)
 	game.onready_paths.level = mock_level
 	game.onready_paths.players = mock_players
 	game.onready_paths.camera = mock_camera
@@ -113,7 +110,7 @@ func test_init_game_elements():
 
 func test_spawn_powerup():
 	# given
-	stub(Node, "call_deferred").to_do_nothing().param_count(3)
+	stub(Node, "call_deferred").to_do_nothing()
 	var mock_powerups = double(Node).new()
 	var powerup = Node.new()
 	game.onready_paths.powerups = mock_powerups
@@ -122,20 +119,20 @@ func test_spawn_powerup():
 	game.spawn_powerup(powerup)
 	# then
 	assert_eq(powerup.name, "powerup_2")
-	assert_called(mock_powerups, "call_deferred",["add_child", powerup, true])
+	assert_called(mock_powerups, "call_deferred",["add_child", [powerup, true]])
 	# cleanup
 	powerup.free()
 
 func test_spawn_projectile():
 	# given
-	stub(Node, "call_deferred").to_do_nothing().param_count(3)
+	stub(Node, "call_deferred").to_do_nothing()
 	var mock_projectiles = double(Node).new()
 	var projectile = Node.new()
 	game.onready_paths.projectiles = mock_projectiles
 	# when
 	game.spawn_projectile(projectile)
 	# then
-	assert_called(mock_projectiles, "call_deferred",["add_child", projectile, true])
+	assert_called(mock_projectiles, "call_deferred",["add_child", [projectile, true]])
 	# cleanup
 	projectile.free()
 

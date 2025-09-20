@@ -7,6 +7,7 @@ var action_handler : ActionHandlerInput
 ##### SETUP #####
 func before_each():
 	action_handler = ActionHandlerInput.new()
+	add_child_autofree(action_handler)
 
 ##### TEARDOWN #####
 func after_each():

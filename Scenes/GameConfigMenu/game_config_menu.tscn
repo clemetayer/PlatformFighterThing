@@ -138,7 +138,7 @@ layout_mode = 2
 text = "4433"
 placeholder_text = "4433"
 
-[node name="Button" type="Button" parent="GameTypeMenu/Containers/ConfigMenu"]
+[node name="StartButton" type="Button" parent="GameTypeMenu/Containers/ConfigMenu"]
 layout_mode = 2
 text = "Start ! "
 
@@ -176,5 +176,5 @@ fit_content = true
 [connection signal="item_selected" from="GameTypeMenu/Containers/CommonMenu/VisualIntensity/VisualIntensityOption" to="." method="_on_visual_intensity_option_item_selected"]
 [connection signal="item_selected" from="GameTypeMenu/Containers/CommonMenu/CameraEffectsIntensity/CameraEffectsIntensityOption" to="." method="_on_camera_effects_intensity_option_item_selected"]
 [connection signal="item_selected" from="GameTypeMenu/Containers/ConfigMenu/OptionButton" to="." method="_on_option_button_item_selected"]
-[connection signal="pressed" from="GameTypeMenu/Containers/ConfigMenu/Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="GameTypeMenu/Containers/ConfigMenu/StartButton" to="." method="_on_start_button_pressed"]
 [connection signal="pressed" from="GameTypeMenu/Containers/WaitingHost/HostStartButton" to="." method="_on_host_start_button_pressed"]

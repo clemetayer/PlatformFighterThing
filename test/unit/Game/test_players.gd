@@ -107,12 +107,10 @@ func test_toggle_players_truce(params = use_parameters(toggle_player_truce_param
 	player_1_mock.name = "player_1"
 	stub(player_1_mock, "toggle_truce").to_do_nothing()
 	players.add_child(player_1_mock)
-	wait_for_signal(player_1_mock.tree_entered,0.25)
 	var player_2_mock = double(load("res://Scenes/Player/player.gd")).new()
 	player_2_mock.name = "player_2"
 	stub(player_2_mock, "toggle_truce").to_do_nothing()
 	players.add_child(player_2_mock)
-	wait_for_signal(player_2_mock.tree_entered,0.25)
 	# when
 	players.toggle_players_truce(params[0])
 	# then
@@ -285,6 +283,7 @@ func test_on_player_killed_not_end_game():
 	players.connect("player_won",_on_player_won)
 	var tree_mock = double(SceneTree).new()
 	var timer = Timer.new()
+	add_child_autofree(timer)
 	timer.start(players.RESPAWN_TIME + 0.1)
 	stub(tree_mock,"create_timer").to_return(timer)
 	players.tree = tree_mock

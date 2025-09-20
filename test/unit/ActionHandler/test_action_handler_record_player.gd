@@ -7,6 +7,7 @@ var action_handler : ActionHandlerRecord
 ##### SETUP #####
 func before_each():
 	action_handler = ActionHandlerRecord.new()
+	add_child_autofree(action_handler)
 
 ##### TEARDOWN #####
 func after_each():
@@ -201,7 +202,9 @@ func test_process_starts_recording():
 	# given
 	var mock_action_handler = partial_double(load("res://Scenes/ActionHandlers/ActionHandlerRecordPlayer/action_handler_record_player.gd")).new()
 	stub(mock_action_handler, "_is_record_pressed").to_return(true)
+	add_child_autofree(mock_action_handler)
 	var input = double(load("res://test/unit/ActionHandler/test_action_handler_record_player_mocks/input.gd")).new()
+	add_child_autofree(input)
 	stub(input, "is_action_just_pressed").to_return(false)
 	stub(input, "is_action_pressed").to_return(false)
 	stub(input, "is_action_just_released").to_return(false)

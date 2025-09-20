@@ -41,7 +41,7 @@ func use() -> void:
 			game_root.spawn_powerup(powerup) # TODO : rather communicate with an interface (kind of like the player rather than with the game directly)
 			_splitters_active.push_front(powerup)
 		else:
-			Logger.error("game root is null or does not contain the method %s" % "spawn_powerup")
+			GSLogger.error("game root is null or does not contain the method %s" % "spawn_powerup")
 		_can_use_powerup = false
 		onready_paths.cooldown_timer.start(COOLDOWN_TIMER)
 		_start_update_value_tween()

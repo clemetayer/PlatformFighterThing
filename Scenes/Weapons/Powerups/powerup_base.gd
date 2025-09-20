@@ -3,6 +3,7 @@ class_name PowerupBase
 # Base class for the powerups
 
 ##### SIGNALS #####
+@warning_ignore("UNUSED_SIGNAL")
 signal value_updated(value)
 
 ##### VARIABLES #####

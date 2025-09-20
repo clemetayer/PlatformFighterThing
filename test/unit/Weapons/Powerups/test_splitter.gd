@@ -110,8 +110,12 @@ func test_on_hitbox_area_entered(params = use_parameters(on_hitbox_area_entered_
 	var is_projectile = params[1]
 	var whitelist_has_area = params[2]
 	var contacts_count = params[3]
-	var mock_splitter = partial_double(load("res://Scenes/Weapons/Powerups/Splitter/splitter.gd")).new()
+	var mock_splitter = partial_double(load("res://Scenes/Weapons/Powerups/Splitter/splitter.tscn")).instantiate()
 	stub(mock_splitter, "_duplicate_projectile_with_angle").to_do_nothing()
+	stub(mock_splitter, "_ready").to_do_nothing()
+	stub(mock_splitter, "_handle_feedback").to_do_nothing()
+	stub(mock_splitter, "_prepare_for_deletion").to_do_nothing()
+	add_child_autofree(mock_splitter)
 	var runtime_utils = double(load("res://Utils/runtime_utils.gd")).new()
 	stub(runtime_utils, "is_authority").to_return(is_authority)
 	mock_splitter._runtime_utils = runtime_utils

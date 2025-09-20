@@ -136,13 +136,13 @@ func _add_fragments(fragments : Array) -> void:
 ##### SIGNAL MANAGEMENT #####
 func _on_tilemap_explode(p_position : Vector2, force : Vector2) -> void:
 	show()
-	Logger.debug("destroying destructible wall")
+	GSLogger.debug("destroying destructible wall")
 	onready_paths.reset_timer.start()
 	for fragment in onready_paths.fragments.get_children():
 		fragment.explode(p_position, force)
 
 func _on_reset_timer_timeout() -> void:
 	hide()
-	Logger.debug("resetting destructible wall")
+	GSLogger.debug("resetting destructible wall")
 	for fragment in onready_paths.fragments.get_children():
 		fragment.reset()
