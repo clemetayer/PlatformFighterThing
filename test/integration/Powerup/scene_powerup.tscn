@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://cx1owalejckxl"]
+
+[ext_resource type="Script" uid="uid://bxkej3andi1jo" path="res://test/integration/Powerup/scene_powerup.gd" id="1_rg1nh"]
+
+[node name="ScenePowerup" type="Node2D"]
+script = ExtResource("1_rg1nh")
+
+[node name="FirePosition" type="Node2D" parent="."]
+position = Vector2(-100, 0)
+
+[node name="PowerupPosition" type="Node2D" parent="."]
+position = Vector2(100, 0)
+
+[node name="Camera2D" type="Camera2D" parent="."]
