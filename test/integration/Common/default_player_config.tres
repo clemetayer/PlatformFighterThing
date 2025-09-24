@@ -12,9 +12,6 @@ metadata/_custom_type_script = "uid://cceeupk77aehe"
 [resource]
 script = ExtResource("1_gc1rk")
 ACTION_HANDLER = 1
-PRIMARY_WEAPON = 0
-MOVEMENT_BONUS_HANDLER = 0
-POWERUP_HANDLER = 0
 SPRITE_CUSTOMIZATION = SubResource("Resource_b4swu")
 ELIMINATION_TEXT = "test"
 metadata/_custom_type_script = "uid://cb2tt7tw3qdjn"

@@ -19,6 +19,7 @@ func _process(_delta):
 	_action_states[actions.MOVEMENT_BONUS] = _generic_get_action_state("movement_bonus")
 	_action_states[actions.PARRY] = _generic_get_action_state("parry")
 	_action_states[actions.POWERUP] = _generic_get_action_state("powerup")
+	print("action states = %s" % _action_states)
 	_set_relative_aim_position()
 
 ##### PROTECTED METHODS #####

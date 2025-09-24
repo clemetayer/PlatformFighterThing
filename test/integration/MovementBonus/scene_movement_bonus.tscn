@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=4 uid="uid://cr1dqueh5df7b"]
+
+[ext_resource type="Script" uid="uid://ej8jisiewpuf" path="res://test/integration/MovementBonus/scene_movement_bonus.gd" id="1_ljnms"]
+[ext_resource type="TileSet" uid="uid://c8i1jwmobi66o" path="res://Scenes/Levels/Tilesets/tileset.tres" id="2_xb6o1"]
+
+[node name="SceneMovementBonus" type="Node2D"]
+script = ExtResource("1_ljnms")
+
+[node name="PlayerSpawnPosition" type="Node2D" parent="."]
+position = Vector2(0, -74)
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+tile_map_data = PackedByteArray("AAD4/wAAAAAIAAAAAAAHAAEAAAALAAMAAAAHAAAAAAALAAAAAAAGAAEAAAAJAAMAAAAGAAAAAAAKAAAAAAAFAAEAAAAJAAMAAAAFAAAAAAAKAAAAAAAEAAEAAAAJAAMAAAAEAAAAAAAKAAAAAAADAAEAAAAJAAMAAAADAAAAAAAKAAAAAAACAAEAAAAJAAMAAAACAAAAAAAKAAAAAAABAAEAAAAJAAMAAAABAAAAAAAKAAAAAAAAAAEAAAAJAAMAAAAAAAAAAAAKAAAAAAD//wEAAAAJAAMAAAD//wAAAAAKAAAAAAD+/wEAAAAJAAMAAAD+/wAAAAAKAAAAAAD9/wEAAAAJAAMAAAD9/wAAAAAKAAAAAAD8/wEAAAAJAAMAAAD8/wAAAAAKAAAAAAD7/wEAAAAJAAMAAAD7/wAAAAAKAAAAAAD6/wEAAAAJAAMAAAD6/wAAAAAKAAAAAAD5/wEAAAAJAAMAAAD5/wAAAAAKAAAAAAD4/wEAAAAIAAMAAAA=")
+tile_set = ExtResource("2_xb6o1")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(0.25, 0.25)
