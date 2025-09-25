@@ -32,7 +32,7 @@ scale_min = 0.1
 color = Color(1, 0, 0, 1)
 color_ramp = SubResource("GradientTexture1D_wjyr3")
 
-[node name="WallBreakParticles" type="Node2D"]
+[node name="WallBreakParticles" type="Node2D" groups=["wall_break_particles"]]
 script = ExtResource("1_itjjj")
 
 [node name="Split1" type="GPUParticles2D" parent="."]
