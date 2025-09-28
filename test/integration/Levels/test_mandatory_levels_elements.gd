@@ -14,7 +14,6 @@ func test_mandatory_elements(params = use_parameters(mandatory_elements_params))
 	assert_true(_has_level_a_static_tilemap(level))
 	_should_have_destructible_walls(level)
 	_each_destructible_wall_should_have_particles_attached(level)
-	
 
 ##### UTILS #####
 func _should_have_spawn_points(level) -> void:
