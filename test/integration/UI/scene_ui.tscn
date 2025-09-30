@@ -1,12 +1,9 @@
 [gd_scene load_steps=3 format=3 uid="uid://dwdq1fcbjsn0t"]
 
 [ext_resource type="Script" uid="uid://c7qo8tbrt71eb" path="res://test/integration/UI/scene_ui.gd" id="1_hfjrw"]
-[ext_resource type="PackedScene" uid="uid://c8dp63orlv8fe" path="res://Scenes/UI/PlayersData/players_data_ui.tscn" id="2_srwag"]
+[ext_resource type="PackedScene" uid="uid://bypr1ueba3rju" path="res://Scenes/Game/game.tscn" id="2_hfjrw"]
 
 [node name="SceneUi" type="Node2D"]
 script = ExtResource("1_hfjrw")
 
-[node name="PlayersDataUi" parent="." instance=ExtResource("2_srwag")]
-offset_top = -162.0
-
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="Game" parent="." instance=ExtResource("2_hfjrw")]
