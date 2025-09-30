@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://bqfjpnx8jiu43"]
+
+[ext_resource type="PackedScene" uid="uid://bypr1ueba3rju" path="res://Scenes/Game/game.tscn" id="1_jy43i"]
+[ext_resource type="Script" uid="uid://b0jmf3qjqggi7" path="res://test/integration/DeathMessage/scene_death_message.gd" id="1_mg1vc"]
+
+[node name="SceneDeathMessage" type="Node2D"]
+script = ExtResource("1_mg1vc")
+
+[node name="Game" parent="." instance=ExtResource("1_jy43i")]

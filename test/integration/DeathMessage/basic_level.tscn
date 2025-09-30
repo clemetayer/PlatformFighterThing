@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=4 uid="uid://dj2v1edgseshs"]
+
+[ext_resource type="Script" uid="uid://cbw5nekq4e1t0" path="res://Scenes/Levels/level_map_base.gd" id="1_11j2t"]
+[ext_resource type="TileSet" uid="uid://c8i1jwmobi66o" path="res://Scenes/Levels/Tilesets/tileset.tres" id="2_tgml2"]
+
+[node name="BasicLevel" type="Node2D"]
+script = ExtResource("1_11j2t")
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+tile_map_data = PackedByteArray("AAAHAAEAAAALAAMAAAAHAAAAAAALAAAAAAAGAAEAAAAJAAMAAAAGAAAAAAAKAAAAAAAFAAEAAAAJAAMAAAAFAAAAAAAKAAAAAAAEAAEAAAAJAAMAAAAEAAAAAAAKAAAAAAADAAEAAAAJAAMAAAADAAAAAAAKAAAAAAACAAEAAAAJAAMAAAACAAAAAAAKAAAAAAABAAEAAAAJAAMAAAABAAAAAAAKAAAAAAAAAAEAAAAJAAMAAAAAAAAAAAAKAAAAAAD//wEAAAAJAAMAAAD//wAAAAAKAAAAAAD+/wEAAAAJAAMAAAD+/wAAAAAKAAAAAAD9/wEAAAAJAAMAAAD9/wAAAAAKAAAAAAD8/wEAAAAJAAMAAAD8/wAAAAAKAAAAAAD7/wEAAAAJAAMAAAD7/wAAAAAKAAAAAAD6/wEAAAAJAAMAAAD6/wAAAAAKAAAAAAD5/wEAAAAJAAMAAAD5/wAAAAAKAAAAAAD4/wEAAAAIAAMAAAD4/wAAAAAIAAAAAAA=")
+tile_set = ExtResource("2_tgml2")
+
+[node name="SpawnPoints" type="Node2D" parent="."]
+
+[node name="SpawnPoint" type="Node2D" parent="SpawnPoints"]
+position = Vector2(-173, -104)
+
+[node name="SpawnPoint2" type="Node2D" parent="SpawnPoints"]
+position = Vector2(221, -114)

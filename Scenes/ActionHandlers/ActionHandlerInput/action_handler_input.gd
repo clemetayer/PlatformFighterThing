@@ -6,6 +6,7 @@ class_name ActionHandlerInput
 #---- STANDARD -----
 #==== PRIVATE ====
 var _input := Input
+var _enable_mouse_input := true # mostly to avoid capturing the mouse for the integration tests
 
 ##### PROCESSING #####
 # Called every frame. 'delta' is the elapsed time since the previous frame. Remove the "_" to use it.
@@ -43,4 +44,5 @@ func _debug_show_states() -> void:
 	DebugInterface.set_debug_text("powerup",_action_states[actions.POWERUP])
 
 func _set_relative_aim_position() -> void:
-	relative_aim_position = get_global_mouse_position() - global_position
+	if _enable_mouse_input:
+		relative_aim_position = get_global_mouse_position() - global_position
