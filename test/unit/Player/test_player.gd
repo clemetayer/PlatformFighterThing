@@ -1,6 +1,9 @@
 extends "res://addons/gut/test.gd"
 
 ##### VARIABLES #####
+#---- CONSTANTS -----
+const MOCK_GAME_ROOT_PATH := "res://test/unit/Player/test_player/mock_game_root.tscn"
+
 #---- VARIABLES -----
 var player
 
@@ -424,7 +427,21 @@ func test_hurt(params = use_parameters(hurt_params)):
 	# cleanup
 	onready_paths_node.free()
 	p_owner.free()
-	
+
+func test_hurt_update_damage():
+	# given
+	var game_root = load(MOCK_GAME_ROOT_PATH).instantiate()
+	var player_scene = load("res://Scenes/Player/player.tscn").instantiate()
+	game_root.add_child(player_scene)
+	add_child_autofree(game_root)
+	player_scene._damage_enabled = true
+	await wait_process_frames(2)
+	# when / then
+	assert_eq(player_scene.onready_paths_node.damage_label.text, "0")
+	player_scene.hurt(100,0,Vector2.ZERO)
+	await wait_process_frames(2)
+	assert_true(player_scene.onready_paths_node.damage_label.text.contains("[color=ffff33ff]100[/color]"))
+
 func test_kill():
 	# given
 	var onready_paths_node = load("res://Scenes/Player/paths.gd").new()
@@ -654,3 +671,4 @@ func test_on_appear_elements_appear_animation_finished():
 	# cleanup
 	appear_elements.free()
 	onready_paths_node.free()
+

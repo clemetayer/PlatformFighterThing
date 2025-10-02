@@ -1,6 +1,9 @@
 extends "res://addons/gut/test.gd"
 
 ##### VARIABLES #####
+#---- CONSTANTS -----
+const CHRONOMETER_SCENE_PATH := "res://Scenes/UI/Chronometer/chronometer.tscn"
+
 #---- VARIABLES -----
 var chronometer
 var time_over_times_called := 0
@@ -83,6 +86,18 @@ func test_refresh_timer():
 	assert_eq(label.text, "%02d:%02d" % [16,39])
 	# cleanup
 	label.free()
+
+func test_scene_time_decreasing():
+	# given
+	var chronometer_scene = load(CHRONOMETER_SCENE_PATH).instantiate()
+	add_child_autofree(chronometer_scene)
+	# when
+	chronometer_scene.start_timer(90)
+	# then
+	await wait_process_frames(2)
+	assert_eq(chronometer_scene.onready_paths.label.text, "01:29")
+	await wait_seconds(3)
+	assert_eq(chronometer_scene.onready_paths.label.text, "01:26")
 
 ##### UTILS #####
 func _on_time_over() -> void:

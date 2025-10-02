@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dok2pe6uj5yjo"]
+
+[ext_resource type="Script" uid="uid://flqejgtc0x25" path="res://test/unit/Player/test_player/mock_game_root.gd" id="1_7amt6"]
+
+[node name="MockGameRoot" type="Node2D"]
+script = ExtResource("1_7amt6")
