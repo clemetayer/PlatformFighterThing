@@ -39,8 +39,10 @@ func kill() -> void:
 	onready_paths_node.damage_label.hide()
 	onready_paths_node.sprites.hide()
 	onready_paths_node.primary_weapon.hide()
-	onready_paths.sound.play()
-	onready_paths.death_anim_time.start()
+	if onready_paths.sound.is_inside_tree():
+		onready_paths.sound.play()
+	if onready_paths.death_anim_time.is_inside_tree():
+		onready_paths.death_anim_time.start()
 
 ##### PROTECTED METHODS #####
 func _get_last_hit_owner_id(last_hit_owner : Node2D) -> int:

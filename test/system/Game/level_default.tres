@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="LevelConfig" load_steps=2 format=3 uid="uid://dcdfr0w8r33jq"]
+
+[ext_resource type="Script" uid="uid://c21oqvot5c13t" path="res://Scenes/Levels/level_config.gd" id="1_yknj1"]
+
+[resource]
+script = ExtResource("1_yknj1")
+level_path = "uid://bvlexuiol4ato"
+background_and_music = "uid://drvy22p67tur2"
+metadata/_custom_type_script = "uid://c21oqvot5c13t"
