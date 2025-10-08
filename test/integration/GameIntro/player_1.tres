@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="PlayerConfig" load_steps=4 format=3 uid="uid://bda21c06qj6r3"]
+
+[ext_resource type="Script" uid="uid://cceeupk77aehe" path="res://Scenes/Player/sprite_customization_resource.gd" id="1_oawcy"]
+[ext_resource type="Script" uid="uid://cb2tt7tw3qdjn" path="res://Scenes/Player/player_config.gd" id="2_wth2p"]
+
+[sub_resource type="Resource" id="Resource_na28o"]
+script = ExtResource("1_oawcy")
+metadata/_custom_type_script = "uid://cceeupk77aehe"
+
+[resource]
+script = ExtResource("2_wth2p")
+ACTION_HANDLER = 1
+MOVEMENT_BONUS_HANDLER = 1
+SPRITE_CUSTOMIZATION = SubResource("Resource_na28o")
+metadata/_custom_type_script = "uid://cb2tt7tw3qdjn"
