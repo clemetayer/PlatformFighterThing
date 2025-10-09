@@ -72,7 +72,6 @@ func test_kill():
 	player_root.connect("set_collision_layer_called", _on_set_collision_layer)
 	player_root.connect("set_collision_mask_called", _on_set_collision_mask)
 	add_child(player_root)
-	wait_for_signal(player_root.tree_entered, 0.25)
 	death_manager.onready_paths_node.player_root = player_root
 	var damage_label = double(Control).new()
 	stub(damage_label, "hide").to_do_nothing()
@@ -85,9 +84,11 @@ func test_kill():
 	death_manager.onready_paths_node.primary_weapon = primary_weapon
 	var sound = double(AudioStreamPlayer).new()
 	stub(sound, "play").to_do_nothing()
+	stub(sound, "is_inside_tree").to_return(true)
 	death_manager.onready_paths.sound = sound
 	var death_anim_time = double(Timer).new()
 	stub(death_anim_time, "start").to_do_nothing()
+	stub(death_anim_time, "is_inside_tree").to_return(true)
 	death_manager.onready_paths.death_anim_time = death_anim_time
 	# when
 	death_manager.kill()

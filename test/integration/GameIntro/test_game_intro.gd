@@ -26,7 +26,7 @@ func after_each():
 	_sender.clear()
 
 ##### TESTS #####
-func test_something():
+func test_intro():
 	# given
 	default_level = load(DEFAULT_LEVEL_CONFIG_PATH)
 	player_1_config = load(PLAYER_1_DEFAULT_CONFIG_PATH)
@@ -57,14 +57,15 @@ func test_something():
 	_sender.release_all()
 	assert_eq(scene.get_powerups_count(),0)
 	var p1_ori_pos = scene.get_player(1).global_position
-	_sender.action_down("left").action_down("jump").action_down("movement_bonus").hold_for(.05)
-	await _sender.idle
-	_sender.release_all()
-	assert_eq(scene.get_player(1).global_position,p1_ori_pos)
-	_sender.action_down("jump").action_down("right").hold_for(.25)
+	_sender.action_down("left").action_down("movement_bonus").hold_for(.05)
 	await _sender.idle
 	_sender.release_all()
 	await wait_seconds(0.1)
+	assert_eq(scene.get_player(1).global_position.x,p1_ori_pos.x)
+	_sender.action_down("jump").action_down("right").hold_for(.25)
+	await _sender.idle
+	_sender.release_all()
+	await wait_seconds(0.2)
 	assert_lt(scene.get_player(1).global_position.y, p1_ori_pos.y)
 	assert_gt(scene.get_player(1).global_position.x, p1_ori_pos.x)
 	# checks the countdown
