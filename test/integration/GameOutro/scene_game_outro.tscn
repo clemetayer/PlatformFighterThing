@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://dg46rn01nh51r"]
+
+[ext_resource type="Script" uid="uid://be72ld6ynkmme" path="res://test/integration/GameOutro/scene_game_outro.gd" id="1_63r8d"]
+[ext_resource type="PackedScene" uid="uid://bypr1ueba3rju" path="res://Scenes/Game/game.tscn" id="2_baomb"]
+
+[node name="SceneGameOutro" type="Node2D"]
+script = ExtResource("1_63r8d")
+
+[node name="Game" parent="." instance=ExtResource("2_baomb")]

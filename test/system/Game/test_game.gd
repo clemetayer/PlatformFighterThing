@@ -124,7 +124,7 @@ func test_game():
 	scene.get_player(2).kill()
 	await wait_seconds(2.5)
 	assert_true(scene.get_game_message().contains("Game !"))
-	await wait_seconds(10)
+	await wait_seconds(5)
 	assert_eq(game_over_times_called, 1)
 
 
