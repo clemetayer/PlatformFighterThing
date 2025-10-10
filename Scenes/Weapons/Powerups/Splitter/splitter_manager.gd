@@ -38,7 +38,7 @@ func use() -> void:
 		var game_root = _runtime_utils.get_game_root()
 		if game_root != null and game_root.has_method("spawn_powerup"):
 			powerup.connect("destroyed",_on_splitter_destroyed)
-			game_root.spawn_powerup(powerup) # TODO : rather communicate with an interface (kind of like the player rather than with the game directly)
+			game_root.spawn_powerup(powerup)
 			_splitters_active.push_front(powerup)
 		else:
 			GSLogger.error("game root is null or does not contain the method %s" % "spawn_powerup")

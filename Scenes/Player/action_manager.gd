@@ -63,7 +63,6 @@ func _handle_parry() -> void:
 	if _is_action_just_active(_action_handler_base.actions.PARRY):
 		onready_paths_node.parry_area.parry()
 
-# TODO : Why is is_authority here ?
 func _handle_powerup() -> void:
 	if _is_action_just_active(_action_handler_base.actions.POWERUP) and _runtime_utils.is_authority():
 		onready_paths_node.powerup_manager.rpc("use")

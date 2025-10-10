@@ -13,6 +13,8 @@ var set_collision_mask_times_called := 0
 var set_collision_mask_args := []
 var killed_times_called := 0
 var killed_args := []
+var toggle_truce_times_called := 0
+var toggle_truce_args := []
 
 ##### SETUP #####
 func before_each():
@@ -27,6 +29,8 @@ func before_each():
 	set_collision_mask_args = []
 	killed_times_called = 0
 	killed_args = []
+	toggle_truce_times_called = 0
+	toggle_truce_args = []
 
 ##### TEARDOWN #####
 func after_each():
@@ -71,6 +75,7 @@ func test_kill():
 	player_root.connect("toggle_freeze_called", _on_toggle_freeze)
 	player_root.connect("set_collision_layer_called", _on_set_collision_layer)
 	player_root.connect("set_collision_mask_called", _on_set_collision_mask)
+	player_root.connect("toggle_truce_called", _on_toggle_truce)
 	add_child(player_root)
 	death_manager.onready_paths_node.player_root = player_root
 	var damage_label = double(Control).new()
@@ -102,6 +107,8 @@ func test_kill():
 	assert_eq(set_collision_layer_args, [[0]])
 	assert_eq(set_collision_mask_times_called, 1)
 	assert_eq(set_collision_mask_args, [[0]])
+	assert_eq(toggle_truce_times_called, 1)
+	assert_eq(toggle_truce_args, [[true]])
 	assert_called(damage_label, "hide")
 	assert_called(primary_weapon, "hide")
 	assert_called(sound, "play")
@@ -173,3 +180,7 @@ func _on_set_collision_mask(value) -> void:
 func _on_killed(id: int) -> void:
 	killed_times_called += 1
 	killed_args.append([id])
+
+func _on_toggle_truce(value: bool) -> void:
+	toggle_truce_times_called += 1
+	toggle_truce_args.append([value])

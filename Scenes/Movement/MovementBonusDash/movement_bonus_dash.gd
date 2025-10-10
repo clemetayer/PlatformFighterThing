@@ -1,6 +1,5 @@
 extends MovementBonusBase
 # Simple dash as a movement bonus
-# FIXME : by shooting, then dashing, then parrying, you can parry your own bullet, but this can be a feature, it is kind of cool
 
 ##### VARIABLES #####
 #---- CONSTANTS -----

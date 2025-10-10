@@ -43,6 +43,7 @@ func kill() -> void:
 		onready_paths.sound.play()
 	if onready_paths.death_anim_time.is_inside_tree():
 		onready_paths.death_anim_time.start()
+	onready_paths_node.player_root.toggle_truce(true)
 
 ##### PROTECTED METHODS #####
 func _get_last_hit_owner_id(last_hit_owner : Node2D) -> int:
