@@ -47,6 +47,9 @@ func test_process(params = use_parameters(process_params)):
 
 func test_parried():
 	# given
+	var trail = double(load("res://Scenes/Weapons/Projectiles/trail.gd")).new()
+	stub(trail, "reset").to_do_nothing()
+	bullet.onready_paths.trail = trail
 	var p_owner = Node2D.new()
 	bullet.speed = 1.0
 	bullet.damage = 2.0 
@@ -60,6 +63,7 @@ func test_parried():
 	assert_eq(bullet.speed, 2.0)
 	assert_eq(bullet.damage, 4.0)
 	assert_eq(bullet.knockback, 6.0)
+	assert_called(trail, "reset")
 	# cleanup
 	p_owner.free()
 

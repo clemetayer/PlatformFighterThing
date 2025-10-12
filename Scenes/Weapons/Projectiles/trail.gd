@@ -26,6 +26,10 @@ func _process(_delta):
 			remove_point(0)
 		add_point(get_parent().global_position)
 
+##### PUBLIC METHODS #####
+func reset() -> void:
+	points = []
+
 ##### SIGNAL MANAGEMENT #####
 func _on_SceneUtils_toggle_scene_freeze(value : bool) -> void:
 	_freeze = value

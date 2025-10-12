@@ -51,6 +51,7 @@ func parried(p_owner : Node2D, relative_aim_position : Vector2) -> void:
 	speed *= 2
 	damage *= 2
 	knockback *= 2
+	onready_paths.trail.reset()
 
 ##### SIGNAL MANAGEMENT #####
 func _on_body_entered(body):

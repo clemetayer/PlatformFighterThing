@@ -48,6 +48,15 @@ func test_process(params = use_parameters(process_params)):
 	trail.free()
 	parent.free()
 
+func test_reset():
+	# given
+	trail.points = []
+	trail.add_point(Vector2.ONE)
+	# when
+	trail.reset()
+	# then
+	assert_eq(trail.points.size(), 0)
+
 var on_SceneUtils_toggle_scene_freeze_params := [
 	[true],
 	[false]
