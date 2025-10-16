@@ -16,10 +16,7 @@ const NORMAL_BOUNCE := 0.05
 const HITSTUN_BOUNCE := 1.0
 const FLOOR_ACCELERATION := 9000.0 
 const AIR_ACCELERATION := FLOOR_ACCELERATION / 2.0
-const PREDICT_BOUNCE_OFFSET := 64.0
-const BOUNCE_DAMPING := 0.85
 const MAX_DAMAGE := 999
-const MAX_BOUNCE_PREDICTIONS := 10
 const WEIGHT := 2.5 # multiplier for the gravity
 
 #---- EXPORTS -----
@@ -66,13 +63,19 @@ func _ready():
 
 func _physics_process(delta: float) -> void:
 	if not _frozen:
+		debug_log_on_hitstun("===================== : %s" % velocity)
+		debug_log_on_hitstun("velocity start : %s" % velocity)
 		_load_sync_physics()
+
+		debug_log_on_hitstun("velocity before floor : %s" % velocity)
 
 		if not _is_on_floor():
 			velocity.y += _gravity * delta
 		elif velocity.y > 0 and _is_on_floor(): # to bounce back on horizontal destroyable walls
 			velocity.y = 0
 		
+		debug_log_on_hitstun("velocity after floor : %s" % velocity)
+
 		if _freeze_buffer_velocity != Vector2.ZERO:
 			velocity = _freeze_buffer_velocity
 			_freeze_buffer_velocity = Vector2.ZERO
@@ -82,21 +85,34 @@ func _physics_process(delta: float) -> void:
 
 		if jump_triggered and _is_on_floor():
 			velocity.y = JUMP_VELOCITY
-		
+
+		debug_log_on_hitstun("velocity before additional vector : %s" % velocity)
+
 		velocity += _additional_vector
 		_additional_vector = Vector2.ZERO
+
+		debug_log_on_hitstun("velocity after additional vector : %s" % velocity)
 
 		var acceleration = FLOOR_ACCELERATION if _is_on_floor() else AIR_ACCELERATION
 		velocity.x = move_toward(velocity.x, direction.x * TARGET_SPEED, acceleration * delta)
 		
-		_predict_bounces()
+		debug_log_on_hitstun("velocity before predict bounce : %s" % velocity)
+		
+		if onready_paths_node.hitstun_manager.hitstunned:
+			onready_paths_node.predict_bounces_ray_cast.predict_bounces()
+
+		debug_log_on_hitstun("velocity after predict bounce : %s" % velocity)
 
 		if onready_paths_node.hitstun_manager.hitstunned:
 			var collision_normal = _get_collisions_normal()
 			if collision_normal != Vector2.ZERO:
 				velocity.bounce(collision_normal)
 		
+		debug_log_on_hitstun("velocity after bounce : %s" % velocity)
+
 		move_and_slide()
+
+		debug_log_on_hitstun("velocity after move_and_slide : %s" % velocity)
 
 		_buffer_velocity(velocity)
 
@@ -162,29 +178,6 @@ func _buffer_velocity(vel_to_buffer : Vector2) -> void:
 	_velocity_buffer.pop_back()
 	_velocity_buffer.push_front(vel_to_buffer)
 
-func _predict_bounces() -> void:
-	var travel_distance_next_frame = velocity * 1.0 / Engine.get_physics_ticks_per_second()
-	var space_state = get_world_2d().direct_space_state
-	var query = PhysicsRayQueryParameters2D.create(position, position + travel_distance_next_frame, 1)
-	var intersection = space_state.intersect_ray(query)
-	var predict_bounce_cnt = 0
-	while intersection and predict_bounce_cnt < MAX_BOUNCE_PREDICTIONS:
-		position = intersection.position + intersection.normal * PREDICT_BOUNCE_OFFSET  # slight position correction to avoid repositionning in the wall
-		if intersection.collider.is_in_group("destructible_wall"): # breakable wall, should not bounce
-			return
-		elif not onready_paths_node.hitstun_manager.hitstunned: # if hitstunned just stopped, reset the velocity if it collides with a wall to avoid going through at high velocities
-			velocity = Vector2.ZERO 
-			return 
-		else:
-			var distance_traveled = global_position - intersection.position
-			velocity = velocity.bounce(intersection.normal) * BOUNCE_DAMPING
-			if travel_distance_next_frame.length() - distance_traveled.length() <= 0:
-				return
-			travel_distance_next_frame = velocity.normalized() * (travel_distance_next_frame - distance_traveled).length()
-			query = PhysicsRayQueryParameters2D.create(position, position + travel_distance_next_frame, 1)
-			intersection = space_state.intersect_ray(query)
-		predict_bounce_cnt += 1
-
 func _save_sync_physics() -> void:
 	if _runtime_utils.is_authority():
 		sync_velocity = velocity
@@ -206,6 +199,10 @@ func _get_collisions_normal() -> Vector2:
 # mostly for test purposes because _process is really important to test here
 func _is_on_floor() -> bool:
 	return is_on_floor()
+
+func debug_log_on_hitstun(message : String) -> void:
+	if onready_paths_node.hitstun_manager.hitstunned:
+		GSLogger.debug(message)
 
 ##### SIGNAL MANAGEMENT #####
 func _on_SceneUtils_toggle_scene_freeze(value: bool) -> void:
