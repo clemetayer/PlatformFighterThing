@@ -111,7 +111,7 @@ func test_physics_process_falling(params = use_parameters(physics_process_fallin
 	# then
 	assert_eq(mock_player.velocity, expected_velocity)
 	assert_called(mock_player, "_load_sync_physics")
-	assert_called(mock_player, "_predict_bounces")
+	assert_not_called(mock_player, "_predict_bounces")
 	assert_called(mock_player, "_buffer_velocity", [expected_velocity])
 	assert_called(mock_player, "_save_sync_physics")
 	# cleanup
@@ -159,7 +159,7 @@ func test_physics_process_on_floor(params = use_parameters(physics_process_on_fl
 	# then
 	assert_eq(mock_player.velocity, expected_velocity)
 	assert_called(mock_player, "_load_sync_physics")
-	assert_called(mock_player, "_predict_bounces")
+	assert_not_called(mock_player, "_predict_bounces")
 	assert_called(mock_player, "_buffer_velocity", [expected_velocity])
 	assert_called(mock_player, "_save_sync_physics")
 	# cleanup
@@ -203,7 +203,7 @@ func test_physics_process_jumping():
 	# then
 	assert_eq(mock_player.velocity, expected_velocity)
 	assert_called(mock_player, "_load_sync_physics")
-	assert_called(mock_player, "_predict_bounces")
+	assert_not_called(mock_player, "_predict_bounces")
 	assert_called(mock_player, "_buffer_velocity", [expected_velocity])
 	assert_called(mock_player, "_save_sync_physics")
 	# cleanup
@@ -255,7 +255,7 @@ func test_physics_process_hitstunned():
 	hitstun_manager.free()
 	onready_paths_node.free()
 
-func test_physics_processfreeze_buffer_velocity():
+func test_physics_process_freeze_buffer_velocity():
 	# given
 	var game_proxy = load("res://Scenes/Game/players.gd").new()
 	var player_config = load("res://test/unit/Player/default_player_config.tres")
@@ -293,7 +293,7 @@ func test_physics_processfreeze_buffer_velocity():
 	# then
 	assert_eq(mock_player.velocity, expected_velocity)
 	assert_called(mock_player, "_load_sync_physics")
-	assert_called(mock_player, "_predict_bounces")
+	assert_not_called(mock_player, "_predict_bounces")
 	assert_called(mock_player, "_buffer_velocity", [expected_velocity])
 	assert_called(mock_player, "_save_sync_physics")
 	assert_eq(mock_player._freeze_buffer_velocity, Vector2.ZERO)
@@ -339,7 +339,7 @@ func test_physics_process_override_velocity():
 	# then
 	assert_eq(mock_player.velocity, expected_velocity)
 	assert_called(mock_player, "_load_sync_physics")
-	assert_called(mock_player, "_predict_bounces")
+	assert_not_called(mock_player, "_predict_bounces")
 	assert_called(mock_player, "_buffer_velocity", [expected_velocity])
 	assert_called(mock_player, "_save_sync_physics")
 	assert_eq(mock_player._velocity_override, Vector2.ZERO)
@@ -385,7 +385,7 @@ func test_add_velocity():
 	# then
 	assert_eq(mock_player.velocity, expected_velocity)
 	assert_called(mock_player, "_load_sync_physics")
-	assert_called(mock_player, "_predict_bounces")
+	assert_not_called(mock_player, "_predict_bounces")
 	assert_called(mock_player, "_buffer_velocity", [expected_velocity])
 	assert_called(mock_player, "_save_sync_physics")
 	assert_eq(mock_player._additional_vector, Vector2.ZERO)
@@ -593,7 +593,6 @@ func test_buffer_velocity():
 	# then
 	assert_eq(player._velocity_buffer, [Vector2.UP, Vector2.DOWN, Vector2.LEFT])
 
-# predict_bounces is a nightmare to test...
 
 var save_sync_physics_params := [
 	[true],

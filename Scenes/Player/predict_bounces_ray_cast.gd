@@ -45,7 +45,3 @@ func _get_additional_body_size_point(direction : Vector2) -> Vector2:
 	var mult = 1.0/max(abs(dir.x), abs(dir.y))
 	dir *= mult
 	return dir * BODY_SIZE_SIDE_HALF
-
-func debug_log_on_hitstun(message : String) -> void:
-	if onready_paths_node.hitstun_manager.hitstunned:
-		GSLogger.debug(message)

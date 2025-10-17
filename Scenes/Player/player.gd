@@ -63,18 +63,12 @@ func _ready():
 
 func _physics_process(delta: float) -> void:
 	if not _frozen:
-		debug_log_on_hitstun("===================== : %s" % velocity)
-		debug_log_on_hitstun("velocity start : %s" % velocity)
 		_load_sync_physics()
-
-		debug_log_on_hitstun("velocity before floor : %s" % velocity)
 
 		if not _is_on_floor():
 			velocity.y += _gravity * delta
 		elif velocity.y > 0 and _is_on_floor(): # to bounce back on horizontal destroyable walls
 			velocity.y = 0
-		
-		debug_log_on_hitstun("velocity after floor : %s" % velocity)
 
 		if _freeze_buffer_velocity != Vector2.ZERO:
 			velocity = _freeze_buffer_velocity
@@ -86,33 +80,19 @@ func _physics_process(delta: float) -> void:
 		if jump_triggered and _is_on_floor():
 			velocity.y = JUMP_VELOCITY
 
-		debug_log_on_hitstun("velocity before additional vector : %s" % velocity)
-
 		velocity += _additional_vector
 		_additional_vector = Vector2.ZERO
-
-		debug_log_on_hitstun("velocity after additional vector : %s" % velocity)
 
 		var acceleration = FLOOR_ACCELERATION if _is_on_floor() else AIR_ACCELERATION
 		velocity.x = move_toward(velocity.x, direction.x * TARGET_SPEED, acceleration * delta)
 		
-		debug_log_on_hitstun("velocity before predict bounce : %s" % velocity)
-		
 		if onready_paths_node.hitstun_manager.hitstunned:
-			onready_paths_node.predict_bounces_ray_cast.predict_bounces()
-
-		debug_log_on_hitstun("velocity after predict bounce : %s" % velocity)
-
-		if onready_paths_node.hitstun_manager.hitstunned:
+			_predict_bounces()
 			var collision_normal = _get_collisions_normal()
 			if collision_normal != Vector2.ZERO:
 				velocity.bounce(collision_normal)
-		
-		debug_log_on_hitstun("velocity after bounce : %s" % velocity)
 
 		move_and_slide()
-
-		debug_log_on_hitstun("velocity after move_and_slide : %s" % velocity)
 
 		_buffer_velocity(velocity)
 
@@ -200,9 +180,9 @@ func _get_collisions_normal() -> Vector2:
 func _is_on_floor() -> bool:
 	return is_on_floor()
 
-func debug_log_on_hitstun(message : String) -> void:
-	if onready_paths_node.hitstun_manager.hitstunned:
-		GSLogger.debug(message)
+# also mostly for test purposes to avoid mocking the predict bounces node every time
+func _predict_bounces() -> void:
+	onready_paths_node.predict_bounces_ray_cast.predict_bounces()
 
 ##### SIGNAL MANAGEMENT #####
 func _on_SceneUtils_toggle_scene_freeze(value: bool) -> void:
