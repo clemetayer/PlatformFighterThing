@@ -162,6 +162,10 @@ func test_reset():
 	game.onready_paths.level = mock_level
 	game.onready_paths.background = mock_background
 	game.onready_paths.camera = mock_camera
+	var projectiles = Node2D.new()
+	var powerups = Node2D.new()
+	game.onready_paths.projectiles = projectiles
+	game.onready_paths.powerups = powerups
 	stub(mock_players,"reset").to_do_nothing()
 	stub(mock_ui,"reset").to_do_nothing()
 	stub(mock_level,"reset").to_do_nothing()
@@ -186,6 +190,8 @@ func test_init_start_game_animation():
 	game._init_start_game_animation()
 	# then
 	assert_called(mock_ap, "play", ["start_game", null, null, null])
+
+# cannot really test _clean_node_tree because of the queue_free
 
 func test_end_game():
 	# given

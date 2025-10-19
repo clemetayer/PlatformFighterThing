@@ -70,11 +70,18 @@ func reset() -> void:
 	onready_paths.ui.reset()
 	onready_paths.level.reset()
 	onready_paths.background.reset()
+	_clean_node_tree(onready_paths.projectiles)
+	_clean_node_tree(onready_paths.powerups)	
 	onready_paths.camera.enabled = false
 
 ##### PROTECTED METHODS #####
 func _init_start_game_animation() -> void:
 	onready_paths.animation_player.play("start_game")
+
+func _clean_node_tree(root : Node) -> void:
+	for child in root.get_children():
+		if is_instance_valid(child):
+			child.queue_free()
 
 @rpc("authority", "call_local", "reliable")
 func _end_game() -> void:
