@@ -24,7 +24,7 @@ func predict_bounces() -> void:
 	var predict_bounce_cnt = 0
 	while intersection and predict_bounce_cnt < MAX_BOUNCE_PREDICTIONS:
 		global_position = intersection.position + intersection.normal * PREDICT_BOUNCE_OFFSET  # slight position correction to avoid repositionning in the wall
-		if GroupUtils.is_destructible_wall(intersection): # breakable wall, should not bounce
+		if GroupUtils.is_destructible_wall(intersection.collider): # breakable wall, should not bounce
 			return
 		elif not onready_paths_node.hitstun_manager.hitstunned: # if hitstunned just stopped, reset the velocity if it collides with a wall to avoid going through at high velocities
 			root.velocity = Vector2.ZERO 
