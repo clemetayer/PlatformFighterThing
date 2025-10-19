@@ -14,14 +14,12 @@ const BASE_LIVES_AMOUNT := 3
 const PLAYER_SCENE_PATH := "res://Scenes/Player/player.tscn"
 const RESPAWN_TIME := 1 # seconds
 
-
-#---- EXPORTS -----
-
 #---- STANDARD -----
 #==== PRIVATE ====
 var _players_data := {}
 var _spawn_positions : Array
 var _current_spawn_idx := 0
+var _game_ending := false
 
 #==== ONREADY ====
 @onready var root = $".."
@@ -47,6 +45,7 @@ func toggle_players_truce(active : bool) -> void:
 func reset() -> void:
 	_players_data = {}
 	clean_players()
+	_game_ending = false
 
 func clean_players() -> void:
 	for player in get_children():
@@ -92,13 +91,14 @@ func _is_only_one_player_alive() -> bool:
 
 ##### SIGNAL MANAGEMENT #####
 func _on_player_killed(idx : int) -> void:
-	_players_data[idx].lives -= 1
-	emit_signal("lives_updated", idx, _players_data[idx].lives)
-	if _players_data[idx].lives > 0:
-		await tree.create_timer(RESPAWN_TIME).timeout
-		_spawn_player(idx, _get_spawn_position_and_go_next())
-	if _is_only_one_player_alive():
-		emit_signal("player_won")
+	if not _game_ending:
+		_players_data[idx].lives -= 1
+		emit_signal("lives_updated", idx, _players_data[idx].lives)
+		if _players_data[idx].lives > 0:
+			await tree.create_timer(RESPAWN_TIME).timeout
+			_spawn_player(idx, _get_spawn_position_and_go_next())
+		if _is_only_one_player_alive():
+			emit_signal("player_won")
 
 func _on_player_movement_updated(player_id : int, value) -> void:
 	emit_signal("movement_updated", player_id, value)
