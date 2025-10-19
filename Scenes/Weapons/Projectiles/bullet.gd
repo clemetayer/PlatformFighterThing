@@ -56,10 +56,10 @@ func parried(p_owner : Node2D, relative_aim_position : Vector2) -> void:
 ##### SIGNAL MANAGEMENT #####
 func _on_body_entered(body):
 	if _runtime_utils.is_authority():
-		if body.is_in_group("player") and current_owner != body and body.has_method("hurt"):
+		if GroupUtils.is_player(body) and current_owner != body and body.has_method("hurt"):
 			body.hurt(damage, knockback, _direction, current_owner)
 			queue_free()
-		elif body.is_in_group("static_obstacle"): 
+		elif GroupUtils.is_static_obstacle(body): 
 			queue_free()
 
 func _on_SceneUtils_toggle_scene_freeze(value : bool) -> void:

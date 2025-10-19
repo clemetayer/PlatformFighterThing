@@ -28,7 +28,7 @@ func _should_have_level_bounds(_level) -> void:
 func _has_level_a_static_tilemap(level) -> bool:
 	var tilemaps = level.find_children("*", "TileMapLayer")
 	for tilemap in tilemaps:
-		if tilemap.is_in_group("static_obstacle"):
+		if GroupUtils.is_static_obstacle(tilemap):
 			return true
 	return false
 			

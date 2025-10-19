@@ -11,6 +11,7 @@ var _bounce_back_direction := Vector2.RIGHT
 var _latest_hit_velocity : Vector2
 var _latest_hit_position : Vector2
 var _runtime_utils := RuntimeUtils
+var _group_utils = GroupUtils
 
 #==== ONREADY ====
 @onready var onready_paths := {
@@ -44,7 +45,7 @@ func _get_max_velocity_in_buffer(velocity_buffer: Array) -> Vector2:
 
 ##### SIGNAL MANAGEMENT #####
 func _on_damage_wall_area_body_entered(body: Node2D) -> void:
-	if _runtime_utils.is_player(body) and onready_paths.destructible_wall.get_collision_enabled() and _runtime_utils.is_authority():
+	if _group_utils.is_player(body) and onready_paths.destructible_wall.get_collision_enabled() and _runtime_utils.is_authority():
 		var max_velocity = _get_max_velocity_in_buffer(body.get_velocity_buffer())
 		_latest_hit_position = body.get_global_position()
 		_latest_hit_velocity = max_velocity

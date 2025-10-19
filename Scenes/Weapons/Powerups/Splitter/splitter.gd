@@ -63,7 +63,7 @@ func _prepare_for_deletion() -> void:
 # Note : the PROJECTILE_DUPLICATES + 1 thing seems weird, but it's actually needed to spawn an even amount of bullets
 func _on_hitbox_area_entered(area):
 	if _runtime_utils.is_authority():
-		if area.is_in_group("projectile") and not _whitelist.has(area):
+		if GroupUtils.is_projectile(area) and not _whitelist.has(area):
 			rpc("_handle_feedback")
 			for duplicate_idx in range(1,PROJECTILE_DUPLICATES + 1):
 				var dup_angle = (duplicate_idx * ((PI/2)/(PROJECTILE_DUPLICATES+1))) - PI/4

@@ -89,10 +89,12 @@ func test_on_damage_wall_area_body_entered():
 	# given
 	collision_manager.onready_paths.destructible_wall = double(load("res://Scenes/DestructibleWalls/destructible_wall.gd")).new()
 	stub(collision_manager.onready_paths.destructible_wall, "get_collision_enabled").to_return(true)
+	var group_utils = double(load("res://test/unit/DestructibleWall/test_collision_manager/mock_group_utils.gd")).new()
+	stub(group_utils, "is_player").to_return(true)
+	collision_manager._group_utils = group_utils
 	var mock_player = double(load("res://Scenes/Player/player.gd")).new()
 	stub(mock_player,"get_velocity_buffer").to_return([Vector2(10, 20), Vector2(30, 40)])
 	collision_manager._runtime_utils = double(load("res://Utils/runtime_utils.gd")).new()
-	stub(collision_manager._runtime_utils, "is_player").to_return(true)
 	stub(collision_manager._runtime_utils, "is_authority").to_return(true)
 	collision_manager.connect("player_hit",_on_collision_manager_player_hit)
 	# when
@@ -107,8 +109,10 @@ func test_on_damage_wall_area_body_entered_not_player():
 	# given
 	var mock_body = partial_double(load("res://Scenes/Player/player.gd"), DOUBLE_STRATEGY.INCLUDE_NATIVE).new()
 	collision_manager._runtime_utils = double(load("res://Utils/runtime_utils.gd")).new()
-	stub(collision_manager._runtime_utils, "is_player").to_return(false)
 	collision_manager.connect("player_hit",_on_collision_manager_player_hit)
+	var group_utils = double(load("res://test/unit/DestructibleWall/test_collision_manager/mock_group_utils.gd")).new()
+	stub(group_utils, "is_player").to_return(false)
+	collision_manager._group_utils = group_utils
 	# when
 	collision_manager._on_damage_wall_area_body_entered(mock_body)
 	# then
@@ -121,8 +125,10 @@ func test_on_damage_wall_area_body_entered_collision_disabled():
 	stub(collision_manager.onready_paths.destructible_wall, "get_collision_enabled").to_return(false)
 	var mock_player = partial_double(load("res://Scenes/Player/player.gd"), DOUBLE_STRATEGY.INCLUDE_NATIVE).new()
 	collision_manager._runtime_utils = double(load("res://Utils/runtime_utils.gd")).new()
-	stub(collision_manager._runtime_utils, "is_player").to_return(true)
 	collision_manager.connect("player_hit",_on_collision_manager_player_hit)
+	var group_utils = double(load("res://test/unit/DestructibleWall/test_collision_manager/mock_group_utils.gd")).new()
+	stub(group_utils, "is_player").to_return(true)
+	collision_manager._group_utils = group_utils
 	# when
 	collision_manager._on_damage_wall_area_body_entered(mock_player)
 	# then
@@ -136,8 +142,10 @@ func test_on_damage_wall_area_body_entered_not_authority():
 	var mock_player = partial_double(load("res://Scenes/Player/player.gd"), DOUBLE_STRATEGY.INCLUDE_NATIVE).new()
 	collision_manager._runtime_utils = double(load("res://Utils/runtime_utils.gd")).new()
 	stub(collision_manager._runtime_utils, "is_authority").to_return(false)
-	stub(collision_manager._runtime_utils, "is_player").to_return(true)
 	collision_manager.connect("player_hit",_on_collision_manager_player_hit)
+	var group_utils = double(load("res://test/unit/DestructibleWall/test_collision_manager/mock_group_utils.gd")).new()
+	stub(group_utils, "is_player").to_return(true)
+	collision_manager._group_utils = group_utils
 	# when
 	collision_manager._on_damage_wall_area_body_entered(mock_player)
 	# then

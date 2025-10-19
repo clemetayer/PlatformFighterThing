@@ -37,7 +37,7 @@ func parry() -> void:
 
 ##### SIGNAL MANAGEMENT #####
 func _on_area_entered(area):
-	if area.is_in_group("projectile") and _parrying:
+	if GroupUtils.is_projectile(area) and _parrying:
 		onready_paths.animation_player.play("parried")
 		onready_paths_node.parry_sound.play()
 		onready_paths.parry_timer.stop()

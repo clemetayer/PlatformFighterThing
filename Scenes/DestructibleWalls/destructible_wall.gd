@@ -52,7 +52,7 @@ func _toggle_activated(active: bool) -> void:
 
 ##### SIGNAL MANAGEMENT #####
 func _on_area_entered(area):
-	if area.is_in_group("projectile"):
+	if GroupUtils.is_projectile(area):
 		area.queue_free()
 
 func _on_health_manager_health_changed(new_health: float, old_health : float) -> void:

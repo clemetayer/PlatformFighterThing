@@ -3,5 +3,5 @@ extends Area2D
 
 ##### SIGNAL MANAGEMENT #####
 func _on_body_exited(body: Node2D) -> void:
-	if body.is_in_group("player"):
+	if GroupUtils.is_player(body):
 		body.rpc("kill")
