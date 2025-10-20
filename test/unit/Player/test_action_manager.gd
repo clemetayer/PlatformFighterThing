@@ -12,7 +12,7 @@ var use_called_times_called := 0
 ##### SETUP #####
 func before_each():
 	action_manager = partial_double(load("res://Scenes/Player/action_manager.gd")).new()
-	action_handler = load("res://Scenes/ActionHandlers/action_handler_base.gd").new()
+	action_handler = StaticActionHandler.get_handler(StaticActionHandler.handlers.RECORD)
 	action_manager._action_handler_base = action_handler
 	use_called_times_called = 0
 
@@ -65,7 +65,7 @@ func test_handle_direction(params = use_parameters(handle_direction_params)):
 	
 func test_handle_aim():
 	# given
-	var primary_weapon = double(load("res://Scenes/Weapons/Primary/primary_weapon_base.gd")).new()
+	var primary_weapon = double(load("res://Scenes/Weapons/Primary/Revolver/revolver.gd")).new()
 	stub(primary_weapon, "aim").to_do_nothing()
 	var crosshair = load("res://Scenes/Weapons/Primary/crosshair.gd").new()
 	var onready_paths_node = load("res://Scenes/Player/paths.gd").new()
@@ -108,7 +108,7 @@ var handle_fire_params := [
 func test_handle_fire(params = use_parameters(handle_fire_params)):
 	# given
 	stub(action_manager, "_is_action_active").to_return(params[0])
-	var primary_weapon = double(load("res://Scenes/Weapons/Primary/primary_weapon_base.gd")).new()
+	var primary_weapon = double(load("res://Scenes/Weapons/Primary/Revolver/revolver.gd")).new()
 	stub(primary_weapon, "fire").to_do_nothing()
 	var onready_paths_node = load("res://Scenes/Player/paths.gd").new()
 	onready_paths_node.primary_weapon = primary_weapon
@@ -130,7 +130,7 @@ var handle_movement_params := [
 func test_handle_movement_bonus(params = use_parameters(handle_movement_params)):
 	# given
 	stub(action_manager, "_is_action_just_active").to_return(params[0])
-	var movement_bonus = double(load("res://Scenes/Movement/movement_bonus_base.gd")).new()
+	var movement_bonus = double(load("res://Scenes/Movement/MovementBonusDash/movement_bonus_dash.gd")).new()
 	stub(movement_bonus, "activate").to_do_nothing()
 	var onready_paths_node = load("res://Scenes/Player/paths.gd").new()
 	onready_paths_node.movement_bonus = movement_bonus

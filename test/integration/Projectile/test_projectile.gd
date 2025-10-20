@@ -21,7 +21,7 @@ func after_each():
 func test_bullet():
 	# given
 	var player_init_pos = scene.get_player().global_position
-	var bullet = load("res://Scenes/Weapons/Projectiles/bullet.tscn").instantiate()
+	var bullet = load("res://Scenes/Weapons/Projectiles/Bullet/bullet.tscn").instantiate()
 	bullet.init_position = scene.get_fire_position()
 	bullet.init_rotation = 0.0
 	# when / then

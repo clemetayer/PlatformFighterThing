@@ -11,9 +11,9 @@ func before_each():
 ##### TESTS #####
 func test_serialize():
 	# given
-	player_config.ACTION_HANDLER = StaticActionHandlerStrategy.handlers.BASE
-	player_config.PRIMARY_WEAPON = StaticPrimaryWeaponHandler.weapons.REVOLVER
-	player_config.MOVEMENT_BONUS_HANDLER = StaticMovementBonusHandler.handlers.BASE
+	player_config.ACTION_HANDLER = StaticActionHandler.handlers.RECORD
+	player_config.PRIMARY_WEAPON = StaticPrimaryWeaponHandler.handlers.REVOLVER
+	player_config.MOVEMENT_BONUS_HANDLER = StaticMovementBonusHandler.handlers.DASH
 	player_config.POWERUP_HANDLER = StaticPowerupHandler.handlers.SPLITTER
 	var sprite_customization = SpriteCustomizationResource.new()
 	sprite_customization.BODY_COLOR = Color.AQUAMARINE
@@ -21,9 +21,9 @@ func test_serialize():
 	player_config.SPRITE_CUSTOMIZATION = sprite_customization
 	player_config.ELIMINATION_TEXT = "test"
 	var expected = {
-        "action_handler":StaticActionHandlerStrategy.handlers.BASE,
-        "primary_weapon":StaticPrimaryWeaponHandler.weapons.REVOLVER,
-        "movement_bonus_handler":StaticMovementBonusHandler.handlers.BASE,
+        "action_handler":StaticActionHandler.handlers.RECORD,
+        "primary_weapon":StaticPrimaryWeaponHandler.handlers.REVOLVER,
+        "movement_bonus_handler":StaticMovementBonusHandler.handlers.DASH,
         "powerup_handler":StaticPowerupHandler.handlers.SPLITTER,
         "sprite_customization": {
 			"body_color": Color.AQUAMARINE.to_html(),
@@ -39,9 +39,9 @@ func test_serialize():
 func test_deserialize():
 	# given
 	var data = {
-        "action_handler":StaticActionHandlerStrategy.handlers.BASE,
-        "primary_weapon":StaticPrimaryWeaponHandler.weapons.REVOLVER,
-        "movement_bonus_handler":StaticMovementBonusHandler.handlers.BASE,
+        "action_handler":StaticActionHandler.handlers.RECORD,
+        "primary_weapon":StaticPrimaryWeaponHandler.handlers.REVOLVER,
+        "movement_bonus_handler":StaticMovementBonusHandler.handlers.DASH,
         "powerup_handler":StaticPowerupHandler.handlers.SPLITTER,
         "sprite_customization": {
 			"body_color": Color.AQUAMARINE.to_html(),
@@ -52,9 +52,10 @@ func test_deserialize():
 	# when
 	player_config.deserialize(data)
 	# then
-	assert_eq(player_config.ACTION_HANDLER, StaticActionHandlerStrategy.handlers.BASE)
-	assert_eq(player_config.PRIMARY_WEAPON, StaticPrimaryWeaponHandler.weapons.REVOLVER)
-	assert_eq(player_config.MOVEMENT_BONUS_HANDLER, StaticPowerupHandler.handlers.SPLITTER)
+	assert_eq(player_config.ACTION_HANDLER, StaticActionHandler.handlers.RECORD)
+	assert_eq(player_config.PRIMARY_WEAPON, StaticPrimaryWeaponHandler.handlers.REVOLVER)
+	assert_eq(player_config.MOVEMENT_BONUS_HANDLER, StaticMovementBonusHandler.handlers.DASH)
+	assert_eq(player_config.POWERUP_HANDLER, StaticPowerupHandler.handlers.SPLITTER)
 	assert_eq(player_config.SPRITE_CUSTOMIZATION.BODY_COLOR, Color.AQUAMARINE)
 	assert_eq(player_config.SPRITE_CUSTOMIZATION.OUTLINE_COLOR, Color.BISQUE)
 	assert_eq(player_config.ELIMINATION_TEXT, "test")

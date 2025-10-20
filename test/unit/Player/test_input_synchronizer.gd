@@ -26,7 +26,7 @@ func test_set_action_handler():
 	onready_paths_node.player_root = player_root
 	input_synchronizer.onready_paths_node = onready_paths_node
 	# when
-	input_synchronizer.set_action_handler(StaticActionHandlerStrategy.handlers.BASE)
+	input_synchronizer.set_action_handler(StaticActionHandler.handlers.RECORD)
 	# then
 	assert_not_null(onready_paths_node.action_handler)
 	assert_true(onready_paths_node.action_handler is ActionHandlerBase)

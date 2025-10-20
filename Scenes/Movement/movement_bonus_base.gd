@@ -1,5 +1,6 @@
-extends Node2D
+@abstract
 class_name MovementBonusBase
+extends Node2D
 # Base class for movement bonuses (literally does nothing here)
 
 ##### SIGNALS #####
@@ -18,5 +19,4 @@ var active := false
 
 ##### PUBLIC METHODS #####
 @rpc("authority", "call_local", "reliable")
-func activate() -> void:
-	pass 
+@abstract func activate() -> void

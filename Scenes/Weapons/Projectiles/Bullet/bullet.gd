@@ -1,4 +1,4 @@
-extends Area2D
+extends ProjectileBase
 # A default bullet
 
 ##### VARIABLES #####
@@ -8,18 +8,12 @@ const DAMAGE := 15.0
 const KNOCKBACK := 20.0
 
 #---- EXPORTS -----
-@export var init_position : Vector2 
-@export var init_rotation : float
 @export var speed := SPEED
 @export var damage := DAMAGE
 @export var knockback := KNOCKBACK
 @export var freeze := false
-@export var trail_color := Color.WHITE
 
 #---- STANDARD -----
-#==== PUBLIC ====
-var current_owner # the current "owner" of the bullet (i.e, the last thing that either spawned it, reflected it, etc.)
-
 #==== PRIVATE ====
 var _direction := Vector2.ZERO
 var _runtime_utils := RuntimeUtils
@@ -32,10 +26,10 @@ var _runtime_utils := RuntimeUtils
 ##### PROCESSING #####
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	super()
 	global_position = init_position
 	rotation = init_rotation
 	onready_paths.trail.modulate = trail_color
-	SceneUtils.connect("toggle_scene_freeze", _on_SceneUtils_toggle_scene_freeze)
 	_direction = Vector2.RIGHT.rotated(rotation).normalized()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame. Remove the "_" to use it.

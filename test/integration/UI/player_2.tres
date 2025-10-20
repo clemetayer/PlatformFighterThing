@@ -11,6 +11,6 @@ metadata/_custom_type_script = "uid://cceeupk77aehe"
 
 [resource]
 script = ExtResource("1_vvlqw")
-MOVEMENT_BONUS_HANDLER = 1
+ACTION_HANDLER = 1
 SPRITE_CUSTOMIZATION = SubResource("Resource_j01jn")
 metadata/_custom_type_script = "uid://cb2tt7tw3qdjn"

@@ -13,7 +13,7 @@ func before_each():
 ##### TESTS #####
 func test_splitter():
 	# given
-	var bullet_load = load("res://Scenes/Weapons/Projectiles/bullet.tscn")
+	var bullet_load = load("res://Scenes/Weapons/Projectiles/Bullet/bullet.tscn")
 	var splitter = load("res://Scenes/Weapons/Powerups/Splitter/splitter.tscn").instantiate()
 	var runtime_utils = double(load("res://Utils/runtime_utils.gd")).new()
 	stub(runtime_utils, "is_authority").to_return(true)
@@ -55,7 +55,7 @@ func test_splitter_manager():
 	await wait_seconds(0.1)
 	assert_eq(scene.get_powerups().size(),1)
 	## test can shoot at it
-	var bullet = load("res://Scenes/Weapons/Projectiles/bullet.tscn").instantiate()
+	var bullet = load("res://Scenes/Weapons/Projectiles/Bullet/bullet.tscn").instantiate()
 	bullet.init_position = scene.get_fire_position_node().global_position
 	bullet.init_rotation = 0.0
 	scene.fire_projectile(bullet)

@@ -6,7 +6,7 @@ var bullet
 
 ##### SETUP #####
 func before_each():
-	bullet = load("res://Scenes/Weapons/Projectiles/bullet.gd").new()
+	bullet = load("res://Scenes/Weapons/Projectiles/Bullet/bullet.gd").new()
 
 ##### TEARDOWN #####
 func after_each():
@@ -16,7 +16,7 @@ func after_each():
 func test_ready():
 	# given
 	bullet.free()
-	bullet = load("res://Scenes/Weapons/Projectiles/bullet.tscn").instantiate() # Actually loads the bullet scene to test _ready
+	bullet = load("res://Scenes/Weapons/Projectiles/Bullet/bullet.tscn").instantiate() # Actually loads the bullet scene to test _ready
 	bullet.init_position = Vector2.RIGHT
 	bullet.init_rotation = PI/4.0
 	bullet.trail_color = Color.AQUA

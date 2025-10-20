@@ -6,7 +6,7 @@ var action_handler :ActionHandlerBase
 
 ##### SETUP #####
 func before_each():
-	action_handler = ActionHandlerBase.new()
+	action_handler = ActionHandlerRecord.new()
 
 ##### TEARDOWN #####
 func after_each():

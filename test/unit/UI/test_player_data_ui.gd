@@ -108,7 +108,7 @@ func test_init_movement():
 	wait_for_signal(important_data.tree_entered, 0.25)
 	player_data.onready_paths.important_data = important_data
 	# when
-	player_data._init_movement(StaticMovementBonusHandler.handlers.BASE)
+	player_data._init_movement(StaticMovementBonusHandler.handlers.DASH)
 	# then
 	assert_eq(important_data.get_child_count(), 1)
 	assert_not_null(player_data._movement_ui)

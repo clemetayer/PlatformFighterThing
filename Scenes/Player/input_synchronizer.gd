@@ -31,7 +31,7 @@ func start_input_detection() -> void:
 		or _runtime_utils.is_offline_game
 	)
 
-func set_action_handler(handler : StaticActionHandlerStrategy.handlers) -> void:
-	onready_paths_node.action_handler = StaticActionHandlerStrategy.get_handler(handler)
+func set_action_handler(handler : StaticActionHandler.handlers) -> void:
+	onready_paths_node.action_handler = StaticActionHandler.get_handler(handler)
 	onready_paths_node.action_handler.name = "ActionHandler"
 	onready_paths_node.player_root.add_child(onready_paths_node.action_handler)

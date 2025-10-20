@@ -75,8 +75,8 @@ func generate_test_config() -> PlayerConfig:
 	var sprite_customization = SpriteCustomizationResource.new()
 	sprite_customization.BODY_COLOR = Color.REBECCA_PURPLE
 	sprite_customization.OUTLINE_COLOR = Color.ANTIQUE_WHITE
-	config.ACTION_HANDLER = StaticActionHandlerStrategy.handlers.INPUT
-	config.PRIMARY_WEAPON = StaticPrimaryWeaponHandler.weapons.REVOLVER
+	config.ACTION_HANDLER = StaticActionHandler.handlers.INPUT
+	config.PRIMARY_WEAPON = StaticPrimaryWeaponHandler.handlers.REVOLVER
 	config.MOVEMENT_BONUS_HANDLER = StaticMovementBonusHandler.handlers.DASH
 	config.POWERUP_HANDLER = StaticPowerupHandler.handlers.SPLITTER
 	config.SPRITE_CUSTOMIZATION = sprite_customization

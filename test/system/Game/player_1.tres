@@ -9,8 +9,6 @@ metadata/_custom_type_script = "uid://cceeupk77aehe"
 
 [resource]
 script = ExtResource("2_2ckjo")
-ACTION_HANDLER = 1
-MOVEMENT_BONUS_HANDLER = 1
 SPRITE_CUSTOMIZATION = SubResource("Resource_na28o")
 ELIMINATION_TEXT = "test_player_1"
 metadata/_custom_type_script = "uid://cb2tt7tw3qdjn"

@@ -47,7 +47,7 @@ func test_parry_lockout():
 
 func test_parry_bullet():
 	# given
-	var bullet = load("res://Scenes/Weapons/Projectiles/bullet.tscn").instantiate()
+	var bullet = load("res://Scenes/Weapons/Projectiles/Bullet/bullet.tscn").instantiate()
 	bullet.init_position = scene.get_fire_position()
 	bullet.init_rotation = 0.0
 	var previous_owner = Node2D.new()

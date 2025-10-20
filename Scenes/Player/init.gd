@@ -5,8 +5,8 @@ extends Node
 #---- STANDARD -----
 #==== ONREADY ====
 @onready var onready_paths_node := $"../Paths"
-@export var ACTION_HANDLER : StaticActionHandlerStrategy.handlers
-@export var PRIMARY_WEAPON : StaticPrimaryWeaponHandler.weapons
+@export var ACTION_HANDLER : StaticActionHandler.handlers
+@export var PRIMARY_WEAPON : StaticPrimaryWeaponHandler.handlers
 @export var MOVEMENT_BONUS_HANDLER : StaticMovementBonusHandler.handlers
 @export var POWERUP_HANDLER : StaticPowerupHandler.handlers
 

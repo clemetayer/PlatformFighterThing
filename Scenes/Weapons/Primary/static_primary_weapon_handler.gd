@@ -1,16 +1,16 @@
 extends RefCounted
 class_name StaticPrimaryWeaponHandler
-# Handles the choice for the weapons and returns the correct one
+# Handles the choice for the handlers and returns the correct one
 
 ##### ENUMS #####
-enum weapons {REVOLVER}
+enum handlers {REVOLVER}
 
 ##### VARIABLES #####
 #---- CONSTANTS -----
 const scene_paths := {
-	weapons.REVOLVER: "res://Scenes/Weapons/Primary/Revolver/revolver.tscn"
+	handlers.REVOLVER: "res://Scenes/Weapons/Primary/Revolver/revolver.tscn"
 }
 
 ##### PUBLIC METHODS #####
-static func get_weapon(weapon : weapons) -> PrimaryWeaponBase:
+static func get_weapon(weapon : handlers) -> PrimaryWeaponBase:
 	return load(scene_paths[weapon]).instantiate()

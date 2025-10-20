@@ -1,5 +1,6 @@
-extends Node2D
+@abstract
 class_name ActionHandlerBase
+extends Node2D
 # Base class to handle actions
 
 ##### ENUMS #####

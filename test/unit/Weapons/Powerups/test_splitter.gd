@@ -42,7 +42,7 @@ func test_spawn_projectile(params = use_parameters(spawn_projectile_params)):
 
 func test_duplicate_projectile_with_angle():
 	# given
-	var projectile = load("res://Scenes/Weapons/Projectiles/bullet.gd").new()
+	var projectile = load("res://Scenes/Weapons/Projectiles/Bullet/bullet.gd").new()
 	var current_owner = Node2D.new()
 	projectile.current_owner = current_owner
 	var splitter_mock = partial_double(load("res://Scenes/Weapons/Powerups/Splitter/splitter.gd")).new()

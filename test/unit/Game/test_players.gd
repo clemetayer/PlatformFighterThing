@@ -43,8 +43,8 @@ func test_init_players_data():
 	# given
 	var player_1_data = {
 		"config": {
-			"action_handler":StaticActionHandlerStrategy.handlers.INPUT,
-			"primary_weapon":StaticPrimaryWeaponHandler.weapons.REVOLVER,
+			"action_handler":StaticActionHandler.handlers.INPUT,
+			"primary_weapon":StaticPrimaryWeaponHandler.handlers.REVOLVER,
 			"movement_bonus_handler":StaticMovementBonusHandler.handlers.DASH,
 			"powerup_handler":StaticPowerupHandler.handlers.SPLITTER,
 			"sprite_customization": {
@@ -56,9 +56,9 @@ func test_init_players_data():
 	}
 	var player_2_data = {
 		"config": {
-			"action_handler":StaticActionHandlerStrategy.handlers.RECORD,
-			"primary_weapon":StaticPrimaryWeaponHandler.weapons.REVOLVER,
-			"movement_bonus_handler":StaticMovementBonusHandler.handlers.BASE,
+			"action_handler":StaticActionHandler.handlers.RECORD,
+			"primary_weapon":StaticPrimaryWeaponHandler.handlers.REVOLVER,
+			"movement_bonus_handler":StaticMovementBonusHandler.handlers.DASH,
 			"powerup_handler":StaticPowerupHandler.handlers.SPLITTER,
 			"sprite_customization": {
 				"body_color":Color.REBECCA_PURPLE.to_html(),

@@ -20,8 +20,8 @@ func test_add_player():
 	sprite_customization.BODY_COLOR = Color.BEIGE
 	sprite_customization.OUTLINE_COLOR = Color.GAINSBORO
 	config.SPRITE_CUSTOMIZATION = sprite_customization
-	config.ACTION_HANDLER = StaticActionHandlerStrategy.handlers.BASE
-	config.PRIMARY_WEAPON = StaticPrimaryWeaponHandler.weapons.REVOLVER
+	config.ACTION_HANDLER = StaticActionHandler.handlers.RECORD
+	config.PRIMARY_WEAPON = StaticPrimaryWeaponHandler.handlers.REVOLVER
 	config.MOVEMENT_BONUS_HANDLER = StaticMovementBonusHandler.handlers.DASH
 	config.POWERUP_HANDLER = StaticPowerupHandler.handlers.SPLITTER
 	config.ELIMINATION_TEXT = ""

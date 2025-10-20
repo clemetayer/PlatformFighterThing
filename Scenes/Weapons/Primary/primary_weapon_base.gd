@@ -1,5 +1,6 @@
-extends Node2D
+@abstract
 class_name PrimaryWeaponBase
+extends Node2D
 # Base class for the primary weapon
 
 ##### VARIABLES #####
@@ -11,15 +12,12 @@ class_name PrimaryWeaponBase
 var active := false
 var projectile_owner = null # the owner of the projectile that will spawn, i.e : the player with the weapon
 
-
 ##### PUBLIC METHODS #####
 @rpc("authority", "call_local", "reliable")
-func fire() -> void:
-	pass
+@abstract func fire() -> void
 
 @warning_ignore("UNUSED_PARAMETER")
-func aim(relative_aim_position : Vector2) -> void:
-	pass
+@abstract func aim(relative_aim_position : Vector2) -> void
 
 ##### PROTECTED METHODS #####
 func _spawn_projectile(projectile : Node) -> void:

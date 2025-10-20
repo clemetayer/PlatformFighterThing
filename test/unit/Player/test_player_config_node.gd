@@ -16,9 +16,9 @@ func after_each():
 func test_ready():
 	# given
 	var config = PlayerConfig.new()
-	config.ACTION_HANDLER = StaticActionHandlerStrategy.handlers.BASE
-	config.PRIMARY_WEAPON = StaticPrimaryWeaponHandler.weapons.REVOLVER
-	config.MOVEMENT_BONUS_HANDLER = StaticMovementBonusHandler.handlers.BASE
+	config.ACTION_HANDLER = StaticActionHandler.handlers.RECORD
+	config.PRIMARY_WEAPON = StaticPrimaryWeaponHandler.handlers.REVOLVER
+	config.MOVEMENT_BONUS_HANDLER = StaticMovementBonusHandler.handlers.DASH
 	config.POWERUP_HANDLER = StaticPowerupHandler.handlers.SPLITTER
 	var sprite_customization = SpriteCustomizationResource.new()
 	sprite_customization.BODY_COLOR = Color.AZURE

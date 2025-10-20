@@ -486,9 +486,9 @@ func test_toggle_abilities(params = use_parameters(toggle_abilities_params)):
 	# given
 	player._truce_active = params[0]
 	var onready_paths_node = load("res://Scenes/Player/paths.gd").new()
-	var primary_weapon = StaticPrimaryWeaponHandler.get_weapon(StaticPrimaryWeaponHandler.weapons.REVOLVER)
+	var primary_weapon = StaticPrimaryWeaponHandler.get_weapon(StaticPrimaryWeaponHandler.handlers.REVOLVER)
 	onready_paths_node.primary_weapon = primary_weapon
-	var movement_bonus = StaticMovementBonusHandler.get_handler(StaticMovementBonusHandler.handlers.BASE)
+	var movement_bonus = StaticMovementBonusHandler.get_handler(StaticMovementBonusHandler.handlers.DASH)
 	onready_paths_node.movement_bonus = movement_bonus
 	var powerup_manager = StaticPowerupHandler.get_powerup_manager(StaticPowerupHandler.handlers.SPLITTER)
 	onready_paths_node.powerup_manager = powerup_manager
@@ -670,4 +670,3 @@ func test_on_appear_elements_appear_animation_finished():
 	# cleanup
 	appear_elements.free()
 	onready_paths_node.free()
-
