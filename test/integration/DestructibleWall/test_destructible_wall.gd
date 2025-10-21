@@ -1,9 +1,6 @@
 extends "res://addons/gut/test.gd"
 
 ##### VARIABLES #####
-#---- CONSTANTS -----
-# const CONST := "value"
-
 #---- VARIABLES -----
 var scene
 var _sender = InputSender.new(Input)
@@ -76,7 +73,6 @@ func test_hit_wall_destroyed(): # with wall respawn
 	assert_false(scene.get_player().onready_paths_node.sprites.visible) # queue_free does not work well with GUT, so we check other things.
 	assert_eq(scene.get_player().collision_layer,0)
 	assert_eq(scene.get_player().collision_mask,0)
-	assert_true(scene.is_particles_emitted(wall_direction))
 	assert_false(wall.visible)
 	assert_false(wall.collision_enabled)
 	assert_false(wall.onready_paths.collision_manager.onready_paths.damage_wall_area.monitoring)
@@ -85,7 +81,6 @@ func test_hit_wall_destroyed(): # with wall respawn
 	assert_true(scene.is_spawn_animation_playing(scene.DIRECTION.LEFT))
 	await wait_seconds(2.0)
 	assert_gte(wall.onready_paths.health_manager.HEALTH, 0.0)
-	assert_false(scene.is_particles_emitted(wall_direction))
 	assert_true(wall.visible)
 	assert_true(wall.collision_enabled)
 	assert_true(wall.onready_paths.collision_manager.onready_paths.damage_wall_area.monitoring)

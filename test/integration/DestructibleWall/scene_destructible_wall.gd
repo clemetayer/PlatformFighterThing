@@ -81,15 +81,3 @@ func is_spawn_animation_playing(direction : DIRECTION) -> bool:
 func set_wall_life(direction : DIRECTION, life : float) -> void:
 	var wall = get_wall(direction)
 	wall.onready_paths.health_manager.apply_damage(wall.BASE_HEALTH - life)
-
-func is_particles_emitted(direction : DIRECTION) -> bool:
-	var particles = get_particles(direction)
-	var emitting = true
-	for child in particles.get_children():
-		emitting = emitting and child.emitting
-	return emitting
-
-##### PROTECTED METHODS #####
-
-##### SIGNAL MANAGEMENT #####
-# Functions that should be triggered when a specific signal is received

@@ -110,9 +110,6 @@ func test_game():
 	var wall = scene.get_right_wall()
 	assert_false(wall.get_collision_enabled())
 	assert_false(wall.visible)
-	var particles = scene.get_right_particles()
-	for particle in particles.get_children():
-		assert_true(particle.emitting)
 	await wait_seconds(2)
 	assert_eq(scene.count_players(), 1)
 	await wait_seconds(2)

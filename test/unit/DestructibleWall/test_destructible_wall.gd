@@ -18,22 +18,40 @@ func after_each():
 ##### TESTS #####
 func test_init_node():
 	# given
+	var mock_destructible_wall = partial_double(load("res://Scenes/DestructibleWalls/destructible_wall.gd")).new()
+	stub(mock_destructible_wall, "_add_particles").to_do_nothing()
 	var mock_health_manager = _mock_health_manager()
+	mock_destructible_wall.onready_paths.health_manager = mock_health_manager
 	var mock_collision_manager = _mock_collision_manager()
+	mock_destructible_wall.onready_paths.collision_manager = mock_collision_manager
 	var mock_visual_effects_manager = _mock_visual_effects_manager()
+	mock_destructible_wall.onready_paths.visual_effects_manager = mock_visual_effects_manager
 	stub(mock_health_manager, "init").to_do_nothing()
 	stub(mock_collision_manager, "init").to_do_nothing()
 	stub(mock_visual_effects_manager, "init").to_do_nothing()
 	stub(mock_visual_effects_manager, "play_spawn_animation").to_do_nothing()
 	# when
-	destructible_wall._init_node()
+	mock_destructible_wall._init_node()
 	# then
-	assert_called(mock_health_manager, "init", [destructible_wall.BASE_HEALTH])
-	assert_called(mock_collision_manager, "init", [destructible_wall.BOUNCE_BACK_DIRECTION])
-	assert_called(mock_visual_effects_manager, "init", [destructible_wall.BOUNCE_BACK_DIRECTION])
+	assert_called(mock_health_manager, "init", [mock_destructible_wall.BASE_HEALTH])
+	assert_called(mock_collision_manager, "init", [mock_destructible_wall.BOUNCE_BACK_DIRECTION])
+	assert_called(mock_visual_effects_manager, "init", [mock_destructible_wall.BOUNCE_BACK_DIRECTION])
 	assert_called(mock_visual_effects_manager, "play_spawn_animation")
-	assert_true(destructible_wall.visible)
-	assert_true(destructible_wall.collision_enabled)
+	assert_true(mock_destructible_wall.visible)
+	assert_true(mock_destructible_wall.collision_enabled)
+
+func test_add_particles():
+	# given
+	var parent = Node.new()
+	var mock_destructible_wall = partial_double(load("res://Scenes/DestructibleWalls/destructible_wall.tscn")).instantiate()
+	stub(mock_destructible_wall, "_init_node").to_do_nothing()
+	parent.add_child(mock_destructible_wall)
+	add_child_autofree(parent)
+	# when
+	mock_destructible_wall._add_particles()
+	await wait_process_frames(1)
+	# then
+	assert_eq(parent.get_child_count(), 2)
 
 var test_get_collision_params := [
 	[true],

@@ -5,6 +5,9 @@ extends TileMapLayer
 signal explode_fragments(force : Vector2)
 
 ##### VARIABLES #####
+#---- CONSTANTS -----
+const WALL_BREAK_PARTICLES_SCENE_PATH := "res://Scenes/DestructibleWalls/WallBreakParticles/wall_break_particles.tscn"
+
 #---- EXPORTS -----
 @export var BASE_HEALTH := 5000 
 @export var BOUNCE_BACK_FORCE := 1750
@@ -34,6 +37,7 @@ func get_collision_enabled() -> bool:
 ##### PROTECTED METHODS #####
 # mostly for test purposes, since calling _ready resets the onready_paths
 func _init_node() -> void:
+	_add_particles()
 	onready_paths.health_manager.init(BASE_HEALTH)
 	onready_paths.collision_manager.init(BOUNCE_BACK_DIRECTION)
 	onready_paths.visual_effects_manager.init(BOUNCE_BACK_DIRECTION)
@@ -49,6 +53,11 @@ func _toggle_activated(active: bool) -> void:
 	visible = active
 	collision_enabled = active
 	onready_paths.collision_manager.set_active(active)
+
+func _add_particles() -> void:
+	var particles = load(WALL_BREAK_PARTICLES_SCENE_PATH).instantiate()
+	get_parent().call_deferred("add_child", particles)
+	particles.init_particles(self)
 
 ##### SIGNAL MANAGEMENT #####
 func _on_area_entered(area):

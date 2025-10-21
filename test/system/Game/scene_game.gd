@@ -22,10 +22,6 @@ func get_right_wall() -> Node2D:
 	return onready_paths.game.\
 		onready_paths.level._level.get_right_wall()
 
-func get_right_particles() -> Node2D:
-	return onready_paths.game.\
-		onready_paths.level._level.get_right_particles()
-
 func get_player(id: int) -> Node2D:
 	for player in onready_paths.game.onready_paths.players.get_children():
 		if player.id == id:
