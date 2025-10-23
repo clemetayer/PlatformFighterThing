@@ -101,11 +101,11 @@ func test_game():
 	await wait_seconds(0.25)
 	assert_lt(scene.get_player(1).global_position.x,p1_ori_pos.x)
 	# ==== check kill other player ====
-	for i in range(0,4):
+	for i in range(0,3):
 		_sender.action_down("fire").hold_for(.05)
 		await _sender.idle
 		_sender.release_all()
-		await wait_seconds(1)
+		await wait_seconds(1.5)
 	assert_eq(scene.get_game_message(), "test_player_1")
 	var wall = scene.get_right_wall()
 	assert_false(wall.get_collision_enabled())

@@ -42,16 +42,20 @@ func init_screen_game_message() -> void:
 	onready_paths.screen_message.show()
 
 func update_movement(player_id: int, value) -> void:
-	onready_paths.game_ui.rpc("update_movement", player_id, value)
+	if RuntimeUtils.is_authority():
+		onready_paths.game_ui.rpc("update_movement", player_id, value)
 
 func update_powerup(player_id : int, value) -> void:
-	onready_paths.game_ui.rpc("update_powerup", player_id, value)
+	if RuntimeUtils.is_authority():
+		onready_paths.game_ui.rpc("update_powerup", player_id, value)
 
 func update_lives(idx: int, lives: int) -> void:
-	onready_paths.game_ui.rpc("update_lives", idx, lives)
+	if RuntimeUtils.is_authority():
+		onready_paths.game_ui.rpc("update_lives", idx, lives)
 
 func display_message(message: String, display_all_characters : bool = false) -> void:
-	onready_paths.screen_message.rpc("display_message", message, PLAYER_GAME_MESSAGE_DURATION, display_all_characters)
+	if RuntimeUtils.is_authority():
+		onready_paths.screen_message.rpc("display_message", message, PLAYER_GAME_MESSAGE_DURATION, display_all_characters)
 
 func reset() -> void:
 	onready_paths.game_ui.clean()

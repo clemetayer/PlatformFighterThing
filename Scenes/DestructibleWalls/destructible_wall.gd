@@ -78,7 +78,7 @@ func _on_health_manager_health_empty() -> void:
 
 func _on_collision_manager_player_hit(player: Variant, velocity: Variant) -> void:
 	var damage = _get_damage(velocity)
-	onready_paths.health_manager.apply_damage(damage)
+	onready_paths.health_manager.rpc("apply_damage", damage)
 	if onready_paths.health_manager.is_destroyed():
 		onready_paths.player_interactions_manager.kill_player(player)
 	else:
@@ -88,7 +88,7 @@ func _on_collision_manager_player_hit(player: Variant, velocity: Variant) -> voi
 		onready_paths.visual_effects_manager.shake_camera_by_velocity(velocity.x if BOUNCE_BACK_DIRECTION.x != 0 else velocity.y)
 		
 func _on_respawn_manager_wall_respawned() -> void:
-	onready_paths.health_manager.reset_health()
+	onready_paths.health_manager.rpc("reset_health")
 	onready_paths.visual_effects_manager.update_visuals(0.0)
 	_toggle_activated(true)
 	onready_paths.respawn_manager.enable_respawn_detection(false)

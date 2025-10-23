@@ -18,6 +18,7 @@ func init(base_health : float) -> void:
 	HEALTH = base_health
 	_base_health = base_health
 
+@rpc("authority", "call_local", "reliable")
 func apply_damage(damage : float) -> void:
 	var old_health = HEALTH
 	HEALTH -= damage
@@ -27,6 +28,7 @@ func apply_damage(damage : float) -> void:
 	else:
 		emit_signal("health_changed", HEALTH, old_health)
 
+@rpc("authority", "call_local", "reliable")
 func reset_health() -> void:
 	HEALTH = _base_health
 	emit_signal("health_changed",HEALTH, HEALTH)

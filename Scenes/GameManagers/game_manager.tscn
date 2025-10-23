@@ -14,4 +14,5 @@ script = ExtResource("1_6q8xy")
 [connection signal="init_client" from="GameConfigMenu" to="." method="_on_game_config_menu_init_client"]
 [connection signal="init_host" from="GameConfigMenu" to="." method="_on_game_config_menu_init_host"]
 [connection signal="init_offline" from="GameConfigMenu" to="." method="_on_game_config_menu_init_offline"]
+[connection signal="start_game" from="GameConfigMenu" to="." method="_on_game_config_menu_start_game"]
 [connection signal="game_over" from="Game" to="." method="_on_game_game_over"]

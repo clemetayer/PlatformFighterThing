@@ -149,7 +149,7 @@ func test_on_collision_manager_player_hit_wall_not_destroyed():
 	var mock_audio_manager = _mock_audio_manager()
 	var mock_visual_effects_manager = _mock_visual_effects_manager()
 	var mock_player_interactions_manager = _mock_player_interactions_manager()
-	stub(mock_health_manager, "apply_damage").to_do_nothing()
+	stub(mock_health_manager, "rpc").to_do_nothing()
 	stub(mock_health_manager, "is_destroyed").to_return(false)
 	stub(mock_health_manager, "get_health_ratio").to_return(0.5)
 	stub(mock_player_interactions_manager, "handle_player_hit").to_do_nothing()
@@ -159,7 +159,7 @@ func test_on_collision_manager_player_hit_wall_not_destroyed():
 	# when
 	destructible_wall._on_collision_manager_player_hit(mock_player, velocity)
 	# then
-	assert_called(mock_health_manager, "apply_damage", [damage])
+	assert_called(mock_health_manager, "rpc", ["apply_damage", [damage]])
 	assert_called(mock_health_manager, "is_destroyed")
 	assert_called(mock_player_interactions_manager, "handle_player_hit", [mock_player, destructible_wall.BOUNCE_BACK_DIRECTION, destructible_wall.BOUNCE_BACK_FORCE])
 	assert_called(mock_audio_manager, "play_hit")
@@ -175,13 +175,13 @@ func test_on_collision_manager_player_hit_wall_destroyed():
 	var damage = 800.0
 	var mock_health_manager = _mock_health_manager()
 	var mock_player_interactions_manager = _mock_player_interactions_manager()
-	stub(mock_health_manager, "apply_damage").to_do_nothing()
+	stub(mock_health_manager, "rpc").to_do_nothing()
 	stub(mock_health_manager, "is_destroyed").to_return(true)
 	stub(mock_player_interactions_manager, "kill_player").to_do_nothing()
 	# when
 	destructible_wall._on_collision_manager_player_hit(mock_player, velocity)
 	# then
-	assert_called(mock_health_manager, "apply_damage", [damage])
+	assert_called(mock_health_manager, "rpc", ["apply_damage", [damage]])
 	assert_called(mock_health_manager, "is_destroyed")
 	assert_called(mock_player_interactions_manager, "kill_player", [mock_player])
 	# cleanup
@@ -193,7 +193,7 @@ func test_on_respawn_manager_wall_respawned():
 	var mock_visual_effects_manager = _mock_visual_effects_manager()
 	var mock_respawn_manager = _mock_respawn_manager()
 	var mock_collision_manager = _mock_collision_manager()
-	stub(mock_health_manager, "reset_health").to_do_nothing()
+	stub(mock_health_manager, "rpc").to_do_nothing()
 	stub(mock_visual_effects_manager, "update_visuals").to_do_nothing()
 	stub(mock_visual_effects_manager, "play_spawn_animation").to_do_nothing()
 	stub(mock_respawn_manager, "enable_respawn_detection").to_do_nothing()
@@ -201,7 +201,7 @@ func test_on_respawn_manager_wall_respawned():
 	# when
 	destructible_wall._on_respawn_manager_wall_respawned()
 	# then
-	assert_called(mock_health_manager, "reset_health")
+	assert_called(mock_health_manager, "rpc", ["reset_health", []])
 	assert_called(mock_visual_effects_manager, "update_visuals", [0.0])
 	assert_called(mock_respawn_manager, "enable_respawn_detection", [false])
 	assert_called(mock_visual_effects_manager, "play_spawn_animation")
