@@ -8,6 +8,7 @@ signal drone_2
 signal o_hat
 signal c_hat
 signal snare
+@warning_ignore("unused_signal")
 signal pluck_string
 signal arpeggio
 signal piano
@@ -29,9 +30,6 @@ signal drone_1_octave_up
 @export var DRONE_1_OCTAVE_UP_ACTIVE : bool = false
 
 #---- STANDARD -----
-#==== PRIVATE ====
-var _beat_count := 0
-
 #==== ONREADY ====
 @onready var onready_paths := {
 	"rythm":$"RhythmNotifier",
@@ -79,7 +77,7 @@ func _quarter_beat(count) -> void:
 	if DRONE_2_ACTIVE:
 		_drone_2(count)
 
-func _triplet_beat(count) -> void:
+func _triplet_beat(_count) -> void:
 	if PIANO_ACTIVE:
 		emit_signal("piano")
 

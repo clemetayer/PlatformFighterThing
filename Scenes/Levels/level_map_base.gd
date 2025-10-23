@@ -4,9 +4,6 @@ class_name LevelMap
 
 ##### VARIABLES #####
 #---- STANDARD -----
-#==== PRIVATE ====
-var _spawn_counter := 0
-
 #==== ONREADY ====
 @onready var spawn_points := $"SpawnPoints"
 

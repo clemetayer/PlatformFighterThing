@@ -2,9 +2,13 @@ extends CharacterBody2D
 # player script
 
 ##### SIGNALS #####
+@warning_ignore("unused_signal")
 signal killed(id : int)
+@warning_ignore("unused_signal")
 signal movement_updated(id: int, value)
+@warning_ignore("unused_signal")
 signal powerup_updated(id: int, value)
+@warning_ignore("unused_signal")
 signal game_message_triggered(id : int)
 
 ##### VARIABLES #####
