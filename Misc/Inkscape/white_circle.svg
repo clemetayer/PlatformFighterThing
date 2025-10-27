@@ -7,7 +7,7 @@
    viewBox="0 0 16.933333 16.933333"
    version="1.1"
    id="svg1"
-   inkscape:version="1.4 (e7c3feb100, 2024-10-09)"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
    sodipodi:docname="white_circle.svg"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
@@ -26,11 +26,11 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="px"
      showgrid="true"
-     inkscape:zoom="8.1840269"
-     inkscape:cx="19.244805"
-     inkscape:cy="46.554099"
+     inkscape:zoom="5.6568543"
+     inkscape:cx="38.714096"
+     inkscape:cy="55.331105"
      inkscape:window-width="1920"
-     inkscape:window-height="1019"
+     inkscape:window-height="1008"
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="1"
@@ -67,12 +67,12 @@
      id="layer1"
      style="fill:#ffffff;fill-opacity:1">
     <ellipse
-       style="fill:#ffffff;stroke-width:0.264079;fill-opacity:1"
+       style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.22984;stroke-linejoin:bevel;stroke-dasharray:none;stroke-opacity:1"
        id="path1"
-       cx="8.4864244"
-       cy="8.4702597"
-       rx="8.4540949"
-       ry="8.4379311" />
+       cx="8.4666672"
+       cy="8.4667053"
+       rx="7.851747"
+       ry="7.8517466" />
   </g>
   <metadata
      id="metadata1">

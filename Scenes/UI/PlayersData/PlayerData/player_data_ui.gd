@@ -4,6 +4,9 @@ extends Control
 ##### VARIABLES #####
 #---- CONSTANTS -----
 const TEMP_PLAYER_NAME := "temporary_man"
+const MOVEMENT_UI_COLOR := Color.YELLOW
+const POWERUP_UI_COLOR := Color.CYAN
+const LIVES_UI_COLOR := Color.RED
 
 #---- EXPORTS -----
 @export var player_sprites : SpriteCustomizationResource
@@ -69,6 +72,7 @@ func _init_movement(handler : int) -> void:
 	_movement_ui = ui
 	onready_paths.important_data.add_child(ui,true)
 	ui.set_icon(setting.ICON_PATH)
+	ui.modulate = MOVEMENT_UI_COLOR
 
 func _init_powerup(powerup : int) -> void:
 	var setting = load(PowerupDataUISettings.data[powerup])
@@ -76,12 +80,14 @@ func _init_powerup(powerup : int) -> void:
 	_powerup_ui = ui
 	onready_paths.important_data.add_child(ui,true)
 	ui.set_icon(setting.ICON_PATH)
+	ui.modulate = POWERUP_UI_COLOR
 
 func _init_lives(lives : int) -> void:
 	var ui = _lives_ui_load.instantiate()
 	_lives_ui = ui
 	onready_paths.important_data.add_child(ui,true)
 	ui.set_value(lives)
+	ui.modulate = LIVES_UI_COLOR
 
 func _init_name(p_name : String) -> void:
 	onready_paths.name.text = p_name

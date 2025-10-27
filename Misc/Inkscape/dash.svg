@@ -7,12 +7,17 @@
    viewBox="0 0 67.733332 67.733333"
    version="1.1"
    id="svg1"
-   inkscape:version="1.4 (e7c3feb100, 2024-10-09)"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
    sodipodi:docname="dash.svg"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
-   xmlns:svg="http://www.w3.org/2000/svg">
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <title
+     id="title5568">dash</title>
   <sodipodi:namedview
      id="namedview1"
      pagecolor="#ffffff"
@@ -20,24 +25,24 @@
      borderopacity="0.25"
      inkscape:showpageshadow="2"
      inkscape:pageopacity="0.0"
-     inkscape:pagecheckerboard="0"
+     inkscape:pagecheckerboard="true"
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="px"
-     inkscape:zoom="1.4142136"
-     inkscape:cx="46.669047"
-     inkscape:cy="158.39192"
+     inkscape:zoom="2.8284272"
+     inkscape:cx="194.10081"
+     inkscape:cy="231.93102"
      inkscape:window-width="1920"
-     inkscape:window-height="1019"
+     inkscape:window-height="1008"
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="1"
-     inkscape:current-layer="layer1"
+     inkscape:current-layer="layer3"
      showgrid="true">
     <inkscape:grid
        id="grid1"
        units="px"
-       originx="0"
-       originy="0"
+       originx="1.3228349"
+       originy="1.3229166"
        spacingx="0.26458333"
        spacingy="0.26458333"
        empcolor="#0099e5"
@@ -54,22 +59,49 @@
      inkscape:label="Calque 1"
      inkscape:groupmode="layer"
      id="layer1"
-     style="display:none" />
+     style="display:none"
+     transform="translate(1.3228349,1.3229166)" />
   <g
      inkscape:groupmode="layer"
      id="layer3"
-     inkscape:label="Arrows">
+     inkscape:label="Arrows"
+     transform="translate(1.3228349,1.3229166)">
     <path
-       style="fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:0.264583;stroke-opacity:0"
-       d="M 0,0 H 16.933333 L 33.866665,33.866665 16.933333,67.733329 H 0 L 16.933333,33.866665 Z"
+       style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:2.54636;stroke-linecap:butt;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
+       d="M -0.04972963,-0.04973268 H 16.247036 L 32.5438,32.543752 16.247036,65.137236 H -0.04972963 L 16.247036,32.543752 Z"
        id="path2"
        inkscape:label="path2"
        sodipodi:nodetypes="ccccccc" />
     <path
-       style="fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:0.264583;stroke-opacity:0"
-       d="M 33.866665,0 H 50.799998 L 67.73333,33.866664 50.799998,67.733328 H 33.866665 L 50.799998,33.866664 Z"
+       style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:2.54636;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
+       d="M 32.5438,-0.04973268 H 48.840566 L 65.13733,32.543751 48.840566,65.137235 H 32.5438 L 48.840566,32.543751 Z"
        id="path2-5"
        inkscape:label="path2"
        sodipodi:nodetypes="ccccccc" />
   </g>
+  <metadata
+     id="metadata5564">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <cc:license
+           rdf:resource="http://creativecommons.org/publicdomain/zero/1.0/" />
+        <dc:title>dash</dc:title>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>clemetayer</dc:title>
+          </cc:Agent>
+        </dc:creator>
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/publicdomain/zero/1.0/">
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Reproduction" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Distribution" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
 </svg>
