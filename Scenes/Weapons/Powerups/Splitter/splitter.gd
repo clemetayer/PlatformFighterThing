@@ -20,7 +20,8 @@ var _runtime_utils := RuntimeUtils
 	"audio":$"AudioStreamPlayer2D",
 	"collision": $"Hitbox/CollisionShape2D",
 	"sprite": $"Sprite2D",
-	"circles": $"Circles"
+	"circles": $"Circles",
+	"hit_effect": $"HitEffect"
 }
 
 ##### PROCESSING #####
@@ -47,6 +48,7 @@ func _duplicate_projectile_with_angle(projectile : Node, angle : float) -> void:
 
 @rpc("authority", "call_local", "reliable")
 func _handle_feedback() -> void:
+	onready_paths.hit_effect.emitting = true
 	onready_paths.audio.play()
 	onready_paths.circles.remove_circle()
 

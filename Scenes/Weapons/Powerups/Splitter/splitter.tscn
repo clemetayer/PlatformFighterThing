@@ -1,10 +1,35 @@
-[gd_scene load_steps=8 format=3 uid="uid://cto1bewda5gwm"]
+[gd_scene load_steps=13 format=3 uid="uid://cto1bewda5gwm"]
 
 [ext_resource type="Script" uid="uid://bb4hrw2b5jtmk" path="res://Scenes/Weapons/Powerups/Splitter/splitter.gd" id="1_tp6dn"]
 [ext_resource type="Texture2D" uid="uid://cfdv2q6wok3qm" path="res://Misc/Inkscape/white_circle.svg" id="2_gcc30"]
 [ext_resource type="Texture2D" uid="uid://cvnhgdu8kddk7" path="res://Scenes/Weapons/Powerups/Splitter/splitter.png" id="2_jxrl0"]
 [ext_resource type="Script" uid="uid://bdv7hp8h0n5hh" path="res://Scenes/Weapons/Powerups/Splitter/circles.gd" id="2_risov"]
 [ext_resource type="AudioStream" uid="uid://b4ia4vfw7ctn3" path="res://Scenes/Weapons/Powerups/Splitter/splitter.mp3" id="3_o5ews"]
+
+[sub_resource type="Gradient" id="Gradient_risov"]
+offsets = PackedFloat32Array(0, 0.33, 0.66, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_50g7y"]
+gradient = SubResource("Gradient_risov")
+
+[sub_resource type="Curve" id="Curve_risov"]
+_limits = [0.5, 1.5, 0.0, 1.0]
+_data = [Vector2(0, 0.5), 0.0, 0.0, 0, 0, Vector2(1, 1.5), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_50g7y"]
+curve = SubResource("Curve_risov")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_risov"]
+particle_flag_disable_z = true
+gravity = Vector3(0, 0, 0)
+scale_min = 0.5
+scale_max = 0.5
+scale_curve = SubResource("CurveTexture_50g7y")
+color_ramp = SubResource("GradientTexture1D_50g7y")
+hue_variation_min = -1.0
+hue_variation_max = 0.99999994
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_06q05"]
 size = Vector2(128, 128)
@@ -26,6 +51,14 @@ theme_override_constants/separation = 15
 alignment = 1
 script = ExtResource("2_risov")
 texture = ExtResource("2_gcc30")
+
+[node name="HitEffect" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 5
+texture = ExtResource("2_jxrl0")
+lifetime = 0.33
+one_shot = true
+process_material = SubResource("ParticleProcessMaterial_risov")
 
 [node name="Hitbox" type="Area2D" parent="."]
 collision_layer = 8

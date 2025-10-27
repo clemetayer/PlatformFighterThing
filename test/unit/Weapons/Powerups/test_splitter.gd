@@ -66,13 +66,18 @@ func test_handle_feedback():
 	stub(audio, "play").to_do_nothing()
 	var circles = double(load("res://Scenes/Weapons/Powerups/Splitter/circles.gd")).new()
 	stub(circles, "remove_circle").to_do_nothing()
+	var hit_effect = GPUParticles2D.new()
+	hit_effect.emitting = false
+	add_child_autofree(hit_effect)
 	splitter.onready_paths.audio = audio
 	splitter.onready_paths.circles = circles
+	splitter.onready_paths.hit_effect = hit_effect
 	# when
 	splitter._handle_feedback()
 	# then
 	assert_called(audio, "play")
 	assert_called(circles, "remove_circle")
+	assert_true(hit_effect.emitting)
 
 func test_prepare_for_deletion():
 	# given
