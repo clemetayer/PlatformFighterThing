@@ -22,7 +22,7 @@ size = Vector2(256, 64)
 size = Vector2(384, 192)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_j2qbn"]
-size = Vector2(2693, 1551.5)
+size = Vector2(2700, 1550)
 
 [node name="Level1" type="Node2D"]
 script = ExtResource("1_oluvj")
@@ -60,9 +60,9 @@ position = Vector2(960, -96)
 shape = SubResource("RectangleShape2D_8wiv3")
 
 [node name="LevelBounds" parent="." instance=ExtResource("2_sx6fs")]
+position = Vector2(0, -510)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LevelBounds"]
-position = Vector2(-0.5, -521.75)
 shape = SubResource("RectangleShape2D_j2qbn")
 
 [node name="Walls" type="Node2D" parent="."]

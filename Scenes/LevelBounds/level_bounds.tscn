@@ -1,9 +1,31 @@
-[gd_scene load_steps=2 format=3 uid="uid://bc175bcim437d"]
+[gd_scene load_steps=5 format=3 uid="uid://bc175bcim437d"]
 
 [ext_resource type="Script" uid="uid://damg11nqm8xni" path="res://Scenes/LevelBounds/level_bounds.gd" id="1_didi6"]
+[ext_resource type="Material" uid="uid://cqng8rmnwuus7" path="res://Scenes/LevelBounds/level_bounds_bak2.tres" id="3_8cciw"]
+[ext_resource type="Texture2D" uid="uid://dpl0ty53dxs6" path="res://placeholder.png" id="4_8cciw"]
+[ext_resource type="Script" uid="uid://dlm0epemqmhy7" path="res://Scenes/LevelBounds/bound_sprite.gd" id="4_nwl75"]
 
 [node name="LevelBounds" type="Area2D" groups=["level_bounds"]]
 collision_mask = 6
 script = ExtResource("1_didi6")
+
+[node name="BoundsSprite" type="Polygon2D" parent="."]
+editor_description = "UV acts a bit weird on this version. A workaround is to use a texture : https://github.com/godotengine/godot/issues/81627
+
+The parameters are tricky here, but mostly :
+- try to keep as an inverted rectangle
+- the border size should be around half the bigger side
+- texture offset should be 1024 / max size of a side of the rectangle
+- position should be the negative of the size of the rectangle"
+material = ExtResource("3_8cciw")
+position = Vector2(-2700, -1550)
+offset = Vector2(1350, 775)
+texture = ExtResource("4_8cciw")
+texture_scale = Vector2(0.379, 0.379)
+invert_enabled = true
+invert_border = 1350.0
+polygon = PackedVector2Array(0, 0, 2700, 0, 2700, 1550, 0, 1550)
+uv = PackedVector2Array(2700, 0, 2700, 2700, 0, 2700, 0, 0)
+script = ExtResource("4_nwl75")
 
 [connection signal="body_exited" from="." to="." method="_on_body_exited"]

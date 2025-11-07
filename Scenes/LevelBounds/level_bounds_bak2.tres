@@ -1,0 +1,10 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://cqng8rmnwuus7"]
+
+[ext_resource type="Shader" uid="uid://c7nu5ild1pqlt" path="res://Scenes/LevelBounds/level_bounds.gdshader" id="1_o4nb1"]
+[ext_resource type="Texture2D" uid="uid://c71tnqyrd4121" path="res://Scenes/LevelBounds/warning.svg" id="2_7p6rv"]
+
+[resource]
+shader = ExtResource("1_o4nb1")
+shader_parameter/players_uv_positions = PackedVector2Array(99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99)
+shader_parameter/warning_texture = ExtResource("2_7p6rv")
+shader_parameter/colors_gradient = PackedVector3Array(1, 0, 0, 1, 0.68, 0)
