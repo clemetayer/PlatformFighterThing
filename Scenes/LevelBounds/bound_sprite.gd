@@ -31,7 +31,7 @@ func _get_collision_shape() -> CollisionShape2D:
 	return null
 
 func _get_players_positions() -> Array:
-	var players = get_tree().get_nodes_in_group(GroupUtils.PLAYER_GROUP_NAME)
+	var players = _get_players()
 	if players != null and players.size() > 0:
 		return players.map(func(player): return player.global_position)
 	GSLogger.warn("No players found to compute the bound sprite limit")
@@ -44,12 +44,13 @@ func _set_scale_with_shape(shape: CollisionShape2D) -> void:
 func _set_shader_players_positions(players_positions: Array) -> void:
 	var uv_positions = players_positions.map(_convert_to_shader_uv_position)
 	if players_positions.size() < SHADER_PARAM_PLAYERS_POSITIONS_SIZE:
-		for fill_idx in range(players_positions.size() - 1, SHADER_PARAM_PLAYERS_POSITIONS_SIZE):
+		for fill_idx in range(players_positions.size() - 1, SHADER_PARAM_PLAYERS_POSITIONS_SIZE - 1):
 			uv_positions.append(DEFAULT_PLAYER_UV_POSITION)
-	GSLogger.debug(uv_positions)
 	material.set_shader_parameter(SHADER_PARAM_PLAYERS_POSITIONS_NAME, uv_positions)
 
 func _convert_to_shader_uv_position(player_position: Vector2) -> Vector2:
 	var global_origin = global_position - BASE_TEXTURE_SIZE * scale / BORDER_SCALE_MULTIPLIER
-	GSLogger.debug("global_origin = %s, diff = %s" % [global_origin, (player_position - global_origin)])
 	return (player_position - global_origin) / (BASE_TEXTURE_SIZE * scale)
+
+func _get_players() -> Array:
+	return get_tree().get_nodes_in_group(GroupUtils.PLAYER_GROUP_NAME)
