@@ -3,22 +3,22 @@ extends CharacterBody2D
 
 ##### SIGNALS #####
 @warning_ignore("unused_signal")
-signal killed(id : int)
+signal killed(id: int)
 @warning_ignore("unused_signal")
 signal movement_updated(id: int, value)
 @warning_ignore("unused_signal")
 signal powerup_updated(id: int, value)
 @warning_ignore("unused_signal")
-signal game_message_triggered(id : int)
+signal game_message_triggered(id: int)
 
 ##### VARIABLES #####
 #---- CONSTANTS -----
 const TARGET_SPEED := 1000.0 # px/s
 const JUMP_VELOCITY := -1200.0
-const MAX_FLOOR_ANGLE := PI/4
+const MAX_FLOOR_ANGLE := PI / 4
 const NORMAL_BOUNCE := 0.05
 const HITSTUN_BOUNCE := 1.0
-const FLOOR_ACCELERATION := 9000.0 
+const FLOOR_ACCELERATION := 9000.0
 const AIR_ACCELERATION := FLOOR_ACCELERATION / 2.0
 const MAX_DAMAGE := 999
 const WEIGHT := 2.5 # multiplier for the gravity
@@ -28,27 +28,27 @@ const WEIGHT := 2.5 # multiplier for the gravity
 @export var GAME_PROXY_PATH := ".."
 
 #==== MOSTLY FOR MULTIPLAYER PURPOSES ====
-@export var id := 1 :
+@export var id := 1:
 	set(player_idx):
 		id = player_idx
 		# Give authority over the player input to the appropriate peer.
 		$InputSynchronizer.set_multiplayer_authority(id)
-@export var sync_velocity : Vector2
-@export var sync_position : Vector2
+@export var sync_velocity: Vector2
+@export var sync_position: Vector2
 
 #---- STANDARD -----
 #==== PUBLIC ====
-var direction := Vector2.ZERO 
+var direction := Vector2.ZERO
 var jump_triggered := false
 
 #==== PRIVATE ====
-var _gravity : float = ProjectSettings.get_setting("physics/2d/default_gravity") * WEIGHT
+var _gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity") * WEIGHT
 var _frozen := false
 var _velocity_override := Vector2.ZERO
 var _additional_vector := Vector2.ZERO # external forces that can have an effect on the player and needs to be added to the velocity on the next physics frame
 var _freeze_buffer_velocity := Vector2.ZERO
 var _damage_enabled := true
-var _truce_active := false # allows for players to move freely but can't shoot or use abilities. Usefull during the start countdown of the game 
+var _truce_active := false # allows for players to move freely but can't shoot or use abilities. Usefull during the start countdown of the game
 var _velocity_buffer := [Vector2.ZERO, Vector2.ZERO, Vector2.ZERO] # 3 frame buffer for the velocity. Usefull to keep track of the velocity when elements are going too fast
 var _scene_utils := SceneUtils
 var _runtime_utils := RuntimeUtils
@@ -103,40 +103,43 @@ func _physics_process(delta: float) -> void:
 		_save_sync_physics()
 
 ##### PUBLIC METHODS #####
-func hurt(p_damage : float, knockback : float, kb_direction : Vector2, p_owner : Node2D = null) -> void:
+func hurt(p_damage: float, knockback: float, kb_direction: Vector2, p_owner: Node2D = null) -> void:
 	if _damage_enabled:
-		DAMAGE = min(DAMAGE + p_damage,MAX_DAMAGE)
-		_additional_vector += kb_direction.normalized() * DAMAGE * knockback
+		DAMAGE = min(DAMAGE + p_damage, MAX_DAMAGE)
+		var knockback_velocity = kb_direction.normalized() * DAMAGE * knockback
+		_additional_vector += knockback_velocity
 		onready_paths_node.hitstun_manager.start_hitstun(DAMAGE)
 		onready_paths_node.death_manager.set_last_hit_owner(p_owner)
+		onready_paths_node.hit_particles.hit(knockback_velocity)
+		onready_paths_node.hit_sound.play()
 
 @rpc("authority", "call_local", "reliable")
 func kill() -> void:
 	onready_paths_node.death_manager.kill()
 
 @rpc("authority", "call_local", "reliable")
-func override_velocity(velocity_override : Vector2) -> void:
+func override_velocity(velocity_override: Vector2) -> void:
 	_velocity_override += velocity_override
 
 @rpc("authority", "call_local", "reliable")
-func toggle_freeze(active : bool) -> void:
+func toggle_freeze(active: bool) -> void:
 	_freeze_buffer_velocity = velocity
 	set_deferred("freeze", active)
 	set_deferred("sleeping", active)
 	_frozen = active
 
 # Activates the player's abilities (fire, powerup, movement). Especially usefull waiting for the game startup screen to end 
-func toggle_abilities(active : bool) -> void:
+func toggle_abilities(active: bool) -> void:
 	if not _truce_active:
 		onready_paths_node.primary_weapon.active = active
 		onready_paths_node.movement_bonus.active = active
 		onready_paths_node.powerup_manager.active = active
 		onready_paths_node.parry_area.toggle_parry(active)
 
-func toggle_damage(active : bool) -> void:
+func toggle_damage(active: bool) -> void:
 	_damage_enabled = active
 
-func toggle_truce(active : bool) -> void:
+func toggle_truce(active: bool) -> void:
 	# Note : calls the toggle abilities twice to make sure it is updated 
 	toggle_abilities(not active)
 	_truce_active = active
@@ -158,7 +161,7 @@ func _appear() -> void:
 	toggle_damage(false)
 	onready_paths_node.appear_elements.play_spawn_animation()
 
-func _buffer_velocity(vel_to_buffer : Vector2) -> void:
+func _buffer_velocity(vel_to_buffer: Vector2) -> void:
 	_velocity_buffer.pop_back()
 	_velocity_buffer.push_front(vel_to_buffer)
 

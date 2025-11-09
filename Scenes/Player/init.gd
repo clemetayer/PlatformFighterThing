@@ -5,13 +5,13 @@ extends Node
 #---- STANDARD -----
 #==== ONREADY ====
 @onready var onready_paths_node := $"../Paths"
-@export var ACTION_HANDLER : StaticActionHandler.handlers
-@export var PRIMARY_WEAPON : StaticPrimaryWeaponHandler.handlers
-@export var MOVEMENT_BONUS_HANDLER : StaticMovementBonusHandler.handlers
-@export var POWERUP_HANDLER : StaticPowerupHandler.handlers
+@export var ACTION_HANDLER: StaticActionHandler.handlers
+@export var PRIMARY_WEAPON: StaticPrimaryWeaponHandler.handlers
+@export var MOVEMENT_BONUS_HANDLER: StaticMovementBonusHandler.handlers
+@export var POWERUP_HANDLER: StaticPowerupHandler.handlers
 
 ##### PUBLIC METHODS #####
-func initialize(config : PlayerConfig) -> void:
+func initialize(config: PlayerConfig) -> void:
 	onready_paths_node.input_synchronizer.start_input_detection()
 	onready_paths_node.sprites.load_sprite_preset(config.SPRITE_CUSTOMIZATION)
 	ACTION_HANDLER = config.ACTION_HANDLER
@@ -29,9 +29,9 @@ func initialize(config : PlayerConfig) -> void:
 	onready_paths_node.primary_weapon.owner_color = config.SPRITE_CUSTOMIZATION.BODY_COLOR
 	onready_paths_node.death_manager.set_particles_color(config.SPRITE_CUSTOMIZATION.OUTLINE_COLOR)
 	onready_paths_node.appear_elements.init(config.SPRITE_CUSTOMIZATION.BODY_COLOR, config.SPRITE_CUSTOMIZATION.OUTLINE_COLOR)
+	onready_paths_node.hit_particles.init(config.SPRITE_CUSTOMIZATION.OUTLINE_COLOR)
 	onready_paths_node.player_root.add_child(onready_paths_node.primary_weapon)
 	onready_paths_node.player_root.add_child(onready_paths_node.movement_bonus)
 	onready_paths_node.player_root.add_child(onready_paths_node.powerup_manager)
-	onready_paths_node.movement_bonus.connect("value_updated",func(value): onready_paths_node.player_root.emit_signal("movement_updated", onready_paths_node.player_root.id, value))
-	onready_paths_node.powerup_manager.connect("value_updated",func(value): onready_paths_node.player_root.emit_signal("powerup_updated", onready_paths_node.player_root.id, value))
-	
+	onready_paths_node.movement_bonus.connect("value_updated", func(value): onready_paths_node.player_root.emit_signal("movement_updated", onready_paths_node.player_root.id, value))
+	onready_paths_node.powerup_manager.connect("value_updated", func(value): onready_paths_node.player_root.emit_signal("powerup_updated", onready_paths_node.player_root.id, value))

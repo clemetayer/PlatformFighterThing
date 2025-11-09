@@ -1,4 +1,4 @@
-[gd_scene load_steps=54 format=3 uid="uid://fgxha8wl55pa"]
+[gd_scene load_steps=60 format=3 uid="uid://fgxha8wl55pa"]
 
 [ext_resource type="Script" uid="uid://bxq3finp4gfep" path="res://Scenes/Player/player.gd" id="1_b1dbg"]
 [ext_resource type="Script" uid="uid://bq2rya8sinnf" path="res://Scenes/Player/paths.gd" id="2_8lsum"]
@@ -17,6 +17,7 @@
 [ext_resource type="Texture2D" uid="uid://xtprt5lwbpqn" path="res://Scenes/Player/Octagon.png" id="8_mtvak"]
 [ext_resource type="AudioStream" uid="uid://cvduad6i4tj47" path="res://Scenes/Player/parry_active.mp3" id="8_tyrm3"]
 [ext_resource type="AudioStream" uid="uid://ddmvud7r6r4ap" path="res://Scenes/Player/death.mp3" id="9_aqm4k"]
+[ext_resource type="AudioStream" uid="uid://d12a5q1fgxygm" path="res://Scenes/Player/hitsound.mp3" id="10_rukb4"]
 [ext_resource type="PackedScene" uid="uid://ete32krtenc4" path="res://Scenes/Weapons/Primary/crosshair.tscn" id="12_0h0ho"]
 [ext_resource type="SystemFont" uid="uid://25yexk2q7ssr" path="res://Misc/InterDisplayLight.tres" id="17_h8ma5"]
 [ext_resource type="Script" uid="uid://b77r2c5lue24w" path="res://Scenes/Player/damage_text.gd" id="17_rcvs5"]
@@ -27,6 +28,8 @@
 [ext_resource type="Texture2D" uid="uid://daqpwwlyh78yf" path="res://Misc/Particles/kenney_particle-pack/star_07.png" id="24_qr1w5"]
 [ext_resource type="Texture2D" uid="uid://bv0r8mi6wpacw" path="res://Misc/Particles/kenney_particle-pack/star_08.png" id="25_ythyg"]
 [ext_resource type="Script" uid="uid://d8tdpqii5boa" path="res://Scenes/Player/predict_bounces_ray_cast.gd" id="27_bmb2s"]
+[ext_resource type="Texture2D" uid="uid://dhvsq8e6ghdry" path="res://Misc/Particles/kenney_particle-pack/circle_03.png" id="27_ur3l4"]
+[ext_resource type="Script" uid="uid://c8p78ca7uklki" path="res://Scenes/Player/hit_particles.gd" id="28_2ahak"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_igkwr"]
 properties/0/path = NodePath(".:DAMAGE")
@@ -364,6 +367,22 @@ scale_min = 0.05
 scale_max = 0.15
 color_ramp = SubResource("GradientTexture1D_bmb2s")
 
+[sub_resource type="Gradient" id="Gradient_2ahak"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_rukb4"]
+gradient = SubResource("Gradient_2ahak")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_4no11"]
+particle_flag_disable_z = true
+spread = 33.0
+initial_velocity_min = 500.0
+initial_velocity_max = 1000.0
+gravity = Vector3(0, 700, 0)
+scale_min = 0.049999997
+scale_max = 0.14999999
+color_ramp = SubResource("GradientTexture1D_rukb4")
+
 [sub_resource type="Animation" id="Animation_r421c"]
 length = 0.001
 tracks/0/type = "value"
@@ -620,9 +639,11 @@ CROSSHAIR_PATH = NodePath("../Crosshair")
 PARRY_SOUND_PATH = NodePath("../Audio/Parry")
 PARRY_ACTIVE_SOUND_PATH = NodePath("../Audio/ParryActive")
 PARRY_WRONG_PATH = NodePath("../Audio/ParryDisabled")
+HIT_SOUND_PATH = NodePath("../Audio/Hit")
 DEATH_MANAGER_PATH = NodePath("../DeathManager")
 APPEAR_ELEMENTS = NodePath("../AppearElements")
 PREDICT_BOUNCES_RAY_CAST = NodePath("../PredictBouncesRayCast")
+HIT_PARTICLES = NodePath("../HitParticles")
 
 [node name="ActionManager" type="Node" parent="."]
 script = ExtResource("4_cguhm")
@@ -658,6 +679,11 @@ scale = Vector2(0.33, 0.33)
 polygon = PackedVector2Array(64, -128, -64, -128, -128, -64, -128, 64, -64, 128, 64, 128, 128, 64, 128, -64)
 
 [node name="Audio" type="Node2D" parent="."]
+
+[node name="Hit" type="AudioStreamPlayer2D" parent="Audio"]
+stream = ExtResource("10_rukb4")
+volume_db = 10.0
+bus = &"Effects"
 
 [node name="Parry" type="AudioStreamPlayer2D" parent="Audio"]
 stream = ExtResource("7_1ci2y")
@@ -793,6 +819,17 @@ lifetime = 0.33
 process_material = SubResource("ParticleProcessMaterial_ythyg")
 
 [node name="Crosshair" parent="." instance=ExtResource("12_0h0ho")]
+
+[node name="HitParticles" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 24
+texture = ExtResource("27_ur3l4")
+lifetime = 0.25
+one_shot = true
+explosiveness = 0.9
+randomness = 0.5
+process_material = SubResource("ParticleProcessMaterial_4no11")
+script = ExtResource("28_2ahak")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

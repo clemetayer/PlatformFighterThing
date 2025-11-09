@@ -3,26 +3,28 @@ extends Node
 
 ##### VARIABLES #####
 #---- EXPORTS -----
-@export var PLAYER_ROOT_PATH : NodePath
-@export var DAMAGE_LABEL_PATH : NodePath
-@export var PARRY_AREA_PATH : NodePath
-@export var BOUNCE_AREA_PATH : NodePath
-@export var POWERUP_COOLDOWN_PATH : NodePath
-@export var INPUT_SYNCHRONIZER_PATH : NodePath
-@export var HITSTUN_TIMER_PATH : NodePath
-@export var ANIMATION_PLAYER_PATH : NodePath
-@export var FLOOR_DETECTOR_PATH : NodePath
-@export var SPRITES_PATH : NodePath
-@export var ACTION_MANAGER_PATH : NodePath
-@export var INIT_PATH : NodePath
-@export var HITSTUN_MANAGER : NodePath
-@export var CROSSHAIR_PATH : NodePath
-@export var PARRY_SOUND_PATH : NodePath
-@export var PARRY_ACTIVE_SOUND_PATH : NodePath
-@export var PARRY_WRONG_PATH : NodePath
-@export var DEATH_MANAGER_PATH : NodePath
-@export var APPEAR_ELEMENTS : NodePath
-@export var PREDICT_BOUNCES_RAY_CAST : NodePath
+@export var PLAYER_ROOT_PATH: NodePath
+@export var DAMAGE_LABEL_PATH: NodePath
+@export var PARRY_AREA_PATH: NodePath
+@export var BOUNCE_AREA_PATH: NodePath
+@export var POWERUP_COOLDOWN_PATH: NodePath
+@export var INPUT_SYNCHRONIZER_PATH: NodePath
+@export var HITSTUN_TIMER_PATH: NodePath
+@export var ANIMATION_PLAYER_PATH: NodePath
+@export var FLOOR_DETECTOR_PATH: NodePath
+@export var SPRITES_PATH: NodePath
+@export var ACTION_MANAGER_PATH: NodePath
+@export var INIT_PATH: NodePath
+@export var HITSTUN_MANAGER: NodePath
+@export var CROSSHAIR_PATH: NodePath
+@export var PARRY_SOUND_PATH: NodePath
+@export var PARRY_ACTIVE_SOUND_PATH: NodePath
+@export var PARRY_WRONG_PATH: NodePath
+@export var HIT_SOUND_PATH: NodePath
+@export var DEATH_MANAGER_PATH: NodePath
+@export var APPEAR_ELEMENTS: NodePath
+@export var PREDICT_BOUNCES_RAY_CAST: NodePath
+@export var HIT_PARTICLES: NodePath
 
 #---- STANDARD -----
 #==== PUBLIC ====
@@ -47,6 +49,8 @@ var action_handler
 @onready var parry_sound := get_node(PARRY_SOUND_PATH)
 @onready var parry_active_sound := get_node(PARRY_ACTIVE_SOUND_PATH)
 @onready var parry_wrong := get_node(PARRY_WRONG_PATH)
+@onready var hit_sound := get_node(HIT_SOUND_PATH)
 @onready var death_manager := get_node(DEATH_MANAGER_PATH)
 @onready var appear_elements := get_node(APPEAR_ELEMENTS)
 @onready var predict_bounces_ray_cast := get_node(PREDICT_BOUNCES_RAY_CAST)
+@onready var hit_particles := get_node(HIT_PARTICLES)
