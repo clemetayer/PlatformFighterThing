@@ -39,6 +39,9 @@ func test_initialize():
 	onready_paths_node.player_root = player_root
 	add_child(player_root)
 	wait_for_signal(player_root.tree_entered, 0.25)
+	var hit_particles = double(load("res://Scenes/Player/hit_particles.gd")).new()
+	stub(hit_particles, "init").to_do_nothing()
+	onready_paths_node.hit_particles = hit_particles
 	init.onready_paths_node = onready_paths_node
 	# when
 	var config = generate_test_config()
@@ -65,6 +68,7 @@ func test_initialize():
 	assert_eq(player_root.get_child_count(), 3)
 	assert_true(onready_paths_node.movement_bonus.has_connections("value_updated"))
 	assert_true(onready_paths_node.powerup_manager.has_connections("value_updated"))
+	assert_called(hit_particles, "init", [Color.ANTIQUE_WHITE])
 	# cleanup
 	player_root.free()
 	onready_paths_node.free()
