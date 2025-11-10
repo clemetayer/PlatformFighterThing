@@ -479,13 +479,29 @@ var toggle_freeze_params := [
 	[false]
 ]
 func test_toggle_freeze(params = use_parameters(toggle_freeze_params)): # note : set deferred not tested here
-	# given
+		# given
+	var onready_paths_node = load("res://Scenes/Player/paths.gd").new()
+	var primary_weapon = StaticPrimaryWeaponHandler.get_weapon(StaticPrimaryWeaponHandler.handlers.REVOLVER)
+	onready_paths_node.primary_weapon = primary_weapon
+	var movement_bonus = StaticMovementBonusHandler.get_handler(StaticMovementBonusHandler.handlers.DASH)
+	onready_paths_node.movement_bonus = movement_bonus
+	var powerup_manager = StaticPowerupHandler.get_powerup_manager(StaticPowerupHandler.handlers.SPLITTER)
+	onready_paths_node.powerup_manager = powerup_manager
+	var parry_area = double(load("res://Scenes/Player/parry.gd")).new()
+	stub(parry_area, "toggle_parry").to_do_nothing()
+	onready_paths_node.parry_area = parry_area
+	player._truce_active = false
+	player.onready_paths_node = onready_paths_node
 	player.velocity = Vector2.LEFT
 	# when
 	player.toggle_freeze(params[0])
 	# then
 	assert_eq(player._freeze_buffer_velocity, Vector2.LEFT)
 	assert_eq(player._frozen, params[0])
+	assert_eq(primary_weapon.active, not params[0])
+	assert_eq(movement_bonus.active, not params[0])
+	assert_eq(powerup_manager.active, not params[0])
+	assert_called(parry_area, "toggle_parry", [ not params[0]])
 
 var toggle_abilities_params := [
 	[false, false],

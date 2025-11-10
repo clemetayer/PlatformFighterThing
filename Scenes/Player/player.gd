@@ -126,6 +126,7 @@ func toggle_freeze(active: bool) -> void:
 	_freeze_buffer_velocity = velocity
 	set_deferred("freeze", active)
 	set_deferred("sleeping", active)
+	toggle_abilities(not active)
 	_frozen = active
 
 # Activates the player's abilities (fire, powerup, movement). Especially usefull waiting for the game startup screen to end 
