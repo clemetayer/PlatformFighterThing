@@ -1,4 +1,4 @@
-[gd_scene load_steps=56 format=3 uid="uid://fgxha8wl55pa"]
+[gd_scene load_steps=55 format=3 uid="uid://fgxha8wl55pa"]
 
 [ext_resource type="Script" uid="uid://bxq3finp4gfep" path="res://Scenes/Player/player.gd" id="1_b1dbg"]
 [ext_resource type="Script" uid="uid://bq2rya8sinnf" path="res://Scenes/Player/paths.gd" id="2_8lsum"]
@@ -139,7 +139,7 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("../Sprites/ParryLockout:modulate")
+tracks/4/path = NodePath("ParryLockout:modulate")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -147,18 +147,6 @@ tracks/4/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Color(0.396078, 0.396078, 0.396078, 0.784314)]
-}
-tracks/5/type = "value"
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/path = NodePath("../Sprites/ParryLockout:visible")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
 }
 
 [sub_resource type="Animation" id="Animation_4742t"]
@@ -213,46 +201,6 @@ tracks/3/keys = {
 "update": 0,
 "values": [Color(0, 1, 0, 1)]
 }
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("../Sprites/ParryLockout:visible")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-
-[sub_resource type="Animation" id="Animation_vmyw5"]
-resource_name = "parry_lockout"
-length = 0.5
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("../Sprites/ParryLockout:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(0.396078, 0.396078, 0.396078, 0.784314)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("../Sprites/ParryLockout:visible")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [true, false]
-}
 
 [sub_resource type="Animation" id="Animation_onmdd"]
 resource_name = "parrying"
@@ -306,24 +254,11 @@ tracks/3/keys = {
 "update": 0,
 "values": [0.15]
 }
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("../Sprites/ParryLockout:visible")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_owers"]
 _data = {
 &"RESET": SubResource("Animation_xf0cy"),
 &"parried": SubResource("Animation_4742t"),
-&"parry_lockout": SubResource("Animation_vmyw5"),
 &"parrying": SubResource("Animation_onmdd")
 }
 
@@ -619,9 +554,6 @@ ACTION_MANAGER_PATH = NodePath("../ActionManager")
 INIT_PATH = NodePath("../Init")
 HITSTUN_MANAGER = NodePath("../HitstunManager")
 CROSSHAIR_PATH = NodePath("../Crosshair")
-PARRY_SOUND_PATH = NodePath("../Audio/Parry")
-PARRY_ACTIVE_SOUND_PATH = NodePath("../Audio/ParryActive")
-PARRY_WRONG_PATH = NodePath("../Audio/ParryDisabled")
 HIT_SOUND_PATH = NodePath("../Audio/Hit")
 DEATH_MANAGER_PATH = NodePath("../DeathManager")
 APPEAR_ELEMENTS = NodePath("../AppearElements")
@@ -668,23 +600,9 @@ stream = ExtResource("10_rukb4")
 volume_db = 10.0
 bus = &"Effects"
 
-[node name="Parry" type="AudioStreamPlayer2D" parent="Audio"]
-stream = ExtResource("7_1ci2y")
-bus = &"EffectsBGMSidechain"
-
-[node name="ParryDisabled" type="AudioStreamPlayer2D" parent="Audio"]
-stream = ExtResource("8_f1844")
-bus = &"Effects"
-
-[node name="ParryActive" type="AudioStreamPlayer2D" parent="Audio"]
-stream = ExtResource("8_tyrm3")
-volume_db = 10.0
-bus = &"Effects"
-
 [node name="ParryArea" type="Area2D" parent="."]
 collision_layer = 2
 collision_mask = 5
-monitoring = false
 script = ExtResource("2_avuuq")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ParryArea"]
@@ -700,6 +618,19 @@ one_shot = true
 local_coords = true
 process_material = SubResource("ParticleProcessMaterial_jw2bm")
 
+[node name="ParrySound" type="AudioStreamPlayer2D" parent="ParryArea"]
+stream = ExtResource("7_1ci2y")
+bus = &"EffectsBGMSidechain"
+
+[node name="ParryDisabled" type="AudioStreamPlayer2D" parent="ParryArea"]
+stream = ExtResource("8_f1844")
+bus = &"Effects"
+
+[node name="ParryActive" type="AudioStreamPlayer2D" parent="ParryArea"]
+stream = ExtResource("8_tyrm3")
+volume_db = 10.0
+bus = &"Effects"
+
 [node name="ParryTimer" type="Timer" parent="ParryArea"]
 wait_time = 0.15
 one_shot = true
@@ -708,10 +639,21 @@ one_shot = true
 wait_time = 0.5
 one_shot = true
 
+[node name="DisableAfterFireTimer" type="Timer" parent="ParryArea"]
+wait_time = 0.05
+one_shot = true
+
 [node name="ParryAnimations" type="AnimationPlayer" parent="ParryArea"]
 libraries = {
 &"": SubResource("AnimationLibrary_owers")
 }
+
+[node name="ParryLockout" type="Sprite2D" parent="ParryArea"]
+visible = false
+modulate = Color(0.396078, 0.396078, 0.396078, 0.784314)
+z_index = 1
+scale = Vector2(0.33, 0.33)
+texture = ExtResource("2_pi5cj")
 
 [node name="BounceArea" type="Area2D" parent="."]
 collision_layer = 2
@@ -767,11 +709,6 @@ texture = ExtResource("3_b0wk1")
 [node name="Flash" type="Sprite2D" parent="Sprites"]
 visible = false
 modulate = Color(1, 1, 1, 0.607843)
-texture = ExtResource("2_pi5cj")
-
-[node name="ParryLockout" type="Sprite2D" parent="Sprites"]
-visible = false
-modulate = Color(0.396078, 0.396078, 0.396078, 0.784314)
 texture = ExtResource("2_pi5cj")
 
 [node name="AppearElements" type="Node2D" parent="."]
@@ -831,6 +768,7 @@ script = ExtResource("27_bmb2s")
 [connection signal="area_entered" from="ParryArea" to="ParryArea" method="_on_area_entered"]
 [connection signal="timeout" from="ParryArea/ParryTimer" to="ParryArea" method="_on_parry_timer_timeout"]
 [connection signal="timeout" from="ParryArea/LockoutTimer" to="ParryArea" method="_on_lockout_timer_timeout"]
+[connection signal="timeout" from="ParryArea/DisableAfterFireTimer" to="ParryArea" method="_on_disable_after_fire_timer_timeout"]
 [connection signal="body_entered" from="BounceArea" to="BounceArea" method="_on_body_entered"]
 [connection signal="appear_animation_finished" from="AppearElements" to="." method="_on_appear_elements_appear_animation_finished"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

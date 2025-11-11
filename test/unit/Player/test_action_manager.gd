@@ -23,13 +23,13 @@ func after_each():
 ##### TESTS #####
 func test_handle_actions():
 	# given
-	stub(action_manager,"_handle_direction").to_do_nothing()
-	stub(action_manager,"_handle_aim").to_do_nothing()
-	stub(action_manager,"_handle_jump").to_do_nothing()
-	stub(action_manager,"_handle_fire").to_do_nothing()
-	stub(action_manager,"_handle_movement_bonus").to_do_nothing()
-	stub(action_manager,"_handle_parry").to_do_nothing()
-	stub(action_manager,"_handle_powerup").to_do_nothing()
+	stub(action_manager, "_handle_direction").to_do_nothing()
+	stub(action_manager, "_handle_aim").to_do_nothing()
+	stub(action_manager, "_handle_jump").to_do_nothing()
+	stub(action_manager, "_handle_fire").to_do_nothing()
+	stub(action_manager, "_handle_movement_bonus").to_do_nothing()
+	stub(action_manager, "_handle_parry").to_do_nothing()
+	stub(action_manager, "_handle_powerup").to_do_nothing()
 	# when
 	action_manager._handle_actions()
 	# then
@@ -42,10 +42,10 @@ func test_handle_actions():
 	assert_called(action_manager, "_handle_powerup")
 
 var handle_direction_params := [
-	[ActionHandlerBase.actions.LEFT, Vector2(-1,0)],
-	[ActionHandlerBase.actions.RIGHT, Vector2(1,0)],
-	[ActionHandlerBase.actions.UP, Vector2(0,-1)],
-	[ActionHandlerBase.actions.DOWN, Vector2(0,1)]
+	[ActionHandlerBase.actions.LEFT, Vector2(-1, 0)],
+	[ActionHandlerBase.actions.RIGHT, Vector2(1, 0)],
+	[ActionHandlerBase.actions.UP, Vector2(0, -1)],
+	[ActionHandlerBase.actions.DOWN, Vector2(0, 1)]
 ]
 func test_handle_direction(params = use_parameters(handle_direction_params)):
 	# given
@@ -96,7 +96,7 @@ func test_handle_jump(params = use_parameters(handle_jump_params)):
 	# when
 	action_manager._handle_jump()
 	# then
-	assert_eq(player_root.jump_triggered,params[0])
+	assert_eq(player_root.jump_triggered, params[0])
 	# cleanup
 	player_root.free()
 	onready_paths_node.free()
@@ -110,16 +110,21 @@ func test_handle_fire(params = use_parameters(handle_fire_params)):
 	stub(action_manager, "_is_action_active").to_return(params[0])
 	var primary_weapon = double(load("res://Scenes/Weapons/Primary/Revolver/revolver.gd")).new()
 	stub(primary_weapon, "fire").to_do_nothing()
+	var parry_area = partial_double(Node).new()
+	stub(parry_area, "rpc").to_do_nothing()
 	var onready_paths_node = load("res://Scenes/Player/paths.gd").new()
 	onready_paths_node.primary_weapon = primary_weapon
+	onready_paths_node.parry_area = parry_area
 	action_manager.onready_paths_node = onready_paths_node
 	# when
 	action_manager._handle_fire()
 	# then
 	if params[0]:
 		assert_called(primary_weapon, "fire")
+		assert_called(parry_area, "rpc", ["disable_parry_after_firing", []])
 	else:
 		assert_not_called(primary_weapon, "fire")
+		assert_not_called(parry_area, "rpc")
 	# cleanup
 	onready_paths_node.free()
 
@@ -181,7 +186,7 @@ func test_handle_powerup(params = use_parameters(handle_powerup_params)):
 	var powerup_manager = load("res://test/unit/Player/test_action_manager_mocks/mock_powerup_manager.gd").new()
 	add_child(powerup_manager)
 	wait_for_signal(powerup_manager.tree_entered, 0.25)
-	powerup_manager.connect("use_called",_on_use_called)
+	powerup_manager.connect("use_called", _on_use_called)
 	var onready_paths_node = load("res://Scenes/Player/paths.gd").new()
 	onready_paths_node.powerup_manager = powerup_manager
 	action_manager.onready_paths_node = onready_paths_node
@@ -210,7 +215,7 @@ func test_is_action_active(params = use_parameters(is_action_active_params)):
 	# when
 	var res = action_manager._is_action_active(ActionHandlerBase.actions.JUMP)
 	# then
-	assert_eq(res,params[0])
+	assert_eq(res, params[0])
 	# cleanup
 	input_synchronizer.free()
 	onready_paths_node.free()
@@ -232,7 +237,7 @@ func test_is_action_just_active(params = use_parameters(is_action_just_active_pa
 	# when
 	var res = action_manager._is_action_active(ActionHandlerBase.actions.JUMP)
 	# then
-	assert_eq(res,params[0])
+	assert_eq(res, params[0])
 	# cleanup
 	input_synchronizer.free()
 	onready_paths_node.free()

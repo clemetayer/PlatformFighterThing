@@ -17,9 +17,6 @@ extends Node
 @export var INIT_PATH: NodePath
 @export var HITSTUN_MANAGER: NodePath
 @export var CROSSHAIR_PATH: NodePath
-@export var PARRY_SOUND_PATH: NodePath
-@export var PARRY_ACTIVE_SOUND_PATH: NodePath
-@export var PARRY_WRONG_PATH: NodePath
 @export var HIT_SOUND_PATH: NodePath
 @export var DEATH_MANAGER_PATH: NodePath
 @export var APPEAR_ELEMENTS: NodePath
@@ -46,9 +43,6 @@ var action_handler
 @onready var init := get_node(INIT_PATH)
 @onready var hitstun_manager := get_node(HITSTUN_MANAGER)
 @onready var crosshair := get_node(CROSSHAIR_PATH)
-@onready var parry_sound := get_node(PARRY_SOUND_PATH)
-@onready var parry_active_sound := get_node(PARRY_ACTIVE_SOUND_PATH)
-@onready var parry_wrong := get_node(PARRY_WRONG_PATH)
 @onready var hit_sound := get_node(HIT_SOUND_PATH)
 @onready var death_manager := get_node(DEATH_MANAGER_PATH)
 @onready var appear_elements := get_node(APPEAR_ELEMENTS)

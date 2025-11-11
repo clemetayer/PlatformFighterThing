@@ -25,7 +25,7 @@ tile_set = ExtResource("3_40j0f")
 [node name="SpawnPoints" type="Node2D" parent="."]
 
 [node name="SpawnPoint" type="Node2D" parent="SpawnPoints"]
-position = Vector2(-651, -81)
+position = Vector2(53, -105)
 
 [node name="SpawnPoint2" type="Node2D" parent="SpawnPoints"]
 position = Vector2(646, -97)
@@ -46,10 +46,7 @@ BOUNCE_BACK_DIRECTION = Vector2(0, 1)
 [node name="Particles" type="Node2D" parent="."]
 
 [node name="Left" parent="Particles" instance=ExtResource("5_40j0f")]
-TILEMAP_PATH = NodePath("../../Walls/Left")
 
 [node name="Right" parent="Particles" instance=ExtResource("5_40j0f")]
-TILEMAP_PATH = NodePath("../../Walls/Right")
 
 [node name="Up" parent="Particles" instance=ExtResource("5_40j0f")]
-TILEMAP_PATH = NodePath("../../Walls/Up")

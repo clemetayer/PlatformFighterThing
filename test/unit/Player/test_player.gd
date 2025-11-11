@@ -488,7 +488,7 @@ func test_toggle_freeze(params = use_parameters(toggle_freeze_params)): # note :
 	var powerup_manager = StaticPowerupHandler.get_powerup_manager(StaticPowerupHandler.handlers.SPLITTER)
 	onready_paths_node.powerup_manager = powerup_manager
 	var parry_area = double(load("res://Scenes/Player/parry.gd")).new()
-	stub(parry_area, "toggle_parry").to_do_nothing()
+	stub(parry_area, "toggle_parry_enabled").to_do_nothing()
 	onready_paths_node.parry_area = parry_area
 	player._truce_active = false
 	player.onready_paths_node = onready_paths_node
@@ -501,7 +501,7 @@ func test_toggle_freeze(params = use_parameters(toggle_freeze_params)): # note :
 	assert_eq(primary_weapon.active, not params[0])
 	assert_eq(movement_bonus.active, not params[0])
 	assert_eq(powerup_manager.active, not params[0])
-	assert_called(parry_area, "toggle_parry", [ not params[0]])
+	assert_called(parry_area, "toggle_parry_enabled", [ not params[0]])
 
 var toggle_abilities_params := [
 	[false, false],
@@ -519,19 +519,19 @@ func test_toggle_abilities(params = use_parameters(toggle_abilities_params)):
 	var powerup_manager = StaticPowerupHandler.get_powerup_manager(StaticPowerupHandler.handlers.SPLITTER)
 	onready_paths_node.powerup_manager = powerup_manager
 	var parry_area = double(load("res://Scenes/Player/parry.gd")).new()
-	stub(parry_area, "toggle_parry").to_do_nothing()
+	stub(parry_area, "toggle_parry_enabled").to_do_nothing()
 	onready_paths_node.parry_area = parry_area
 	player.onready_paths_node = onready_paths_node
 	# when
 	player.toggle_abilities(params[1])
 	# then
 	if params[0]:
-		assert_not_called(parry_area, "toggle_parry")
+		assert_not_called(parry_area, "toggle_parry_enabled")
 	else:
 		assert_eq(primary_weapon.active, params[1])
 		assert_eq(movement_bonus.active, params[1])
 		assert_eq(powerup_manager.active, params[1])
-		assert_called(parry_area, "toggle_parry", [params[1]])
+		assert_called(parry_area, "toggle_parry_enabled", [params[1]])
 	# cleanup
 	primary_weapon.free()
 	movement_bonus.free()

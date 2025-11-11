@@ -4,7 +4,7 @@ extends Node
 ##### VARIABLES #####
 #---- STANDARD -----
 #==== PRIVATE ====
-var _frozen : bool
+var _frozen: bool
 var _action_handler_base = ActionHandlerBase
 var _runtime_utils := RuntimeUtils
 
@@ -54,6 +54,7 @@ func _handle_jump() -> void:
 func _handle_fire() -> void:
 	if _is_action_active(_action_handler_base.actions.FIRE):
 		onready_paths_node.primary_weapon.fire()
+		onready_paths_node.parry_area.rpc("disable_parry_after_firing")
 
 func _handle_movement_bonus() -> void:
 	if _is_action_just_active(_action_handler_base.actions.MOVEMENT_BONUS):
@@ -68,13 +69,13 @@ func _handle_powerup() -> void:
 		onready_paths_node.powerup_manager.rpc("use")
 
 # mostly to improve readability
-func _is_action_active(action : ActionHandlerBase.actions) -> bool:
+func _is_action_active(action: ActionHandlerBase.actions) -> bool:
 	if onready_paths_node.input_synchronizer.action_states.has(action):
 		return _action_handler_base.is_active(onready_paths_node.input_synchronizer.action_states.get(action))
 	return false
 
 # mostly to improve readability
-func _is_action_just_active(action : ActionHandlerBase.actions) -> bool:
+func _is_action_just_active(action: ActionHandlerBase.actions) -> bool:
 	if onready_paths_node.input_synchronizer.action_states.has(action):
 		return _action_handler_base.is_just_active(onready_paths_node.input_synchronizer.action_states.get(action))
 	return false

@@ -21,6 +21,7 @@ func test_splitter():
 	scene.spawn_powerup(splitter)
 	await wait_seconds(0.1)
 	splitter._runtime_utils = runtime_utils
+	var projectiles_duplicates = splitter.PROJECTILE_DUPLICATES
 	# when/then
 	for contact_idx in range(splitter.MAX_CONTACTS):
 		var bullet = bullet_load.instantiate()
@@ -29,9 +30,9 @@ func test_splitter():
 		scene.fire_projectile(bullet)
 		await wait_seconds(1.0)
 		var projectiles_cnt = scene.get_projectiles().size()
-		assert_eq(projectiles_cnt, splitter.PROJECTILE_DUPLICATES + 1)
-		for projectile_idx in range(1,projectiles_cnt):
-			var angle = (projectile_idx * ((PI/2)/(projectiles_cnt))) - PI/4
+		assert_eq(projectiles_cnt, projectiles_duplicates + 1)
+		for projectile_idx in range(1, projectiles_cnt):
+			var angle = (projectile_idx * ((PI / 2) / (projectiles_cnt))) - PI / 4
 			assert_true(_has_projectile_with_angle(scene.get_projectiles(), angle))
 		scene.clean_projectiles()
 		await wait_seconds(0.5)
@@ -53,7 +54,7 @@ func test_splitter_manager():
 	## test simple spawn
 	splitter_manager.use()
 	await wait_seconds(0.1)
-	assert_eq(scene.get_powerups().size(),1)
+	assert_eq(scene.get_powerups().size(), 1)
 	## test can shoot at it
 	var bullet = load("res://Scenes/Weapons/Projectiles/Bullet/bullet.tscn").instantiate()
 	bullet.init_position = scene.get_fire_position_node().global_position
@@ -61,8 +62,8 @@ func test_splitter_manager():
 	scene.fire_projectile(bullet)
 	await wait_seconds(1.0)
 	var projectiles_cnt = scene.get_projectiles().size()
-	for projectile_idx in range(1,projectiles_cnt):
-		var angle = (projectile_idx * ((PI/2)/(projectiles_cnt))) - PI/4
+	for projectile_idx in range(1, projectiles_cnt):
+		var angle = (projectile_idx * ((PI / 2) / (projectiles_cnt))) - PI / 4
 		assert_true(_has_projectile_with_angle(scene.get_projectiles(), angle))
 	scene.clean_projectiles()
 	bullet.free()
@@ -70,17 +71,17 @@ func test_splitter_manager():
 	## trying to spawn one while the cooldown is not over
 	splitter_manager.use()
 	await wait_seconds(0.1)
-	assert_eq(scene.get_powerups().size(),1)
+	assert_eq(scene.get_powerups().size(), 1)
 	## spawning x more just to see if we stay at the max possible active splitters
 	await wait_seconds(splitter_manager.COOLDOWN_TIMER)
-	for splitter_idx in range(0,splitter_manager.MAX_SPLITTERS_ACTIVE + 1):
+	for splitter_idx in range(0, splitter_manager.MAX_SPLITTERS_ACTIVE + 1):
 		splitter_manager.use()
 		await wait_seconds(splitter_manager.COOLDOWN_TIMER)
-	assert_eq(scene.get_powerups().size(),splitter_manager.MAX_SPLITTERS_ACTIVE)
+	assert_eq(scene.get_powerups().size(), splitter_manager.MAX_SPLITTERS_ACTIVE)
 	# cleanup
 	scene.clean_powerups()
 	scene.clean_projectiles()
-	await wait_seconds(0.5)	
+	await wait_seconds(0.5)
 
 ##### UTILS #####
 func _has_projectile_with_angle(projectiles, angle) -> bool:

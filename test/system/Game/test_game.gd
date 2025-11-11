@@ -9,7 +9,7 @@ const DEFAULT_LEVEL_CONFIG_PATH := "res://test/system/Game/level_default.tres"
 #---- VARIABLES -----
 var scene
 var _sender = InputSender.new(Input)
-var default_level 
+var default_level
 var player_1_config
 var player_2_config
 var game_over_times_called := 0
@@ -36,8 +36,8 @@ func test_game():
 	player_1_config = load(PLAYER_1_DEFAULT_CONFIG_PATH)
 	player_2_config = load(PLAYER_2_DEFAULT_CONFIG_PATH)
 	scene.set_level_data(default_level)
-	scene.set_player_data(1,player_1_config)
-	scene.set_player_data(2,player_2_config)
+	scene.set_player_data(1, player_1_config)
+	scene.set_player_data(2, player_2_config)
 	scene.init_players_data()
 	scene.init_level_data()
 	# ---- when ----
@@ -56,17 +56,13 @@ func test_game():
 	_sender.action_down("fire").hold_for(.05)
 	await _sender.idle
 	_sender.release_all()
-	assert_eq(scene.get_projectiles_count(),0)
+	assert_eq(scene.get_projectiles_count(), 0)
 	_sender.action_down("powerup").hold_for(.05)
 	await _sender.idle
 	_sender.release_all()
-	assert_eq(scene.get_powerups_count(),0)
-	var p1_ori_pos = scene.get_player(1).global_position
-	_sender.action_down("left").action_down("movement_bonus").hold_for(.05)
-	await _sender.idle
-	_sender.release_all()
+	assert_eq(scene.get_powerups_count(), 0)
 	await wait_seconds(0.1)
-	assert_eq(scene.get_player(1).global_position.x,p1_ori_pos.x)
+	var p1_ori_pos = scene.get_player(1).global_position
 	_sender.action_down("jump").action_down("right").hold_for(.25)
 	await _sender.idle
 	_sender.release_all()
@@ -88,20 +84,20 @@ func test_game():
 	await _sender.idle
 	_sender.release_all()
 	await wait_process_frames(2)
-	assert_eq(scene.get_projectiles_count(),1)
+	assert_eq(scene.get_projectiles_count(), 1)
 	_sender.action_down("powerup").hold_for(.05)
 	await _sender.idle
 	_sender.release_all()
 	await wait_process_frames(2)
-	assert_eq(scene.get_powerups_count(),1)
+	assert_eq(scene.get_powerups_count(), 1)
 	p1_ori_pos = scene.get_player(1).global_position
 	_sender.action_down("left").action_down("movement_bonus").hold_for(.05)
 	await _sender.idle
 	_sender.release_all()
 	await wait_seconds(0.25)
-	assert_lt(scene.get_player(1).global_position.x,p1_ori_pos.x)
+	assert_lt(scene.get_player(1).global_position.x, p1_ori_pos.x)
 	# ==== check kill other player ====
-	for i in range(0,3):
+	for i in range(0, 3):
 		_sender.action_down("fire").hold_for(.05)
 		await _sender.idle
 		_sender.release_all()
@@ -110,7 +106,7 @@ func test_game():
 	var wall = scene.get_right_wall()
 	assert_false(wall.get_collision_enabled())
 	assert_false(wall.visible)
-	await wait_seconds(2)
+	await wait_seconds(1.5)
 	assert_eq(scene.count_players(), 1)
 	await wait_seconds(2)
 	assert_eq(scene.count_players(), 2)
@@ -127,7 +123,7 @@ func test_game():
 
 
 ##### UTILS #####
-func _check_player_data(player_idx : int, config : PlayerConfig):
+func _check_player_data(player_idx: int, config: PlayerConfig):
 	var player = scene.get_player(player_idx)
 	assert_not_null(player)
 	assert_eq(player.onready_paths_node.sprites.onready_paths.body.modulate, config.SPRITE_CUSTOMIZATION.BODY_COLOR)

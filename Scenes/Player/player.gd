@@ -135,7 +135,7 @@ func toggle_abilities(active: bool) -> void:
 		onready_paths_node.primary_weapon.active = active
 		onready_paths_node.movement_bonus.active = active
 		onready_paths_node.powerup_manager.active = active
-		onready_paths_node.parry_area.toggle_parry(active)
+		onready_paths_node.parry_area.toggle_parry_enabled(active)
 
 func toggle_damage(active: bool) -> void:
 	_damage_enabled = active
