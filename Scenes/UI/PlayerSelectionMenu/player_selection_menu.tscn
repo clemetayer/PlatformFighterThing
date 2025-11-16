@@ -1,0 +1,70 @@
+[gd_scene load_steps=3 format=3 uid="uid://b2v8mjupvf7rh"]
+
+[ext_resource type="Theme" uid="uid://bc0o65m108hf6" path="res://Misc/Themes/nord.tres" id="1_4rgv5"]
+[ext_resource type="PackedScene" uid="uid://dwfbpcmubmawx" path="res://Scenes/UI/PlayerSelectionMenu/player_selection_item.tscn" id="2_75uw2"]
+
+[node name="PlayerSelectionMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_4rgv5")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ItemList" type="GridContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+columns = 4
+
+[node name="PlayerSelectionItem" parent="ItemList" instance=ExtResource("2_75uw2")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="PlayerSelectionItem2" parent="ItemList" instance=ExtResource("2_75uw2")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="PlayerSelectionItem3" parent="ItemList" instance=ExtResource("2_75uw2")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="PlayerSelectionItem4" parent="ItemList" instance=ExtResource("2_75uw2")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="PlayerSelectionItem5" parent="ItemList" instance=ExtResource("2_75uw2")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="PlayerSelectionItem6" parent="ItemList" instance=ExtResource("2_75uw2")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="PlayerSelectionItem7" parent="ItemList" instance=ExtResource("2_75uw2")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="PlayerSelectionItem8" parent="ItemList" instance=ExtResource("2_75uw2")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3

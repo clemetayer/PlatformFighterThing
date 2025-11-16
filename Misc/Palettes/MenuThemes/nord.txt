@@ -1,0 +1,16 @@
+#2E3440 nord0
+#3B4252 nord1
+#434C5E nord2
+#4C566A nord3
+#D8DEE9 nord4
+#E5E9F0 nord5
+#ECEFF4 nord6
+#8FBCBB nord7
+#88C0D0 nord8
+#81A1C1 nord9
+#5E81AC nord10
+#BF616A nord11
+#D08770 nord12
+#EBCB8B nord13
+#A3BE8C nord14
+#B48EAD nord15

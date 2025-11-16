@@ -1,0 +1,202 @@
+[gd_scene load_steps=9 format=3 uid="uid://dwfbpcmubmawx"]
+
+[ext_resource type="Texture2D" uid="uid://bmiphjiem1sjk" path="res://Scenes/UI/PlayerSelectionMenu/tag.svg" id="1_f0ns3"]
+[ext_resource type="Texture2D" uid="uid://5q8q7xma7uqd" path="res://Misc/Inkscape/dash.svg" id="1_glh8k"]
+[ext_resource type="Texture2D" uid="uid://cvnhgdu8kddk7" path="res://Scenes/Weapons/Powerups/Splitter/splitter.png" id="1_v5wmx"]
+[ext_resource type="Texture2D" uid="uid://bqpre5umo4ki0" path="res://Scenes/UI/PlayerSelectionMenu/edit.svg" id="2_enusm"]
+[ext_resource type="Texture2D" uid="uid://dy0q7mppvj7j1" path="res://Scenes/Player/CharacterOutline.png" id="2_glh8k"]
+[ext_resource type="Texture2D" uid="uid://j4xdgdied5dy" path="res://Scenes/Weapons/Primary/Revolver/Revolver.png" id="3_glh8k"]
+[ext_resource type="Texture2D" uid="uid://btcmiq31qee7d" path="res://Scenes/Player/CharacterBody.png" id="4_ccesd"]
+[ext_resource type="Texture2D" uid="uid://dsh8x2qcwcie" path="res://Scenes/UI/PlayerSelectionMenu/controls.svg" id="5_nf1j6"]
+
+[node name="PlayerSelectionItem" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Main" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Main"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Buttons" type="VBoxContainer" parent="Main/HBoxContainer"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Name" type="Button" parent="Main/HBoxContainer/Buttons"]
+layout_mode = 2
+size_flags_vertical = 3
+icon = ExtResource("1_f0ns3")
+icon_alignment = 1
+expand_icon = true
+
+[node name="Customization" type="Button" parent="Main/HBoxContainer/Buttons"]
+layout_mode = 2
+size_flags_vertical = 3
+icon = ExtResource("2_enusm")
+icon_alignment = 1
+expand_icon = true
+
+[node name="PrimaryWeapon" type="Button" parent="Main/HBoxContainer/Buttons"]
+layout_mode = 2
+size_flags_vertical = 3
+icon = ExtResource("3_glh8k")
+icon_alignment = 1
+expand_icon = true
+
+[node name="MovementBonus" type="Button" parent="Main/HBoxContainer/Buttons"]
+layout_mode = 2
+size_flags_vertical = 3
+icon = ExtResource("1_glh8k")
+icon_alignment = 1
+expand_icon = true
+
+[node name="Powerup" type="Button" parent="Main/HBoxContainer/Buttons"]
+layout_mode = 2
+size_flags_vertical = 3
+icon = ExtResource("1_v5wmx")
+icon_alignment = 1
+expand_icon = true
+
+[node name="Preset" type="Button" parent="Main/HBoxContainer/Buttons"]
+layout_mode = 2
+size_flags_vertical = 3
+icon = ExtResource("5_nf1j6")
+icon_alignment = 1
+expand_icon = true
+
+[node name="Sprite" type="VBoxContainer" parent="Main/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 5.0
+
+[node name="Name" type="Label" parent="Main/HBoxContainer/Sprite"]
+layout_mode = 2
+text = "Whatever name"
+horizontal_alignment = 1
+
+[node name="Player" type="Control" parent="Main/HBoxContainer/Sprite"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 5.0
+
+[node name="Body" type="TextureRect" parent="Main/HBoxContainer/Sprite/Player"]
+modulate = Color(0, 1, 1, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_ccesd")
+expand_mode = 3
+stretch_mode = 5
+
+[node name="Outline" type="TextureRect" parent="Main/HBoxContainer/Sprite/Player"]
+modulate = Color(1, 0, 1, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_glh8k")
+expand_mode = 3
+stretch_mode = 5
+
+[node name="Eyes" type="TextureRect" parent="Main/HBoxContainer/Sprite/Player"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 3
+stretch_mode = 5
+
+[node name="Mouth" type="TextureRect" parent="Main/HBoxContainer/Sprite/Player"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 3
+stretch_mode = 5
+
+[node name="Weapons" type="HBoxContainer" parent="Main/HBoxContainer/Sprite"]
+layout_mode = 2
+size_flags_vertical = 3
+alignment = 1
+
+[node name="Primary" type="TextureRect" parent="Main/HBoxContainer/Sprite/Weapons"]
+layout_mode = 2
+size_flags_horizontal = 3
+texture = ExtResource("3_glh8k")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="Powerup" type="TextureRect" parent="Main/HBoxContainer/Sprite/Weapons"]
+layout_mode = 2
+size_flags_horizontal = 3
+texture = ExtResource("1_v5wmx")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="MovementBonus" type="TextureRect" parent="Main/HBoxContainer/Sprite/Weapons"]
+layout_mode = 2
+size_flags_horizontal = 3
+texture = ExtResource("1_glh8k")
+expand_mode = 3
+stretch_mode = 5
+
+[node name="Name" type="Control" parent="."]
+visible = false
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Customization" type="Control" parent="."]
+visible = false
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="PrimaryWeaponsGrid" type="Control" parent="."]
+visible = false
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="PowerupsGrid" type="Control" parent="."]
+visible = false
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="MovementBonusGrid" type="Control" parent="."]
+visible = false
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="PresetsGrid" type="Control" parent="."]
+visible = false
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
