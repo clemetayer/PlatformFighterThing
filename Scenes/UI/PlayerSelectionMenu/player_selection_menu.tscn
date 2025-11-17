@@ -8,11 +8,13 @@ layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_top = 2.0
+offset_bottom = 2.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_4rgv5")
 
-[node name="Panel" type="Panel" parent="."]
+[node name="Background" type="Panel" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -20,51 +22,25 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="ItemList" type="GridContainer" parent="."]
+[node name="PlayerGrid" type="GridContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-columns = 4
+theme_override_constants/h_separation = 16
+theme_override_constants/v_separation = 16
+columns = 2
 
-[node name="PlayerSelectionItem" parent="ItemList" instance=ExtResource("2_75uw2")]
+[node name="PlayerSelectionItem" parent="PlayerGrid" instance=ExtResource("2_75uw2")]
 layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
 
-[node name="PlayerSelectionItem2" parent="ItemList" instance=ExtResource("2_75uw2")]
+[node name="PlayerSelectionItem2" parent="PlayerGrid" instance=ExtResource("2_75uw2")]
 layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
 
-[node name="PlayerSelectionItem3" parent="ItemList" instance=ExtResource("2_75uw2")]
+[node name="PlayerSelectionItem3" parent="PlayerGrid" instance=ExtResource("2_75uw2")]
 layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
 
-[node name="PlayerSelectionItem4" parent="ItemList" instance=ExtResource("2_75uw2")]
+[node name="PlayerSelectionItem4" parent="PlayerGrid" instance=ExtResource("2_75uw2")]
 layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="PlayerSelectionItem5" parent="ItemList" instance=ExtResource("2_75uw2")]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="PlayerSelectionItem6" parent="ItemList" instance=ExtResource("2_75uw2")]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="PlayerSelectionItem7" parent="ItemList" instance=ExtResource("2_75uw2")]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="PlayerSelectionItem8" parent="ItemList" instance=ExtResource("2_75uw2")]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
