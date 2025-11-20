@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dsh8x2qcwcie"
-path="res://.godot/imported/controls.svg-3900f9e8deb5c818460f2889aa89867b.ctex"
+uid="uid://83akrwv4lw82"
+path="res://.godot/imported/add.svg-676ff0d833e5908767761bbffeb8c152.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Scenes/UI/PlayerSelectionMenu/controls.svg"
-dest_files=["res://.godot/imported/controls.svg-3900f9e8deb5c818460f2889aa89867b.ctex"]
+source_file="res://Scenes/UI/PlayerCustomizationMenu/add.svg"
+dest_files=["res://.godot/imported/add.svg-676ff0d833e5908767761bbffeb8c152.ctex"]
 
 [params]
 

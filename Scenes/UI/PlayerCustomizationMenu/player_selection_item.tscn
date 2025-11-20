@@ -1,0 +1,45 @@
+[gd_scene load_steps=5 format=3 uid="uid://dwfbpcmubmawx"]
+
+[ext_resource type="Texture2D" uid="uid://83akrwv4lw82" path="res://Scenes/UI/PlayerCustomizationMenu/add.svg" id="1_jqxtk"]
+[ext_resource type="PackedScene" uid="uid://8sxwa25paubj" path="res://Scenes/UI/PlayerCustomizationMenu/PlayerSelectionMainItem/player_selection_main_item.tscn" id="1_nf1j6"]
+[ext_resource type="PackedScene" uid="uid://ch7ktmnnktu7d" path="res://Scenes/UI/PlayerCustomizationMenu/ItemsGridMenu/items_grid_menu.tscn" id="4_6lae3"]
+[ext_resource type="PackedScene" uid="uid://b7s8i5b2dk747" path="res://Scenes/UI/PlayerCustomizationMenu/PresetsMenu/presets.tscn" id="5_prdsm"]
+
+[node name="PlayerSelectionItem" type="MarginContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="AddPlayer" type="Button" parent="."]
+layout_mode = 2
+icon = ExtResource("1_jqxtk")
+icon_alignment = 1
+expand_icon = true
+
+[node name="Main" parent="." instance=ExtResource("1_nf1j6")]
+visible = false
+layout_mode = 2
+
+[node name="Presets" parent="." instance=ExtResource("5_prdsm")]
+visible = false
+layout_mode = 2
+
+[node name="PrimaryWeaponsGrid" parent="." instance=ExtResource("4_6lae3")]
+visible = false
+layout_mode = 2
+
+[node name="MovementBonusGrid" parent="." instance=ExtResource("4_6lae3")]
+visible = false
+layout_mode = 2
+
+[node name="PowerupGrid" parent="." instance=ExtResource("4_6lae3")]
+visible = false
+layout_mode = 2

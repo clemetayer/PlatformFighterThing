@@ -1,0 +1,84 @@
+[gd_scene load_steps=3 format=3 uid="uid://tbxutibj805n"]
+
+[ext_resource type="Texture2D" uid="uid://bqpre5umo4ki0" path="res://Scenes/UI/PlayerCustomizationMenu/edit.svg" id="1_cnn6n"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_nf1j6"]
+font_size = 32
+
+[node name="Customization" type="MarginContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Customization"
+label_settings = SubResource("LabelSettings_nf1j6")
+horizontal_alignment = 1
+
+[node name="MainColor" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="VBoxContainer/MainColor"]
+layout_mode = 2
+text = "Main color : "
+
+[node name="ColorPickerButton" type="ColorPickerButton" parent="VBoxContainer/MainColor"]
+layout_mode = 2
+text = "           "
+
+[node name="SecondaryColor" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="VBoxContainer/SecondaryColor"]
+layout_mode = 2
+text = "Secondary color : "
+
+[node name="ColorPickerButton" type="ColorPickerButton" parent="VBoxContainer/SecondaryColor"]
+layout_mode = 2
+text = "           "
+
+[node name="Eyes" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="VBoxContainer/Eyes"]
+layout_mode = 2
+text = "Eyes : "
+
+[node name="Button" type="Button" parent="VBoxContainer/Eyes"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+icon = ExtResource("1_cnn6n")
+expand_icon = true
+
+[node name="Mouth" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="VBoxContainer/Mouth"]
+layout_mode = 2
+text = "Mouth : "
+
+[node name="Button" type="Button" parent="VBoxContainer/Mouth"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+icon = ExtResource("1_cnn6n")
+expand_icon = true
+
+[node name="RandomizeButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Randomize !"

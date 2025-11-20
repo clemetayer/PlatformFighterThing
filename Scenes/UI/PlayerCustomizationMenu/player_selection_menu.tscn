@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://b2v8mjupvf7rh"]
 
 [ext_resource type="Theme" uid="uid://bc0o65m108hf6" path="res://Misc/Themes/nord.tres" id="1_4rgv5"]
-[ext_resource type="PackedScene" uid="uid://dwfbpcmubmawx" path="res://Scenes/UI/PlayerSelectionMenu/player_selection_item.tscn" id="2_75uw2"]
+[ext_resource type="PackedScene" uid="uid://dwfbpcmubmawx" path="res://Scenes/UI/PlayerCustomizationMenu/player_selection_item.tscn" id="2_75uw2"]
 
 [node name="PlayerSelectionMenu" type="Control"]
 layout_mode = 3
@@ -22,25 +22,33 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="PlayerGrid" type="GridContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="PlayerGrid" type="GridContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
 theme_override_constants/h_separation = 16
 theme_override_constants/v_separation = 16
 columns = 2
 
-[node name="PlayerSelectionItem" parent="PlayerGrid" instance=ExtResource("2_75uw2")]
+[node name="PlayerSelectionItem" parent="VBoxContainer/PlayerGrid" instance=ExtResource("2_75uw2")]
 layout_mode = 2
 
-[node name="PlayerSelectionItem2" parent="PlayerGrid" instance=ExtResource("2_75uw2")]
+[node name="PlayerSelectionItem2" parent="VBoxContainer/PlayerGrid" instance=ExtResource("2_75uw2")]
 layout_mode = 2
 
-[node name="PlayerSelectionItem3" parent="PlayerGrid" instance=ExtResource("2_75uw2")]
+[node name="PlayerSelectionItem3" parent="VBoxContainer/PlayerGrid" instance=ExtResource("2_75uw2")]
 layout_mode = 2
 
-[node name="PlayerSelectionItem4" parent="PlayerGrid" instance=ExtResource("2_75uw2")]
+[node name="PlayerSelectionItem4" parent="VBoxContainer/PlayerGrid" instance=ExtResource("2_75uw2")]
 layout_mode = 2
+
+[node name="StartButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Start !"

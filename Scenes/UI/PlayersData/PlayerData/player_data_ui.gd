@@ -9,7 +9,7 @@ const POWERUP_UI_COLOR := Color.CYAN
 const LIVES_UI_COLOR := Color.RED
 
 #---- EXPORTS -----
-@export var player_sprites : SpriteCustomizationResource
+@export var player_sprites: SpriteCustomizationResource
 
 #---- STANDARD -----
 #==== PRIVATE ====
@@ -31,7 +31,7 @@ var _lives_ui
 }
 
 ##### PUBLIC METHODS #####
-func init(sprites : SpriteCustomizationResource, movement: int, powerup: int, lives : int) -> void:
+func init(sprites: SpriteCustomizationResource, movement: int, powerup: int, lives: int) -> void:
 	_clean()
 	_init_sprites(sprites.BODY_COLOR, sprites.OUTLINE_COLOR)
 	_init_movement(movement)
@@ -49,7 +49,7 @@ func update_powerup(value) -> void:
 	if is_instance_valid(_powerup_ui):
 		_powerup_ui.set_value(value)
 
-func update_lives(value : int) -> void:
+func update_lives(value: int) -> void:
 	if is_instance_valid(_lives_ui):
 		_lives_ui.set_value(value)
 
@@ -60,36 +60,34 @@ func _clean() -> void:
 
 func _add_h_separator() -> void:
 	var separator = _separator.instantiate()
-	onready_paths.important_data.add_child(separator,true)
+	onready_paths.important_data.add_child(separator, true)
 
-func _init_sprites(body : Color, outline : Color) -> void:
+func _init_sprites(body: Color, outline: Color) -> void:
 	onready_paths.sprites.body.modulate = body
 	onready_paths.sprites.outline.modulate = outline
 
-func _init_movement(handler : int) -> void:
-	var setting = load(MovementDataUiSettings.data[handler])
-	var ui = setting.UI_SCENE.instantiate()
+func _init_movement(handler: int) -> void:
+	var ui = StaticMovementBonusHandler.get_ui_scene(handler)
 	_movement_ui = ui
-	onready_paths.important_data.add_child(ui,true)
-	ui.set_icon(setting.ICON_PATH)
+	onready_paths.important_data.add_child(ui, true)
+	ui.set_icon(StaticMovementBonusHandler.get_icon_path(handler))
 	ui.modulate = MOVEMENT_UI_COLOR
 
-func _init_powerup(powerup : int) -> void:
-	var setting = load(PowerupDataUISettings.data[powerup])
-	var ui = setting.UI_SCENE.instantiate()
+func _init_powerup(powerup: int) -> void:
+	var ui = StaticPowerupHandler.get_ui_scene(powerup)
 	_powerup_ui = ui
-	onready_paths.important_data.add_child(ui,true)
-	ui.set_icon(setting.ICON_PATH)
+	onready_paths.important_data.add_child(ui, true)
+	ui.set_icon(StaticPowerupHandler.get_icon_path(powerup))
 	ui.modulate = POWERUP_UI_COLOR
 
-func _init_lives(lives : int) -> void:
+func _init_lives(lives: int) -> void:
 	var ui = _lives_ui_load.instantiate()
 	_lives_ui = ui
-	onready_paths.important_data.add_child(ui,true)
+	onready_paths.important_data.add_child(ui, true)
 	ui.set_value(lives)
 	ui.modulate = LIVES_UI_COLOR
 
-func _init_name(p_name : String) -> void:
+func _init_name(p_name: String) -> void:
 	onready_paths.name.text = p_name
 
 ##### SIGNAL MANAGEMENT #####

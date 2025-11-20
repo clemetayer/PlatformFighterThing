@@ -1,0 +1,47 @@
+[gd_scene load_steps=3 format=3 uid="uid://ch7ktmnnktu7d"]
+
+[ext_resource type="Texture2D" uid="uid://j4xdgdied5dy" path="res://Scenes/Weapons/Primary/Revolver/Revolver.png" id="1_amnap"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_fxq4g"]
+font_size = 32
+
+[node name="PrimaryWeaponsGrid" type="MarginContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Primary weapon"
+label_settings = SubResource("LabelSettings_fxq4g")
+horizontal_alignment = 1
+
+[node name="ItemList" type="ItemList" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+auto_width = true
+auto_height = true
+item_count = 11
+max_columns = 8
+same_column_width = true
+fixed_icon_size = Vector2i(64, 64)
+item_0/icon = ExtResource("1_amnap")
+item_1/icon = ExtResource("1_amnap")
+item_2/icon = ExtResource("1_amnap")
+item_3/icon = ExtResource("1_amnap")
+item_4/icon = ExtResource("1_amnap")
+item_5/icon = ExtResource("1_amnap")
+item_6/icon = ExtResource("1_amnap")
+item_7/icon = ExtResource("1_amnap")
+item_8/icon = ExtResource("1_amnap")
+item_9/icon = ExtResource("1_amnap")
+item_10/icon = ExtResource("1_amnap")
