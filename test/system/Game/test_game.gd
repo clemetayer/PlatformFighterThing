@@ -63,13 +63,13 @@ func test_game():
 	assert_eq(scene.get_powerups_count(), 0)
 	await wait_seconds(0.1)
 	var p1_ori_pos = scene.get_player(1).global_position
+	# checks the countdown
+	await wait_seconds(1)
 	_sender.action_down("jump").action_down("right").hold_for(.25)
 	await _sender.idle
 	_sender.release_all()
 	assert_lt(scene.get_player(1).global_position.y, p1_ori_pos.y)
 	assert_gt(scene.get_player(1).global_position.x, p1_ori_pos.x)
-	# checks the countdown
-	await wait_seconds(1)
 	assert_eq(scene.get_game_message(), "3")
 	await wait_seconds(1)
 	assert_eq(scene.get_game_message(), "2")
