@@ -16,12 +16,13 @@ bump="patch"
 function compute_bump() {
     commits=$(git log --pretty=%s latest..HEAD 2>/dev/null | cat)
     while read commit; do
+        echo "commit - $commit"
         if echo "$commit" | grep -qE "BREAKING CHANGE:|BREAKING CHANGE\(" > /dev/null; then
             bump="major"
-        fi
-        if echo "$commit" | grep -qE "feat:|feat\(" > /dev/null; then
+        elif echo "$commit" | grep -qE "feat:|feat\(" > /dev/null && [ $bump != "major" ]; then
             bump="minor"
         fi
+        echo "bump - $bump"
     done <<< "$commits"
 }
 
@@ -36,7 +37,7 @@ function compute_new_version() {
         new_major=$((major + 1))
         new_minor=0
         new_patch=0
-    elif [ "$bump" = "major" ]; then
+    elif [ "$bump" = "minor" ]; then
         new_minor=$((minor + 1))
         new_patch=0
     else
