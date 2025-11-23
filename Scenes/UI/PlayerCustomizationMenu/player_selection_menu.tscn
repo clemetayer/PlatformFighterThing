@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://b2v8mjupvf7rh"]
+[gd_scene load_steps=4 format=3 uid="uid://b2v8mjupvf7rh"]
 
 [ext_resource type="Theme" uid="uid://bc0o65m108hf6" path="res://Misc/Themes/nord.tres" id="1_4rgv5"]
 [ext_resource type="PackedScene" uid="uid://dwfbpcmubmawx" path="res://Scenes/UI/PlayerCustomizationMenu/player_selection_item.tscn" id="2_75uw2"]
+[ext_resource type="Script" uid="uid://hke52end5kci" path="res://Scenes/UI/PlayerCustomizationMenu/player_selection_menu.gd" id="2_p7fqr"]
 
 [node name="PlayerSelectionMenu" type="Control"]
 layout_mode = 3
@@ -13,6 +14,7 @@ offset_bottom = 2.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_4rgv5")
+script = ExtResource("2_p7fqr")
 
 [node name="Background" type="Panel" parent="."]
 layout_mode = 1
@@ -51,4 +53,7 @@ layout_mode = 2
 
 [node name="StartButton" type="Button" parent="VBoxContainer"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 40
 text = "Start !"
+
+[connection signal="button_up" from="VBoxContainer/StartButton" to="." method="_on_start_button_button_up"]

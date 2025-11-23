@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://dwfbpcmubmawx"]
+[gd_scene load_steps=6 format=3 uid="uid://dwfbpcmubmawx"]
 
 [ext_resource type="Texture2D" uid="uid://83akrwv4lw82" path="res://Scenes/UI/PlayerCustomizationMenu/add.svg" id="1_jqxtk"]
 [ext_resource type="PackedScene" uid="uid://8sxwa25paubj" path="res://Scenes/UI/PlayerCustomizationMenu/PlayerSelectionMainItem/player_selection_main_item.tscn" id="1_nf1j6"]
+[ext_resource type="Script" uid="uid://3uo5do24xi1v" path="res://Scenes/UI/PlayerCustomizationMenu/player_selection_item.gd" id="1_prdsm"]
 [ext_resource type="PackedScene" uid="uid://ch7ktmnnktu7d" path="res://Scenes/UI/PlayerCustomizationMenu/ItemsGridMenu/items_grid_menu.tscn" id="4_6lae3"]
 [ext_resource type="PackedScene" uid="uid://b7s8i5b2dk747" path="res://Scenes/UI/PlayerCustomizationMenu/PresetsMenu/presets.tscn" id="5_prdsm"]
 
@@ -17,9 +18,13 @@ theme_override_constants/margin_left = 16
 theme_override_constants/margin_top = 16
 theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 16
+script = ExtResource("1_prdsm")
 
 [node name="AddPlayer" type="Button" parent="."]
+custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
 icon = ExtResource("1_jqxtk")
 icon_alignment = 1
 expand_icon = true
@@ -43,3 +48,14 @@ layout_mode = 2
 [node name="PowerupGrid" parent="." instance=ExtResource("4_6lae3")]
 visible = false
 layout_mode = 2
+
+[connection signal="pressed" from="AddPlayer" to="." method="_on_add_player_pressed"]
+[connection signal="delete_item" from="Main" to="." method="_on_main_delete_item"]
+[connection signal="open_movement_bonus_menu_triggered" from="Main" to="." method="_on_main_open_movement_bonus_menu_triggered"]
+[connection signal="open_powerup_menu_triggered" from="Main" to="." method="_on_main_open_powerup_menu_triggered"]
+[connection signal="open_preset_menu_triggered" from="Main" to="." method="_on_main_open_preset_menu_triggered"]
+[connection signal="open_primary_weapon_menu_triggered" from="Main" to="." method="_on_main_open_primary_weapon_menu_triggered"]
+[connection signal="close_triggered" from="Presets" to="." method="_on_presets_close_triggered"]
+[connection signal="close_triggered" from="PrimaryWeaponsGrid" to="." method="_on_primary_weapons_grid_close_triggered"]
+[connection signal="close_triggered" from="MovementBonusGrid" to="." method="_on_movement_bonus_grid_close_triggered"]
+[connection signal="close_triggered" from="PowerupGrid" to="." method="_on_powerup_grid_close_triggered"]

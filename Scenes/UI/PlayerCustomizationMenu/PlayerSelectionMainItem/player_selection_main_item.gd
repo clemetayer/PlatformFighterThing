@@ -6,7 +6,7 @@ signal open_preset_menu_triggered
 signal open_primary_weapon_menu_triggered
 signal open_movement_bonus_menu_triggered
 signal open_powerup_menu_triggered
-signal delete
+signal delete_item
 
 ##### VARIABLES #####
 #---- STANDARD -----
@@ -52,4 +52,4 @@ func _on_player_type_pressed() -> void:
 	pass # TODO : change player type (Bot, local - keyboard, local - controller 1, online - self, online - opponent, etc.)
 
 func _on_delete_player_pressed() -> void:
-	emit_signal("delete")
+	emit_signal("delete_item")

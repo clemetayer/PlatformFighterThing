@@ -1,6 +1,6 @@
 [gd_scene load_steps=11 format=3 uid="uid://8sxwa25paubj"]
 
-[ext_resource type="Script" uid="uid://b4pfhg6yd64m6" path="res://Scenes/UI/PlayerCustomizationMenu/PlayerSelectionMainItem/player_selection_main_item.gd" id="1_10qpb"]
+[ext_resource type="Script" uid="uid://cutd2aboblxaa" path="res://Scenes/UI/PlayerCustomizationMenu/PlayerSelectionMainItem/player_selection_main_item.gd" id="1_10qpb"]
 [ext_resource type="Texture2D" uid="uid://j4xdgdied5dy" path="res://Scenes/Weapons/Primary/Revolver/Revolver.png" id="1_g1m43"]
 [ext_resource type="Script" uid="uid://calba43hixlc4" path="res://Scenes/UI/PlayerCustomizationMenu/PlayerSelectionMainItem/buttons.gd" id="2_fv8mp"]
 [ext_resource type="Texture2D" uid="uid://5q8q7xma7uqd" path="res://Misc/Inkscape/dash.svg" id="2_mmeor"]
