@@ -9,7 +9,17 @@ signal player_added
 
 ##### VARIABLES #####
 #---- CONSTANTS -----
-# const constant := 10 # Optionnal comment
+const PRIMARY_WEAPON_NAME_HANDLER_MAP := {
+	"Revolver": StaticPrimaryWeaponHandler.handlers.REVOLVER
+}
+
+const MOVEMENT_BONUS_NAME_HANDLER_MAP := {
+	"Dash": StaticMovementBonusHandler.handlers.DASH
+}
+
+const POWERUP_NAME_HANDLER_MAP := {
+	"Splitter": StaticPowerupHandler.handlers.SPLITTER
+}
 
 #---- EXPORTS -----
 # @export var EXPORT_NAME := 10.0 # Optionnal comment
@@ -31,6 +41,18 @@ signal player_added
 	"powerup_menu": $"PowerupGrid"
 }
 
+@onready var primary_weapons_items := [
+	ItemGridMenuElement.set_element("res://Scenes/Weapons/Primary/Revolver/Revolver.png", "Revolver", "The revolver is a polyvalent weapon that shoots bullets in a straight line. A great choice if you want an all-rounder.")
+]
+
+@onready var movement_bonus_items := [
+	ItemGridMenuElement.set_element("res://Misc/Inkscape/dash.svg", "Dash", "Makes you dash up to three times before recharging. Usefull to reposition yourself quickly.")
+]
+
+@onready var powerup_items := [
+	ItemGridMenuElement.set_element("Scenes/Weapons/Powerups/Splitter/splitter.png", "Splitter", "When hit by a projectile, the splitter will split it and send it in various directions. It has limited uses. Usefull to cover a large area with your projectiles.")
+]
+
 ##### PROCESSING #####
 # Called when the object is initialized.
 func _init():
@@ -38,7 +60,10 @@ func _init():
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass
+	_init_presets()
+	_init_primary_weapon_items()
+	_init_movement_bonus_items()
+	_init_powerup_items()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame. Remove the "_" to use it.
 func _process(_delta):
@@ -50,9 +75,17 @@ func _process(_delta):
 #     pass
 
 ##### PROTECTED METHODS #####
-# Methods that are intended to be used exclusively by this scripts
-# func _private_method(arg):
-#     pass
+func _init_presets() -> void:
+	pass
+
+func _init_primary_weapon_items() -> void:
+	onready_paths.primary_weapons_menu.set_items(primary_weapons_items)
+
+func _init_movement_bonus_items() -> void:
+	onready_paths.movement_bonus_menu.set_items(movement_bonus_items)
+
+func _init_powerup_items() -> void:
+	onready_paths.powerup_menu.set_items(powerup_items)
 
 ##### SIGNAL MANAGEMENT #####
 func _on_add_player_pressed() -> void:
@@ -95,3 +128,15 @@ func _on_movement_bonus_grid_close_triggered() -> void:
 func _on_powerup_grid_close_triggered() -> void:
 	onready_paths.powerup_menu.hide()
 	onready_paths.main_menu.show()
+
+func _on_presets_preset_selected(preset: Variant) -> void:
+	pass # Replace with function body.
+
+func _on_primary_weapons_grid_item_selected(item: ItemGridMenuElement) -> void:
+	onready_paths.main_menu.update_primary_weapon(PRIMARY_WEAPON_NAME_HANDLER_MAP[item.NAME])
+
+func _on_movement_bonus_grid_item_selected(item: ItemGridMenuElement) -> void:
+	onready_paths.main_menu.update_movement_bonus(MOVEMENT_BONUS_NAME_HANDLER_MAP[item.NAME])
+
+func _on_powerup_grid_item_selected(item: ItemGridMenuElement) -> void:
+	onready_paths.main_menu.update_powerup(POWERUP_NAME_HANDLER_MAP[item.NAME])

@@ -3,6 +3,7 @@ extends MarginContainer
 
 ##### SIGNALS #####
 signal close_triggered
+signal preset_selected(preset)
 
 ##### ENUMS #####
 # enumerations

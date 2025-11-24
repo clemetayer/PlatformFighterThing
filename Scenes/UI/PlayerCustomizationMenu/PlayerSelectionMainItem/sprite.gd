@@ -31,13 +31,13 @@ func update_player(player_config: PlayerConfig) -> void:
 	update_movement_bonus(player_config.MOVEMENT_BONUS_HANDLER)
 
 func update_primary_weapon(weapon: StaticPrimaryWeaponHandler.handlers) -> void:
-	onready_paths.weapons.primary.icon = load(StaticPrimaryWeaponHandler.get_icon_path(weapon))
+	onready_paths.weapons.primary.texture	 = load(StaticPrimaryWeaponHandler.get_icon_path(weapon))
 
 func update_powerup(powerup: StaticPowerupHandler.handlers) -> void:
-	onready_paths.weapons.powerup.icon = load(StaticPowerupHandler.get_icon_path(powerup))
+	onready_paths.weapons.powerup.texture = load(StaticPowerupHandler.get_icon_path(powerup))
 
 func update_movement_bonus(movement_bonus: StaticMovementBonusHandler.handlers) -> void:
-	onready_paths.weapons.movement_bonus.icon = load(StaticMovementBonusHandler.get_icon_path(movement_bonus))
+	onready_paths.weapons.movement_bonus.texture = load(StaticMovementBonusHandler.get_icon_path(movement_bonus))
 
 
 ##### PROTECTED METHODS #####
