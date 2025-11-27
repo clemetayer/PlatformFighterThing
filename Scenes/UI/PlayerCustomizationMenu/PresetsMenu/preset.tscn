@@ -1,0 +1,101 @@
+[gd_scene load_steps=7 format=3 uid="uid://bsacswwskki17"]
+
+[ext_resource type="Script" uid="uid://qlxsgrwx5sp7" path="res://Scenes/UI/PlayerCustomizationMenu/PresetsMenu/preset.gd" id="1_gxwv7"]
+[ext_resource type="Texture2D" uid="uid://j4xdgdied5dy" path="res://Scenes/Weapons/Primary/Revolver/Revolver.png" id="1_x86rv"]
+[ext_resource type="Texture2D" uid="uid://5q8q7xma7uqd" path="res://Misc/Inkscape/dash.svg" id="2_gxwv7"]
+[ext_resource type="Texture2D" uid="uid://cvnhgdu8kddk7" path="res://Scenes/Weapons/Powerups/Splitter/splitter.png" id="3_fct7l"]
+[ext_resource type="Texture2D" uid="uid://btcmiq31qee7d" path="res://Scenes/Player/CharacterBody.png" id="4_105tn"]
+[ext_resource type="Texture2D" uid="uid://dy0q7mppvj7j1" path="res://Scenes/Player/CharacterOutline.png" id="6_fct7l"]
+
+[node name="Preset" type="Button"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("1_gxwv7")
+
+[node name="Elements" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Name" type="Label" parent="Elements"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "name"
+horizontal_alignment = 1
+
+[node name="PrimaryWeapon" type="TextureRect" parent="Elements"]
+layout_mode = 2
+size_flags_horizontal = 3
+texture = ExtResource("1_x86rv")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="MovementBonus" type="TextureRect" parent="Elements"]
+layout_mode = 2
+size_flags_horizontal = 3
+texture = ExtResource("2_gxwv7")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Powerup" type="TextureRect" parent="Elements"]
+layout_mode = 2
+size_flags_horizontal = 3
+texture = ExtResource("3_fct7l")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Sprite" type="Control" parent="Elements"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Body" type="TextureRect" parent="Elements/Sprite"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+texture = ExtResource("4_105tn")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Eyes" type="TextureRect" parent="Elements/Sprite"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+texture = ExtResource("6_fct7l")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Mouth" type="TextureRect" parent="Elements/Sprite"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+texture = ExtResource("6_fct7l")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Outline" type="TextureRect" parent="Elements/Sprite"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+texture = ExtResource("6_fct7l")
+expand_mode = 1
+stretch_mode = 5

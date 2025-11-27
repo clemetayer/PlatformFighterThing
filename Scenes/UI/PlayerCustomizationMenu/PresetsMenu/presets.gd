@@ -10,7 +10,7 @@ signal preset_selected(preset)
 
 ##### VARIABLES #####
 #---- CONSTANTS -----
-# const constant := 10 # Optionnal comment
+const PRESETS_FOLDER_PATH := "user://PlayerConfigs"
 
 #---- EXPORTS -----
 # @export var EXPORT_NAME := 10.0 # Optionnal comment
@@ -20,10 +20,13 @@ signal preset_selected(preset)
 # var public_var # Optionnal comment
 
 #==== PRIVATE ====
-# var _private_var # Optionnal comment
+var _presets = []
+var _preset_button_load = preload("res://Scenes/UI/PlayerCustomizationMenu/PresetsMenu/preset.gd")
 
 #==== ONREADY ====
-# @onready var onready_var # Optionnal comment
+@onready var onready_paths := {
+	"presets_root": $"VBoxContainer/ScrollContainer/ElementsList"
+}
 
 ##### PROCESSING #####
 # Called when the object is initialized.
@@ -32,7 +35,10 @@ func _init():
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass
+	_reset_preset_root()
+	_presets = _get_presets()
+	for preset in _presets:
+		_add_preset_button(preset)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame. Remove the "_" to use it.
 func _process(_delta):
@@ -44,9 +50,23 @@ func _process(_delta):
 #     pass
 
 ##### PROTECTED METHODS #####
-# Methods that are intended to be used exclusively by this scripts
-# func _private_method(arg):
-#     pass
+func _get_presets() -> Array:
+	StaticUtils.create_folder_if_not_exists(PRESETS_FOLDER_PATH)
+	var presets = []
+	for resource in ResourceLoader.list_directory(PRESETS_FOLDER_PATH):
+		var res_load = load(resource)
+		if res_load is PlayerConfig:
+			presets.append(res_load)
+	return presets
+	
+func _reset_preset_root() -> void:
+	for element in onready_paths.presets_root.get_children():
+		element.queue_free()
+
+func _add_preset_button(preset: PlayerConfig) -> void:
+	var button = _preset_button_load.instantiate()
+	button.set_preset(preset)
+	onready_paths.preset_root.add_child(button)
 
 ##### SIGNAL MANAGEMENT #####
 func _on_close_button_pressed() -> void:
