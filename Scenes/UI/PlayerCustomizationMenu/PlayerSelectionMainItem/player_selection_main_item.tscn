@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://8sxwa25paubj"]
+[gd_scene load_steps=9 format=3 uid="uid://8sxwa25paubj"]
 
 [ext_resource type="Script" uid="uid://cutd2aboblxaa" path="res://Scenes/UI/PlayerCustomizationMenu/PlayerSelectionMainItem/player_selection_main_item.gd" id="1_10qpb"]
 [ext_resource type="Texture2D" uid="uid://j4xdgdied5dy" path="res://Scenes/Weapons/Primary/Revolver/Revolver.png" id="1_g1m43"]
@@ -6,10 +6,8 @@
 [ext_resource type="Texture2D" uid="uid://5q8q7xma7uqd" path="res://Misc/Inkscape/dash.svg" id="2_mmeor"]
 [ext_resource type="Texture2D" uid="uid://cvnhgdu8kddk7" path="res://Scenes/Weapons/Powerups/Splitter/splitter.png" id="3_el3m1"]
 [ext_resource type="Texture2D" uid="uid://dsh8x2qcwcie" path="res://Scenes/UI/PlayerCustomizationMenu/controls.svg" id="4_10qpb"]
-[ext_resource type="Texture2D" uid="uid://btcmiq31qee7d" path="res://Scenes/Player/CharacterBody.png" id="5_fv8mp"]
-[ext_resource type="Texture2D" uid="uid://dy0q7mppvj7j1" path="res://Scenes/Player/CharacterOutline.png" id="6_jre07"]
 [ext_resource type="Texture2D" uid="uid://1jtgnfgq03qx" path="res://Scenes/UI/PlayerCustomizationMenu/close.svg" id="7_fv8mp"]
-[ext_resource type="Script" uid="uid://c5xduddhansus" path="res://Scenes/UI/PlayerCustomizationMenu/PlayerSelectionMainItem/sprite.gd" id="7_jre07"]
+[ext_resource type="PackedScene" uid="uid://tx5an1q2tqo3" path="res://Scenes/UI/PlayerCustomizationMenu/PlayerConfigDisplay/player_config_display.tscn" id="8_el3m1"]
 
 [node name="Main" type="HBoxContainer"]
 anchors_preset = 15
@@ -66,75 +64,8 @@ icon = ExtResource("7_fv8mp")
 icon_alignment = 1
 expand_icon = true
 
-[node name="Sprite" type="VBoxContainer" parent="."]
+[node name="PlayerConfigDisplay" parent="." instance=ExtResource("8_el3m1")]
 layout_mode = 2
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 8.0
-script = ExtResource("7_jre07")
-
-[node name="Name" type="Label" parent="Sprite"]
-layout_mode = 2
-text = "Whatever name"
-horizontal_alignment = 1
-
-[node name="Player" type="MarginContainer" parent="Sprite"]
-layout_mode = 2
-size_flags_vertical = 3
-size_flags_stretch_ratio = 5.0
-theme_override_constants/margin_left = 10
-theme_override_constants/margin_top = 10
-theme_override_constants/margin_right = 10
-theme_override_constants/margin_bottom = 10
-
-[node name="Body" type="TextureRect" parent="Sprite/Player"]
-modulate = Color(0, 1, 1, 1)
-layout_mode = 2
-texture = ExtResource("5_fv8mp")
-expand_mode = 3
-stretch_mode = 5
-
-[node name="Outline" type="TextureRect" parent="Sprite/Player"]
-modulate = Color(1, 0, 1, 1)
-layout_mode = 2
-texture = ExtResource("6_jre07")
-expand_mode = 3
-stretch_mode = 5
-
-[node name="Eyes" type="TextureRect" parent="Sprite/Player"]
-layout_mode = 2
-expand_mode = 3
-stretch_mode = 5
-
-[node name="Mouth" type="TextureRect" parent="Sprite/Player"]
-layout_mode = 2
-expand_mode = 3
-stretch_mode = 5
-
-[node name="Weapons" type="HBoxContainer" parent="Sprite"]
-layout_mode = 2
-size_flags_vertical = 3
-alignment = 1
-
-[node name="Primary" type="TextureRect" parent="Sprite/Weapons"]
-layout_mode = 2
-size_flags_horizontal = 3
-texture = ExtResource("1_g1m43")
-expand_mode = 2
-stretch_mode = 5
-
-[node name="Powerup" type="TextureRect" parent="Sprite/Weapons"]
-layout_mode = 2
-size_flags_horizontal = 3
-texture = ExtResource("3_el3m1")
-expand_mode = 2
-stretch_mode = 5
-
-[node name="MovementBonus" type="TextureRect" parent="Sprite/Weapons"]
-layout_mode = 2
-size_flags_horizontal = 3
-texture = ExtResource("2_mmeor")
-expand_mode = 3
-stretch_mode = 5
 
 [connection signal="pressed" from="Buttons/Preset" to="." method="_on_preset_pressed"]
 [connection signal="pressed" from="Buttons/PrimaryWeapon" to="." method="_on_primary_weapon_pressed"]

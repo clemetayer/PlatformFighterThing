@@ -1,0 +1,87 @@
+[gd_scene load_steps=8 format=3 uid="uid://tx5an1q2tqo3"]
+
+[ext_resource type="Script" uid="uid://c5xduddhansus" path="res://Scenes/UI/PlayerCustomizationMenu/PlayerConfigDisplay/player_config_display.gd" id="1_wbmej"]
+[ext_resource type="Texture2D" uid="uid://btcmiq31qee7d" path="res://Scenes/Player/CharacterBody.png" id="2_jr6ak"]
+[ext_resource type="Texture2D" uid="uid://dy0q7mppvj7j1" path="res://Scenes/Player/CharacterOutline.png" id="3_142co"]
+[ext_resource type="Texture2D" uid="uid://j4xdgdied5dy" path="res://Scenes/Weapons/Primary/Revolver/Revolver.png" id="4_ob203"]
+[ext_resource type="Texture2D" uid="uid://cvnhgdu8kddk7" path="res://Scenes/Weapons/Powerups/Splitter/splitter.png" id="5_0sjm8"]
+[ext_resource type="Texture2D" uid="uid://5q8q7xma7uqd" path="res://Misc/Inkscape/dash.svg" id="6_adqru"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_wbmej"]
+font_size = 32
+
+[node name="PlayerConfigDisplay" type="VBoxContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 8.0
+script = ExtResource("1_wbmej")
+
+[node name="Name" type="Label" parent="."]
+layout_mode = 2
+text = "Whatever name"
+label_settings = SubResource("LabelSettings_wbmej")
+horizontal_alignment = 1
+
+[node name="Player" type="MarginContainer" parent="."]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 5.0
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="Body" type="TextureRect" parent="Player"]
+modulate = Color(0, 1, 1, 1)
+layout_mode = 2
+texture = ExtResource("2_jr6ak")
+expand_mode = 3
+stretch_mode = 5
+
+[node name="Outline" type="TextureRect" parent="Player"]
+modulate = Color(1, 0, 1, 1)
+layout_mode = 2
+texture = ExtResource("3_142co")
+expand_mode = 3
+stretch_mode = 5
+
+[node name="Eyes" type="TextureRect" parent="Player"]
+layout_mode = 2
+expand_mode = 3
+stretch_mode = 5
+
+[node name="Mouth" type="TextureRect" parent="Player"]
+layout_mode = 2
+expand_mode = 3
+stretch_mode = 5
+
+[node name="Weapons" type="HBoxContainer" parent="."]
+layout_mode = 2
+size_flags_vertical = 3
+alignment = 1
+
+[node name="Primary" type="TextureRect" parent="Weapons"]
+layout_mode = 2
+size_flags_horizontal = 3
+texture = ExtResource("4_ob203")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="Powerup" type="TextureRect" parent="Weapons"]
+layout_mode = 2
+size_flags_horizontal = 3
+texture = ExtResource("5_0sjm8")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="MovementBonus" type="TextureRect" parent="Weapons"]
+layout_mode = 2
+size_flags_horizontal = 3
+texture = ExtResource("6_adqru")
+expand_mode = 3
+stretch_mode = 5
