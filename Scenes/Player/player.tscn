@@ -1,4 +1,4 @@
-[gd_scene load_steps=55 format=3 uid="uid://fgxha8wl55pa"]
+[gd_scene load_steps=57 format=3 uid="uid://fgxha8wl55pa"]
 
 [ext_resource type="Script" uid="uid://bxq3finp4gfep" path="res://Scenes/Player/player.gd" id="1_b1dbg"]
 [ext_resource type="Script" uid="uid://bq2rya8sinnf" path="res://Scenes/Player/paths.gd" id="2_8lsum"]
@@ -23,7 +23,9 @@
 [ext_resource type="Script" uid="uid://b77r2c5lue24w" path="res://Scenes/Player/damage_text.gd" id="17_rcvs5"]
 [ext_resource type="Script" uid="uid://1bmf2lndpaei" path="res://Scenes/Player/rich_text_hit.gd" id="18_eksi1"]
 [ext_resource type="Shader" uid="uid://brtieiqtxhkp6" path="res://Scenes/Player/player_sprites_material.gdshader" id="20_jincj"]
+[ext_resource type="Texture2D" uid="uid://c4sfyueb41dmc" path="res://Scenes/Player/Eyes/1.png" id="22_4no11"]
 [ext_resource type="Script" uid="uid://c57lrmlx8bwo7" path="res://Scenes/Player/appear_elements.gd" id="23_bmb2s"]
+[ext_resource type="Texture2D" uid="uid://3twdntbapyus" path="res://Scenes/Player/Mouths/1.png" id="23_fcwna"]
 [ext_resource type="Texture2D" uid="uid://2ebef4pu2k81" path="res://Scenes/Player/CharacterSpawnSprite.png" id="23_rqdc0"]
 [ext_resource type="Texture2D" uid="uid://daqpwwlyh78yf" path="res://Misc/Particles/kenney_particle-pack/star_07.png" id="24_qr1w5"]
 [ext_resource type="Texture2D" uid="uid://bv0r8mi6wpacw" path="res://Misc/Particles/kenney_particle-pack/star_08.png" id="25_ythyg"]
@@ -710,6 +712,15 @@ texture = ExtResource("3_b0wk1")
 visible = false
 modulate = Color(1, 1, 1, 0.607843)
 texture = ExtResource("2_pi5cj")
+
+[node name="RotateElements" type="Node2D" parent="Sprites"]
+scale = Vector2(0.9999999, 0.9999999)
+
+[node name="Eyes" type="Sprite2D" parent="Sprites/RotateElements"]
+texture = ExtResource("22_4no11")
+
+[node name="Mouth" type="Sprite2D" parent="Sprites/RotateElements"]
+texture = ExtResource("23_fcwna")
 
 [node name="AppearElements" type="Node2D" parent="."]
 scale = Vector2(0.33, 0.33)

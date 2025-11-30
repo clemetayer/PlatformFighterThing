@@ -46,6 +46,7 @@ func _handle_direction() -> void:
 func _handle_aim() -> void:
 	var relative_aim_position = _get_relative_aim_position()
 	onready_paths_node.primary_weapon.aim(relative_aim_position)
+	onready_paths_node.sprites.aim(relative_aim_position)
 	onready_paths_node.crosshair.position = relative_aim_position
 
 func _handle_jump() -> void:
