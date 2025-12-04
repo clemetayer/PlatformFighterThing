@@ -5,6 +5,11 @@ class_name StaticUtils
 ##### ENUMS #####
 enum GAME_TYPES {OFFLINE, HOST, CLIENT}
 
+##### VARIABLES #####
+#---- CONSTANTS -----
+const USER_CHARACTER_PRESETS_PATH := "user://presets/"
+const GODOT_RESOURCE_FILE_EXTENSION := ".tres"
+
 ##### PUBLIC METHODS #####
 # https://easings.net/#easeOutCubic
 static func cubic_ease_out(x: float) -> float:

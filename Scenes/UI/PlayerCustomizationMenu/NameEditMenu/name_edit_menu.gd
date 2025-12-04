@@ -25,9 +25,9 @@ func _ready():
 	_init_name_list()
 
 ##### PUBLIC METHODS #####
-# Methods that are intended to be "visible" to other nodes or scripts
-# func public_method(arg : int) -> void:
-#     pass
+func update_player_name(p_name: String) -> void:
+	onready_paths.current_name.text = p_name
+	_filter_name_list(p_name)
 
 ##### PROTECTED METHODS #####
 func _load_name_list() -> void:

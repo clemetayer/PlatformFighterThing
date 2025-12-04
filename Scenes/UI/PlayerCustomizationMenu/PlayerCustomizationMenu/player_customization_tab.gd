@@ -56,9 +56,11 @@ func _process(_delta):
 	pass
 
 ##### PUBLIC METHODS #####
-# Methods that are intended to be "visible" to other nodes or scripts
-# func public_method(arg : int) -> void:
-#     pass
+func update_config(config: PlayerConfig) -> void:
+	onready_paths.main_color.modulate = config.SPRITE_CUSTOMIZATION.BODY_COLOR
+	onready_paths.secondary_color.modulate = config.SPRITE_CUSTOMIZATION.OUTLINE_COLOR
+	onready_paths.eyes_preview.texture = load(config.SPRITE_CUSTOMIZATION.EYES_TEXTURE_PATH)
+	onready_paths.mouth_preview.texture = load(config.SPRITE_CUSTOMIZATION.MOUTH_TEXTURE_PATH)
 
 ##### PROTECTED METHODS #####
 func _init_items() -> void:

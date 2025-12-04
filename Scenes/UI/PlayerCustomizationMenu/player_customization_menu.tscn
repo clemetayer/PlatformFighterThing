@@ -1,11 +1,14 @@
-[gd_scene load_steps=7 format=3 uid="uid://4jmohk06tq0d"]
+[gd_scene load_steps=10 format=3 uid="uid://4jmohk06tq0d"]
 
 [ext_resource type="Theme" uid="uid://bc0o65m108hf6" path="res://Misc/Themes/nord.tres" id="1_k606k"]
+[ext_resource type="Script" uid="uid://hkt70ko3amkd" path="res://Scenes/UI/PlayerCustomizationMenu/player_customization_menu.gd" id="2_5ugvj"]
 [ext_resource type="PackedScene" uid="uid://tx5an1q2tqo3" path="res://Scenes/UI/PlayerCustomizationMenu/PlayerConfigDisplay/player_config_display.tscn" id="2_rn5dx"]
 [ext_resource type="PackedScene" uid="uid://b7s8i5b2dk747" path="res://Scenes/UI/PlayerCustomizationMenu/PresetsMenu/presets.tscn" id="3_gcrrk"]
 [ext_resource type="PackedScene" uid="uid://dmbd2xmxgclq6" path="res://Scenes/UI/PlayerCustomizationMenu/NameEditMenu/name_edit_menu.tscn" id="3_muyi0"]
-[ext_resource type="PackedScene" uid="uid://tbxutibj805n" path="res://Scenes/UI/PlayerCustomizationMenu/PlayerCustomizationMenu/player_customization_menu.tscn" id="5_riqtp"]
+[ext_resource type="PackedScene" uid="uid://tbxutibj805n" path="res://Scenes/UI/PlayerCustomizationMenu/PlayerCustomizationMenu/player_customization_tab.tscn" id="5_riqtp"]
+[ext_resource type="PackedScene" uid="uid://s15b1kpmet1t" path="res://Scenes/UI/PlayerCustomizationMenu/EliminationTextEditMenu/elimination_text_edit_menu.tscn" id="6_6j346"]
 [ext_resource type="PackedScene" uid="uid://ch7ktmnnktu7d" path="res://Scenes/UI/PlayerCustomizationMenu/ItemsGridMenu/items_grid_menu.tscn" id="6_riqtp"]
+[ext_resource type="Script" uid="uid://d1go3hm03uhhp" path="res://Scenes/UI/PlayerCustomizationMenu/save_preset_popup.gd" id="9_brcbt"]
 
 [node name="PlayerCustomizationMenu" type="Control"]
 layout_mode = 3
@@ -15,6 +18,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_k606k")
+script = ExtResource("2_5ugvj")
 
 [node name="Panel" type="Panel" parent="."]
 layout_mode = 1
@@ -33,13 +37,22 @@ grow_horizontal = 2
 grow_vertical = 2
 current_tab = 0
 
-[node name="PlayerConfigDisplay" parent="TabContainer" instance=ExtResource("2_rn5dx")]
+[node name="PlayerConfigDisplay" type="MarginContainer" parent="TabContainer"]
 layout_mode = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 50
 metadata/_tab_index = 0
+
+[node name="PlayerConfigDisplay" parent="TabContainer/PlayerConfigDisplay" instance=ExtResource("2_rn5dx")]
+layout_mode = 2
 
 [node name="Presets" parent="TabContainer" instance=ExtResource("3_gcrrk")]
 visible = false
 layout_mode = 2
+CAN_BE_CLOSED = false
+CAN_ADD_ELEMENTS = true
 metadata/_tab_index = 1
 
 [node name="Name" parent="TabContainer" instance=ExtResource("3_muyi0")]
@@ -47,22 +60,71 @@ visible = false
 layout_mode = 2
 metadata/_tab_index = 2
 
-[node name="Customization" parent="TabContainer" instance=ExtResource("5_riqtp")]
+[node name="EliminationText" parent="TabContainer" instance=ExtResource("6_6j346")]
 visible = false
 layout_mode = 2
-metadata/_tab_index = 3
 
-[node name="PrimaryWeapon" parent="TabContainer" instance=ExtResource("6_riqtp")]
+[node name="Customization" parent="TabContainer" instance=ExtResource("5_riqtp")]
 visible = false
 layout_mode = 2
 metadata/_tab_index = 4
 
+[node name="PrimaryWeapon" parent="TabContainer" instance=ExtResource("6_riqtp")]
+visible = false
+layout_mode = 2
+CAN_BE_CLOSED = false
+metadata/_tab_index = 5
+
 [node name="MovementBonus" parent="TabContainer" instance=ExtResource("6_riqtp")]
 visible = false
 layout_mode = 2
-metadata/_tab_index = 5
+CAN_BE_CLOSED = false
+metadata/_tab_index = 6
 
 [node name="Powerup" parent="TabContainer" instance=ExtResource("6_riqtp")]
 visible = false
 layout_mode = 2
-metadata/_tab_index = 6
+CAN_BE_CLOSED = false
+metadata/_tab_index = 7
+
+[node name="SavePresetPopup" type="ConfirmationDialog" parent="."]
+oversampling_override = 1.0
+title = "Choose the preset name"
+initial_position = 2
+size = Vector2i(397, 115)
+dialog_hide_on_ok = false
+script = ExtResource("9_brcbt")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SavePresetPopup"]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 389.0
+offset_bottom = 66.0
+
+[node name="Label" type="Label" parent="SavePresetPopup/VBoxContainer"]
+layout_mode = 2
+text = "Choose the preset name to save"
+
+[node name="LineEdit" type="LineEdit" parent="SavePresetPopup/VBoxContainer"]
+layout_mode = 2
+placeholder_text = "preset name"
+
+[node name="OverridePresetPopup" type="ConfirmationDialog" parent="."]
+oversampling_override = 1.0
+initial_position = 2
+size = Vector2i(312, 100)
+dialog_text = "This preset already exists, override it ?"
+
+[connection signal="preset_selected" from="TabContainer/Presets" to="." method="_on_presets_preset_selected"]
+[connection signal="save_preset_triggered" from="TabContainer/Presets" to="." method="_on_presets_save_preset_triggered"]
+[connection signal="name_selected" from="TabContainer/Name" to="." method="_on_name_name_selected"]
+[connection signal="elimination_text_updated" from="TabContainer/EliminationText" to="." method="_on_elimination_text_elimination_text_updated"]
+[connection signal="body_color_changed" from="TabContainer/Customization" to="." method="_on_customization_body_color_changed"]
+[connection signal="eyes_changed" from="TabContainer/Customization" to="." method="_on_customization_eyes_changed"]
+[connection signal="mouth_changed" from="TabContainer/Customization" to="." method="_on_customization_mouth_changed"]
+[connection signal="outline_color_changed" from="TabContainer/Customization" to="." method="_on_customization_outline_color_changed"]
+[connection signal="item_selected" from="TabContainer/PrimaryWeapon" to="." method="_on_primary_weapon_item_selected"]
+[connection signal="item_selected" from="TabContainer/MovementBonus" to="." method="_on_movement_bonus_item_selected"]
+[connection signal="item_selected" from="TabContainer/Powerup" to="." method="_on_powerup_item_selected"]
+[connection signal="confirmed" from="SavePresetPopup" to="SavePresetPopup" method="_on_confirmed"]
+[connection signal="confirmed" from="OverridePresetPopup" to="SavePresetPopup" method="_on_override_preset_popup_confirmed"]

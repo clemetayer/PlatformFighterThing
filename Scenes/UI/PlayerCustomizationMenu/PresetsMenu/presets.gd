@@ -3,17 +3,19 @@ extends MarginContainer
 
 ##### SIGNALS #####
 signal close_triggered
-signal preset_selected(preset)
+signal preset_selected(preset: PlayerConfig)
+signal save_preset_triggered()
 
 ##### ENUMS #####
 # enumerations
 
 ##### VARIABLES #####
 #---- CONSTANTS -----
-const PRESETS_FOLDER_PATH := "user://PlayerConfigs"
+const SAVE_PRESET_BUTTON_SCENE := "res://Scenes/UI/PlayerCustomizationMenu/PresetsMenu/add_element_button.tscn"
 
 #---- EXPORTS -----
-# @export var EXPORT_NAME := 10.0 # Optionnal comment
+@export var CAN_BE_CLOSED := true
+@export var CAN_ADD_ELEMENTS := false
 
 #---- STANDARD -----
 #==== PUBLIC ====
@@ -25,7 +27,8 @@ var _preset_button_load = preload("res://Scenes/UI/PlayerCustomizationMenu/Prese
 
 #==== ONREADY ====
 @onready var onready_paths := {
-	"presets_root": $"VBoxContainer/ScrollContainer/ElementsList"
+	"presets_root": $"VBoxContainer/ScrollContainer/ElementsList",
+	"close_button": $"CloseButton"
 }
 
 ##### PROCESSING #####
@@ -35,10 +38,13 @@ func _init():
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	onready_paths.close_button.visible = CAN_BE_CLOSED
 	_reset_preset_root()
 	_presets = _get_presets()
 	for preset in _presets:
 		_add_preset_button(preset)
+	if CAN_ADD_ELEMENTS:
+		_add_save_preset_button()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame. Remove the "_" to use it.
 func _process(_delta):
@@ -51,9 +57,9 @@ func _process(_delta):
 
 ##### PROTECTED METHODS #####
 func _get_presets() -> Array:
-	StaticUtils.create_folder_if_not_exists(PRESETS_FOLDER_PATH)
+	StaticUtils.create_folder_if_not_exists(StaticUtils.USER_CHARACTER_PRESETS_PATH)
 	var presets = []
-	for resource in ResourceLoader.list_directory(PRESETS_FOLDER_PATH):
+	for resource in ResourceLoader.list_directory(StaticUtils.USER_CHARACTER_PRESETS_PATH):
 		var res_load = load(resource)
 		if res_load is PlayerConfig:
 			presets.append(res_load)
@@ -66,8 +72,20 @@ func _reset_preset_root() -> void:
 func _add_preset_button(preset: PlayerConfig) -> void:
 	var button = _preset_button_load.instantiate()
 	button.set_preset(preset)
+	button.connect("pressed", func(): _on_preset_selected(preset))
 	onready_paths.preset_root.add_child(button)
+
+func _add_save_preset_button() -> void:
+	var button = load(SAVE_PRESET_BUTTON_SCENE).instantiate()
+	button.connect("pressed", _on_save_preset_button_pressed)
+	onready_paths.presets_root.add_child(button)
 
 ##### SIGNAL MANAGEMENT #####
 func _on_close_button_pressed() -> void:
 	emit_signal("close_triggered")
+
+func _on_save_preset_button_pressed() -> void:
+	emit_signal("save_preset_triggered")
+
+func _on_preset_selected(player_config: PlayerConfig) -> void:
+	emit_signal("preset_selected", player_config)

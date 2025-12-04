@@ -6,6 +6,9 @@ signal close_triggered
 signal item_selected(item: ItemGridMenuElement)
 
 ##### VARIABLES #####
+#---- EXPORTS -----
+@export var CAN_BE_CLOSED := true
+
 #---- STANDARD -----
 #==== PRIVATE ====
 var _items: Array = []
@@ -13,12 +16,19 @@ var _items: Array = []
 #==== ONREADY ====
 @onready var onready_paths := {
 	"items": $"VBoxContainer/ScrollContainer/ItemList",
+	"close_button": $"CloseButton",
 	"description": {
 		"icon": $"VBoxContainer/Description/Icon",
 		"title": $"VBoxContainer/Description/VBoxContainer/Title",
 		"description": $"VBoxContainer/Description/VBoxContainer/ScrollContainer/Description"
 	}
 }
+
+##### PROCESSING #####
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	onready_paths.close_button.visible = CAN_BE_CLOSED
+
 
 ##### PUBLIC METHODS #####
 # Parameters are an array of ItemGridMenuElement
