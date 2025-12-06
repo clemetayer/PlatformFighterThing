@@ -7,6 +7,7 @@ enum GAME_TYPES {OFFLINE, HOST, CLIENT}
 
 ##### VARIABLES #####
 #---- CONSTANTS -----
+const DEFAULT_CONFIG_PATH := "res://Scenes/Player/PlayerConfigs/default_player_config.tres"
 const USER_CHARACTER_PRESETS_PATH := "user://presets/"
 const GODOT_RESOURCE_FILE_EXTENSION := ".tres"
 

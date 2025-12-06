@@ -57,10 +57,16 @@ func _update_description_with_item(item: ItemGridMenuElement) -> void:
 	onready_paths.description.title.text = item.NAME
 	onready_paths.description.description.text = item.DESCRIPTION
 
+func _get_selected_item() -> ItemGridMenuElement:
+	return _items[onready_paths.items.get_selected_items().get(0)]
+
 ##### SIGNAL MANAGEMENT #####
 func _on_close_button_pressed() -> void:
 	emit_signal("close_triggered")
 
 func _on_item_list_item_selected(index: int) -> void:
-	emit_signal("item_selected", _items[index])
 	_update_description_with_item(_items[index])
+
+
+func _on_okay_button_pressed() -> void:
+	emit_signal("item_selected", _get_selected_item())

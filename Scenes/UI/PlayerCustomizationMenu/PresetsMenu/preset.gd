@@ -5,7 +5,7 @@ extends Button
 #---- STANDARD -----
 #==== ONREADY ====
 @onready var onready_paths := {
-	"name": $"Elements/Name",
+	"name_label": $"Elements/Name",
 	"primary_weapon": $"Elements/PrimaryWeapon",
 	"movement_bonus": $"Elements/MovementBonus",
 	"powerup": $"Elements/Powerup",
@@ -20,7 +20,7 @@ extends Button
 
 ##### PUBLIC METHODS #####
 func set_preset(preset: PlayerConfig) -> void:
-	onready_paths.name.text = preset.PLAYER_NAME
+	onready_paths.name_label.text = preset.PLAYER_NAME
 	onready_paths.primary_weapon.texture = load(StaticPrimaryWeaponHandler.get_icon_path(preset.PRIMARY_WEAPON))
 	onready_paths.movement_bonus.texture = load(StaticMovementBonusHandler.get_icon_path(preset.MOVEMENT_BONUS_HANDLER))
 	onready_paths.powerup.texture = load(StaticPowerupHandler.get_icon_path(preset.POWERUP_HANDLER))

@@ -12,7 +12,7 @@ signal delete_item
 #---- STANDARD -----
 #==== ONREADY ====
 @onready var onready_paths := {
-	"sprite": $"Sprite",
+	"sprite": $"PlayerConfigDisplay",
 	"buttons": $"Buttons"
 }
 

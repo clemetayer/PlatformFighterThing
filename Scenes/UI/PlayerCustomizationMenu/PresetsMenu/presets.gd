@@ -23,7 +23,7 @@ const SAVE_PRESET_BUTTON_SCENE := "res://Scenes/UI/PlayerCustomizationMenu/Prese
 
 #==== PRIVATE ====
 var _presets = []
-var _preset_button_load = preload("res://Scenes/UI/PlayerCustomizationMenu/PresetsMenu/preset.gd")
+var _preset_button_load = preload("res://Scenes/UI/PlayerCustomizationMenu/PresetsMenu/preset.tscn")
 
 #==== ONREADY ====
 @onready var onready_paths := {
@@ -32,10 +32,6 @@ var _preset_button_load = preload("res://Scenes/UI/PlayerCustomizationMenu/Prese
 }
 
 ##### PROCESSING #####
-# Called when the object is initialized.
-func _init():
-	pass
-
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	onready_paths.close_button.visible = CAN_BE_CLOSED
@@ -46,21 +42,12 @@ func _ready():
 	if CAN_ADD_ELEMENTS:
 		_add_save_preset_button()
 
-# Called every frame. 'delta' is the elapsed time since the previous frame. Remove the "_" to use it.
-func _process(_delta):
-	pass
-
-##### PUBLIC METHODS #####
-# Methods that are intended to be "visible" to other nodes or scripts
-# func public_method(arg : int) -> void:
-#     pass
-
 ##### PROTECTED METHODS #####
 func _get_presets() -> Array:
 	StaticUtils.create_folder_if_not_exists(StaticUtils.USER_CHARACTER_PRESETS_PATH)
 	var presets = []
 	for resource in ResourceLoader.list_directory(StaticUtils.USER_CHARACTER_PRESETS_PATH):
-		var res_load = load(resource)
+		var res_load = load(StaticUtils.USER_CHARACTER_PRESETS_PATH + resource)
 		if res_load is PlayerConfig:
 			presets.append(res_load)
 	return presets
@@ -71,9 +58,9 @@ func _reset_preset_root() -> void:
 
 func _add_preset_button(preset: PlayerConfig) -> void:
 	var button = _preset_button_load.instantiate()
+	onready_paths.presets_root.add_child(button)
 	button.set_preset(preset)
 	button.connect("pressed", func(): _on_preset_selected(preset))
-	onready_paths.preset_root.add_child(button)
 
 func _add_save_preset_button() -> void:
 	var button = load(SAVE_PRESET_BUTTON_SCENE).instantiate()
