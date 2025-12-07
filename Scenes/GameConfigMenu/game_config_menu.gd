@@ -2,30 +2,21 @@ extends Control
 # game config menu, to quickly choose a game manager and configure a game
 
 ##### SIGNALS #####
-signal init_host(port : int)
-signal init_client(ip: String, port : int)
+signal init_host(port: int)
+signal init_client(ip: String, port: int)
 signal init_offline()
 signal start_game()
-
-##### ENUMS #####
 
 ##### VARIABLES #####
 #---- CONSTANTS -----
 const WAITING_TEXT_HOST_TEMPLATE := "[wave amp=50.0 freq=5.0 connected=1]Waiting for players, currently connected : %d [/wave] "
 const GAME_MANAGER_PATH := "res://Scenes/GameManagers/game_manager.tscn"
-
-#---- EXPORTS -----
-# export(int) var EXPORT_NAME # Optionnal comment
+const PLAYER_CUSTOMZATION_MENU_PATH := "res://Scenes/UI/PlayerCustomizationMenu/player_customization_menu.tscn"
 
 #---- STANDARD -----
-#==== PUBLIC ====
-# var public_var # Optionnal comment
-
-#==== PRIVATE ====
-
 #==== ONREADY ====
 @onready var onready_paths := {
-	"option":$"GameTypeMenu/Containers/ConfigMenu/OptionButton",
+	"option": $"GameTypeMenu/Containers/ConfigMenu/OptionButton",
 	"config_menu": $"GameTypeMenu/Containers/ConfigMenu",
 	"waiting_host": $"GameTypeMenu/Containers/WaitingHost",
 	"waiting_host_label": $"GameTypeMenu/Containers/WaitingHost/RichTextLabel",
@@ -34,13 +25,13 @@ const GAME_MANAGER_PATH := "res://Scenes/GameManagers/game_manager.tscn"
 		"menu": $"GameTypeMenu/Containers/ConfigMenu/HostMenu",
 		"port": $"GameTypeMenu/Containers/ConfigMenu/HostMenu/Port/LineEdit"
 	},
-	"client" : {
+	"client": {
 		"menu": $"GameTypeMenu/Containers/ConfigMenu/ClientMenu",
-		"ip" : $"GameTypeMenu/Containers/ConfigMenu/ClientMenu/IP/LineEdit",
-		"port" : $"GameTypeMenu/Containers/ConfigMenu/ClientMenu/Port/LineEdit"
+		"ip": $"GameTypeMenu/Containers/ConfigMenu/ClientMenu/IP/LineEdit",
+		"port": $"GameTypeMenu/Containers/ConfigMenu/ClientMenu/Port/LineEdit"
 	},
-	"offline" : {
-		"menu" : $"GameTypeMenu/Containers/ConfigMenu/OfflineMenu"
+	"offline": {
+		"menu": $"GameTypeMenu/Containers/ConfigMenu/OfflineMenu"
 	}
 }
 
@@ -66,7 +57,7 @@ func _option_index_to_game_type_enum(index: int) -> StaticUtils.GAME_TYPES:
 	GSLogger.error("No game type found for option %d" % index)
 	return StaticUtils.GAME_TYPES.OFFLINE # Default case, should not go here
 
-func _toggle_menu_visible(menu_type : StaticUtils.GAME_TYPES) -> void:
+func _toggle_menu_visible(menu_type: StaticUtils.GAME_TYPES) -> void:
 	onready_paths.host.menu.visible = menu_type == StaticUtils.GAME_TYPES.HOST
 	onready_paths.client.menu.visible = menu_type == StaticUtils.GAME_TYPES.CLIENT
 	onready_paths.offline.menu.visible = menu_type == StaticUtils.GAME_TYPES.OFFLINE
@@ -112,7 +103,7 @@ func _on_start_button_pressed() -> void:
 		StaticUtils.GAME_TYPES.HOST:
 			var port_str = onready_paths.host.port.text
 			if port_str.is_valid_int():
-				emit_signal("init_host",int(port_str))
+				emit_signal("init_host", int(port_str))
 				onready_paths.config_menu.hide()
 				onready_paths.waiting_host.show()
 				update_host_player_numbers(0)
@@ -127,3 +118,6 @@ func _on_start_button_pressed() -> void:
 				onready_paths.waiting_client.show()
 			else:
 				GSLogger.error("Port %s or ip %s is not valid !" % [port_str, ip])
+
+func _on_player_customization_pressed() -> void:
+	get_tree().change_scene_to_file(PLAYER_CUSTOMZATION_MENU_PATH)

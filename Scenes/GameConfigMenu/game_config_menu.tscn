@@ -70,6 +70,10 @@ popup/item_2/id = 2
 popup/item_3/text = "E A R T H Q U A K E"
 popup/item_3/id = 3
 
+[node name="PlayerCustomization" type="Button" parent="GameTypeMenu/Containers/CommonMenu"]
+layout_mode = 2
+text = "Character customization"
+
 [node name="ConfigMenu" type="VBoxContainer" parent="GameTypeMenu/Containers"]
 layout_mode = 2
 theme_override_constants/separation = 20
@@ -175,6 +179,7 @@ fit_content = true
 [connection signal="toggled" from="GameTypeMenu/Containers/CommonMenu/ToggleMusic" to="." method="_on_toggle_music_toggled"]
 [connection signal="item_selected" from="GameTypeMenu/Containers/CommonMenu/VisualIntensity/VisualIntensityOption" to="." method="_on_visual_intensity_option_item_selected"]
 [connection signal="item_selected" from="GameTypeMenu/Containers/CommonMenu/CameraEffectsIntensity/CameraEffectsIntensityOption" to="." method="_on_camera_effects_intensity_option_item_selected"]
+[connection signal="pressed" from="GameTypeMenu/Containers/CommonMenu/PlayerCustomization" to="." method="_on_player_customization_pressed"]
 [connection signal="item_selected" from="GameTypeMenu/Containers/ConfigMenu/OptionButton" to="." method="_on_option_button_item_selected"]
 [connection signal="pressed" from="GameTypeMenu/Containers/ConfigMenu/StartButton" to="." method="_on_start_button_pressed"]
 [connection signal="pressed" from="GameTypeMenu/Containers/WaitingHost/HostStartButton" to="." method="_on_host_start_button_pressed"]

@@ -2,20 +2,23 @@ extends Control
 # handles the player customization menu
 
 ##### VARIABLES #####
+#---- CONSTANTS -----
+const GAME_MANAGER_SCENE := "res://Scenes/GameManagers/game_manager.tscn"
+
 #---- STANDARD -----
 #==== PRIVATE ====
 var _current_config: PlayerConfig
 
 #==== ONREADY ====
 @onready var onready_paths := {
-	"player_config_display": $"TabContainer/PlayerConfigDisplay/PlayerConfigDisplay",
-	"presets": $"TabContainer/Presets",
-	"name": $"TabContainer/Name",
-	"elimination_text": $"TabContainer/EliminationText",
-	"customization": $"TabContainer/Customization",
-	"primary_weapon": $"TabContainer/PrimaryWeapon",
-	"movement_bonus": $"TabContainer/MovementBonus",
-	"powerup": $"TabContainer/Powerup",
+	"player_config_display": $"MarginContainer/TabContainer/PlayerConfigDisplay/PlayerConfigDisplay",
+	"presets": $"MarginContainer/TabContainer/Presets",
+	"name": $"MarginContainer/TabContainer/Name",
+	"elimination_text": $"MarginContainer/TabContainer/EliminationText",
+	"customization": $"MarginContainer/TabContainer/Customization",
+	"primary_weapon": $"MarginContainer/TabContainer/PrimaryWeapon",
+	"movement_bonus": $"MarginContainer/TabContainer/MovementBonus",
+	"powerup": $"MarginContainer/TabContainer/Powerup",
 	"save_preset_popup": $"SavePresetPopup"
 }
 
@@ -97,3 +100,6 @@ func _on_presets_save_preset_triggered() -> void:
 
 func _on_elimination_text_elimination_text_updated(new_text: String) -> void:
 	_current_config.ELIMINATION_TEXT = new_text
+
+func _on_back_button_pressed() -> void:
+	get_tree().change_scene_to_file(GAME_MANAGER_SCENE)
