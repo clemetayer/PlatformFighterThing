@@ -1,16 +1,21 @@
-[gd_scene load_steps=4 format=3 uid="uid://dfhqpbi1moq3f"]
+[gd_scene load_steps=5 format=3 uid="uid://dfhqpbi1moq3f"]
 
 [ext_resource type="Script" uid="uid://comivhr6alcm0" path="res://Scenes/GameManagers/game_manager.gd" id="1_6q8xy"]
+[ext_resource type="PackedScene" uid="uid://b2v8mjupvf7rh" path="res://Scenes/UI/PlayerCustomizationMenu/player_selection_menu.tscn" id="2_gyiv4"]
 [ext_resource type="PackedScene" uid="uid://45nkjou6barn" path="res://Scenes/GameConfigMenu/game_config_menu.tscn" id="2_urlmn"]
 [ext_resource type="PackedScene" uid="uid://bypr1ueba3rju" path="res://Scenes/Game/game.tscn" id="3_inig3"]
 
 [node name="GameManager" type="Node"]
 script = ExtResource("1_6q8xy")
 
+[node name="PlayerSelectionMenu" parent="." instance=ExtResource("2_gyiv4")]
+visible = false
+
 [node name="GameConfigMenu" parent="." instance=ExtResource("2_urlmn")]
 
 [node name="Game" parent="." instance=ExtResource("3_inig3")]
 
+[connection signal="players_ready" from="PlayerSelectionMenu" to="." method="_on_player_selection_menu_players_ready"]
 [connection signal="init_client" from="GameConfigMenu" to="." method="_on_game_config_menu_init_client"]
 [connection signal="init_host" from="GameConfigMenu" to="." method="_on_game_config_menu_init_host"]
 [connection signal="init_offline" from="GameConfigMenu" to="." method="_on_game_config_menu_init_offline"]

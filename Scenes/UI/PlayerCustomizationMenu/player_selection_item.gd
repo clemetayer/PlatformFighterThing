@@ -22,16 +22,19 @@ var _current_config: PlayerConfig
 ##### PROCESSING #####
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	_init_default_config()
+	_current_config = null
 	_init_primary_weapon_items()
 	_init_movement_bonus_items()
 	_init_powerup_items()
+
+##### PUBLIC METHODS #####
+func get_config() -> PlayerConfig:
+	return _current_config
 
 ##### PROTECTED METHODS #####
 func _init_default_config() -> void:
 	_current_config = load(StaticUtils.DEFAULT_CONFIG_PATH)
 	onready_paths.main_menu.update_player_config(_current_config)
-
 
 func _init_primary_weapon_items() -> void:
 	onready_paths.primary_weapons_menu.set_items(
@@ -51,10 +54,12 @@ func _init_powerup_items() -> void:
 ##### SIGNAL MANAGEMENT #####
 func _on_add_player_pressed() -> void:
 	emit_signal("player_added")
+	_init_default_config()
 	onready_paths.add_player_button.hide()
 	onready_paths.main_menu.show()
 
 func _on_main_delete_item() -> void:
+	_current_config = null
 	onready_paths.main_menu.hide()
 	onready_paths.add_player_button.show()
 
@@ -113,3 +118,6 @@ func _on_presets_preset_selected(preset: PlayerConfig) -> void:
 	onready_paths.main_menu.update_player_config(preset)
 	onready_paths.presets_menu.hide()
 	onready_paths.main_menu.show()
+
+func _on_main_player_type_changed(player_type: StaticActionHandler.handlers) -> void:
+	_current_config.ACTION_HANDLER = player_type

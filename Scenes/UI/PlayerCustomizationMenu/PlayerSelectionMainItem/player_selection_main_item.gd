@@ -7,6 +7,7 @@ signal open_primary_weapon_menu_triggered
 signal open_movement_bonus_menu_triggered
 signal open_powerup_menu_triggered
 signal delete_item
+signal player_type_changed(player_type: StaticActionHandler.handlers)
 
 ##### VARIABLES #####
 #---- STANDARD -----
@@ -22,6 +23,7 @@ func update_player_config(config: PlayerConfig) -> void:
 	onready_paths.buttons.set_primary_weapon_icon(config.PRIMARY_WEAPON)
 	onready_paths.buttons.set_movement_bonus_icon(config.MOVEMENT_BONUS_HANDLER)
 	onready_paths.buttons.set_powerup_icon(config.POWERUP_HANDLER)
+	onready_paths.buttons.reset_player_type()
 
 func update_primary_weapon(weapon: StaticPrimaryWeaponHandler.handlers) -> void:
 	onready_paths.sprite.update_primary_weapon(weapon)
@@ -48,8 +50,8 @@ func _on_movement_bonus_pressed() -> void:
 func _on_powerup_pressed() -> void:
 	emit_signal("open_powerup_menu_triggered")
 
-func _on_player_type_pressed() -> void:
-	pass # TODO : change player type (Bot, local - keyboard, local - controller 1, online - self, online - opponent, etc.)
-
 func _on_delete_player_pressed() -> void:
 	emit_signal("delete_item")
+
+func _on_player_type_player_type_changed(player_type: StaticActionHandler.handlers) -> void:
+	emit_signal("player_type_changed", player_type)

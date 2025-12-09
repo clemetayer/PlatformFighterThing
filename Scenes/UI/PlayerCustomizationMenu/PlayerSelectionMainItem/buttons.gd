@@ -7,7 +7,8 @@ extends VBoxContainer
 @onready var onready_paths := {
 	"primary_weapon": $"PrimaryWeapon",
 	"movement_bonus": $"MovementBonus",
-	"powerup": $"Powerup"
+	"powerup": $"Powerup",
+	"player_type": $"PlayerType"
 }
 
 ##### PUBLIC METHODS #####
@@ -19,3 +20,6 @@ func set_movement_bonus_icon(movement_bonus: StaticMovementBonusHandler.handlers
 
 func set_powerup_icon(powerup: StaticPowerupHandler.handlers) -> void:
 	onready_paths.powerup.icon = load(StaticPowerupHandler.get_icon_path(powerup))
+
+func reset_player_type() -> void:
+	onready_paths.player_type.reset()

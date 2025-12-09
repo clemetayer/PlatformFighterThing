@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://8sxwa25paubj"]
+[gd_scene load_steps=11 format=3 uid="uid://8sxwa25paubj"]
 
 [ext_resource type="Script" uid="uid://cutd2aboblxaa" path="res://Scenes/UI/PlayerCustomizationMenu/PlayerSelectionMainItem/player_selection_main_item.gd" id="1_10qpb"]
 [ext_resource type="Texture2D" uid="uid://j4xdgdied5dy" path="res://Scenes/Weapons/Primary/Revolver/Revolver.png" id="1_g1m43"]
@@ -6,7 +6,9 @@
 [ext_resource type="Texture2D" uid="uid://5q8q7xma7uqd" path="res://Misc/Inkscape/dash.svg" id="2_mmeor"]
 [ext_resource type="Texture2D" uid="uid://cvnhgdu8kddk7" path="res://Scenes/Weapons/Powerups/Splitter/splitter.png" id="3_el3m1"]
 [ext_resource type="Texture2D" uid="uid://dsh8x2qcwcie" path="res://Scenes/UI/PlayerCustomizationMenu/controls.svg" id="4_10qpb"]
+[ext_resource type="Script" uid="uid://cw4ynxma6vdtf" path="res://Scenes/UI/PlayerCustomizationMenu/PlayerSelectionMainItem/player_type_button.gd" id="7_10qpb"]
 [ext_resource type="Texture2D" uid="uid://1jtgnfgq03qx" path="res://Scenes/UI/PlayerCustomizationMenu/close.svg" id="7_fv8mp"]
+[ext_resource type="Texture2D" uid="uid://8xsse27mchdn" path="res://Scenes/UI/PlayerCustomizationMenu/joystick.svg" id="7_jre07"]
 [ext_resource type="PackedScene" uid="uid://tx5an1q2tqo3" path="res://Scenes/UI/PlayerCustomizationMenu/PlayerConfigDisplay/player_config_display.tscn" id="8_el3m1"]
 
 [node name="Main" type="HBoxContainer"]
@@ -54,8 +56,10 @@ expand_icon = true
 [node name="PlayerType" type="Button" parent="Buttons"]
 layout_mode = 2
 size_flags_vertical = 3
-disabled = true
-text = "Local"
+icon = ExtResource("7_jre07")
+icon_alignment = 1
+expand_icon = true
+script = ExtResource("7_10qpb")
 
 [node name="DeletePlayer" type="Button" parent="Buttons"]
 layout_mode = 2
@@ -71,5 +75,6 @@ layout_mode = 2
 [connection signal="pressed" from="Buttons/PrimaryWeapon" to="." method="_on_primary_weapon_pressed"]
 [connection signal="pressed" from="Buttons/MovementBonus" to="." method="_on_movement_bonus_pressed"]
 [connection signal="pressed" from="Buttons/Powerup" to="." method="_on_powerup_pressed"]
-[connection signal="pressed" from="Buttons/PlayerType" to="." method="_on_player_type_pressed"]
+[connection signal="player_type_changed" from="Buttons/PlayerType" to="." method="_on_player_type_player_type_changed"]
+[connection signal="pressed" from="Buttons/PlayerType" to="Buttons/PlayerType" method="_on_pressed"]
 [connection signal="pressed" from="Buttons/DeletePlayer" to="." method="_on_delete_player_pressed"]

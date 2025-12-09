@@ -55,6 +55,7 @@ layout_mode = 2
 [connection signal="open_powerup_menu_triggered" from="Main" to="." method="_on_main_open_powerup_menu_triggered"]
 [connection signal="open_preset_menu_triggered" from="Main" to="." method="_on_main_open_preset_menu_triggered"]
 [connection signal="open_primary_weapon_menu_triggered" from="Main" to="." method="_on_main_open_primary_weapon_menu_triggered"]
+[connection signal="player_type_changed" from="Main" to="." method="_on_main_player_type_changed"]
 [connection signal="close_triggered" from="Presets" to="." method="_on_presets_close_triggered"]
 [connection signal="preset_selected" from="Presets" to="." method="_on_presets_preset_selected"]
 [connection signal="close_triggered" from="PrimaryWeaponsGrid" to="." method="_on_primary_weapons_grid_close_triggered"]

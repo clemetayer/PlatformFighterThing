@@ -12,7 +12,7 @@ const DEFAULT_BACKGROUND_PATH := "res://Scenes/Levels/Backgrounds/TriangleCity/t
 
 #---- EXPORTS -----
 @export var mode := StaticUtils.GAME_TYPES.OFFLINE
-@export var level_data : LevelConfig
+@export var level_data: LevelConfig
 
 #---- STANDARD -----
 #==== PRIVATE ====
@@ -21,6 +21,7 @@ var _connected_players := {}
 #==== ONREADY ====
 @onready var onready_paths := {
 	"game_config_menu": $"GameConfigMenu",
+	"player_selection_menu": $"PlayerSelectionMenu",
 	"game": $"Game"
 }
 
@@ -42,7 +43,7 @@ func get_game_root() -> Node:
 	return onready_paths.game
 
 ##### PROTECTED METHODS #####
-func _init_server(port : int) -> void:
+func _init_server(port: int) -> void:
 	GSLogger.info("starting as host on port %s" % [port])
 	var peer = ENetMultiplayerPeer.new()
 	peer.create_server(port)
@@ -55,8 +56,8 @@ func _init_server(port : int) -> void:
 	multiplayer.peer_disconnected.connect(_delete_player)
 	RuntimeUtils.is_offline_game = false
 
-func _connect_to_server(ip: String, port : int) -> void:
-	GSLogger.info("starting as client on %s:%s" % [ip,port])
+func _connect_to_server(ip: String, port: int) -> void:
+	GSLogger.info("starting as client on %s:%s" % [ip, port])
 	# Start as client.
 	var peer = ENetMultiplayerPeer.new()
 	peer.create_client(ip, port)
@@ -67,10 +68,10 @@ func _connect_to_server(ip: String, port : int) -> void:
 	multiplayer.multiplayer_peer = peer
 	RuntimeUtils.is_offline_game = false
 
-func _create_player_data(config_path : String) -> PlayerConfig:
-	var sprite_presets : SpriteCustomizationPresetsResource = load(SPRITE_PRESETS_PATH)
+func _create_player_data(config_path: String) -> PlayerConfig:
+	var sprite_presets: SpriteCustomizationPresetsResource = load(SPRITE_PRESETS_PATH)
 	sprite_presets.presets.shuffle() # to avoid picking the same element every time
-	var player_config : PlayerConfig = load(config_path).duplicate()
+	var player_config: PlayerConfig = load(config_path).duplicate()
 	player_config.SPRITE_CUSTOMIZATION = sprite_presets.presets.pick_random()
 	return player_config
 
@@ -80,30 +81,27 @@ func _create_level_data() -> LevelConfig:
 	level_data.background_and_music = DEFAULT_BACKGROUND_PATH
 	return level_data
 
-func _add_player(id : int) -> void:
+func _add_player(id: int) -> void:
 	GSLogger.info("client %d connected" % id)
 	_connected_players[id] = {
-		"config":_create_player_data(INPUT_PLAYER_CONFIG_PATH)
+		"config": _create_player_data(INPUT_PLAYER_CONFIG_PATH)
 	}
 	onready_paths.game_config_menu.update_host_player_numbers(_connected_players.size())
 
-func _delete_player(id : int) -> void:
+func _delete_player(id: int) -> void:
 	GSLogger.info("client %d disconnected" % id)
 	_connected_players.erase(id)
 	onready_paths.game_config_menu.update_host_player_numbers(_connected_players.size())
 
-func _toggle_config_menu(active : bool) -> void:
-	onready_paths.game_config_menu.visible = active
-
 func _add_offline_default_players() -> void:
 	_connected_players[1] = {
-		"config" : _create_player_data(INPUT_PLAYER_CONFIG_PATH)
+		"config": _create_player_data(INPUT_PLAYER_CONFIG_PATH)
 	}
 	_connected_players[2] = {
-		"config" : _create_player_data(RECORD_PLAYER_CONFIG_PATH)
+		"config": _create_player_data(RECORD_PLAYER_CONFIG_PATH)
 	}
 
-func serialize_players(players : Dictionary) -> Dictionary:
+func serialize_players(players: Dictionary) -> Dictionary:
 	var serialized_players = {}
 	for player_key in players.keys():
 		serialized_players[player_key] = {
@@ -111,35 +109,48 @@ func serialize_players(players : Dictionary) -> Dictionary:
 		}
 	return serialized_players
 
+@rpc("authority", "call_local", "reliable")
+func _show_player_selection_menu() -> void:
+	onready_paths.player_selection_menu.visible = true
+
+func _init_connected_players(players: Array) -> void:
+	_connected_players = {}
+	for player_idx in range(0, players.size()):
+		_connected_players[player_idx] = {
+			"config": players[player_idx]
+		}
+
 ##### SIGNAL MANAGEMENT #####
 func _on_game_config_menu_init_offline() -> void:
-	_toggle_config_menu(false)
-	_add_offline_default_players()
-	RuntimeUtils.is_offline_game = true
-	onready_paths.game.init_level_data(level_data.serialize())
-	onready_paths.game.init_players_data(serialize_players(_connected_players))
-	onready_paths.game.add_game_elements()
-	onready_paths.game.init_game_elements()
+	GSLogger.debug("going to the player selection menu - offline")
+	onready_paths.game_config_menu.visible = false
+	_show_player_selection_menu()
 
 func _on_game_config_menu_init_host(port: int) -> void:
-	_init_server(port) 
+	_init_server(port)
 
 func _on_game_config_menu_init_client(ip: String, port: int) -> void:
 	_connect_to_server(ip, port)
 
 func _on_game_config_menu_start_game() -> void:
-	GSLogger.debug("starting game")
-	_toggle_config_menu(false)
-	onready_paths.game.rpc("init_level_data", level_data.serialize())
-	onready_paths.game.rpc("init_players_data", serialize_players(_connected_players))
-	onready_paths.game.add_game_elements()
-	onready_paths.game.rpc("init_game_elements")
+	GSLogger.debug("going to the player selection menu - online")
+	onready_paths.game_config_menu.visible = false
+	pass # TODO : find a way to handle the absolute MESS this is going to be
 	
 func _on_game_game_over() -> void:
 	GSLogger.debug("game over")
 	onready_paths.game.reset()
-	_toggle_config_menu(true)
+	onready_paths.game_config_menu.visible = true
 	onready_paths.game_config_menu.reset()
 	FullScreenEffects.toggle_active(false)
 	for player_idx in _connected_players:
 		_delete_player(player_idx)
+
+func _on_player_selection_menu_players_ready(player_configs: Array) -> void:
+	GSLogger.debug("starting game")
+	onready_paths.player_selection_menu.hide()
+	_init_connected_players(player_configs)
+	onready_paths.game.rpc("init_level_data", level_data.serialize())
+	onready_paths.game.rpc("init_players_data", serialize_players(_connected_players))
+	onready_paths.game.add_game_elements()
+	onready_paths.game.rpc("init_game_elements")
