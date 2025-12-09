@@ -1,10 +1,12 @@
-[gd_scene load_steps=10 format=3 uid="uid://bvec14mifjb10"]
+[gd_scene load_steps=12 format=3 uid="uid://bvec14mifjb10"]
 
 [ext_resource type="Texture2D" uid="uid://btcmiq31qee7d" path="res://Scenes/Player/CharacterBody.png" id="1_d8p1a"]
 [ext_resource type="FontFile" uid="uid://dncl7x8virtei" path="res://Misc/InterDisplay-LightItalic.ttf" id="1_lmlyt"]
 [ext_resource type="Texture2D" uid="uid://dy0q7mppvj7j1" path="res://Scenes/Player/CharacterOutline.png" id="2_8m0b7"]
 [ext_resource type="Script" uid="uid://gnrl3lw6w35u" path="res://Scenes/UI/PlayersData/PlayerData/player_data_ui.gd" id="2_lmlyt"]
 [ext_resource type="Script" uid="uid://cuvvsdedto8fs" path="res://Scenes/UI/PlayersData/PlayerData/players_sprite.gd" id="3_e5y0j"]
+[ext_resource type="Texture2D" uid="uid://3twdntbapyus" path="res://Scenes/Player/Mouths/mouth_1.png" id="6_lmlyt"]
+[ext_resource type="Texture2D" uid="uid://c4sfyueb41dmc" path="res://Scenes/Player/Eyes/eyes_1.png" id="7_nipxg"]
 
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_8m0b7"]
 content_margin_left = 4.0
@@ -89,6 +91,28 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("2_8m0b7")
 expand_mode = 3
+
+[node name="Mouth" type="TextureRect" parent="VBoxContainer/Data/CenterContainer/Sprite"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("6_lmlyt")
+expand_mode = 5
+stretch_mode = 5
+
+[node name="Eyes" type="TextureRect" parent="VBoxContainer/Data/CenterContainer/Sprite"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("7_nipxg")
+expand_mode = 5
+stretch_mode = 5
 
 [node name="ImportantData" type="VBoxContainer" parent="VBoxContainer/Data"]
 layout_mode = 2

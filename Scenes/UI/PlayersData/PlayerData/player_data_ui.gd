@@ -3,7 +3,6 @@ extends Control
 
 ##### VARIABLES #####
 #---- CONSTANTS -----
-const TEMP_PLAYER_NAME := "temporary_man"
 const MOVEMENT_UI_COLOR := Color.YELLOW
 const POWERUP_UI_COLOR := Color.CYAN
 const LIVES_UI_COLOR := Color.RED
@@ -24,22 +23,24 @@ var _lives_ui
 	"sprites": {
 		"root": $"VBoxContainer/Data/CenterContainer/Sprite",
 		"body": $"VBoxContainer/Data/CenterContainer/Sprite/Body",
-		"outline": $"VBoxContainer/Data/CenterContainer/Sprite/Outline"
+		"outline": $"VBoxContainer/Data/CenterContainer/Sprite/Outline",
+		"mouth": $"VBoxContainer/Data/CenterContainer/Sprite/Mouth",
+		"eyes": $"VBoxContainer/Data/CenterContainer/Sprite/Eyes"
 	},
 	"important_data": $"VBoxContainer/Data/ImportantData",
 	"name": $"VBoxContainer/Name"
 }
 
 ##### PUBLIC METHODS #####
-func init(sprites: SpriteCustomizationResource, movement: int, powerup: int, lives: int) -> void:
+func init(sprites: SpriteCustomizationResource, movement: int, powerup: int, player_name: String, lives: int) -> void:
 	_clean()
-	_init_sprites(sprites.BODY_COLOR, sprites.OUTLINE_COLOR)
+	_init_sprites(sprites)
 	_init_movement(movement)
 	_add_h_separator()
 	_init_powerup(powerup)
 	_add_h_separator()
 	_init_lives(lives)
-	_init_name(TEMP_PLAYER_NAME)
+	_init_name(player_name)
 
 func update_movement(value) -> void:
 	if is_instance_valid(_movement_ui):
@@ -62,9 +63,11 @@ func _add_h_separator() -> void:
 	var separator = _separator.instantiate()
 	onready_paths.important_data.add_child(separator, true)
 
-func _init_sprites(body: Color, outline: Color) -> void:
-	onready_paths.sprites.body.modulate = body
-	onready_paths.sprites.outline.modulate = outline
+func _init_sprites(sprite: SpriteCustomizationResource) -> void:
+	onready_paths.sprites.body.modulate = sprite.BODY_COLOR
+	onready_paths.sprites.outline.modulate = sprite.OUTLINE_COLOR
+	onready_paths.sprites.mouth.texture = load(sprite.MOUTH_TEXTURE_PATH)
+	onready_paths.sprites.eyes.texture = load(sprite.EYES_TEXTURE_PATH)
 
 func _init_movement(handler: int) -> void:
 	var ui = StaticMovementBonusHandler.get_ui_scene(handler)
