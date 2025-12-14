@@ -5,7 +5,6 @@ extends Control
 signal init_host(port: int)
 signal init_client(ip: String, port: int)
 signal init_offline()
-signal start_game()
 
 ##### VARIABLES #####
 #---- CONSTANTS -----
@@ -18,9 +17,6 @@ const PLAYER_CUSTOMZATION_MENU_PATH := "res://Scenes/UI/PlayerCustomizationMenu/
 @onready var onready_paths := {
 	"option": $"GameTypeMenu/Containers/ConfigMenu/OptionButton",
 	"config_menu": $"GameTypeMenu/Containers/ConfigMenu",
-	"waiting_host": $"GameTypeMenu/Containers/WaitingHost",
-	"waiting_host_label": $"GameTypeMenu/Containers/WaitingHost/RichTextLabel",
-	"waiting_client": $"GameTypeMenu/Containers/WaitingClient",
 	"host": {
 		"menu": $"GameTypeMenu/Containers/ConfigMenu/HostMenu",
 		"port": $"GameTypeMenu/Containers/ConfigMenu/HostMenu/Port/LineEdit"
@@ -36,13 +32,8 @@ const PLAYER_CUSTOMZATION_MENU_PATH := "res://Scenes/UI/PlayerCustomizationMenu/
 }
 
 ##### PUBLIC METHODS #####
-func update_host_player_numbers(number_of_players: int) -> void:
-	onready_paths.waiting_host_label.text = WAITING_TEXT_HOST_TEMPLATE % number_of_players
-
 func reset() -> void:
 	onready_paths.config_menu.show()
-	onready_paths.waiting_host.hide()
-	onready_paths.waiting_client.hide()
 	_toggle_menu_visible(StaticUtils.GAME_TYPES.OFFLINE)
 
 ##### PROTECTED METHODS #####
@@ -60,14 +51,10 @@ func _option_index_to_game_type_enum(index: int) -> StaticUtils.GAME_TYPES:
 func _toggle_menu_visible(menu_type: StaticUtils.GAME_TYPES) -> void:
 	onready_paths.host.menu.visible = menu_type == StaticUtils.GAME_TYPES.HOST
 	onready_paths.client.menu.visible = menu_type == StaticUtils.GAME_TYPES.CLIENT
-	onready_paths.offline.menu.visible = menu_type == StaticUtils.GAME_TYPES.OFFLINE
 
 ##### SIGNAL MANAGEMENT #####
 func _on_option_button_item_selected(index: int) -> void:
 	_toggle_menu_visible(_option_index_to_game_type_enum(index))
-
-func _on_host_start_button_pressed() -> void:
-	emit_signal("start_game")
 
 func _on_toggle_music_toggled(toggled_on: bool) -> void:
 	RuntimeConfig.toggle_bgm(toggled_on)
@@ -105,8 +92,6 @@ func _on_start_button_pressed() -> void:
 			if port_str.is_valid_int():
 				emit_signal("init_host", int(port_str))
 				onready_paths.config_menu.hide()
-				onready_paths.waiting_host.show()
-				update_host_player_numbers(0)
 			else:
 				GSLogger.error("Port %s is not valid !" % port_str)
 		StaticUtils.GAME_TYPES.CLIENT:
@@ -115,7 +100,6 @@ func _on_start_button_pressed() -> void:
 			if port_str.is_valid_int() and ip.is_valid_ip_address():
 				emit_signal("init_client", ip, int(port_str))
 				onready_paths.config_menu.hide()
-				onready_paths.waiting_client.show()
 			else:
 				GSLogger.error("Port %s or ip %s is not valid !" % [port_str, ip])
 

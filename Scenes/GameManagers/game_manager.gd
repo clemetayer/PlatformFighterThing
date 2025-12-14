@@ -4,6 +4,7 @@ class_name GameManager
 
 ##### VARIABLES #####
 #---- CONSTANTS -----
+const BASE_LIVES_AMOUNT := 3
 const SPRITE_PRESETS_PATH := "res://Scenes/Player/SpriteCustomizationPresets/presets.tres"
 const INPUT_PLAYER_CONFIG_PATH := "res://Scenes/Player/PlayerConfigs/input_player_config.tres"
 const RECORD_PLAYER_CONFIG_PATH := "res://Scenes/Player/PlayerConfigs/record_player_config.tres"
@@ -21,7 +22,7 @@ var _connected_players := {}
 #==== ONREADY ====
 @onready var onready_paths := {
 	"game_config_menu": $"GameConfigMenu",
-	"player_selection_menu": $"PlayerSelectionMenu",
+	"player_selection_menu": $"PlayerSelectionMenuStrategy",
 	"game": $"Game"
 }
 
@@ -83,23 +84,11 @@ func _create_level_data() -> LevelConfig:
 
 func _add_player(id: int) -> void:
 	GSLogger.info("client %d connected" % id)
-	_connected_players[id] = {
-		"config": _create_player_data(INPUT_PLAYER_CONFIG_PATH)
-	}
-	onready_paths.game_config_menu.update_host_player_numbers(_connected_players.size())
+	onready_paths.player_selection_menu.add_player_connected()
 
 func _delete_player(id: int) -> void:
 	GSLogger.info("client %d disconnected" % id)
-	_connected_players.erase(id)
-	onready_paths.game_config_menu.update_host_player_numbers(_connected_players.size())
-
-func _add_offline_default_players() -> void:
-	_connected_players[1] = {
-		"config": _create_player_data(INPUT_PLAYER_CONFIG_PATH)
-	}
-	_connected_players[2] = {
-		"config": _create_player_data(RECORD_PLAYER_CONFIG_PATH)
-	}
+	onready_paths.player_selection_menu.remove_connected_player(id)
 
 func serialize_players(players: Dictionary) -> Dictionary:
 	var serialized_players = {}
@@ -109,11 +98,26 @@ func serialize_players(players: Dictionary) -> Dictionary:
 		}
 	return serialized_players
 
+
+func _enrich_player_configs(player_configs: Dictionary) -> Dictionary:
+	var formatted_players := {}
+	for player_id in player_configs.keys():
+		formatted_players[player_id] = {
+			"config": player_configs[player_id],
+			"lives": BASE_LIVES_AMOUNT
+		}
+	return formatted_players
+
 @rpc("authority", "call_local", "reliable")
 func _show_player_selection_menu() -> void:
 	onready_paths.player_selection_menu.visible = true
 
-func _init_connected_players(players: Array) -> void:
+@rpc("authority", "call_local", "reliable")
+func _hide_and_reset_player_selection_menus() -> void:
+	onready_paths.player_selection_menu.hide()
+	onready_paths.player_selection_menu.reset()
+
+func _init_connected_players(players: Dictionary) -> void:
 	_connected_players = {}
 	for player_idx in range(0, players.size()):
 		_connected_players[player_idx] = {
@@ -124,18 +128,20 @@ func _init_connected_players(players: Array) -> void:
 func _on_game_config_menu_init_offline() -> void:
 	GSLogger.debug("going to the player selection menu - offline")
 	onready_paths.game_config_menu.visible = false
-	_show_player_selection_menu()
+	onready_paths.player_selection_menu.visible = true
+	onready_paths.player_selection_menu.init_offline()
 
 func _on_game_config_menu_init_host(port: int) -> void:
 	_init_server(port)
+	onready_paths.game_config_menu.visible = false
+	onready_paths.player_selection_menu.visible = true
+	onready_paths.player_selection_menu.init_host()
 
 func _on_game_config_menu_init_client(ip: String, port: int) -> void:
 	_connect_to_server(ip, port)
-
-func _on_game_config_menu_start_game() -> void:
-	GSLogger.debug("going to the player selection menu - online")
 	onready_paths.game_config_menu.visible = false
-	pass # TODO : find a way to handle the absolute MESS this is going to be
+	onready_paths.player_selection_menu.visible = true
+	onready_paths.player_selection_menu.init_client()
 	
 func _on_game_game_over() -> void:
 	GSLogger.debug("game over")
@@ -146,11 +152,11 @@ func _on_game_game_over() -> void:
 	for player_idx in _connected_players:
 		_delete_player(player_idx)
 
-func _on_player_selection_menu_players_ready(player_configs: Array) -> void:
+func _on_player_selection_menu_strategy_players_ready(player_configs: Dictionary) -> void:
 	GSLogger.debug("starting game")
-	onready_paths.player_selection_menu.hide()
-	_init_connected_players(player_configs)
+	_connected_players = _enrich_player_configs(player_configs)
+	rpc("_hide_and_reset_player_selection_menus")
 	onready_paths.game.rpc("init_level_data", level_data.serialize())
-	onready_paths.game.rpc("init_players_data", serialize_players(_connected_players))
+	onready_paths.game.rpc("init_players_data", _connected_players)
 	onready_paths.game.add_game_elements()
 	onready_paths.game.rpc("init_game_elements")
