@@ -6,12 +6,7 @@ extends VBoxContainer
 #==== ONREADY ====
 @onready var onready_paths := {
 	"name": $"Name",
-	"player_sprite": {
-		"body": $"Player/Body",
-		"outline": $"Player/Outline",
-		"eyes": $"Player/Eyes",
-		"mouth": $"Player/Mouth"
-	},
+	"player_sprite": $"Player",
 	"weapons": {
 		"primary": $"Weapons/Primary",
 		"powerup": $"Weapons/Powerup",
@@ -22,10 +17,7 @@ extends VBoxContainer
 ##### PUBLIC METHODS #####
 func update_player(player_config: PlayerConfig) -> void:
 	update_name(player_config.PLAYER_NAME)
-	update_body(player_config.SPRITE_CUSTOMIZATION.BODY_COLOR)
-	update_outline(player_config.SPRITE_CUSTOMIZATION.OUTLINE_COLOR)
-	update_eyes(load(player_config.SPRITE_CUSTOMIZATION.EYES_TEXTURE_PATH))
-	update_mouth(load(player_config.SPRITE_CUSTOMIZATION.MOUTH_TEXTURE_PATH))
+	onready_paths.player_sprite.update_sprite(player_config.SPRITE_CUSTOMIZATION)
 	update_primary_weapon(player_config.PRIMARY_WEAPON)
 	update_powerup(player_config.POWERUP_HANDLER)
 	update_movement_bonus(player_config.MOVEMENT_BONUS_HANDLER)
@@ -43,13 +35,13 @@ func update_name(player_name: String) -> void:
 	onready_paths.name.text = player_name
 
 func update_body(color: Color) -> void:
-	onready_paths.player_sprite.body.modulate = color
+	onready_paths.player_sprite.update_body(color)
 
 func update_outline(color: Color) -> void:
-	onready_paths.player_sprite.outline.modulate = color
+	onready_paths.player_sprite.update_outline(color)
 
 func update_eyes(texture: Texture2D) -> void:
-	onready_paths.player_sprite.eyes.texture = texture
+	onready_paths.player_sprite.update_eyes(texture)
 
 func update_mouth(texture: Texture2D) -> void:
-	onready_paths.player_sprite.mouth.texture = texture
+	onready_paths.player_sprite.update_mouth(texture)

@@ -149,8 +149,6 @@ func _on_game_game_over() -> void:
 	onready_paths.game_config_menu.visible = true
 	onready_paths.game_config_menu.reset()
 	FullScreenEffects.toggle_active(false)
-	for player_idx in _connected_players:
-		_delete_player(player_idx)
 
 func _on_player_selection_menu_strategy_players_ready(player_configs: Dictionary) -> void:
 	GSLogger.debug("starting game")

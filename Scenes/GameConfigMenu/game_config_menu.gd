@@ -25,9 +25,6 @@ const PLAYER_CUSTOMZATION_MENU_PATH := "res://Scenes/UI/PlayerCustomizationMenu/
 		"menu": $"GameTypeMenu/Containers/ConfigMenu/ClientMenu",
 		"ip": $"GameTypeMenu/Containers/ConfigMenu/ClientMenu/IP/LineEdit",
 		"port": $"GameTypeMenu/Containers/ConfigMenu/ClientMenu/Port/LineEdit"
-	},
-	"offline": {
-		"menu": $"GameTypeMenu/Containers/ConfigMenu/OfflineMenu"
 	}
 }
 

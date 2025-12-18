@@ -8,7 +8,7 @@ signal players_ready(player_configs: Array)
 #---- STANDARD -----
 #==== ONREADY ====
 @onready var onready_paths := {
-	"player_selection_items": $"VBoxContainer/PlayerGrid"
+	"player_selection_items": $"MarginContainer/VBoxContainer/PlayerGrid"
 }
 
 ##### PROTECTED METHODS #####

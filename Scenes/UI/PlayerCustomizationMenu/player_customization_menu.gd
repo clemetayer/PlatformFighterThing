@@ -53,7 +53,7 @@ func _load_default_config() -> void:
 	
 func _update_elements_from_config(config: PlayerConfig) -> void:
 	onready_paths.player_config_display.update_player(config)
-	onready_paths.customization.update_config(config)
+	onready_paths.customization.update_config(config.SPRITE_CUSTOMIZATION)
 	onready_paths.name.update_player_name(config.PLAYER_NAME)
 	onready_paths.elimination_text.set_elimination_text(config.ELIMINATION_TEXT)
 

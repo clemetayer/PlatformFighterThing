@@ -64,6 +64,7 @@ script = ExtResource("7_10qpb")
 [node name="DeletePlayer" type="Button" parent="Buttons"]
 layout_mode = 2
 size_flags_vertical = 3
+theme_type_variation = &"StdCancelButton"
 icon = ExtResource("7_fv8mp")
 icon_alignment = 1
 expand_icon = true

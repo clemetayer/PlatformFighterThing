@@ -1,4 +1,4 @@
-extends MarginContainer
+extends Control
 # Handles one item for the player selection menu
 
 ##### SIGNALS #####
@@ -11,12 +11,12 @@ var _current_config: PlayerConfig
 
 #==== ONREADY ====
 @onready var onready_paths := {
-	"add_player_button": $"AddPlayer",
-	"main_menu": $"Main",
-	"presets_menu": $"Presets",
-	"primary_weapons_menu": $"PrimaryWeaponsGrid",
-	"movement_bonus_menu": $"MovementBonusGrid",
-	"powerup_menu": $"PowerupGrid"
+	"add_player_button": $"Panel/AddPlayer",
+	"main_menu": $"Panel/Main",
+	"presets_menu": $"Panel/Presets",
+	"primary_weapons_menu": $"Panel/PrimaryWeaponsGrid",
+	"movement_bonus_menu": $"Panel/MovementBonusGrid",
+	"powerup_menu": $"Panel/PowerupGrid"
 }
 
 ##### PROCESSING #####

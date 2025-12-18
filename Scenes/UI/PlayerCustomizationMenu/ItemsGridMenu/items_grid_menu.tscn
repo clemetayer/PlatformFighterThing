@@ -103,13 +103,16 @@ autowrap_mode = 2
 
 [node name="OkayButton" type="Button" parent="VBoxContainer"]
 layout_mode = 2
-text = "Yep, i want this"
+size_flags_horizontal = 4
+theme_type_variation = &"StdImportantButton"
+text = " Yep, i want this "
 
 [node name="CloseButton" type="Button" parent="."]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 0
+theme_type_variation = &"StdCancelButton"
 icon = ExtResource("1_dksml")
 expand_icon = true
 

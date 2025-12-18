@@ -43,9 +43,10 @@ theme_override_constants/margin_bottom = 32
 
 [node name="TabContainer" type="TabContainer" parent="MarginContainer"]
 layout_mode = 2
-current_tab = 0
+current_tab = 3
 
 [node name="PlayerConfigDisplay" type="MarginContainer" parent="MarginContainer/TabContainer"]
+visible = false
 layout_mode = 2
 theme_override_constants/margin_left = 50
 theme_override_constants/margin_top = 50
@@ -69,7 +70,6 @@ layout_mode = 2
 metadata/_tab_index = 2
 
 [node name="EliminationText" parent="MarginContainer/TabContainer" instance=ExtResource("6_6j346")]
-visible = false
 layout_mode = 2
 
 [node name="Customization" parent="MarginContainer/TabContainer" instance=ExtResource("5_riqtp")]
