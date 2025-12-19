@@ -14,12 +14,12 @@ var _current_config: PlayerConfig
 
 #==== ONREADY ====
 @onready var onready_paths := {
-	"menu_root": $"MenuRoot",
+	"menu_root": $"MarginContainer",
 	"waiting_players_label": $"WaitingForOtherPlayersText",
-	"main_menu": $"MenuRoot/TabContainer/PlayerConfig",
-	"primary_weapons_menu": $"MenuRoot/TabContainer/PrimaryWeapon",
-	"movement_bonus_menu": $"MenuRoot/TabContainer/MovementBonus",
-	"powerup_menu": $"MenuRoot/TabContainer/Powerup"
+	"main_menu": $"MarginContainer/MenuRoot/TabContainer/PlayerConfig/PlayerConfig",
+	"primary_weapons_menu": $"MarginContainer/MenuRoot/TabContainer/PrimaryWeapon",
+	"movement_bonus_menu": $"MarginContainer/MenuRoot/TabContainer/MovementBonus",
+	"powerup_menu": $"MarginContainer/MenuRoot/TabContainer/Powerup"
 }
 
 ##### PROCESSING #####

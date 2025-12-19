@@ -47,6 +47,7 @@ alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Control/VBoxContainer"]
 layout_mode = 2
+size_flags_horizontal = 4
 theme_override_constants/separation = 128
 alignment = 1
 
@@ -122,6 +123,7 @@ text = "Randomize !"
 
 [node name="SpritePreview" parent="VBoxContainer/Control/VBoxContainer/HBoxContainer" instance=ExtResource("3_3n04h")]
 layout_mode = 2
+size_flags_horizontal = 6
 
 [node name="Eyes" type="Control" parent="VBoxContainer/Control"]
 visible = false
