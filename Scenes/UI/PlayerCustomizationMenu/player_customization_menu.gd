@@ -11,7 +11,7 @@ var _current_config: PlayerConfig
 
 #==== ONREADY ====
 @onready var onready_paths := {
-	"player_config_display": $"MarginContainer/TabContainer/PlayerConfigDisplay/PlayerConfigDisplay",
+	"player_config_display": $"MarginContainer/TabContainer/PlayerConfig/PlayerConfigDisplay",
 	"presets": $"MarginContainer/TabContainer/Presets",
 	"name": $"MarginContainer/TabContainer/Name",
 	"elimination_text": $"MarginContainer/TabContainer/EliminationText",
