@@ -81,18 +81,21 @@ metadata/_tab_index = 4
 visible = false
 layout_mode = 2
 CAN_BE_CLOSED = false
+SMALL = false
 metadata/_tab_index = 5
 
 [node name="MovementBonus" parent="MarginContainer/TabContainer" instance=ExtResource("6_riqtp")]
 visible = false
 layout_mode = 2
 CAN_BE_CLOSED = false
+SMALL = false
 metadata/_tab_index = 6
 
 [node name="Powerup" parent="MarginContainer/TabContainer" instance=ExtResource("6_riqtp")]
 visible = false
 layout_mode = 2
 CAN_BE_CLOSED = false
+SMALL = false
 metadata/_tab_index = 7
 
 [node name="BackButton" type="Button" parent="."]

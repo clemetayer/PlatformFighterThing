@@ -23,7 +23,6 @@ theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 script = ExtResource("1_bhx7t")
-CAN_BE_CLOSED = null
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 2
@@ -47,9 +46,10 @@ size_flags_vertical = 3
 size_flags_stretch_ratio = 6.0
 auto_width = true
 auto_height = true
-item_count = 11
+item_count = 16
 max_columns = 8
 same_column_width = true
+icon_scale = 4.0
 fixed_icon_size = Vector2i(32, 32)
 item_0/icon = ExtResource("1_amnap")
 item_1/icon = ExtResource("1_amnap")
@@ -62,6 +62,10 @@ item_7/icon = ExtResource("1_amnap")
 item_8/icon = ExtResource("1_amnap")
 item_9/icon = ExtResource("1_amnap")
 item_10/icon = ExtResource("1_amnap")
+item_11/icon = ExtResource("1_amnap")
+item_12/icon = ExtResource("1_amnap")
+item_13/icon = ExtResource("1_amnap")
+item_14/icon = ExtResource("1_amnap")
 
 [node name="Description" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2

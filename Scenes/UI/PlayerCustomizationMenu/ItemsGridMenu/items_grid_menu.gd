@@ -6,8 +6,19 @@ signal close_triggered
 signal item_selected(item: ItemGridMenuElement)
 
 ##### VARIABLES #####
+#---- CONSTANTS -----
+const ICON_SCALE_SMALL := 1.0
+const ICON_SCALE_BIG := 2.0
+const ITEMS_PER_LINE_SMALL := 8
+const ITEMS_PER_LINE_BIG := 16
+const TITLE_FONT_SIZE_SMALL := 16
+const TITLE_FONT_SIZE_BIG := 32
+const DESCRIPTION_FONT_SIZE_SMALL := 10
+const DESCRIPTION_FONT_SIZE_BIG := 16
+
 #---- EXPORTS -----
 @export var CAN_BE_CLOSED := true
+@export var SMALL := true
 
 #---- STANDARD -----
 #==== PRIVATE ====
@@ -27,6 +38,7 @@ var _items: Array = []
 ##### PROCESSING #####
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	_resize_items()
 	onready_paths.close_button.visible = CAN_BE_CLOSED
 
 
@@ -41,6 +53,12 @@ func set_items(items: Array) -> void:
 			GSLogger.error("item %s not an ItemGridMenuRessource, not adding" % item)
 
 ##### PROTECTED METHODS #####
+func _resize_items() -> void:
+	onready_paths.description.title.label_settings.font_size = TITLE_FONT_SIZE_SMALL if SMALL else TITLE_FONT_SIZE_BIG
+	onready_paths.description.description.label_settings.font_size = DESCRIPTION_FONT_SIZE_SMALL if SMALL else DESCRIPTION_FONT_SIZE_BIG
+	onready_paths.items.icon_scale = ICON_SCALE_SMALL if SMALL else ICON_SCALE_BIG
+	onready_paths.items.max_columns = ITEMS_PER_LINE_SMALL if SMALL else ITEMS_PER_LINE_BIG
+
 func _set_item(item: ItemGridMenuElement) -> void:
 	_items.append(item)
 	onready_paths.items.add_icon_item(load(item.ICON_PATH))

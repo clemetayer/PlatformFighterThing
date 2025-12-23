@@ -66,24 +66,28 @@ metadata/_tab_index = 1
 visible = false
 layout_mode = 2
 CAN_BE_CLOSED = false
+SMALL = false
 metadata/_tab_index = 2
 
 [node name="MovementBonus" parent="MarginContainer/MenuRoot/TabContainer" instance=ExtResource("2_xuhwf")]
 visible = false
 layout_mode = 2
 CAN_BE_CLOSED = false
+SMALL = false
 metadata/_tab_index = 3
 
 [node name="Powerup" parent="MarginContainer/MenuRoot/TabContainer" instance=ExtResource("2_xuhwf")]
 visible = false
 layout_mode = 2
 CAN_BE_CLOSED = false
+SMALL = false
 metadata/_tab_index = 4
 
 [node name="ReadyButton" type="Button" parent="MarginContainer/MenuRoot"]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_type_variation = &"StdImportantButton"
+theme_override_font_sizes/font_size = 32
 text = " Ready ! "
 
 [node name="WaitingForOtherPlayersText" type="RichTextLabel" parent="."]
