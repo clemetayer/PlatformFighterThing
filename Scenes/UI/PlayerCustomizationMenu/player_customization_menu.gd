@@ -103,3 +103,11 @@ func _on_elimination_text_elimination_text_updated(new_text: String) -> void:
 
 func _on_back_button_pressed() -> void:
 	get_tree().change_scene_to_file(GAME_MANAGER_SCENE)
+
+func _on_customization_eyes_color_changed(eyes_color: Color) -> void:
+	_current_config.SPRITE_CUSTOMIZATION.EYES_COLOR = eyes_color
+	onready_paths.player_config_display.update_eyes_color(eyes_color)
+
+func _on_customization_mouth_color_changed(mouth_color: Color) -> void:
+	_current_config.SPRITE_CUSTOMIZATION.MOUTH_COLOR = mouth_color
+	onready_paths.player_config_display.update_mouth_color(mouth_color)

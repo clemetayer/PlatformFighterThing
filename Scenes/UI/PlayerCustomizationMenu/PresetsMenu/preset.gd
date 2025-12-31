@@ -27,4 +27,6 @@ func set_preset(preset: PlayerConfig) -> void:
 	onready_paths.sprite.body.modulate = preset.SPRITE_CUSTOMIZATION.BODY_COLOR
 	onready_paths.sprite.outline.modulate = preset.SPRITE_CUSTOMIZATION.OUTLINE_COLOR
 	onready_paths.sprite.eyes.texture = load(preset.SPRITE_CUSTOMIZATION.EYES_TEXTURE_PATH)
+	onready_paths.sprite.eyes.modulate = preset.SPRITE_CUSTOMIZATION.EYES_COLOR
 	onready_paths.sprite.mouth.texture = load(preset.SPRITE_CUSTOMIZATION.MOUTH_TEXTURE_PATH)
+	onready_paths.sprite.mouth.modulate = preset.SPRITE_CUSTOMIZATION.MOUTH_COLOR

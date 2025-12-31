@@ -5,8 +5,8 @@
 [ext_resource type="Texture2D" uid="uid://dy0q7mppvj7j1" path="res://Scenes/Player/CharacterOutline.png" id="2_8m0b7"]
 [ext_resource type="Script" uid="uid://gnrl3lw6w35u" path="res://Scenes/UI/PlayersData/PlayerData/player_data_ui.gd" id="2_lmlyt"]
 [ext_resource type="Script" uid="uid://cuvvsdedto8fs" path="res://Scenes/UI/PlayersData/PlayerData/players_sprite.gd" id="3_e5y0j"]
-[ext_resource type="Texture2D" uid="uid://3twdntbapyus" path="res://Scenes/Player/Mouths/mouth_1.png" id="6_lmlyt"]
-[ext_resource type="Texture2D" uid="uid://c4sfyueb41dmc" path="res://Scenes/Player/Eyes/eyes_1.png" id="7_nipxg"]
+[ext_resource type="Texture2D" uid="uid://d3usi3hq1jbes" path="res://Scenes/Player/Mouths/mouth_1.PNG" id="6_lmlyt"]
+[ext_resource type="Texture2D" uid="uid://dcr14i6u2i7da" path="res://Scenes/Player/Eyes/eyes_1.PNG" id="7_nipxg"]
 
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_8m0b7"]
 content_margin_left = 4.0

@@ -29,3 +29,15 @@ static func create_folder_if_not_exists(folder_path: String) -> void:
 	var dir_access = DirAccess.open("user://")
 	if not dir_access.dir_exists(folder_path):
 		dir_access.make_dir_recursive(folder_path)
+
+static func list_files_in_dir(dir_path : String) -> Array:
+	var files = []
+	var dir_access = DirAccess.open(dir_path)
+	if dir_access:
+		dir_access.list_dir_begin()
+		var file = dir_access.get_next()
+		while file!= "":
+			if not dir_access.current_is_dir():
+				files.append(file)
+			file = dir_access.get_next()
+	return files

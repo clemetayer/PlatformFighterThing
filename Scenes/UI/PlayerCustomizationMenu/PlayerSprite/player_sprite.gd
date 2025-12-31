@@ -16,7 +16,9 @@ func update_sprite(sprite_config: SpriteCustomizationResource) -> void:
 	update_body(sprite_config.BODY_COLOR)
 	update_outline(sprite_config.OUTLINE_COLOR)
 	update_eyes(load(sprite_config.EYES_TEXTURE_PATH))
+	update_eyes_color(sprite_config.EYES_COLOR)
 	update_mouth(load(sprite_config.MOUTH_TEXTURE_PATH))
+	update_mouth_color(sprite_config.MOUTH_COLOR)
 
 func update_body(color: Color) -> void:
 	onready_paths.body.modulate = color
@@ -27,5 +29,11 @@ func update_outline(color: Color) -> void:
 func update_eyes(texture: Texture2D) -> void:
 	onready_paths.eyes.texture = texture
 
+func update_eyes_color(color : Color) -> void:
+	onready_paths.eyes.modulate = color
+
 func update_mouth(texture: Texture2D) -> void:
 	onready_paths.mouth.texture = texture
+
+func update_mouth_color(color: Color) -> void:
+	onready_paths.mouth.modulate = color

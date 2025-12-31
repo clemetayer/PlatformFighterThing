@@ -43,5 +43,11 @@ func update_outline(color: Color) -> void:
 func update_eyes(texture: Texture2D) -> void:
 	onready_paths.player_sprite.update_eyes(texture)
 
+func update_eyes_color(color: Color) -> void:
+	onready_paths.player_sprite.update_eyes_color(color)
+
 func update_mouth(texture: Texture2D) -> void:
 	onready_paths.player_sprite.update_mouth(texture)
+
+func update_mouth_color(color: Color) -> void:
+	onready_paths.player_sprite.update_mouth_color(color)

@@ -67,7 +67,9 @@ func _init_sprites(sprite: SpriteCustomizationResource) -> void:
 	onready_paths.sprites.body.modulate = sprite.BODY_COLOR
 	onready_paths.sprites.outline.modulate = sprite.OUTLINE_COLOR
 	onready_paths.sprites.mouth.texture = load(sprite.MOUTH_TEXTURE_PATH)
+	onready_paths.sprites.mouth.modulate = sprite.MOUTH_COLOR
 	onready_paths.sprites.eyes.texture = load(sprite.EYES_TEXTURE_PATH)
+	onready_paths.sprites.eyes.modulate = sprite.EYES_COLOR
 
 func _init_movement(handler: int) -> void:
 	var ui = StaticMovementBonusHandler.get_ui_scene(handler)

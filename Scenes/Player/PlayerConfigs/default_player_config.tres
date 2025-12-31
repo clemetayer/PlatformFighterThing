@@ -5,8 +5,8 @@
 
 [sub_resource type="Resource" id="Resource_fqva2"]
 script = ExtResource("1_614mk")
-EYES_TEXTURE_PATH = "res://Scenes/Player/Eyes/eyes_1.png"
-MOUTH_TEXTURE_PATH = "res://Scenes/Player/Mouths/mouth_1.png"
+EYES_TEXTURE_PATH = "res://Scenes/Player/Eyes/eyes_1.PNG"
+MOUTH_TEXTURE_PATH = "res://Scenes/Player/Mouths/mouth_1.PNG"
 metadata/_custom_type_script = "uid://cceeupk77aehe"
 
 [resource]

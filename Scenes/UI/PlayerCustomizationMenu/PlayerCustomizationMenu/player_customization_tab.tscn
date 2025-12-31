@@ -3,9 +3,9 @@
 [ext_resource type="Texture2D" uid="uid://bqpre5umo4ki0" path="res://Scenes/UI/PlayerCustomizationMenu/edit.svg" id="1_cnn6n"]
 [ext_resource type="Script" uid="uid://velkdm5chkst" path="res://Scenes/UI/PlayerCustomizationMenu/PlayerCustomizationMenu/player_customization_tab.gd" id="1_q1vwm"]
 [ext_resource type="PackedScene" uid="uid://byfuym260iolg" path="res://Scenes/UI/PlayerCustomizationMenu/PlayerSprite/player_sprite.tscn" id="3_3n04h"]
-[ext_resource type="Texture2D" uid="uid://c4sfyueb41dmc" path="res://Scenes/Player/Eyes/eyes_1.png" id="3_vtim2"]
-[ext_resource type="Texture2D" uid="uid://3twdntbapyus" path="res://Scenes/Player/Mouths/mouth_1.png" id="4_spjen"]
+[ext_resource type="Texture2D" uid="uid://dcr14i6u2i7da" path="res://Scenes/Player/Eyes/eyes_1.PNG" id="4_3n04h"]
 [ext_resource type="Texture2D" uid="uid://1jtgnfgq03qx" path="res://Scenes/UI/PlayerCustomizationMenu/close.svg" id="4_whasm"]
+[ext_resource type="Texture2D" uid="uid://d3usi3hq1jbes" path="res://Scenes/Player/Mouths/mouth_1.PNG" id="6_fx80f"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_nf1j6"]
 font_size = 32
@@ -92,7 +92,7 @@ theme_override_constants/separation = 32
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-text = "           "
+text = "               "
 edit_alpha = false
 edit_intensity = false
 
@@ -102,19 +102,33 @@ text = "           "
 edit_alpha = false
 edit_intensity = false
 
-[node name="EyesEditButton" type="Button" parent="VBoxContainer/Control/VBoxContainer/HBoxContainer/VBoxContainer/Elements/Buttons"]
+[node name="Eyes" type="HBoxContainer" parent="VBoxContainer/Control/VBoxContainer/HBoxContainer/VBoxContainer/Elements/Buttons"]
+layout_mode = 2
+
+[node name="EyesEditButton" type="Button" parent="VBoxContainer/Control/VBoxContainer/HBoxContainer/VBoxContainer/Elements/Buttons/Eyes"]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 icon = ExtResource("1_cnn6n")
 icon_alignment = 1
 expand_icon = true
 
-[node name="MouthEditButton" type="Button" parent="VBoxContainer/Control/VBoxContainer/HBoxContainer/VBoxContainer/Elements/Buttons"]
+[node name="EyesColorPickerButton" type="ColorPickerButton" parent="VBoxContainer/Control/VBoxContainer/HBoxContainer/VBoxContainer/Elements/Buttons/Eyes"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Mouth" type="HBoxContainer" parent="VBoxContainer/Control/VBoxContainer/HBoxContainer/VBoxContainer/Elements/Buttons"]
+layout_mode = 2
+
+[node name="MouthEditButton" type="Button" parent="VBoxContainer/Control/VBoxContainer/HBoxContainer/VBoxContainer/Elements/Buttons/Mouth"]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 icon = ExtResource("1_cnn6n")
 icon_alignment = 1
 expand_icon = true
+
+[node name="MouthColorPickerButton" type="ColorPickerButton" parent="VBoxContainer/Control/VBoxContainer/HBoxContainer/VBoxContainer/Elements/Buttons/Mouth"]
+layout_mode = 2
+size_flags_horizontal = 3
 
 [node name="RandomizeButton" type="Button" parent="VBoxContainer/Control/VBoxContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
@@ -145,7 +159,7 @@ item_count = 1
 max_columns = 8
 same_column_width = true
 fixed_icon_size = Vector2i(128, 128)
-item_0/icon = ExtResource("3_vtim2")
+item_0/icon = ExtResource("4_3n04h")
 
 [node name="CloseButton" type="Button" parent="VBoxContainer/Control/Eyes"]
 layout_mode = 1
@@ -178,7 +192,7 @@ item_count = 1
 max_columns = 8
 same_column_width = true
 fixed_icon_size = Vector2i(128, 128)
-item_0/icon = ExtResource("4_spjen")
+item_0/icon = ExtResource("6_fx80f")
 
 [node name="CloseButton" type="Button" parent="VBoxContainer/Control/Mouth"]
 layout_mode = 1
@@ -193,8 +207,10 @@ expand_icon = true
 
 [connection signal="color_changed" from="VBoxContainer/Control/VBoxContainer/HBoxContainer/VBoxContainer/Elements/Buttons/MainColorPicker" to="." method="_on_main_color_picker_color_changed"]
 [connection signal="color_changed" from="VBoxContainer/Control/VBoxContainer/HBoxContainer/VBoxContainer/Elements/Buttons/SecondaryColorPicker" to="." method="_on_secondary_color_picker_color_changed"]
-[connection signal="pressed" from="VBoxContainer/Control/VBoxContainer/HBoxContainer/VBoxContainer/Elements/Buttons/EyesEditButton" to="." method="_on_eyes_edit_button_pressed"]
-[connection signal="pressed" from="VBoxContainer/Control/VBoxContainer/HBoxContainer/VBoxContainer/Elements/Buttons/MouthEditButton" to="." method="_on_mouth_edit_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/Control/VBoxContainer/HBoxContainer/VBoxContainer/Elements/Buttons/Eyes/EyesEditButton" to="." method="_on_eyes_edit_button_pressed"]
+[connection signal="color_changed" from="VBoxContainer/Control/VBoxContainer/HBoxContainer/VBoxContainer/Elements/Buttons/Eyes/EyesColorPickerButton" to="." method="_on_eyes_color_picker_button_color_changed"]
+[connection signal="pressed" from="VBoxContainer/Control/VBoxContainer/HBoxContainer/VBoxContainer/Elements/Buttons/Mouth/MouthEditButton" to="." method="_on_mouth_edit_button_pressed"]
+[connection signal="color_changed" from="VBoxContainer/Control/VBoxContainer/HBoxContainer/VBoxContainer/Elements/Buttons/Mouth/MouthColorPickerButton" to="." method="_on_mouth_color_picker_button_color_changed"]
 [connection signal="pressed" from="VBoxContainer/Control/VBoxContainer/HBoxContainer/VBoxContainer/RandomizeButton" to="." method="_on_randomize_button_pressed"]
 [connection signal="item_activated" from="VBoxContainer/Control/Eyes/EyesItems" to="." method="_on_eyes_items_item_activated"]
 [connection signal="pressed" from="VBoxContainer/Control/Eyes/CloseButton" to="." method="_on_eyes_close_button_pressed"]

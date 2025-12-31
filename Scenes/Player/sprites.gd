@@ -20,8 +20,10 @@ func load_sprite_preset(sprite_customization: SpriteCustomizationResource) -> vo
 	SPRITE_CUSTOMIZATION = sprite_customization
 	onready_paths.body.modulate = SPRITE_CUSTOMIZATION.BODY_COLOR
 	onready_paths.outline.modulate = SPRITE_CUSTOMIZATION.OUTLINE_COLOR
-	# onready_paths.eyes.texture = load(sprite_customization.EYES_TEXTURE_PATH)
-	# onready_paths.mouth.texture = load(sprite_customization.MOUTH_TEXTURE_PATH)
+	onready_paths.eyes.texture = load(sprite_customization.EYES_TEXTURE_PATH)
+	onready_paths.eyes.modulate = sprite_customization.EYES_COLOR
+	onready_paths.mouth.texture = load(sprite_customization.MOUTH_TEXTURE_PATH)
+	onready_paths.mouth.modulate = sprite_customization.MOUTH_COLOR
 
 func aim(relative_aim_position: Vector2) -> void:
 	var analog_angle = Vector2.ZERO.angle_to_point(relative_aim_position)

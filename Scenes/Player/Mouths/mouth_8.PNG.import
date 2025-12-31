@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://3twdntbapyus"
-path="res://.godot/imported/mouth_1.png-2d23f0d5f5a953a7322ccfd71065ecea.ctex"
+uid="uid://dejd7gjfjpmpk"
+path="res://.godot/imported/mouth_8.PNG-ea1e69d591777dc41083f8c1f455799e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Scenes/Player/Mouths/mouth_1.png"
-dest_files=["res://.godot/imported/mouth_1.png-2d23f0d5f5a953a7322ccfd71065ecea.ctex"]
+source_file="res://Scenes/Player/Mouths/mouth_8.PNG"
+dest_files=["res://.godot/imported/mouth_8.PNG-ea1e69d591777dc41083f8c1f455799e.ctex"]
 
 [params]
 

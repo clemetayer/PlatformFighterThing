@@ -3,8 +3,8 @@
 [ext_resource type="Script" uid="uid://n32yq35cui7r" path="res://Scenes/UI/PlayerCustomizationMenu/PlayerSprite/player_sprite.gd" id="1_nht01"]
 [ext_resource type="Texture2D" uid="uid://btcmiq31qee7d" path="res://Scenes/Player/CharacterBody.png" id="1_tdr13"]
 [ext_resource type="Texture2D" uid="uid://dy0q7mppvj7j1" path="res://Scenes/Player/CharacterOutline.png" id="2_nht01"]
-[ext_resource type="Texture2D" uid="uid://c4sfyueb41dmc" path="res://Scenes/Player/Eyes/eyes_1.png" id="3_capd8"]
-[ext_resource type="Texture2D" uid="uid://3twdntbapyus" path="res://Scenes/Player/Mouths/mouth_1.png" id="4_7d004"]
+[ext_resource type="Texture2D" uid="uid://dcr14i6u2i7da" path="res://Scenes/Player/Eyes/eyes_1.PNG" id="4_nht01"]
+[ext_resource type="Texture2D" uid="uid://d3usi3hq1jbes" path="res://Scenes/Player/Mouths/mouth_1.PNG" id="5_capd8"]
 
 [node name="Player" type="MarginContainer"]
 anchors_preset = 15
@@ -37,12 +37,12 @@ stretch_mode = 5
 
 [node name="Eyes" type="TextureRect" parent="."]
 layout_mode = 2
-texture = ExtResource("3_capd8")
+texture = ExtResource("4_nht01")
 expand_mode = 3
 stretch_mode = 5
 
 [node name="Mouth" type="TextureRect" parent="."]
 layout_mode = 2
-texture = ExtResource("4_7d004")
+texture = ExtResource("5_capd8")
 expand_mode = 3
 stretch_mode = 5
