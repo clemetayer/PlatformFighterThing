@@ -21,6 +21,7 @@ func init_players_data() -> void:
 	for player_id in players_data.keys():
 		data_deserialized[player_id] = {}
 		data_deserialized[player_id]["config"] = players_data[player_id].config.serialize()
+		data_deserialized[player_id]["lives"] = 3
 	onready_paths.game.init_players_data(data_deserialized)
 
 func set_level_data(data : LevelConfig) -> void:
@@ -55,4 +56,3 @@ func get_projectiles_count() -> int:
 
 func get_powerups_count() -> int:
 	return onready_paths.game.onready_paths.powerups.get_child_count()
-

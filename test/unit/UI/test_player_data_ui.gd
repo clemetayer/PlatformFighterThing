@@ -26,16 +26,18 @@ func test_init():
 	var sprites = SpriteCustomizationResource.new()
 	sprites.BODY_COLOR = Color.AZURE
 	sprites.OUTLINE_COLOR = Color.AQUAMARINE
+	sprites.EYES_TEXTURE_PATH = "res://Scenes/Player/Eyes/eyes_1.PNG"
+	sprites.MOUTH_TEXTURE_PATH = "res://Scenes/Player/Mouth/mouth_1.PNG"
 	# when
-	mock_player_data.init(sprites,1,2,3)
+	mock_player_data.init(sprites, 1, 2, "Funky Franklin", 3)
 	# then
 	assert_called(mock_player_data, "_clean")
-	assert_called(mock_player_data, "_init_sprites", [Color.AZURE, Color.AQUAMARINE])
+	assert_called(mock_player_data, "_init_sprites", [sprites])
 	assert_called(mock_player_data, "_init_movement", [1])
 	assert_called(mock_player_data, "_add_h_separator")
 	assert_called(mock_player_data, "_init_powerup", [2])
 	assert_called(mock_player_data, "_init_lives", [3])
-	assert_called(mock_player_data, "_init_name", [player_data.TEMP_PLAYER_NAME])
+	assert_called(mock_player_data, "_init_name", ["Funky Franklin"])
 
 func test_update_movement():
 	# given
@@ -86,20 +88,33 @@ func test_init_sprites():
 	# given
 	var body = Sprite2D.new()
 	var outline = Sprite2D.new()
+	var eyes = Sprite2D.new()
+	var mouth = Sprite2D.new()
 	player_data.onready_paths = {
 		"sprites": {
 			"body": body,
-			"outline": outline
+			"outline": outline,
+			"eyes": eyes,
+			"mouth": mouth
 		}
 	}
+	var sprite_resource = SpriteCustomizationResource.new()
+	sprite_resource.BODY_COLOR = Color.ALICE_BLUE
+	sprite_resource.OUTLINE_COLOR = Color.AZURE
+	sprite_resource.EYES_TEXTURE_PATH = "res://Scenes/Player/Eyes/eyes_1.PNG"
+	sprite_resource.MOUTH_TEXTURE_PATH = "res://Scenes/Player/Mouths/mouth_1.PNG"
 	# when
-	player_data._init_sprites(Color.ALICE_BLUE, Color.AZURE)
+	player_data._init_sprites(sprite_resource)
 	# then
 	assert_eq(body.modulate, Color.ALICE_BLUE)
 	assert_eq(outline.modulate, Color.AZURE)
+	assert_not_null(eyes.texture)
+	assert_not_null(mouth.texture)
 	# cleanup
 	body.free()
 	outline.free()
+	eyes.free()
+	mouth.free()
 
 func test_init_movement():
 	# given

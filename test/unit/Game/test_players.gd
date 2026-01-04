@@ -43,29 +43,31 @@ func test_init_players_data():
 	# given
 	var player_1_data = {
 		"config": {
-			"action_handler":StaticActionHandler.handlers.INPUT,
-			"primary_weapon":StaticPrimaryWeaponHandler.handlers.REVOLVER,
-			"movement_bonus_handler":StaticMovementBonusHandler.handlers.DASH,
-			"powerup_handler":StaticPowerupHandler.handlers.SPLITTER,
+			"action_handler": StaticActionHandler.handlers.INPUT,
+			"primary_weapon": StaticPrimaryWeaponHandler.handlers.REVOLVER,
+			"movement_bonus_handler": StaticMovementBonusHandler.handlers.DASH,
+			"powerup_handler": StaticPowerupHandler.handlers.SPLITTER,
 			"sprite_customization": {
-				"body_color":Color.ALICE_BLUE.to_html(),
-				"outline_color":Color.ANTIQUE_WHITE.to_html()
+				"body_color": Color.ALICE_BLUE.to_html(),
+				"outline_color": Color.ANTIQUE_WHITE.to_html()
 			},
-			"elmination_text":"test"
-		}
+			"elmination_text": "test"
+		},
+		"lives": 3
 	}
 	var player_2_data = {
 		"config": {
-			"action_handler":StaticActionHandler.handlers.RECORD,
-			"primary_weapon":StaticPrimaryWeaponHandler.handlers.REVOLVER,
-			"movement_bonus_handler":StaticMovementBonusHandler.handlers.DASH,
-			"powerup_handler":StaticPowerupHandler.handlers.SPLITTER,
+			"action_handler": StaticActionHandler.handlers.RECORD,
+			"primary_weapon": StaticPrimaryWeaponHandler.handlers.REVOLVER,
+			"movement_bonus_handler": StaticMovementBonusHandler.handlers.DASH,
+			"powerup_handler": StaticPowerupHandler.handlers.SPLITTER,
 			"sprite_customization": {
-				"body_color":Color.REBECCA_PURPLE.to_html(),
-				"outline_color":Color.TURQUOISE.to_html()
+				"body_color": Color.REBECCA_PURPLE.to_html(),
+				"outline_color": Color.TURQUOISE.to_html()
 			},
-			"elmination_text":"test2"
-		}
+			"elmination_text": "test2"
+		},
+		"lives": 3
 	}
 	var player_1_data_deserialized = PlayerConfig.new()
 	player_1_data_deserialized.deserialize(player_1_data.config)
@@ -73,14 +75,14 @@ func test_init_players_data():
 	player_2_data_deserialized.deserialize(player_2_data.config)
 	# when
 	players.init_players_data({
-		1:player_1_data,
-		2:player_2_data
+		1: player_1_data,
+		2: player_2_data
 	})
 	# then
 	assert_eq(players._players_data.size(), 2)
-	assert_eq(players._players_data[1].lives, players.BASE_LIVES_AMOUNT)
+	assert_eq(players._players_data[1].lives, 3)
 	compare_player_configs(players._players_data[1].config, player_1_data_deserialized)
-	assert_eq(players._players_data[2].lives, players.BASE_LIVES_AMOUNT)
+	assert_eq(players._players_data[2].lives, 3)
 	compare_player_configs(players._players_data[2].config, player_2_data_deserialized)
 
 func test_init_spawn_positions():
@@ -100,8 +102,8 @@ var toggle_player_truce_params := [
 func test_toggle_players_truce(params = use_parameters(toggle_player_truce_params)):
 	# given
 	players._players_data = {
-		1:{},
-		2:{}
+		1: {},
+		2: {}
 	}
 	var player_1_mock = double(load("res://Scenes/Player/player.gd")).new()
 	player_1_mock.name = "player_1"
@@ -114,14 +116,14 @@ func test_toggle_players_truce(params = use_parameters(toggle_player_truce_param
 	# when
 	players.toggle_players_truce(params[0])
 	# then
-	assert_called(player_1_mock,"toggle_truce", [params[0]])
-	assert_called(player_2_mock,"toggle_truce", [params[0]])
+	assert_called(player_1_mock, "toggle_truce", [params[0]])
+	assert_called(player_2_mock, "toggle_truce", [params[0]])
 
 func test_reset():
 	# given
 	players._players_data = {
-		1:{},
-		2:{}
+		1: {},
+		2: {}
 	}
 	# when
 	players.reset()
@@ -133,34 +135,34 @@ func test_add_players():
 	# given
 	players._spawn_positions = [Vector2.RIGHT, Vector2.UP]
 	players._players_data = {
-		1:{},
-		2:{}
+		1: {},
+		2: {}
 	}
 	# when
 	players.add_players()
 	wait_seconds(0.25)
 	# then
-	assert_eq(players.get_child_count(),2)
-	for player_idx in range(1,3):
+	assert_eq(players.get_child_count(), 2)
+	for player_idx in range(1, 3):
 		var player = players.get_node_or_null("player_%d" % player_idx)
 		assert_not_null(player)
-		assert_eq(player.id,player_idx)
-		assert_eq(player.global_position,players._spawn_positions[player_idx-1])
-		assert_true(player.is_connected("killed",players._on_player_killed))
-		assert_true(player.is_connected("movement_updated",players._on_player_movement_updated))
-		assert_true(player.is_connected("powerup_updated",players._on_player_powerup_updated))
-		assert_true(player.is_connected("game_message_triggered",players._on_player_game_message_triggered))
+		assert_eq(player.id, player_idx)
+		assert_eq(player.global_position, players._spawn_positions[player_idx - 1])
+		assert_true(player.is_connected("killed", players._on_player_killed))
+		assert_true(player.is_connected("movement_updated", players._on_player_movement_updated))
+		assert_true(player.is_connected("powerup_updated", players._on_player_powerup_updated))
+		assert_true(player.is_connected("game_message_triggered", players._on_player_game_message_triggered))
 
 func test_get_player_instance():
 	# given
 	var node = Node2D.new()
 	node.name = "player_1"
 	players.add_child(node)
-	wait_for_signal(node.tree_entered,0.25)
+	wait_for_signal(node.tree_entered, 0.25)
 	# when
 	var res = players.get_player_instance(1)
 	# then
-	assert_eq(res,node)
+	assert_eq(res, node)
 	# cleanup
 	node.free()
 
@@ -168,7 +170,7 @@ func test_get_player_config():
 	# given
 	var config = PlayerConfig.new()
 	players._players_data = {
-		1 : {
+		1: {
 			"config": config
 		}
 	}
@@ -180,8 +182,8 @@ func test_get_player_config():
 func test_get_players_data():
 	# given
 	var data = {
-		1 : {},
-		2 : {}
+		1: {},
+		2: {}
 	}
 	players._players_data = data
 	# when
@@ -192,22 +194,22 @@ func test_get_players_data():
 func test_spawn_player():
 	# given
 	players._players_data = {
-		1:{},
-		2:{}
+		1: {},
+		2: {}
 	}
 	# when
-	players._spawn_player(1,Vector2.LEFT)
+	players._spawn_player(1, Vector2.LEFT)
 	wait_seconds(0.25)
 	# then
-	assert_eq(players.get_child_count(),1)
+	assert_eq(players.get_child_count(), 1)
 	var player = players.get_node_or_null("player_%d" % 1)
 	assert_not_null(player)
-	assert_eq(player.id,1)
-	assert_eq(player.global_position,Vector2.LEFT)
-	assert_true(player.is_connected("killed",players._on_player_killed))
-	assert_true(player.is_connected("movement_updated",players._on_player_movement_updated))
-	assert_true(player.is_connected("powerup_updated",players._on_player_powerup_updated))
-	assert_true(player.is_connected("game_message_triggered",players._on_player_game_message_triggered))
+	assert_eq(player.id, 1)
+	assert_eq(player.global_position, Vector2.LEFT)
+	assert_true(player.is_connected("killed", players._on_player_killed))
+	assert_true(player.is_connected("movement_updated", players._on_player_movement_updated))
+	assert_true(player.is_connected("powerup_updated", players._on_player_powerup_updated))
+	assert_true(player.is_connected("game_message_triggered", players._on_player_game_message_triggered))
 
 func test_get_spawn_position_and_go_next():
 	# given
@@ -224,39 +226,39 @@ func test_get_spawn_position_and_go_next():
 var is_only_one_player_alive_params := [
 	[
 		{
-			1:{"lives":2},
-			2:{"lives":1},
-			3:{"lives":4}
+			1: {"lives": 2},
+			2: {"lives": 1},
+			3: {"lives": 4}
 		},
 		false
 	],
 	[
 		{
-			1:{"lives":0},
-			2:{"lives":1},
-			3:{"lives":4}
+			1: {"lives": 0},
+			2: {"lives": 1},
+			3: {"lives": 4}
 		},
 		false
 	],
 	[
 		{
-			1:{"lives":0},
-			2:{"lives":0},
-			3:{"lives":4}
+			1: {"lives": 0},
+			2: {"lives": 0},
+			3: {"lives": 4}
 		},
 		true
 	],
 	[
 		{
-			1:{"lives":0},
-			2:{"lives":0},
-			3:{"lives":0}
+			1: {"lives": 0},
+			2: {"lives": 0},
+			3: {"lives": 0}
 		},
 		true
 	],
 	[
 		{
-			1:{"lives":1}
+			1: {"lives": 1}
 		},
 		true
 	],
@@ -267,25 +269,25 @@ func test_is_only_one_player_alive(params = use_parameters(is_only_one_player_al
 	# when
 	var res = players._is_only_one_player_alive()
 	# then
-	assert_eq(res,params[1])
+	assert_eq(res, params[1])
 
 func test_on_player_killed_not_end_game():
 	# given
 	players._players_data = {
 		1: {
-			"lives":2
+			"lives": 2
 		},
 		2: {
-			"lives":3
+			"lives": 3
 		}
 	}
-	players.connect("lives_updated",_on_lives_updated)
-	players.connect("player_won",_on_player_won)
+	players.connect("lives_updated", _on_lives_updated)
+	players.connect("player_won", _on_player_won)
 	var tree_mock = double(SceneTree).new()
 	var timer = Timer.new()
 	add_child_autofree(timer)
 	timer.start(players.RESPAWN_TIME + 0.1)
-	stub(tree_mock,"create_timer").to_return(timer)
+	stub(tree_mock, "create_timer").to_return(timer)
 	players.tree = tree_mock
 	wait_seconds(players.RESPAWN_TIME + 0.25)
 	# when
@@ -294,8 +296,8 @@ func test_on_player_killed_not_end_game():
 	assert_eq(lives_updated_times_called, 1)
 	assert_eq(lives_updated_args, [[1, 1]])
 	assert_eq(player_won_times_called, 0)
-	assert_eq(players._players_data[1].lives,1)
-	assert_eq(players._players_data[2].lives,3)
+	assert_eq(players._players_data[1].lives, 1)
+	assert_eq(players._players_data[2].lives, 3)
 	# cleanup 
 	timer.free()
 
@@ -303,40 +305,40 @@ func test_on_player_killed_end_game():
 	# given
 	players._players_data = {
 		1: {
-			"lives":2
+			"lives": 2
 		},
 		2: {
-			"lives":1
+			"lives": 1
 		}
 	}
-	players.connect("lives_updated",_on_lives_updated)
-	players.connect("player_won",_on_player_won)
+	players.connect("lives_updated", _on_lives_updated)
+	players.connect("player_won", _on_player_won)
 	# when
 	players._on_player_killed(2)
 	# then
 	assert_eq(lives_updated_times_called, 1)
 	assert_eq(lives_updated_args, [[2, 0]])
 	assert_eq(player_won_times_called, 1)
-	assert_eq(players._players_data[1].lives,2)
-	assert_eq(players._players_data[2].lives,0)
+	assert_eq(players._players_data[1].lives, 2)
+	assert_eq(players._players_data[2].lives, 0)
 
 func test_on_player_movement_updated():
 	# given
 	players.connect("movement_updated", _on_movement_updated)
 	# when
-	players._on_player_movement_updated(1,2)
+	players._on_player_movement_updated(1, 2)
 	# then
-	assert_eq(movement_updated_times_called,1)
-	assert_eq(movement_updated_args, [[1,2]])
+	assert_eq(movement_updated_times_called, 1)
+	assert_eq(movement_updated_args, [[1, 2]])
 
 func test_on_player_powerup_updated():
 	# given
 	players.connect("powerup_updated", _on_powerup_updated)
 	# when 
-	players._on_player_powerup_updated(2,0.5)
+	players._on_player_powerup_updated(2, 0.5)
 	# then
-	assert_eq(powerup_updated_times_called,1)
-	assert_eq(powerup_updated_args, [[2,0.5]])
+	assert_eq(powerup_updated_times_called, 1)
+	assert_eq(powerup_updated_args, [[2, 0.5]])
 
 func test_on_player_game_message_triggered():
 	# given
@@ -344,15 +346,15 @@ func test_on_player_game_message_triggered():
 	config.ELIMINATION_TEXT = "test"
 	players._players_data = {
 		1: {
-			"config":config
+			"config": config
 		}
 	}
-	players.connect("game_message_triggered",_on_game_message_triggered)
+	players.connect("game_message_triggered", _on_game_message_triggered)
 	# when
 	players._on_player_game_message_triggered(1)
 	# then
-	assert_eq(game_message_triggered_times_called,1)
-	assert_eq(game_message_triggered_args,[["test"]])
+	assert_eq(game_message_triggered_times_called, 1)
+	assert_eq(game_message_triggered_args, [["test"]])
 
 ##### UTILS #####
 func _on_lives_updated(player_idx: int, new_value: int) -> void:
@@ -375,11 +377,11 @@ func _on_game_message_triggered(message: String) -> void:
 	game_message_triggered_times_called += 1
 	game_message_triggered_args.append([message])
 
-func compare_player_configs(conf1 : PlayerConfig, conf2 : PlayerConfig) -> void:
-	assert_eq(conf1.ACTION_HANDLER,conf2.ACTION_HANDLER)
-	assert_eq(conf1.PRIMARY_WEAPON,conf2.PRIMARY_WEAPON)
-	assert_eq(conf1.MOVEMENT_BONUS_HANDLER,conf2.MOVEMENT_BONUS_HANDLER)
-	assert_eq(conf1.POWERUP_HANDLER,conf2.POWERUP_HANDLER)
-	assert_eq(conf1.SPRITE_CUSTOMIZATION.BODY_COLOR,conf2.SPRITE_CUSTOMIZATION.BODY_COLOR)
-	assert_eq(conf1.SPRITE_CUSTOMIZATION.OUTLINE_COLOR,conf2.SPRITE_CUSTOMIZATION.OUTLINE_COLOR)
-	assert_eq(conf1.ELIMINATION_TEXT,conf2.ELIMINATION_TEXT) 
+func compare_player_configs(conf1: PlayerConfig, conf2: PlayerConfig) -> void:
+	assert_eq(conf1.ACTION_HANDLER, conf2.ACTION_HANDLER)
+	assert_eq(conf1.PRIMARY_WEAPON, conf2.PRIMARY_WEAPON)
+	assert_eq(conf1.MOVEMENT_BONUS_HANDLER, conf2.MOVEMENT_BONUS_HANDLER)
+	assert_eq(conf1.POWERUP_HANDLER, conf2.POWERUP_HANDLER)
+	assert_eq(conf1.SPRITE_CUSTOMIZATION.BODY_COLOR, conf2.SPRITE_CUSTOMIZATION.BODY_COLOR)
+	assert_eq(conf1.SPRITE_CUSTOMIZATION.OUTLINE_COLOR, conf2.SPRITE_CUSTOMIZATION.OUTLINE_COLOR)
+	assert_eq(conf1.ELIMINATION_TEXT, conf2.ELIMINATION_TEXT)
