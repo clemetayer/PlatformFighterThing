@@ -85,6 +85,5 @@ func _on_close_button_pressed() -> void:
 func _on_item_list_item_selected(index: int) -> void:
 	_update_description_with_item(_items[index])
 
-
 func _on_okay_button_pressed() -> void:
 	emit_signal("item_selected", _get_selected_item())

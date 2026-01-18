@@ -5,9 +5,9 @@ extends MarginContainer
 signal body_color_changed(new_color: Color)
 signal outline_color_changed(new_color: Color)
 signal eyes_changed(eyes_image_path: String)
-signal eyes_color_changed(eyes_color : Color)
+signal eyes_color_changed(eyes_color: Color)
 signal mouth_changed(mouth_image_path: String)
-signal mouth_color_changed(mouth_color : Color)
+signal mouth_color_changed(mouth_color: Color)
 
 ##### VARIABLES #####
 #---- CONSTANTS -----
@@ -52,14 +52,14 @@ func update_config(config: SpriteCustomizationResource) -> void:
 
 ##### PROTECTED METHODS #####
 func _load_eyes_paths() -> void:
-	_eyes_paths = StaticUtils.list_files_in_dir(EYES_PATHS_FOLDER)\
-		.filter(func(file): return file.ends_with(VALID_IMAGE_EXTENSION))\
-		.map(func(file): return "%s%s" % [EYES_PATHS_FOLDER,file])
+	_eyes_paths = StaticUtils.list_files_in_dir(EYES_PATHS_FOLDER) \
+		.filter(func(file): return file.ends_with(VALID_IMAGE_EXTENSION)) \
+		.map(func(file): return "%s%s" % [EYES_PATHS_FOLDER, file])
 
 func _load_mouth_paths() -> void:
-	_mouth_paths = StaticUtils.list_files_in_dir(MOUTH_PATHS_FOLDER)\
-		.filter(func(file): return file.ends_with(VALID_IMAGE_EXTENSION))\
-		.map(func(file): return "%s%s" % [MOUTH_PATHS_FOLDER,file])
+	_mouth_paths = StaticUtils.list_files_in_dir(MOUTH_PATHS_FOLDER) \
+		.filter(func(file): return file.ends_with(VALID_IMAGE_EXTENSION)) \
+		.map(func(file): return "%s%s" % [MOUTH_PATHS_FOLDER, file])
 
 func _init_items() -> void:
 	_init_item_list(onready_paths.eyes_items, _eyes_paths)

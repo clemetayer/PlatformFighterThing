@@ -59,9 +59,10 @@ func _on_item_list_item_activated(index: int) -> void:
 
 func _on_add_pressed() -> void:
 	var name_to_add = onready_paths.current_name.text
-	_name_list.NAME_LIST.append(name_to_add)
-	_name_list.NAME_LIST.sort()
-	ResourceSaver.save(_name_list, NAME_LIST_RESOURCE_FILE)
+	if not _name_list.NAME_LIST.has(name_to_add):
+		_name_list.NAME_LIST.append(name_to_add)
+		_name_list.NAME_LIST.sort()
+		ResourceSaver.save(_name_list, NAME_LIST_RESOURCE_FILE)
 	_init_name_list()
 	_filter_name_list(name_to_add)
 	emit_signal("name_selected", name_to_add)

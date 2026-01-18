@@ -6,9 +6,6 @@ signal close_triggered
 signal preset_selected(preset: PlayerConfig)
 signal save_preset_triggered()
 
-##### ENUMS #####
-# enumerations
-
 ##### VARIABLES #####
 #---- CONSTANTS -----
 const SAVE_PRESET_BUTTON_SCENE := "res://Scenes/UI/PlayerCustomizationMenu/PresetsMenu/add_element_button.tscn"
@@ -18,9 +15,6 @@ const SAVE_PRESET_BUTTON_SCENE := "res://Scenes/UI/PlayerCustomizationMenu/Prese
 @export var CAN_ADD_ELEMENTS := false
 
 #---- STANDARD -----
-#==== PUBLIC ====
-# var public_var # Optionnal comment
-
 #==== PRIVATE ====
 var _presets = []
 var _preset_button_load = preload("res://Scenes/UI/PlayerCustomizationMenu/PresetsMenu/preset.tscn")
