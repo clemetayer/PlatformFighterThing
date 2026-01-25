@@ -50,14 +50,17 @@ layout_mode = 2
 [node name="PrimaryWeaponsGrid" parent="Panel" instance=ExtResource("4_6lae3")]
 visible = false
 layout_mode = 2
+TITLE = "Primary weapon"
 
 [node name="MovementBonusGrid" parent="Panel" instance=ExtResource("4_6lae3")]
 visible = false
 layout_mode = 2
+TITLE = "Movement bonus"
 
 [node name="PowerupGrid" parent="Panel" instance=ExtResource("4_6lae3")]
 visible = false
 layout_mode = 2
+TITLE = "Powerup"
 
 [connection signal="pressed" from="Panel/AddPlayer" to="." method="_on_add_player_pressed"]
 [connection signal="delete_item" from="Panel/Main" to="." method="_on_main_delete_item"]

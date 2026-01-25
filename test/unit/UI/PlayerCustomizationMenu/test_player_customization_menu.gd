@@ -248,6 +248,15 @@ func test_on_customization_mouth_color_changed():
 	assert_eq(config.SPRITE_CUSTOMIZATION.MOUTH_COLOR, new_color)
 	assert_called(player_config_display, "update_mouth_color", [new_color])
 
+func test_on_save_preset_popup_preset_saved():
+	# given
+	var presets = create_presets_mock()
+	stub(presets, "refresh").to_do_nothing()
+	# when
+	menu._on_save_preset_popup_preset_saved()
+	# then
+	assert_called(presets, "refresh")
+
 ##### UTILS #####
 func create_primary_weapon_mock():
 	var mock = double(load("res://Scenes/UI/PlayerCustomizationMenu/ItemsGridMenu/items_grid_menu.gd")).new()
@@ -282,6 +291,11 @@ func create_name_mock():
 func create_elimination_text_mock():
 	var mock = double(load("res://Scenes/UI/PlayerCustomizationMenu/EliminationTextEditMenu/elimination_text_edit_menu.gd")).new()
 	menu.onready_paths.elimination_text = mock
+	return mock
+
+func create_presets_mock():
+	var mock = double(load("res://Scenes/UI/PlayerCustomizationMenu/PresetsMenu/presets.gd")).new()
+	menu.onready_paths.presets = mock
 	return mock
 
 func create_player_config():

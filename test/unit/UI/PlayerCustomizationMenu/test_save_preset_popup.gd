@@ -3,10 +3,12 @@ extends "res://addons/gut/test.gd"
 ##### VARIABLES #####
 #---- VARIABLES -----
 var popup
+var preset_saved_times_called := 0
 
 ##### SETUP #####
 func before_each():
 	popup = load("res://Scenes/UI/PlayerCustomizationMenu/save_preset_popup.gd").new()
+	preset_saved_times_called = 0
 
 ##### TEARDOWN #####
 func after_each():
@@ -29,6 +31,7 @@ func test_save_preset():
 	var config = PlayerConfig.new()
 	config.PLAYER_NAME = "gdunittest"
 	popup._preset_to_save = config
+	popup.connect("preset_saved", _on_preset_saved)
 	# when
 	popup._save_preset()
 	# then
@@ -36,6 +39,7 @@ func test_save_preset():
 	assert_true(ResourceLoader.exists(preset_path))
 	var saved_resource = load(preset_path)
 	assert_eq(saved_resource.PLAYER_NAME, "gdunittest")
+	assert_eq(preset_saved_times_called, 1)
 	# cleanup
 	preset_name.free()
 	var dir_access = DirAccess.open(StaticUtils.USER_CHARACTER_PRESETS_PATH)
@@ -82,3 +86,7 @@ func test_on_override_preset_popup_confirmed():
 	preset_name.free()
 	var dir_access = DirAccess.open(StaticUtils.USER_CHARACTER_PRESETS_PATH)
 	dir_access.remove(preset_path)
+
+##### UTILS #####
+func _on_preset_saved() -> void:
+	preset_saved_times_called += 1

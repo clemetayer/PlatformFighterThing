@@ -111,3 +111,6 @@ func _on_customization_eyes_color_changed(eyes_color: Color) -> void:
 func _on_customization_mouth_color_changed(mouth_color: Color) -> void:
 	_current_config.SPRITE_CUSTOMIZATION.MOUTH_COLOR = mouth_color
 	onready_paths.player_config_display.update_mouth_color(mouth_color)
+
+func _on_save_preset_popup_preset_saved() -> void:
+	onready_paths.presets.refresh()

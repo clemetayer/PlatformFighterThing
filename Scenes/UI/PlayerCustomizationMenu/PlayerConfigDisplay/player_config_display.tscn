@@ -1,8 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://tx5an1q2tqo3"]
+[gd_scene load_steps=7 format=3 uid="uid://tx5an1q2tqo3"]
 
 [ext_resource type="Script" uid="uid://c5xduddhansus" path="res://Scenes/UI/PlayerCustomizationMenu/PlayerConfigDisplay/player_config_display.gd" id="1_wbmej"]
 [ext_resource type="PackedScene" uid="uid://byfuym260iolg" path="res://Scenes/UI/PlayerCustomizationMenu/PlayerSprite/player_sprite.tscn" id="2_w6f5r"]
-[ext_resource type="Script" uid="uid://n32yq35cui7r" path="res://Scenes/UI/PlayerCustomizationMenu/PlayerSprite/player_sprite.gd" id="3_wbmej"]
 [ext_resource type="Texture2D" uid="uid://j4xdgdied5dy" path="res://Scenes/Weapons/Primary/Revolver/Revolver.png" id="4_ob203"]
 [ext_resource type="Texture2D" uid="uid://cvnhgdu8kddk7" path="res://Scenes/Weapons/Powerups/Splitter/splitter.png" id="5_0sjm8"]
 [ext_resource type="Texture2D" uid="uid://5q8q7xma7uqd" path="res://Misc/Inkscape/dash.svg" id="6_adqru"]
@@ -29,7 +28,6 @@ horizontal_alignment = 1
 
 [node name="Player" parent="." instance=ExtResource("2_w6f5r")]
 layout_mode = 2
-script = ExtResource("3_wbmej")
 
 [node name="Weapons" type="HBoxContainer" parent="."]
 layout_mode = 2

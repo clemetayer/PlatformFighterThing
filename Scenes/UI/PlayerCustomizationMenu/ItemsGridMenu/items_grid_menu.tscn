@@ -27,7 +27,7 @@ script = ExtResource("1_bhx7t")
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="VBoxContainer"]
+[node name="Title" type="Label" parent="VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 text = "Primary weapon"
@@ -72,13 +72,6 @@ layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 4.0
 
-[node name="Icon" type="TextureRect" parent="VBoxContainer/Description"]
-layout_mode = 2
-size_flags_horizontal = 3
-texture = ExtResource("1_amnap")
-expand_mode = 5
-stretch_mode = 5
-
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/Description"]
 layout_mode = 2
 size_flags_horizontal = 3
@@ -91,12 +84,24 @@ text = "Revolver"
 label_settings = SubResource("LabelSettings_bhx7t")
 horizontal_alignment = 1
 
-[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/Description/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Description/VBoxContainer"]
 layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Icon" type="TextureRect" parent="VBoxContainer/Description/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+texture = ExtResource("1_amnap")
+expand_mode = 5
+stretch_mode = 5
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/Description/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 5.0
 
-[node name="Description" type="Label" parent="VBoxContainer/Description/VBoxContainer/ScrollContainer"]
+[node name="Description" type="Label" parent="VBoxContainer/Description/VBoxContainer/HBoxContainer/ScrollContainer"]
 custom_minimum_size = Vector2(30, 30)
 layout_mode = 2
 size_flags_horizontal = 3

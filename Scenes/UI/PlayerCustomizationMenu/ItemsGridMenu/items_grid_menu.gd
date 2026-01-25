@@ -17,6 +17,7 @@ const DESCRIPTION_FONT_SIZE_SMALL := 10
 const DESCRIPTION_FONT_SIZE_BIG := 16
 
 #---- EXPORTS -----
+@export var TITLE := ""
 @export var CAN_BE_CLOSED := true
 @export var SMALL := true
 
@@ -27,11 +28,13 @@ var _items: Array = []
 #==== ONREADY ====
 @onready var onready_paths := {
 	"items": $"VBoxContainer/ScrollContainer/ItemList",
+	"title": $"VBoxContainer/Title",
 	"close_button": $"CloseButton",
 	"description": {
-		"icon": $"VBoxContainer/Description/Icon",
+		"root": $"VBoxContainer/Description",
+		"icon": $"VBoxContainer/Description/VBoxContainer/HBoxContainer/Icon",
 		"title": $"VBoxContainer/Description/VBoxContainer/Title",
-		"description": $"VBoxContainer/Description/VBoxContainer/ScrollContainer/Description"
+		"description": $"VBoxContainer/Description/VBoxContainer/HBoxContainer/ScrollContainer/Description"
 	}
 }
 
@@ -39,6 +42,7 @@ var _items: Array = []
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	_resize_items()
+	onready_paths.title.text = TITLE
 	onready_paths.close_button.visible = CAN_BE_CLOSED
 
 
@@ -58,6 +62,7 @@ func _resize_items() -> void:
 	onready_paths.description.description.label_settings.font_size = DESCRIPTION_FONT_SIZE_SMALL if SMALL else DESCRIPTION_FONT_SIZE_BIG
 	onready_paths.items.icon_scale = ICON_SCALE_SMALL if SMALL else ICON_SCALE_BIG
 	onready_paths.items.max_columns = ITEMS_PER_LINE_SMALL if SMALL else ITEMS_PER_LINE_BIG
+	onready_paths.description.visible = not SMALL
 
 func _set_item(item: ItemGridMenuElement) -> void:
 	_items.append(item)
@@ -71,9 +76,10 @@ func _reset_items() -> void:
 	onready_paths.description.description.text = ""
 
 func _update_description_with_item(item: ItemGridMenuElement) -> void:
-	onready_paths.description.icon.texture = load(item.ICON_PATH)
-	onready_paths.description.title.text = item.NAME
-	onready_paths.description.description.text = item.DESCRIPTION
+	if not SMALL:
+		onready_paths.description.icon.texture = load(item.ICON_PATH)
+		onready_paths.description.title.text = item.NAME
+		onready_paths.description.description.text = item.DESCRIPTION
 
 func _get_selected_item() -> ItemGridMenuElement:
 	return _items[onready_paths.items.get_selected_items().get(0)]

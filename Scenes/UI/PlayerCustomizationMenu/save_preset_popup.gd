@@ -1,6 +1,9 @@
 extends ConfirmationDialog
 # Popup to handle the saving of a preset
 
+##### SIGNALS #####
+signal preset_saved
+
 ##### VARIABLES #####
 #---- STANDARD -----
 #==== PRIVATE ====
@@ -20,6 +23,7 @@ func set_preset_to_save(preset: PlayerConfig) -> void:
 func _save_preset() -> void:
 	GSLogger.info("saving preset to %s" % _get_preset_save_path())
 	ResourceSaver.save(_preset_to_save, _get_preset_save_path())
+	emit_signal("preset_saved")
 
 func _get_preset_save_path() -> String:
 	return StaticUtils.USER_CHARACTER_PRESETS_PATH + onready_paths.preset_name.text + StaticUtils.GODOT_RESOURCE_FILE_EXTENSION

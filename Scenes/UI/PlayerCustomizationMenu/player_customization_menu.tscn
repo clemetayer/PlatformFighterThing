@@ -80,6 +80,7 @@ metadata/_tab_index = 4
 [node name="PrimaryWeapon" parent="MarginContainer/TabContainer" instance=ExtResource("6_riqtp")]
 visible = false
 layout_mode = 2
+TITLE = "Primary weapon"
 CAN_BE_CLOSED = false
 SMALL = false
 metadata/_tab_index = 5
@@ -87,6 +88,7 @@ metadata/_tab_index = 5
 [node name="MovementBonus" parent="MarginContainer/TabContainer" instance=ExtResource("6_riqtp")]
 visible = false
 layout_mode = 2
+TITLE = "Movement bonus"
 CAN_BE_CLOSED = false
 SMALL = false
 metadata/_tab_index = 6
@@ -94,6 +96,7 @@ metadata/_tab_index = 6
 [node name="Powerup" parent="MarginContainer/TabContainer" instance=ExtResource("6_riqtp")]
 visible = false
 layout_mode = 2
+TITLE = "Powerup"
 CAN_BE_CLOSED = false
 SMALL = false
 metadata/_tab_index = 7
@@ -149,4 +152,5 @@ dialog_text = "This preset already exists, override it ?"
 [connection signal="item_selected" from="MarginContainer/TabContainer/Powerup" to="." method="_on_powerup_item_selected"]
 [connection signal="pressed" from="BackButton" to="." method="_on_back_button_pressed"]
 [connection signal="confirmed" from="SavePresetPopup" to="SavePresetPopup" method="_on_confirmed"]
+[connection signal="preset_saved" from="SavePresetPopup" to="." method="_on_save_preset_popup_preset_saved"]
 [connection signal="confirmed" from="OverridePresetPopup" to="SavePresetPopup" method="_on_override_preset_popup_confirmed"]

@@ -29,6 +29,10 @@ var _preset_button_load = preload("res://Scenes/UI/PlayerCustomizationMenu/Prese
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	onready_paths.close_button.visible = CAN_BE_CLOSED
+	refresh()
+
+##### PUBLIC #####
+func refresh() -> void:
 	_reset_preset_root()
 	_presets = _get_presets()
 	for preset in _presets:
@@ -48,7 +52,7 @@ func _get_presets() -> Array:
 	
 func _reset_preset_root() -> void:
 	for element in onready_paths.presets_root.get_children():
-		element.queue_free()
+		element.free()
 
 func _add_preset_button(preset: PlayerConfig) -> void:
 	var button = _preset_button_load.instantiate()

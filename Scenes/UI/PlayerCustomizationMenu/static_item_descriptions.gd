@@ -23,7 +23,7 @@ const MOVEMENT_BONUS := {
 const POWERUPS := {
 	StaticPowerupHandler.handlers.SPLITTER: {
 		"name": "Splitter",
-		"icon": "Scenes/Weapons/Powerups/Splitter/splitter.png",
+		"icon": "res://Scenes/Weapons/Powerups/Splitter/splitter.png",
 		"description": "When hit by a projectile, the splitter will split it and send it in various directions. It has limited uses. Usefull to cover a large area with your projectiles."
 	}
 }

@@ -32,12 +32,14 @@ func test_ready(params = use_parameters(ready_params)):
 	# given
 	var can_be_closed = params[0]
 	var small = params[1]
+	menu.TITLE = "TITLE"
 	menu.CAN_BE_CLOSED = can_be_closed
 	menu.SMALL = small
 	# when
 	menu._ready()
 	# then
 	assert_eq(menu.onready_paths.close_button.visible, can_be_closed)
+	assert_eq(menu.onready_paths.title.text, "TITLE")
 	if small:
 		assert_eq(menu.onready_paths.description.title.label_settings.font_size, menu.TITLE_FONT_SIZE_SMALL)
 		assert_eq(menu.onready_paths.description.description.label_settings.font_size, menu.DESCRIPTION_FONT_SIZE_SMALL)
@@ -67,15 +69,25 @@ func test_set_items():
 # _resize_items already tested in _ready
 # _set_item and _reset_items tested in set_items 
 
-func test_update_description_with_item():
+var update_description_with_item_params := [
+	[false],
+	[true]
+]
+func test_update_description_with_item(params = use_parameters(update_description_with_item_params)):
 	# given
+	var small = params[0]
+	menu.SMALL = small
 	var item = ItemGridMenuElement.set_element(1, "res://icon.svg", "name 1", "description 1")
 	# when
 	menu._update_description_with_item(item)
 	# then
-	assert_not_null(menu.onready_paths.description.icon.texture)
-	assert_eq(menu.onready_paths.description.title.text, "name 1")
-	assert_eq(menu.onready_paths.description.description.text, "description 1")
+	if small:
+		assert_ne(menu.onready_paths.description.title.text, "name 1")
+		assert_ne(menu.onready_paths.description.description.text, "description 1")
+	else:
+		assert_not_null(menu.onready_paths.description.icon.texture)
+		assert_eq(menu.onready_paths.description.title.text, "name 1")
+		assert_eq(menu.onready_paths.description.description.text, "description 1")
 
 func test_get_selected_item():
 	# given
@@ -102,6 +114,7 @@ func test_on_close_button_pressed():
 
 func test_on_item_list_item_selected():
 	# given
+	menu.SMALL = false
 	var item = ItemGridMenuElement.set_element(1, "res://icon.svg", "name 1", "description 1")
 	menu._items = [item]
 	# when

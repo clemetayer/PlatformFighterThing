@@ -65,6 +65,7 @@ metadata/_tab_index = 1
 [node name="PrimaryWeapon" parent="MarginContainer/MenuRoot/TabContainer" instance=ExtResource("2_xuhwf")]
 visible = false
 layout_mode = 2
+TITLE = "Primary weapon"
 CAN_BE_CLOSED = false
 SMALL = false
 metadata/_tab_index = 2
@@ -72,6 +73,7 @@ metadata/_tab_index = 2
 [node name="MovementBonus" parent="MarginContainer/MenuRoot/TabContainer" instance=ExtResource("2_xuhwf")]
 visible = false
 layout_mode = 2
+TITLE = "Movement bonus"
 CAN_BE_CLOSED = false
 SMALL = false
 metadata/_tab_index = 3
@@ -79,6 +81,7 @@ metadata/_tab_index = 3
 [node name="Powerup" parent="MarginContainer/MenuRoot/TabContainer" instance=ExtResource("2_xuhwf")]
 visible = false
 layout_mode = 2
+TITLE = "Powerup"
 CAN_BE_CLOSED = false
 SMALL = false
 metadata/_tab_index = 4
