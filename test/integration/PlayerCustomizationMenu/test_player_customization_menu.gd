@@ -1,9 +1,6 @@
 extends "res://addons/gut/test.gd"
 
 ##### VARIABLES #####
-#---- CONSTANTS -----
-# const CONST := "value"
-
 #---- VARIABLES -----
 var scene
 var helper
