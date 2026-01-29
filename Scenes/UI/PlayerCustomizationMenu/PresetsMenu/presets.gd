@@ -13,6 +13,7 @@ const SAVE_PRESET_BUTTON_SCENE := "res://Scenes/UI/PlayerCustomizationMenu/Prese
 #---- EXPORTS -----
 @export var CAN_BE_CLOSED := true
 @export var CAN_ADD_ELEMENTS := false
+@export var SMALL := false
 
 #---- STANDARD -----
 #==== PRIVATE ====
@@ -56,6 +57,7 @@ func _reset_preset_root() -> void:
 
 func _add_preset_button(preset: PlayerConfig) -> void:
 	var button = _preset_button_load.instantiate()
+	button.SMALL = SMALL
 	onready_paths.presets_root.add_child(button)
 	button.set_preset(preset)
 	button.connect("pressed", func(): _on_preset_selected(preset))

@@ -20,22 +20,26 @@ func before_each():
 
 ##### TESTS #####
 var ready_params := [
-	[true, true],
-	[true, false],
-	[false, true],
-	[false, false],
+	[true, true, true],
+	[true, false, false],
+	[false, true, false],
+	[false, false, false],
 ]
 func test_ready(params = use_parameters(ready_params)):
 	# given
 	var can_be_closed = params[0]
 	var can_add_elements = params[1]
+	var small = params[2]
 	presets.CAN_BE_CLOSED = can_be_closed
 	presets.CAN_ADD_ELEMENTS = can_add_elements
+	presets.SMALL = small
 	# when
 	presets._ready()
+	await wait_process_frames(3)
 	# then
 	assert_eq(presets.onready_paths.close_button.visible, can_be_closed)
 	assert_eq(presets.onready_paths.presets_root.get_child_count(), presets._presets.size() + 1 if can_add_elements else presets._presets.size())
+	assert_eq(presets.onready_paths.presets_root.get_children()[0].SMALL, small)
 
 # refresh, _get_preset, _reset_preset_root, _add_preset_button and _add_save_preset_button tested in _ready
 

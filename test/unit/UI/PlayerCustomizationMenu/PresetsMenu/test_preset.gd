@@ -11,6 +11,20 @@ func before_each():
 	wait_for_signal(preset.tree_entered, 0.1)
 
 ##### TESTS #####
+var ready_params := [
+	[true],
+	[false]
+]
+func test_ready(params = use_parameters(ready_params)):
+	# given
+	var small = params[0]
+	preset.SMALL = small
+	# when
+	preset._ready()
+	await wait_process_frames(3)
+	# then
+	assert_eq(preset.size.y, preset.HEIGHT_SMALL if small else preset.HEIGHT_BIG)
+
 func test_set_preset():
 	# given
 	var config = PlayerConfig.new()

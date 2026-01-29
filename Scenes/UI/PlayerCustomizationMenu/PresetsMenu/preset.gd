@@ -2,6 +2,13 @@ extends Button
 # Handles a preset
 
 ##### VARIABLES #####
+#---- CONSTANTS -----
+const HEIGHT_SMALL := 32
+const HEIGHT_BIG := 64
+
+#---- EXPORTS -----
+@export var SMALL := false
+
 #---- STANDARD -----
 #==== ONREADY ====
 @onready var onready_paths := {
@@ -17,6 +24,10 @@ extends Button
 	}
 }
 
+##### PROCESSING #####
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	_set_preset_size()
 
 ##### PUBLIC METHODS #####
 func set_preset(preset: PlayerConfig) -> void:
@@ -30,3 +41,7 @@ func set_preset(preset: PlayerConfig) -> void:
 	onready_paths.sprite.eyes.modulate = preset.SPRITE_CUSTOMIZATION.EYES_COLOR
 	onready_paths.sprite.mouth.texture = load(preset.SPRITE_CUSTOMIZATION.MOUTH_TEXTURE_PATH)
 	onready_paths.sprite.mouth.modulate = preset.SPRITE_CUSTOMIZATION.MOUTH_COLOR
+
+##### PROTECTED METHODS #####
+func _set_preset_size() -> void:
+	custom_minimum_size.y = HEIGHT_SMALL if SMALL else HEIGHT_BIG
