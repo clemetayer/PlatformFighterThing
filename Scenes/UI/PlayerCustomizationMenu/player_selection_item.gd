@@ -33,7 +33,7 @@ func get_config() -> PlayerConfig:
 
 ##### PROTECTED METHODS #####
 func _init_default_config() -> void:
-	_current_config = load(StaticUtils.DEFAULT_CONFIG_PATH)
+	_current_config = load(StaticUtils.DEFAULT_CONFIG_PATH).duplicate(true)
 	onready_paths.main_menu.update_player_config(_current_config)
 
 func _init_primary_weapon_items() -> void:

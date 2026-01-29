@@ -48,7 +48,7 @@ func _init_powerup_items() -> void:
 	)
 
 func _load_default_config() -> void:
-	_current_config = load(StaticUtils.DEFAULT_CONFIG_PATH)
+	_current_config = load(StaticUtils.DEFAULT_CONFIG_PATH).duplicate(true)
 	_update_elements_from_config(_current_config)
 	
 func _update_elements_from_config(config: PlayerConfig) -> void:

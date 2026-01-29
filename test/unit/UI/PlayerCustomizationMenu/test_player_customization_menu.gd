@@ -56,8 +56,8 @@ func test_load_default_config():
 	# when
 	menu._load_default_config()
 	# then
-	assert_called(player_config_display, "update_player", [default_config])
-	assert_called(customization, "update_config", [default_config.SPRITE_CUSTOMIZATION])
+	assert_called(player_config_display, "update_player")
+	assert_called(customization, "update_config")
 	assert_called(name_tab, "update_player_name", [default_config.PLAYER_NAME])
 	assert_called(elimination_text, "set_elimination_text", [default_config.ELIMINATION_TEXT])
 

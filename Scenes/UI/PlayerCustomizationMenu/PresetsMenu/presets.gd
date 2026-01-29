@@ -46,7 +46,7 @@ func _get_presets() -> Array:
 	StaticUtils.create_folder_if_not_exists(StaticUtils.USER_CHARACTER_PRESETS_PATH)
 	var presets = []
 	for resource in ResourceLoader.list_directory(StaticUtils.USER_CHARACTER_PRESETS_PATH):
-		var res_load = load(StaticUtils.USER_CHARACTER_PRESETS_PATH + resource)
+		var res_load = load(StaticUtils.USER_CHARACTER_PRESETS_PATH + resource).duplicate(true)
 		if res_load is PlayerConfig:
 			presets.append(res_load)
 	return presets
