@@ -2,7 +2,7 @@
 Work in progress. Don't test it yet.
 
 ## Plugins used
-- godot-stuff Logger v 4.5-dev
+- godot-stuff Logger v 4.6
 - Shaker v 1.0.7
 - RythmNotifier v 1.0
 - [TilemapCollisionBaker](https://github.com/popcar2/GodotTilemapBaker/blob/main/TilemapCollisionBaker.gd)

@@ -8,16 +8,21 @@
 
 config_version=5
 
+[animation]
+
+compatibility/default_parent_skeleton_in_mesh_instance_3d=true
+
 [application]
 
 config/name="PlatformFighterThing"
 config/version="0.0.1"
 run/main_scene="res://Scenes/GameManagers/game_manager.tscn"
-config/features=PackedStringArray("4.5", "GL Compatibility")
+config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="res://icon.svg"
 
 [audio]
 
+buses/default_bus_layout="uid://chgmoihu06yq3"
 manager/sound/bus="Sound"
 manager/sound/pool_1D_size=16
 manager/sound/pool_2D_size=16
@@ -27,14 +32,14 @@ manager/music/bus="Music"
 
 [autoload]
 
-GSLogger="*res://addons/gs_logger/logger.gd"
+GSLogger="*uid://h4w00m65uyak"
 DebugInterface="*res://Utils/Debug/debug_interface.tscn"
 RuntimeConfig="*res://Utils/Config/runtime_config.gd"
 CameraEffects="*res://Scenes/Camera/camera_effects.gd"
 SceneUtils="*res://Utils/scene_utils.gd"
 RuntimeUtils="*res://Utils/runtime_utils.gd"
 FullScreenEffects="*res://Scenes/Camera/FullScreenEffects/full_screen_effects.tscn"
-Shaker="*res://addons/shaker/src/Shaker.gd"
+Shaker="*uid://b1e15kli1mhw7"
 
 [display]
 
