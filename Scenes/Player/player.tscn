@@ -1,4 +1,4 @@
-[gd_scene load_steps=57 format=3 uid="uid://fgxha8wl55pa"]
+[gd_scene format=3 uid="uid://fgxha8wl55pa"]
 
 [ext_resource type="Script" uid="uid://bxq3finp4gfep" path="res://Scenes/Player/player.gd" id="1_b1dbg"]
 [ext_resource type="Script" uid="uid://bq2rya8sinnf" path="res://Scenes/Player/paths.gd" id="2_8lsum"]
@@ -528,19 +528,19 @@ _data = {
 &"hitstun": SubResource("Animation_8vk0k")
 }
 
-[node name="Player" type="CharacterBody2D" groups=["player"]]
+[node name="Player" type="CharacterBody2D" unique_id=394019677 groups=["player"]]
 collision_layer = 2
 collision_mask = 5
 script = ExtResource("1_b1dbg")
 
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=297556921]
 replication_config = SubResource("SceneReplicationConfig_igkwr")
 
-[node name="InputSynchronizer" type="MultiplayerSynchronizer" parent="."]
+[node name="InputSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1421144554]
 replication_config = SubResource("SceneReplicationConfig_wpobp")
 script = ExtResource("5_uow23")
 
-[node name="Paths" type="Node" parent="."]
+[node name="Paths" type="Node" parent="." unique_id=1990482329]
 script = ExtResource("2_8lsum")
 PLAYER_ROOT_PATH = NodePath("..")
 DAMAGE_LABEL_PATH = NodePath("../DamageLabel")
@@ -562,19 +562,19 @@ APPEAR_ELEMENTS = NodePath("../AppearElements")
 PREDICT_BOUNCES_RAY_CAST = NodePath("../PredictBouncesRayCast")
 HIT_PARTICLES = NodePath("../HitParticles")
 
-[node name="ActionManager" type="Node" parent="."]
+[node name="ActionManager" type="Node" parent="." unique_id=46704466]
 script = ExtResource("4_cguhm")
 
-[node name="Init" type="Node" parent="."]
+[node name="Init" type="Node" parent="." unique_id=312330056]
 script = ExtResource("5_q62wf")
 
-[node name="HitstunManager" type="Node" parent="."]
+[node name="HitstunManager" type="Node" parent="." unique_id=1909488115]
 script = ExtResource("6_lv0e8")
 
-[node name="DeathManager" type="Node2D" parent="."]
+[node name="DeathManager" type="Node2D" parent="." unique_id=484194928]
 script = ExtResource("7_aqm4k")
 
-[node name="DeathParticles" type="GPUParticles2D" parent="DeathManager"]
+[node name="DeathParticles" type="GPUParticles2D" parent="DeathManager" unique_id=1334791570]
 emitting = false
 amount = 16
 texture = ExtResource("3_b0wk1")
@@ -583,34 +583,34 @@ explosiveness = 0.75
 randomness = 0.5
 process_material = SubResource("ParticleProcessMaterial_ks1b7")
 
-[node name="DeathSound" type="AudioStreamPlayer" parent="DeathManager"]
+[node name="DeathSound" type="AudioStreamPlayer" parent="DeathManager" unique_id=524519735]
 stream = ExtResource("9_aqm4k")
 bus = &"EffectsBGMSidechain"
 
-[node name="DeathAnimTime" type="Timer" parent="DeathManager"]
+[node name="DeathAnimTime" type="Timer" parent="DeathManager" unique_id=752512361]
 wait_time = 2.0
 one_shot = true
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." unique_id=1804919661]
 scale = Vector2(0.33, 0.33)
 polygon = PackedVector2Array(64, -128, -64, -128, -128, -64, -128, 64, -64, 128, 64, 128, 128, 64, 128, -64)
 
-[node name="Audio" type="Node2D" parent="."]
+[node name="Audio" type="Node2D" parent="." unique_id=623764203]
 
-[node name="Hit" type="AudioStreamPlayer2D" parent="Audio"]
+[node name="Hit" type="AudioStreamPlayer2D" parent="Audio" unique_id=709807897]
 stream = ExtResource("10_rukb4")
 volume_db = 10.0
 bus = &"Effects"
 
-[node name="ParryArea" type="Area2D" parent="."]
+[node name="ParryArea" type="Area2D" parent="." unique_id=4397786]
 collision_layer = 2
 collision_mask = 5
 script = ExtResource("2_avuuq")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ParryArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ParryArea" unique_id=1812082331]
 shape = SubResource("RectangleShape2D_7ohtq")
 
-[node name="ParryParticles" type="GPUParticles2D" parent="ParryArea"]
+[node name="ParryParticles" type="GPUParticles2D" parent="ParryArea" unique_id=1632182520]
 modulate = Color(0, 1, 1, 1)
 emitting = false
 amount = 1
@@ -620,53 +620,51 @@ one_shot = true
 local_coords = true
 process_material = SubResource("ParticleProcessMaterial_jw2bm")
 
-[node name="ParrySound" type="AudioStreamPlayer2D" parent="ParryArea"]
+[node name="ParrySound" type="AudioStreamPlayer2D" parent="ParryArea" unique_id=1655475023]
 stream = ExtResource("7_1ci2y")
 bus = &"EffectsBGMSidechain"
 
-[node name="ParryDisabled" type="AudioStreamPlayer2D" parent="ParryArea"]
+[node name="ParryDisabled" type="AudioStreamPlayer2D" parent="ParryArea" unique_id=331073868]
 stream = ExtResource("8_f1844")
 bus = &"Effects"
 
-[node name="ParryActive" type="AudioStreamPlayer2D" parent="ParryArea"]
+[node name="ParryActive" type="AudioStreamPlayer2D" parent="ParryArea" unique_id=1845525208]
 stream = ExtResource("8_tyrm3")
 volume_db = 10.0
 bus = &"Effects"
 
-[node name="ParryTimer" type="Timer" parent="ParryArea"]
+[node name="ParryTimer" type="Timer" parent="ParryArea" unique_id=722797645]
 wait_time = 0.15
 one_shot = true
 
-[node name="LockoutTimer" type="Timer" parent="ParryArea"]
+[node name="LockoutTimer" type="Timer" parent="ParryArea" unique_id=1773372382]
 wait_time = 0.5
 one_shot = true
 
-[node name="DisableAfterFireTimer" type="Timer" parent="ParryArea"]
+[node name="DisableAfterFireTimer" type="Timer" parent="ParryArea" unique_id=1471206381]
 wait_time = 0.05
 one_shot = true
 
-[node name="ParryAnimations" type="AnimationPlayer" parent="ParryArea"]
-libraries = {
-&"": SubResource("AnimationLibrary_owers")
-}
+[node name="ParryAnimations" type="AnimationPlayer" parent="ParryArea" unique_id=1258908918]
+libraries/ = SubResource("AnimationLibrary_owers")
 
-[node name="ParryLockout" type="Sprite2D" parent="ParryArea"]
+[node name="ParryLockout" type="Sprite2D" parent="ParryArea" unique_id=24609239]
 visible = false
 modulate = Color(0.396078, 0.396078, 0.396078, 0.784314)
 z_index = 1
 scale = Vector2(0.33, 0.33)
 texture = ExtResource("2_pi5cj")
 
-[node name="BounceArea" type="Area2D" parent="."]
+[node name="BounceArea" type="Area2D" parent="." unique_id=1936910212]
 collision_layer = 2
 collision_mask = 3
 script = ExtResource("4_d6e7m")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="BounceArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BounceArea" unique_id=1084027780]
 shape = SubResource("RectangleShape2D_qh2ge")
 disabled = true
 
-[node name="DamageLabel" type="RichTextLabel" parent="."]
+[node name="DamageLabel" type="RichTextLabel" parent="." unique_id=35999088]
 clip_contents = false
 anchors_preset = 8
 anchor_left = 0.5
@@ -693,47 +691,47 @@ horizontal_alignment = 1
 custom_effects = [SubResource("RichTextEffect_eksi1")]
 script = ExtResource("17_rcvs5")
 
-[node name="Sprites" type="Node2D" parent="."]
+[node name="Sprites" type="Node2D" parent="." unique_id=993602004]
 material = SubResource("ShaderMaterial_rqdc0")
 scale = Vector2(0.33, 0.33)
 script = ExtResource("5_b3kqx")
 
-[node name="Body" type="Sprite2D" parent="Sprites"]
+[node name="Body" type="Sprite2D" parent="Sprites" unique_id=490366403]
 modulate = Color(0, 1, 1, 1)
 material = SubResource("ShaderMaterial_jincj")
 texture = ExtResource("2_pi5cj")
 
-[node name="Outline" type="Sprite2D" parent="Sprites"]
+[node name="Outline" type="Sprite2D" parent="Sprites" unique_id=750553046]
 modulate = Color(0, 0.454902, 1, 1)
 material = SubResource("ShaderMaterial_qr1w5")
 texture = ExtResource("3_b0wk1")
 
-[node name="Flash" type="Sprite2D" parent="Sprites"]
+[node name="Flash" type="Sprite2D" parent="Sprites" unique_id=1844027907]
 visible = false
 modulate = Color(1, 1, 1, 0.607843)
 texture = ExtResource("2_pi5cj")
 
-[node name="RotateElements" type="Node2D" parent="Sprites"]
+[node name="RotateElements" type="Node2D" parent="Sprites" unique_id=1333242983]
 scale = Vector2(0.9999999, 0.9999999)
 
-[node name="Eyes" type="Sprite2D" parent="Sprites/RotateElements"]
+[node name="Eyes" type="Sprite2D" parent="Sprites/RotateElements" unique_id=395115402]
 texture = ExtResource("23_4no11")
 
-[node name="Mouth" type="Sprite2D" parent="Sprites/RotateElements"]
+[node name="Mouth" type="Sprite2D" parent="Sprites/RotateElements" unique_id=1830395862]
 texture = ExtResource("24_fcwna")
 
-[node name="AppearElements" type="Node2D" parent="."]
+[node name="AppearElements" type="Node2D" parent="." unique_id=524002685]
 scale = Vector2(0.33, 0.33)
 script = ExtResource("23_bmb2s")
 
-[node name="Appear" type="Sprite2D" parent="AppearElements"]
+[node name="Appear" type="Sprite2D" parent="AppearElements" unique_id=1738641764]
 modulate = Color(0.5, 1, 0.991667, 1)
 self_modulate = Color(1, 1, 1, 0)
 position = Vector2(0, -128)
 scale = Vector2(2, 2)
 texture = ExtResource("23_rqdc0")
 
-[node name="MainColor" type="GPUParticles2D" parent="AppearElements"]
+[node name="MainColor" type="GPUParticles2D" parent="AppearElements" unique_id=919559798]
 modulate = Color(0.5, 1, 1, 1)
 emitting = false
 amount = 4
@@ -741,7 +739,7 @@ texture = ExtResource("24_qr1w5")
 lifetime = 0.33
 process_material = SubResource("ParticleProcessMaterial_ythyg")
 
-[node name="SecondaryColor" type="GPUParticles2D" parent="AppearElements"]
+[node name="SecondaryColor" type="GPUParticles2D" parent="AppearElements" unique_id=660112550]
 modulate = Color(0.5, 0.725, 1, 1)
 emitting = false
 amount = 4
@@ -749,30 +747,28 @@ texture = ExtResource("25_ythyg")
 lifetime = 0.33
 process_material = SubResource("ParticleProcessMaterial_ythyg")
 
-[node name="Crosshair" parent="." instance=ExtResource("12_0h0ho")]
+[node name="Crosshair" parent="." unique_id=1755160922 instance=ExtResource("12_0h0ho")]
 
-[node name="HitParticles" parent="." instance=ExtResource("28_2ahak")]
+[node name="HitParticles" parent="." unique_id=961610258 instance=ExtResource("28_2ahak")]
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-&"": SubResource("AnimationLibrary_2b586")
-}
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1694129635]
+libraries/ = SubResource("AnimationLibrary_2b586")
 
-[node name="UsePowerupCooldown" type="Timer" parent="."]
+[node name="UsePowerupCooldown" type="Timer" parent="." unique_id=1542410273]
 wait_time = 3.0
 one_shot = true
 
-[node name="Hitstun" type="Timer" parent="."]
+[node name="Hitstun" type="Timer" parent="." unique_id=808496337]
 one_shot = true
 
-[node name="MultiplayerSyncPhysicsTimer" type="Timer" parent="."]
+[node name="MultiplayerSyncPhysicsTimer" type="Timer" parent="." unique_id=1664534387]
 wait_time = 0.1
 autostart = true
 
-[node name="FloorDetector" type="RayCast2D" parent="."]
+[node name="FloorDetector" type="RayCast2D" parent="." unique_id=103427885]
 collision_mask = 3
 
-[node name="PredictBouncesRayCast" type="Node2D" parent="."]
+[node name="PredictBouncesRayCast" type="Node2D" parent="." unique_id=2023343987]
 script = ExtResource("27_bmb2s")
 
 [connection signal="timeout" from="DeathManager/DeathAnimTime" to="DeathManager" method="_on_death_anim_time_timeout"]
