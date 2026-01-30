@@ -498,6 +498,7 @@ func test_toggle_freeze(params = use_parameters(toggle_freeze_params)): # note :
 	# then
 	assert_eq(player._freeze_buffer_velocity, Vector2.LEFT)
 	assert_eq(player._frozen, params[0])
+	assert_eq(player._damage_enabled, not params[0])
 	assert_eq(primary_weapon.active, not params[0])
 	assert_eq(movement_bonus.active, not params[0])
 	assert_eq(powerup_manager.active, not params[0])

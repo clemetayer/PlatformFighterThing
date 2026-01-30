@@ -67,16 +67,20 @@ func test_handle_aim():
 	# given
 	var primary_weapon = double(load("res://Scenes/Weapons/Primary/Revolver/revolver.gd")).new()
 	stub(primary_weapon, "aim").to_do_nothing()
+	var sprites = double(load("res://Scenes/Player/sprites.gd")).new()
+	stub(sprites, "aim").to_do_nothing()
 	var crosshair = load("res://Scenes/Weapons/Primary/crosshair.gd").new()
 	var onready_paths_node = load("res://Scenes/Player/paths.gd").new()
 	onready_paths_node.crosshair = crosshair
 	onready_paths_node.primary_weapon = primary_weapon
+	onready_paths_node.sprites = sprites
 	action_manager.onready_paths_node = onready_paths_node
 	stub(action_manager, "_get_relative_aim_position").to_return(Vector2.RIGHT)
 	# when
 	action_manager._handle_aim()
 	# then
 	assert_called(primary_weapon, "aim", [Vector2.RIGHT])
+	assert_called(sprites, "aim", [Vector2.RIGHT])
 	assert_eq(crosshair.position, Vector2.RIGHT)
 	# cleanup
 	crosshair.free()

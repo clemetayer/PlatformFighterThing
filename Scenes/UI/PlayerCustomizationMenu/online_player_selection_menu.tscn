@@ -1,0 +1,113 @@
+[gd_scene format=3 uid="uid://cb3xu1m87j2o8"]
+
+[ext_resource type="Theme" uid="uid://bc0o65m108hf6" path="res://Misc/Themes/nord.tres" id="1_xuhwf"]
+[ext_resource type="Script" uid="uid://dy4ayf87a55g7" path="res://Scenes/UI/PlayerCustomizationMenu/online_player_selection_menu.gd" id="2_uod4e"]
+[ext_resource type="PackedScene" uid="uid://ch7ktmnnktu7d" path="res://Scenes/UI/PlayerCustomizationMenu/ItemsGridMenu/items_grid_menu.tscn" id="2_xuhwf"]
+[ext_resource type="PackedScene" uid="uid://tx5an1q2tqo3" path="res://Scenes/UI/PlayerCustomizationMenu/PlayerConfigDisplay/player_config_display.tscn" id="2_ydcmf"]
+[ext_resource type="PackedScene" uid="uid://b7s8i5b2dk747" path="res://Scenes/UI/PlayerCustomizationMenu/PresetsMenu/presets.tscn" id="3_d7l6s"]
+
+[node name="OnlinePlayerSelectionMenu" type="Control" unique_id=1627637445]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_xuhwf")
+script = ExtResource("2_uod4e")
+
+[node name="Panel" type="Panel" parent="." unique_id=291705273]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=515050235]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="MenuRoot" type="VBoxContainer" parent="MarginContainer" unique_id=976616226]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="TabContainer" type="TabContainer" parent="MarginContainer/MenuRoot" unique_id=695214652]
+layout_mode = 2
+size_flags_vertical = 3
+current_tab = 0
+
+[node name="PlayerConfig" type="MarginContainer" parent="MarginContainer/MenuRoot/TabContainer" unique_id=1147930007]
+layout_mode = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 50
+metadata/_tab_index = 0
+
+[node name="PlayerConfig" parent="MarginContainer/MenuRoot/TabContainer/PlayerConfig" unique_id=1172824173 instance=ExtResource("2_ydcmf")]
+layout_mode = 2
+
+[node name="Presets" parent="MarginContainer/MenuRoot/TabContainer" unique_id=286839093 instance=ExtResource("3_d7l6s")]
+visible = false
+layout_mode = 2
+CAN_BE_CLOSED = false
+metadata/_tab_index = 1
+
+[node name="PrimaryWeapon" parent="MarginContainer/MenuRoot/TabContainer" unique_id=1845577263 instance=ExtResource("2_xuhwf")]
+visible = false
+layout_mode = 2
+TITLE = "Primary weapon"
+CAN_BE_CLOSED = false
+SMALL = false
+metadata/_tab_index = 2
+
+[node name="MovementBonus" parent="MarginContainer/MenuRoot/TabContainer" unique_id=1366387067 instance=ExtResource("2_xuhwf")]
+visible = false
+layout_mode = 2
+TITLE = "Movement bonus"
+CAN_BE_CLOSED = false
+SMALL = false
+metadata/_tab_index = 3
+
+[node name="Powerup" parent="MarginContainer/MenuRoot/TabContainer" unique_id=1321826236 instance=ExtResource("2_xuhwf")]
+visible = false
+layout_mode = 2
+TITLE = "Powerup"
+CAN_BE_CLOSED = false
+SMALL = false
+metadata/_tab_index = 4
+
+[node name="ReadyButton" type="Button" parent="MarginContainer/MenuRoot" unique_id=1930584201]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_type_variation = &"StdImportantButton"
+theme_override_font_sizes/font_size = 32
+text = " Ready ! "
+
+[node name="WaitingForOtherPlayersText" type="RichTextLabel" parent="." unique_id=745321845]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+bbcode_enabled = true
+text = "[wave amp=50.0 freq=5.0 connected=1]Waiting for the other players[/wave]"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="preset_selected" from="MarginContainer/MenuRoot/TabContainer/Presets" to="." method="_on_presets_preset_selected"]
+[connection signal="item_selected" from="MarginContainer/MenuRoot/TabContainer/PrimaryWeapon" to="." method="_on_primary_weapon_item_selected"]
+[connection signal="item_selected" from="MarginContainer/MenuRoot/TabContainer/MovementBonus" to="." method="_on_movement_bonus_item_selected"]
+[connection signal="item_selected" from="MarginContainer/MenuRoot/TabContainer/Powerup" to="." method="_on_powerup_item_selected"]
+[connection signal="pressed" from="MarginContainer/MenuRoot/ReadyButton" to="." method="_on_ready_button_pressed"]

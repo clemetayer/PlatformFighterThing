@@ -19,6 +19,8 @@ func test_add_player():
 	var sprite_customization = SpriteCustomizationResource.new()
 	sprite_customization.BODY_COLOR = Color.BEIGE
 	sprite_customization.OUTLINE_COLOR = Color.GAINSBORO
+	sprite_customization.EYES_TEXTURE_PATH = "res://Scenes/Player/Eyes/eyes_1.PNG"
+	sprite_customization.MOUTH_TEXTURE_PATH = "res://Scenes/Player/Mouths/mouth_1.PNG"
 	config.SPRITE_CUSTOMIZATION = sprite_customization
 	config.ACTION_HANDLER = StaticActionHandler.handlers.RECORD
 	config.PRIMARY_WEAPON = StaticPrimaryWeaponHandler.handlers.REVOLVER
@@ -28,7 +30,7 @@ func test_add_player():
 	add_child(pdui)
 	wait_for_signal(pdui.tree_entered, 0.25)
 	# when
-	pdui.add_player(1,config,2)
+	pdui.add_player(1, config, 2)
 	# then
 	assert_eq(pdui.get_child_count(), 1)
 	assert_not_null(pdui._players[1])

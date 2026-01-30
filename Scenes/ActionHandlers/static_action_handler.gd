@@ -6,7 +6,7 @@ class_name StaticActionHandler
 enum handlers {INPUT, RECORD}
 
 ##### PUBLIC METHODS #####
-static func get_handler(handler : handlers) -> ActionHandlerBase:
+static func get_handler(handler: handlers) -> ActionHandlerBase:
 	match handler:
 		handlers.INPUT:
 			return ActionHandlerInput.new()

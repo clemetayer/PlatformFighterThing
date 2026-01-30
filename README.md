@@ -15,7 +15,7 @@ The source code is under the Apache v2 license. If you download the code, modify
 - If you make your own version of the game, give it a different name than the official one to avoid confusion for the users
 
 ## Plugins used
-- godot-stuff Logger v 4.5-dev
+- godot-stuff Logger v 4.6
 - Shaker v 1.0.7
 - RythmNotifier v 1.0
 - [TilemapCollisionBaker](https://github.com/popcar2/GodotTilemapBaker/blob/main/TilemapCollisionBaker.gd)

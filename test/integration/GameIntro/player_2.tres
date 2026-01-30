@@ -7,6 +7,8 @@
 script = ExtResource("1_ex1d4")
 BODY_COLOR = Color(0, 0, 1, 1)
 OUTLINE_COLOR = Color(0.38039216, 0, 1, 1)
+EYES_TEXTURE_PATH = "res://Scenes/Player/Eyes/eyes_1.PNG"
+MOUTH_TEXTURE_PATH = "res://Scenes/Player/Mouths/mouth_1.PNG"
 metadata/_custom_type_script = "uid://cceeupk77aehe"
 
 [resource]

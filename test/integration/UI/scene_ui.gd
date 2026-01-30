@@ -30,6 +30,7 @@ func init_players_data() -> void:
 	for player_id in players_data.keys():
 		data_deserialized[player_id] = {}
 		data_deserialized[player_id]["config"] = players_data[player_id].config.serialize()
+		data_deserialized[player_id]["lives"] = 3
 	onready_paths.game.init_players_data(data_deserialized)
 
 func set_level_data(data : LevelConfig) -> void:

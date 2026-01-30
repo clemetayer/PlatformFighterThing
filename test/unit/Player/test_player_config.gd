@@ -11,6 +11,7 @@ func before_each():
 ##### TESTS #####
 func test_serialize():
 	# given
+	player_config.PLAYER_NAME = "Funky Franklin"
 	player_config.ACTION_HANDLER = StaticActionHandler.handlers.RECORD
 	player_config.PRIMARY_WEAPON = StaticPrimaryWeaponHandler.handlers.REVOLVER
 	player_config.MOVEMENT_BONUS_HANDLER = StaticMovementBonusHandler.handlers.DASH
@@ -18,37 +19,51 @@ func test_serialize():
 	var sprite_customization = SpriteCustomizationResource.new()
 	sprite_customization.BODY_COLOR = Color.AQUAMARINE
 	sprite_customization.OUTLINE_COLOR = Color.BISQUE
+	sprite_customization.EYES_TEXTURE_PATH = "res://Scenes/Player/Eyes/eyes_1.PNG"
+	sprite_customization.EYES_COLOR = Color.RED
+	sprite_customization.MOUTH_TEXTURE_PATH = "res://Scenes/Player/Mouths/mouth_1.PNG"
+	sprite_customization.MOUTH_COLOR = Color.FIREBRICK
 	player_config.SPRITE_CUSTOMIZATION = sprite_customization
 	player_config.ELIMINATION_TEXT = "test"
 	var expected = {
-        "action_handler":StaticActionHandler.handlers.RECORD,
-        "primary_weapon":StaticPrimaryWeaponHandler.handlers.REVOLVER,
-        "movement_bonus_handler":StaticMovementBonusHandler.handlers.DASH,
-        "powerup_handler":StaticPowerupHandler.handlers.SPLITTER,
-        "sprite_customization": {
+		"player_name": "Funky Franklin",
+		"action_handler": StaticActionHandler.handlers.RECORD,
+		"primary_weapon": StaticPrimaryWeaponHandler.handlers.REVOLVER,
+		"movement_bonus_handler": StaticMovementBonusHandler.handlers.DASH,
+		"powerup_handler": StaticPowerupHandler.handlers.SPLITTER,
+		"sprite_customization": {
 			"body_color": Color.AQUAMARINE.to_html(),
-			"outline_color": Color.BISQUE.to_html()
+			"outline_color": Color.BISQUE.to_html(),
+			"eyes_texture_path": "res://Scenes/Player/Eyes/eyes_1.PNG",
+			"eyes_color": Color.RED.to_html(),
+			"mouth_texture_path": "res://Scenes/Player/Mouths/mouth_1.PNG",
+			"mouth_color": Color.FIREBRICK.to_html()
 		},
-        "elimination_text":"test"
-    }
+		"elimination_text": "test"
+	}
 	# when
 	var res = player_config.serialize()
 	# then
-	assert_eq(res,expected)
+	assert_eq(res, expected)
 
 func test_deserialize():
 	# given
 	var data = {
-        "action_handler":StaticActionHandler.handlers.RECORD,
-        "primary_weapon":StaticPrimaryWeaponHandler.handlers.REVOLVER,
-        "movement_bonus_handler":StaticMovementBonusHandler.handlers.DASH,
-        "powerup_handler":StaticPowerupHandler.handlers.SPLITTER,
-        "sprite_customization": {
+		"player_name": "Funky Franklin",
+		"action_handler": StaticActionHandler.handlers.RECORD,
+		"primary_weapon": StaticPrimaryWeaponHandler.handlers.REVOLVER,
+		"movement_bonus_handler": StaticMovementBonusHandler.handlers.DASH,
+		"powerup_handler": StaticPowerupHandler.handlers.SPLITTER,
+		"sprite_customization": {
 			"body_color": Color.AQUAMARINE.to_html(),
-			"outline_color": Color.BISQUE.to_html()
+			"outline_color": Color.BISQUE.to_html(),
+			"eyes_texture_path": "res://Scenes/Player/Eyes/eyes_1.PNG",
+			"eyes_color": Color.RED.to_html(),
+			"mouth_texture_path": "res://Scenes/Player/Mouths/mouth_1.PNG",
+			"mouth_color": Color.FIREBRICK.to_html()
 		},
-        "elimination_text":"test"
-    }
+		"elimination_text": "test"
+	}
 	# when
 	player_config.deserialize(data)
 	# then
@@ -58,5 +73,9 @@ func test_deserialize():
 	assert_eq(player_config.POWERUP_HANDLER, StaticPowerupHandler.handlers.SPLITTER)
 	assert_eq(player_config.SPRITE_CUSTOMIZATION.BODY_COLOR, Color.AQUAMARINE)
 	assert_eq(player_config.SPRITE_CUSTOMIZATION.OUTLINE_COLOR, Color.BISQUE)
+	assert_eq(player_config.SPRITE_CUSTOMIZATION.EYES_TEXTURE_PATH, "res://Scenes/Player/Eyes/eyes_1.PNG")
+	assert_eq(player_config.SPRITE_CUSTOMIZATION.EYES_COLOR, Color.RED)
+	assert_eq(player_config.SPRITE_CUSTOMIZATION.MOUTH_TEXTURE_PATH, "res://Scenes/Player/Mouths/mouth_1.PNG")
+	assert_eq(player_config.SPRITE_CUSTOMIZATION.MOUTH_COLOR, Color.FIREBRICK)
+	assert_eq(player_config.PLAYER_NAME, "Funky Franklin")
 	assert_eq(player_config.ELIMINATION_TEXT, "test")
-

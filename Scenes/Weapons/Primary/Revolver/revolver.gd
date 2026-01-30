@@ -11,7 +11,7 @@ const FIRE_ANIM_TIME := 0.2
 #---- STANDARD -----
 #==== PRIVATE ====
 var _on_cooldown := false
-var _fire_anim_tween : Tween
+var _fire_anim_tween: Tween
 var _runtime_utils := RuntimeUtils
 
 #==== ONREADY ====
@@ -28,7 +28,7 @@ func _ready():
 	_set_los_init_modulate()
 
 ##### PUBLIC METHODS #####
-@rpc("authority","call_local","reliable")
+@rpc("authority", "call_local", "reliable")
 func fire() -> void:
 	if not _on_cooldown and active:
 		_fire_anim()
@@ -38,10 +38,10 @@ func fire() -> void:
 		_on_cooldown = true
 		onready_paths.shoot_cooldown_timer.start()
 
-func aim(relative_aim_position : Vector2) -> void:
+func aim(relative_aim_position: Vector2) -> void:
 	var analog_angle = Vector2.ZERO.angle_to_point(relative_aim_position)
 	rotation = analog_angle
-	if abs(rotation) >= PI/2.0:
+	if abs(rotation) >= PI / 2.0:
 		onready_paths.sprite.scale.y = abs(onready_paths.sprite.scale.y) * -1
 	else:
 		onready_paths.sprite.scale.y = abs(onready_paths.sprite.scale.y)
@@ -62,8 +62,8 @@ func _fire_anim() -> void:
 	_fire_anim_tween = create_tween()
 	onready_paths.line_of_sight.modulate = Color.WHITE
 	onready_paths.line_of_sight.width = FIRE_ANIM_MAX_WIDTH
-	_fire_anim_tween.tween_property(onready_paths.line_of_sight,"modulate",owner_color,FIRE_ANIM_TIME)
-	_fire_anim_tween.tween_property(onready_paths.line_of_sight,"width",LOS_DEFAULT_WIDTH,FIRE_ANIM_TIME)
+	_fire_anim_tween.tween_property(onready_paths.line_of_sight, "modulate", owner_color, FIRE_ANIM_TIME)
+	_fire_anim_tween.tween_property(onready_paths.line_of_sight, "width", LOS_DEFAULT_WIDTH, FIRE_ANIM_TIME)
 
 func _play_gunshot() -> void:
 	onready_paths.gunshot.play()
