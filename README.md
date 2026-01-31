@@ -1,4 +1,4 @@
-# PlatformFighterThing
+# Techno Blast Arena
 Work in progress. Don't test it yet.
 
 ## What can you do with the source
@@ -9,7 +9,7 @@ The source code is under the Apache v2 license. If you download the code, modify
 - Create you own version of this game (for free or commercial use) as long as you give proper credit and attribution and keep the original license.
 
 ### Things you can't do
-- Patent this thing
+- Patent this game
 
 ### Recommendations
 - If you make your own version of the game, give it a different name than the official one to avoid confusion for the users

@@ -5,11 +5,11 @@ extends "res://addons/gut/test.gd"
 # const CONST := "value"
 
 #---- VARIABLES -----
-var camera : Camera2D
+var camera: Camera2D
 
 ##### SETUP #####
 func before_each():
-	camera = load("/home/clemetayer/Projects/PlatformFighterThing/Scenes/Camera/camera.gd").new()
+	camera = load("res://Scenes/Camera/camera.gd").new()
 
 ##### TEARDOWN #####
 func after_each():
@@ -30,76 +30,76 @@ func test_start_camera_impact():
 	var mock_shake_manager = double(load("res://Scenes/Camera/camera_shake_manager.gd")).new()
 	var mock_zoom_manager = double(load("res://Scenes/Camera/camera_zoom_manager.gd")).new()
 	var mock_effect_manager = double(load("res://Scenes/Camera/camera_effects_manager.gd")).new()
-	stub(mock_shake_manager,"start_camera_shake").to_do_nothing()
-	stub(mock_shake_manager,"start_camera_tilt").to_do_nothing()
-	stub(mock_zoom_manager,"start_fast_zoom").to_do_nothing()
-	stub(mock_effect_manager,"start_chromatic_aberration").to_do_nothing()
+	stub(mock_shake_manager, "start_camera_shake").to_do_nothing()
+	stub(mock_shake_manager, "start_camera_tilt").to_do_nothing()
+	stub(mock_zoom_manager, "start_fast_zoom").to_do_nothing()
+	stub(mock_effect_manager, "start_chromatic_aberration").to_do_nothing()
 	camera.onready_paths.shake_manager = mock_shake_manager
 	camera.onready_paths.zoom_manager = mock_zoom_manager
 	camera.onready_paths.effect_manager = mock_effect_manager
 	# when
-	camera._start_camera_impact(0.5,CameraEffects.CAMERA_IMPACT_INTENSITY.MEDIUM, CameraEffects.CAMERA_IMPACT_PRIORITY.MEDIUM)
+	camera._start_camera_impact(0.5, CameraEffects.CAMERA_IMPACT_INTENSITY.MEDIUM, CameraEffects.CAMERA_IMPACT_PRIORITY.MEDIUM)
 	# then
-	assert_called(mock_shake_manager,"start_camera_shake",[0.5,CameraEffects.CAMERA_IMPACT_INTENSITY.MEDIUM])
-	assert_called(mock_shake_manager,"start_camera_tilt",[0.5,CameraEffects.CAMERA_IMPACT_INTENSITY.MEDIUM])
-	assert_called(mock_zoom_manager,"start_fast_zoom",[0.5,CameraEffects.CAMERA_IMPACT_INTENSITY.MEDIUM])
-	assert_called(mock_effect_manager,"start_chromatic_aberration",[0.5,CameraEffects.CAMERA_IMPACT_INTENSITY.MEDIUM])
+	assert_called(mock_shake_manager, "start_camera_shake", [0.5, CameraEffects.CAMERA_IMPACT_INTENSITY.MEDIUM])
+	assert_called(mock_shake_manager, "start_camera_tilt", [0.5, CameraEffects.CAMERA_IMPACT_INTENSITY.MEDIUM])
+	assert_called(mock_zoom_manager, "start_fast_zoom", [0.5, CameraEffects.CAMERA_IMPACT_INTENSITY.MEDIUM])
+	assert_called(mock_effect_manager, "start_chromatic_aberration", [0.5, CameraEffects.CAMERA_IMPACT_INTENSITY.MEDIUM])
 
 func test_start_camera_impact_higher_priority():
 	# given
 	var mock_shake_manager = double(load("res://Scenes/Camera/camera_shake_manager.gd")).new()
 	var mock_zoom_manager = double(load("res://Scenes/Camera/camera_zoom_manager.gd")).new()
 	var mock_effect_manager = double(load("res://Scenes/Camera/camera_effects_manager.gd")).new()
-	stub(mock_shake_manager,"start_camera_shake").to_do_nothing()
-	stub(mock_shake_manager,"start_camera_tilt").to_do_nothing()
-	stub(mock_zoom_manager,"start_fast_zoom").to_do_nothing()
-	stub(mock_effect_manager,"start_chromatic_aberration").to_do_nothing()
+	stub(mock_shake_manager, "start_camera_shake").to_do_nothing()
+	stub(mock_shake_manager, "start_camera_tilt").to_do_nothing()
+	stub(mock_zoom_manager, "start_fast_zoom").to_do_nothing()
+	stub(mock_effect_manager, "start_chromatic_aberration").to_do_nothing()
 	camera.onready_paths.shake_manager = mock_shake_manager
 	camera.onready_paths.zoom_manager = mock_zoom_manager
 	camera.onready_paths.effect_manager = mock_effect_manager
 	camera._current_impact_priority = CameraEffects.CAMERA_IMPACT_PRIORITY.MEDIUM
 	# when
-	camera._start_camera_impact(0.5,CameraEffects.CAMERA_IMPACT_INTENSITY.HIGH, CameraEffects.CAMERA_IMPACT_PRIORITY.HIGH)
+	camera._start_camera_impact(0.5, CameraEffects.CAMERA_IMPACT_INTENSITY.HIGH, CameraEffects.CAMERA_IMPACT_PRIORITY.HIGH)
 	# then
-	assert_called(mock_shake_manager,"start_camera_shake",[0.5,CameraEffects.CAMERA_IMPACT_INTENSITY.HIGH])
-	assert_called(mock_shake_manager,"start_camera_tilt",[0.5,CameraEffects.CAMERA_IMPACT_INTENSITY.HIGH])
-	assert_called(mock_zoom_manager,"start_fast_zoom",[0.5,CameraEffects.CAMERA_IMPACT_INTENSITY.HIGH])
-	assert_called(mock_effect_manager,"start_chromatic_aberration",[0.5,CameraEffects.CAMERA_IMPACT_INTENSITY.HIGH])
+	assert_called(mock_shake_manager, "start_camera_shake", [0.5, CameraEffects.CAMERA_IMPACT_INTENSITY.HIGH])
+	assert_called(mock_shake_manager, "start_camera_tilt", [0.5, CameraEffects.CAMERA_IMPACT_INTENSITY.HIGH])
+	assert_called(mock_zoom_manager, "start_fast_zoom", [0.5, CameraEffects.CAMERA_IMPACT_INTENSITY.HIGH])
+	assert_called(mock_effect_manager, "start_chromatic_aberration", [0.5, CameraEffects.CAMERA_IMPACT_INTENSITY.HIGH])
 
 func test_start_camera_impact_lower_priority():
 	# given
 	var mock_shake_manager = double(load("res://Scenes/Camera/camera_shake_manager.gd")).new()
 	var mock_zoom_manager = double(load("res://Scenes/Camera/camera_zoom_manager.gd")).new()
 	var mock_effect_manager = double(load("res://Scenes/Camera/camera_effects_manager.gd")).new()
-	stub(mock_shake_manager,"start_camera_shake").to_do_nothing()
-	stub(mock_shake_manager,"start_camera_tilt").to_do_nothing()
-	stub(mock_zoom_manager,"start_fast_zoom").to_do_nothing()
-	stub(mock_effect_manager,"start_chromatic_aberration").to_do_nothing()
+	stub(mock_shake_manager, "start_camera_shake").to_do_nothing()
+	stub(mock_shake_manager, "start_camera_tilt").to_do_nothing()
+	stub(mock_zoom_manager, "start_fast_zoom").to_do_nothing()
+	stub(mock_effect_manager, "start_chromatic_aberration").to_do_nothing()
 	camera.onready_paths.shake_manager = mock_shake_manager
 	camera.onready_paths.zoom_manager = mock_zoom_manager
 	camera.onready_paths.effect_manager = mock_effect_manager
 	camera._current_impact_priority = CameraEffects.CAMERA_IMPACT_PRIORITY.MEDIUM
 	# when
-	camera._start_camera_impact(0.5,CameraEffects.CAMERA_IMPACT_INTENSITY.HIGH, CameraEffects.CAMERA_IMPACT_PRIORITY.LOW)
+	camera._start_camera_impact(0.5, CameraEffects.CAMERA_IMPACT_INTENSITY.HIGH, CameraEffects.CAMERA_IMPACT_PRIORITY.LOW)
 	# then
-	assert_not_called(mock_shake_manager,"start_camera_shake")
-	assert_not_called(mock_shake_manager,"start_camera_tilt")
-	assert_not_called(mock_zoom_manager,"start_fast_zoom")
-	assert_not_called(mock_effect_manager,"start_chromatic_aberration")
+	assert_not_called(mock_shake_manager, "start_camera_shake")
+	assert_not_called(mock_shake_manager, "start_camera_tilt")
+	assert_not_called(mock_zoom_manager, "start_fast_zoom")
+	assert_not_called(mock_effect_manager, "start_chromatic_aberration")
 
 func test_on_focus_on():
 	# given
 	camera._focus_on = null
 	var mock_timer = double(Timer).new()
 	camera.onready_paths.focus_on_timer = mock_timer
-	stub(camera.onready_paths.focus_on_timer,"start").to_do_nothing()
+	stub(camera.onready_paths.focus_on_timer, "start").to_do_nothing()
 	# when
-	camera._on_focus_on(Vector2.ONE,0.33,0.25,0.1)
+	camera._on_focus_on(Vector2.ONE, 0.33, 0.25, 0.1)
 	# then
-	assert_eq(camera._focus_on.position,Vector2.ONE)
+	assert_eq(camera._focus_on.position, Vector2.ONE)
 	assert_eq(camera._focus_on.zoom, 0.33)
-	assert_eq(camera._focus_on.time_to_focus,0.25)
-	assert_called(camera.onready_paths.focus_on_timer,"start",[0.1])
+	assert_eq(camera._focus_on.time_to_focus, 0.25)
+	assert_called(camera.onready_paths.focus_on_timer, "start", [0.1])
 
 func test_on_shaker_shake_finished():
 	# given
@@ -107,7 +107,7 @@ func test_on_shaker_shake_finished():
 	# when
 	camera._on_shaker_shake_finished()
 	# then
-	assert_eq(camera._current_impact_priority,CameraEffects.CAMERA_IMPACT_PRIORITY.NONE)
+	assert_eq(camera._current_impact_priority, CameraEffects.CAMERA_IMPACT_PRIORITY.NONE)
 
 func test_on_focus_on_timer_timeout():
 	# given
@@ -119,7 +119,7 @@ func test_on_focus_on_timer_timeout():
 
 func test_process_with_focus_on():
 	# given
-	var delta = 0.016  
+	var delta = 0.016
 	camera._focus_on = {
 		"position": Vector2(100, 100),
 		"zoom": 0.5,
@@ -130,10 +130,10 @@ func test_process_with_focus_on():
 	# when
 	camera._process(delta)
 	# then
-	var expected_movement = Vector2.ZERO.move_toward(Vector2(100,100), delta * 2.0 * 600)
+	var expected_movement = Vector2.ZERO.move_toward(Vector2(100, 100), delta * 2.0 * 600)
 	assert_eq(camera.global_position, expected_movement)
 	var expected_zoom_change = Vector2.ONE.move_toward(Vector2.ONE * 0.5, delta * 2.0)
-	assert_eq(camera.zoom, expected_zoom_change,)
+	assert_eq(camera.zoom, expected_zoom_change, )
 
 func test_process_without_focus_on():
 	# given
