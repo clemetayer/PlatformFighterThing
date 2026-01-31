@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://dyyr10js02uhh"]
+[gd_scene format=3 uid="uid://dyyr10js02uhh"]
 
 [ext_resource type="FontFile" uid="uid://dncl7x8virtei" path="res://Misc/InterDisplay-LightItalic.ttf" id="1_3mb7h"]
 [ext_resource type="Script" uid="uid://dpf1tb6f46l58" path="res://Scenes/UI/ScreenGameMessage/screen_game_message.gd" id="2_3mb7h"]
@@ -33,10 +33,10 @@ tracks/0/path = NodePath("RichTextLabel:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.25),
+"times": PackedFloat32Array(0, 0.2666667),
 "transitions": PackedFloat32Array(0.25, 0.25),
 "update": 0,
-"values": [Vector2(1152, 224), Vector2(276, 224)]
+"values": [Vector2(0, 0), Vector2(-1152, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_71s0v"]
@@ -52,7 +52,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.25),
 "transitions": PackedFloat32Array(4, 4),
 "update": 0,
-"values": [Vector2(276, 224), Vector2(-600, 224)]
+"values": [Vector2(0, 0), Vector2(-1152, 0)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_3mb7h"]
@@ -62,7 +62,7 @@ _data = {
 &"exit": SubResource("Animation_71s0v")
 }
 
-[node name="ScreenGameMessage" type="Control"]
+[node name="ScreenGameMessage" type="Control" unique_id=1352977817]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -72,33 +72,29 @@ grow_vertical = 2
 theme = SubResource("Theme_3mb7h")
 script = ExtResource("2_3mb7h")
 
-[node name="RichTextLabel" type="RichTextLabel" parent="."]
+[node name="RichTextLabel" type="RichTextLabel" parent="." unique_id=287042281]
 custom_minimum_size = Vector2(600, 200)
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -300.0
-offset_top = -100.0
-offset_right = 300.0
-offset_bottom = 100.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 276.0
+offset_top = 224.0
+offset_right = 276.0
+offset_bottom = 224.0
 grow_horizontal = 2
 grow_vertical = 2
 bbcode_enabled = true
 text = "HOOOOOOOOOOOOOOOOOOOOOOOOOOOO"
 scroll_active = false
-autowrap_mode = 2
+autowrap_mode = 0
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-&"": SubResource("AnimationLibrary_3mb7h")
-}
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=919705058]
+libraries/ = SubResource("AnimationLibrary_3mb7h")
 
-[node name="MidScreenTimer" type="Timer" parent="."]
+[node name="MidScreenTimer" type="Timer" parent="." unique_id=1519545194]
 one_shot = true
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
