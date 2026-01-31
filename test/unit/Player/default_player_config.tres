@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="PlayerConfig" load_steps=4 format=3 uid="uid://d20xrj1vvr3sn"]
+[gd_resource type="Resource" script_class="PlayerConfig" format=3 uid="uid://d20xrj1vvr3sn"]
 
 [ext_resource type="Script" uid="uid://cceeupk77aehe" path="res://Scenes/Player/sprite_customization_resource.gd" id="1_suynu"]
 [ext_resource type="Script" uid="uid://cb2tt7tw3qdjn" path="res://Scenes/Player/player_config.gd" id="1_ydkds"]

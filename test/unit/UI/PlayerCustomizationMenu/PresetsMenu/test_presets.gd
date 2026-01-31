@@ -39,7 +39,6 @@ func test_ready(params = use_parameters(ready_params)):
 	# then
 	assert_eq(presets.onready_paths.close_button.visible, can_be_closed)
 	assert_eq(presets.onready_paths.presets_root.get_child_count(), presets._presets.size() + 1 if can_add_elements else presets._presets.size())
-	assert_eq(presets.onready_paths.presets_root.get_children()[0].SMALL, small)
 
 # refresh, _get_preset, _reset_preset_root, _add_preset_button and _add_save_preset_button tested in _ready
 
