@@ -11,13 +11,12 @@ signal mouth_color_changed(mouth_color: Color)
 
 ##### VARIABLES #####
 #---- CONSTANTS -----
-const EYES_PATHS_FOLDER := "res://Scenes/Player/Eyes/"
-const MOUTH_PATHS_FOLDER := "res://Scenes/Player/Mouths/"
-const VALID_IMAGE_EXTENSION := ".PNG"
+const EYES_RESOURCE := "res://Scenes/Player/Eyes/eyes.tres"
+const MOUTH_RESOURCE := "res://Scenes/Player/Mouths/mouths.tres"
 
 #==== PRIVATE ====
-var _eyes_paths := []
-var _mouth_paths := []
+var _eyes := []
+var _mouths := []
 
 #==== ONREADY ====
 @onready var onready_paths := {
@@ -35,8 +34,8 @@ var _mouth_paths := []
 ##### PROCESSING #####
 # Called when the object is initialized.
 func _init():
-	_load_eyes_paths()
-	_load_mouth_paths()
+	_eyes = load(EYES_RESOURCE).RESOURCES
+	_mouths = load(MOUTH_RESOURCE).RESOURCES
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -51,24 +50,14 @@ func update_config(config: SpriteCustomizationResource) -> void:
 	onready_paths.sprite_preview.update_sprite(config)
 
 ##### PROTECTED METHODS #####
-func _load_eyes_paths() -> void:
-	_eyes_paths = StaticUtils.list_files_in_dir(EYES_PATHS_FOLDER) \
-		.filter(func(file): return file.ends_with(VALID_IMAGE_EXTENSION)) \
-		.map(func(file): return "%s%s" % [EYES_PATHS_FOLDER, file])
-
-func _load_mouth_paths() -> void:
-	_mouth_paths = StaticUtils.list_files_in_dir(MOUTH_PATHS_FOLDER) \
-		.filter(func(file): return file.ends_with(VALID_IMAGE_EXTENSION)) \
-		.map(func(file): return "%s%s" % [MOUTH_PATHS_FOLDER, file])
-
 func _init_items() -> void:
-	_init_item_list(onready_paths.eyes_items, _eyes_paths)
-	_init_item_list(onready_paths.mouth_items, _mouth_paths)
+	_init_item_list(onready_paths.eyes_items, _eyes)
+	_init_item_list(onready_paths.mouth_items, _mouths)
 
 func _init_item_list(item_list: ItemList, elements: Array) -> void:
 	item_list.clear()
-	for path in elements:
-		item_list.add_item("", load(path))
+	for element in elements:
+		item_list.add_item("", element)
 
 func _random_color() -> Color:
 	return Color(randf(), randf(), randf())
@@ -77,9 +66,9 @@ func _random_color() -> Color:
 func _on_randomize_button_pressed() -> void:
 	var body = _random_color()
 	var outline = _random_color()
-	var eyes_path = _eyes_paths[randi_range(0, _eyes_paths.size() - 1)]
+	var eyes = _eyes[randi_range(0, _eyes.size() - 1)]
 	var eyes_color = _random_color()
-	var mouth_path = _mouth_paths[randi_range(0, _mouth_paths.size() - 1)]
+	var mouth = _mouths[randi_range(0, _mouths.size() - 1)]
 	var mouth_color = _random_color()
 	onready_paths.main_color.color = body
 	onready_paths.secondary_color.color = outline
@@ -87,15 +76,15 @@ func _on_randomize_button_pressed() -> void:
 	onready_paths.mouth_color.color = mouth_color
 	onready_paths.sprite_preview.update_body(body)
 	onready_paths.sprite_preview.update_outline(outline)
-	onready_paths.sprite_preview.update_eyes(load(eyes_path))
+	onready_paths.sprite_preview.update_eyes(eyes)
 	onready_paths.sprite_preview.update_eyes_color(eyes_color)
-	onready_paths.sprite_preview.update_mouth(load(mouth_path))
+	onready_paths.sprite_preview.update_mouth(mouth)
 	onready_paths.sprite_preview.update_mouth_color(mouth_color)
 	emit_signal("body_color_changed", body)
 	emit_signal("outline_color_changed", outline)
-	emit_signal("eyes_changed", eyes_path)
+	emit_signal("eyes_changed", eyes)
 	emit_signal("eyes_color_changed", eyes_color)
-	emit_signal("mouth_changed", mouth_path)
+	emit_signal("mouth_changed", mouth)
 	emit_signal("mouth_color_changed", mouth_color)
 
 func _on_main_color_picker_color_changed(color: Color) -> void:
@@ -113,17 +102,17 @@ func _on_mouth_edit_button_pressed() -> void:
 	onready_paths.mouth_root.show()
 
 func _on_eyes_items_item_activated(index: int) -> void:
-	onready_paths.sprite_preview.update_eyes(load(_eyes_paths[index]))
+	onready_paths.sprite_preview.update_eyes(_eyes[index])
 	onready_paths.eyes_root.hide()
-	emit_signal("eyes_changed", _eyes_paths[index])
+	emit_signal("eyes_changed", _eyes[index])
 
 func _on_eyes_close_button_pressed() -> void:
 	onready_paths.eyes_root.hide()
 
 func _on_mouth_items_item_activated(index: int) -> void:
-	onready_paths.sprite_preview.update_mouth(load(_mouth_paths[index]))
+	onready_paths.sprite_preview.update_mouth(_mouths[index])
 	onready_paths.mouth_root.hide()
-	emit_signal("mouth_changed", _mouth_paths[index])
+	emit_signal("mouth_changed", _mouths[index])
 
 func _on_mouth_close_button_pressed() -> void:
 	onready_paths.mouth_root.hide()

@@ -26,12 +26,14 @@ func test_init():
 	label.free()
 
 var display_message_params := [
-	[true],
-	[false]
+	[true, "AAAAAAAAAAAAAA", HORIZONTAL_ALIGNMENT_CENTER],
+	[false, "AAAAAAAAAAAAAAAAAAAA", HORIZONTAL_ALIGNMENT_RIGHT]
 ]
 func test_display_message(params = use_parameters(display_message_params)):
 	# given
 	var display_all_characters = params[0]
+	var message = params[1]
+	var expected_alignment = params[2]
 	var label = Label.new()
 	var animation = double(AnimationPlayer).new()
 	stub(animation, "play").to_do_nothing()
@@ -40,16 +42,17 @@ func test_display_message(params = use_parameters(display_message_params)):
 	sgm.onready_paths.animation = animation
 	sgm.onready_paths.mid_screen_timer = mid_screen_timer
 	# when
-	sgm.display_message("test", 2.0, display_all_characters)
+	sgm.display_message(message, 2.0, display_all_characters)
 	# then
-	assert_eq(label.text, "test")
+	assert_eq(label.text, message)
+	assert_eq(label.horizontal_alignment, expected_alignment)
 	assert_called(animation, "play", ["enter", null, null, null])
 	if display_all_characters:
 		assert_eq(label.visible_characters, -1)
 	else:
 		assert_eq(label.visible_ratio, 0)
 		assert_not_null(sgm._display_characters_tween)
-	assert_eq(mid_screen_timer.wait_time, 2.0 - (sgm.ENTER_ANIM_TIME + sgm.EXIT_ANIM_TIME))
+	assert_eq(mid_screen_timer.wait_time, 2.0 + sgm.WAIT_TEXT_END - (sgm.ENTER_ANIM_TIME + sgm.EXIT_ANIM_TIME))
 	# cleanup
 	label.free()
 	mid_screen_timer.free()
@@ -82,3 +85,20 @@ func test_on_mid_screen_timer_timeout():
 	# then
 	assert_called(animation, "play", ["exit", null, null, null])
 
+var is_message_too_long_params := [
+	["AAAAAAAAAAAAAAA", false],
+	["AAAAAAAAAAAAAAAAAAAAAAAAAAAA", true]
+]
+func test_is_message_too_long(params = use_parameters(is_message_too_long_params)):
+	# given
+	var message = params[0]
+	var expected_result = params[1]
+	var label = RichTextLabel.new()
+	label.text = message
+	sgm.onready_paths.label = label
+	# when
+	var res = sgm._is_message_too_long()
+	# then
+	assert_eq(res, expected_result)
+	# cleanup
+	label.free()

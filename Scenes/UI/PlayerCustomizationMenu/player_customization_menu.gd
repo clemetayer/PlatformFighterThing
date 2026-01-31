@@ -70,13 +70,13 @@ func _on_customization_body_color_changed(new_color: Color) -> void:
 	_current_config.SPRITE_CUSTOMIZATION.BODY_COLOR = new_color
 	onready_paths.player_config_display.update_body(new_color)
 
-func _on_customization_eyes_changed(eyes_image_path: String) -> void:
-	_current_config.SPRITE_CUSTOMIZATION.EYES_TEXTURE_PATH = eyes_image_path
-	onready_paths.player_config_display.update_eyes(load(eyes_image_path))
+func _on_customization_eyes_changed(eyes_image: Texture) -> void:
+	_current_config.SPRITE_CUSTOMIZATION.EYES_TEXTURE_PATH = eyes_image.resource_path
+	onready_paths.player_config_display.update_eyes(eyes_image)
 
-func _on_customization_mouth_changed(mouth_image_path: String) -> void:
-	_current_config.SPRITE_CUSTOMIZATION.MOUTH_TEXTURE_PATH = mouth_image_path
-	onready_paths.player_config_display.update_mouth(load(mouth_image_path))
+func _on_customization_mouth_changed(mouth_image: Texture) -> void:
+	_current_config.SPRITE_CUSTOMIZATION.MOUTH_TEXTURE_PATH = mouth_image.resource_path
+	onready_paths.player_config_display.update_mouth(mouth_image)
 
 func _on_customization_outline_color_changed(new_color: Color) -> void:
 	_current_config.SPRITE_CUSTOMIZATION.OUTLINE_COLOR = new_color

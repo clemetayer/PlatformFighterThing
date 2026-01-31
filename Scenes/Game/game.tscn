@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://bypr1ueba3rju"]
+[gd_scene format=3 uid="uid://bypr1ueba3rju"]
 
 [ext_resource type="Script" uid="uid://di807ybb5wuoh" path="res://Scenes/Game/game.gd" id="1_4jp85"]
 [ext_resource type="PackedScene" uid="uid://ew7gedlm3n8" path="res://Scenes/Camera/camera.tscn" id="2_0bomf"]
@@ -30,7 +30,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "values": [{
-"args": ["[wave amp=50.0 freq=5.0 connected=1]Game ![/wave]", 5.0, true],
+"args": ["[wave amp=50.0 freq=5.0 connected=1]Game ![/wave]", 4.75, true],
 "method": &"display_message"
 }]
 }
@@ -64,19 +64,19 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 1.5, 2.5, 3.5, 4.5),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "values": [{
-"args": ["Ready ?", 1.0, true],
+"args": ["Ready ?", 0.75, true],
 "method": &"display_message"
 }, {
-"args": ["3", 0.5, true],
+"args": ["3", 0.25, true],
 "method": &"display_message"
 }, {
-"args": ["2", 0.5, true],
+"args": ["2", 0.25, true],
 "method": &"display_message"
 }, {
-"args": ["1", 0.5, true],
+"args": ["1", 0.25, true],
 "method": &"display_message"
 }, {
-"args": ["Shoot !", 0.5, true],
+"args": ["Shoot !", 0.25, true],
 "method": &"display_message"
 }]
 }
@@ -135,71 +135,69 @@ _data = {
 &"start_game": SubResource("Animation_ciybh")
 }
 
-[node name="Game" type="Node" groups=["game_root"]]
+[node name="Game" type="Node" unique_id=1423472435 groups=["game_root"]]
 script = ExtResource("1_4jp85")
 
-[node name="UI" type="CanvasLayer" parent="."]
+[node name="UI" type="CanvasLayer" parent="." unique_id=402867174]
 layer = 100
 script = ExtResource("2_oejk7")
 
-[node name="PlayersDataUi" parent="UI" instance=ExtResource("2_qikps")]
+[node name="PlayersDataUi" parent="UI" unique_id=1774143992 instance=ExtResource("2_qikps")]
 
-[node name="Chronometer" parent="UI" instance=ExtResource("3_i1e5p")]
+[node name="Chronometer" parent="UI" unique_id=736386071 instance=ExtResource("3_i1e5p")]
 
-[node name="ScreenGameMessage" parent="UI" instance=ExtResource("4_ciybh")]
+[node name="ScreenGameMessage" parent="UI" unique_id=655927589 instance=ExtResource("4_ciybh")]
 
-[node name="Players" type="CanvasLayer" parent="."]
+[node name="Players" type="CanvasLayer" parent="." unique_id=1333699437]
 follow_viewport_enabled = true
 script = ExtResource("5_ypmwd")
 
-[node name="Level" type="CanvasLayer" parent="."]
+[node name="Level" type="CanvasLayer" parent="." unique_id=1025803190]
 follow_viewport_enabled = true
 script = ExtResource("7_2vowc")
 
-[node name="Projectiles" type="CanvasLayer" parent="."]
+[node name="Projectiles" type="CanvasLayer" parent="." unique_id=2105240968]
 follow_viewport_enabled = true
 
-[node name="Powerups" type="CanvasLayer" parent="."]
+[node name="Powerups" type="CanvasLayer" parent="." unique_id=45588036]
 follow_viewport_enabled = true
 
-[node name="Background" type="Node" parent="."]
+[node name="Background" type="Node" parent="." unique_id=1363262849]
 script = ExtResource("10_a6ftd")
 
-[node name="Camera" parent="." instance=ExtResource("2_0bomf")]
+[node name="Camera" parent="." unique_id=1533414058 instance=ExtResource("2_0bomf")]
 enabled = false
 
-[node name="PlayerSpawner" type="MultiplayerSpawner" parent="."]
+[node name="PlayerSpawner" type="MultiplayerSpawner" parent="." unique_id=494070830]
 _spawnable_scenes = PackedStringArray("uid://fgxha8wl55pa")
 spawn_path = NodePath("../Players")
 spawn_limit = 4
 
-[node name="LevelSpawner" type="MultiplayerSpawner" parent="."]
+[node name="LevelSpawner" type="MultiplayerSpawner" parent="." unique_id=97593403]
 _spawnable_scenes = PackedStringArray("uid://b1lft1oovl50b")
 spawn_path = NodePath("../Level")
 spawn_limit = 1
 
-[node name="ProjectileSpawner" type="MultiplayerSpawner" parent="."]
+[node name="ProjectileSpawner" type="MultiplayerSpawner" parent="." unique_id=508602494]
 _spawnable_scenes = PackedStringArray("uid://cra571gjijhyj")
 spawn_path = NodePath("../Projectiles")
 spawn_limit = 100
 
-[node name="PowerupSpawner" type="MultiplayerSpawner" parent="."]
+[node name="PowerupSpawner" type="MultiplayerSpawner" parent="." unique_id=1509792952]
 _spawnable_scenes = PackedStringArray("uid://cto1bewda5gwm")
 spawn_path = NodePath("../Powerups")
 
-[node name="BackgroundSpawner" type="MultiplayerSpawner" parent="."]
+[node name="BackgroundSpawner" type="MultiplayerSpawner" parent="." unique_id=1618548761]
 _spawnable_scenes = PackedStringArray("uid://lpdxuv2lqgps")
 spawn_path = NodePath("../Background")
 spawn_limit = 1
 
-[node name="IntroOutroSounds" type="AudioStreamPlayer" parent="."]
+[node name="IntroOutroSounds" type="AudioStreamPlayer" parent="." unique_id=463894482]
 volume_db = -5.0
 bus = &"Effects"
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-&"": SubResource("AnimationLibrary_vifcx")
-}
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1873146424]
+libraries/ = SubResource("AnimationLibrary_vifcx")
 
 [connection signal="time_over" from="UI" to="." method="_on_ui_time_over"]
 [connection signal="game_message_triggered" from="Players" to="." method="_on_players_game_message_triggered"]

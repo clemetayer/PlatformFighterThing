@@ -133,26 +133,26 @@ func test_on_customization_eyes_changed():
 	# given
 	var config = create_player_config()
 	menu._current_config = config
-	var eyes_image_path = "res://icon.svg"
+	var eyes_image = load("res://icon.svg")
 	var player_config_display = create_player_config_display_mock()
 	stub(player_config_display, "update_eyes").to_do_nothing()
 	# when
-	menu._on_customization_eyes_changed(eyes_image_path)
+	menu._on_customization_eyes_changed(eyes_image)
 	# then
-	assert_eq(config.SPRITE_CUSTOMIZATION.EYES_TEXTURE_PATH, eyes_image_path)
+	assert_eq(config.SPRITE_CUSTOMIZATION.EYES_TEXTURE_PATH, eyes_image.resource_path)
 	assert_called(player_config_display, "update_eyes")
 
 func test_on_customization_mouth_changed():
 	# given
 	var config = create_player_config()
 	menu._current_config = config
-	var mouth_image_path = "res://icon.svg"
+	var mouth_image = load("res://icon.svg")
 	var player_config_display = create_player_config_display_mock()
 	stub(player_config_display, "update_mouth").to_do_nothing()
 	# when
-	menu._on_customization_mouth_changed(mouth_image_path)
+	menu._on_customization_mouth_changed(mouth_image)
 	# then
-	assert_eq(config.SPRITE_CUSTOMIZATION.MOUTH_TEXTURE_PATH, mouth_image_path)
+	assert_eq(config.SPRITE_CUSTOMIZATION.MOUTH_TEXTURE_PATH, mouth_image.resource_path)
 	assert_called(player_config_display, "update_mouth")
 
 func test_on_customization_outline_color_changed():

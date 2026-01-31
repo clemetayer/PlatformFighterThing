@@ -40,13 +40,13 @@ func test_init():
 	# when
 	tab._init()
 	# then
-	assert_gt(tab._eyes_paths.size(), 0)
-	assert_gt(tab._mouth_paths.size(), 0)
+	assert_gt(tab._eyes.size(), 0)
+	assert_gt(tab._mouths.size(), 0)
 
 func test_ready():
 	# given
-	tab._eyes_paths = ["res://icon.svg"]
-	tab._mouth_paths = ["res://icon.svg"]
+	tab._eyes = [load("res://icon.svg")]
+	tab._mouths = [load("res://icon.svg")]
 	# when
 	tab._ready()
 	# then
@@ -83,8 +83,8 @@ func test_random_color():
 
 func test_on_randomize_button_pressed():
 	# given
-	tab._eyes_paths = ["res://icon.svg"]
-	tab._mouth_paths = ["res://icon.svg"]
+	tab._eyes = [load("res://icon.svg")]
+	tab._mouths = [load("res://icon.svg")]
 	var sprite_preview = double(load("res://Scenes/UI/PlayerCustomizationMenu/PlayerSprite/player_sprite.gd")).new()
 	stub(sprite_preview, "update_body").to_do_nothing()
 	stub(sprite_preview, "update_outline").to_do_nothing()
@@ -161,7 +161,8 @@ func test_on_eyes_items_item_activated():
 	# given
 	var sprite_preview = double(load("res://Scenes/UI/PlayerCustomizationMenu/PlayerSprite/player_sprite.gd")).new()
 	stub(sprite_preview, "update_eyes").to_do_nothing()
-	tab._eyes_paths = ["res://icon.svg"]
+	var eyes_texture = load("res://icon.svg")
+	tab._eyes = [eyes_texture]
 	tab.onready_paths.sprite_preview = sprite_preview
 	tab.onready_paths.eyes_root.show()
 	tab.connect("eyes_changed", _on_eyes_changed)
@@ -171,7 +172,7 @@ func test_on_eyes_items_item_activated():
 	assert_called(sprite_preview, "update_eyes")
 	assert_false(tab.onready_paths.eyes_root.visible)
 	assert_eq(eyes_changed_times_called, 1)
-	assert_eq(eyes_changed_args, [["res://icon.svg"]])
+	assert_eq(eyes_changed_args, [[eyes_texture]])
 
 func test_on_eyes_close_button_pressed():
 	# given
@@ -185,7 +186,8 @@ func test_on_mouth_items_item_activated():
 	# given
 	var sprite_preview = double(load("res://Scenes/UI/PlayerCustomizationMenu/PlayerSprite/player_sprite.gd")).new()
 	stub(sprite_preview, "update_mouth").to_do_nothing()
-	tab._mouth_paths = ["res://icon.svg"]
+	var mouth_texture = load("res://icon.svg")
+	tab._mouths = [mouth_texture]
 	tab.onready_paths.sprite_preview = sprite_preview
 	tab.onready_paths.mouth_root.show()
 	tab.connect("mouth_changed", _on_mouth_changed)
@@ -195,7 +197,7 @@ func test_on_mouth_items_item_activated():
 	assert_called(sprite_preview, "update_mouth")
 	assert_false(tab.onready_paths.mouth_root.visible)
 	assert_eq(mouth_changed_times_called, 1)
-	assert_eq(mouth_changed_args, [["res://icon.svg"]])
+	assert_eq(mouth_changed_args, [[mouth_texture]])
 
 func test_on_mouth_close_button_pressed():
 	# given
@@ -236,17 +238,17 @@ func _on_mouth_color_changed(color: Color) -> void:
 	mouth_color_changed_times_called += 1
 	mouth_color_changed_args.append([color])
 
-func _on_mouth_changed(path: String) -> void:
+func _on_mouth_changed(texture: Texture) -> void:
 	mouth_changed_times_called += 1
-	mouth_changed_args.append([path])
+	mouth_changed_args.append([texture])
 
 func _on_eyes_color_changed(color: Color) -> void:
 	eyes_color_changed_times_called += 1
 	eyes_color_changed_args.append([color])
 
-func _on_eyes_changed(path: String) -> void:
+func _on_eyes_changed(texture: Texture) -> void:
 	eyes_changed_times_called += 1
-	eyes_changed_args.append([path])
+	eyes_changed_args.append([texture])
 
 func _on_outline_color_changed(color: Color) -> void:
 	outline_color_changed_times_called += 1
