@@ -40,6 +40,8 @@ SceneUtils="*res://Utils/scene_utils.gd"
 RuntimeUtils="*res://Utils/runtime_utils.gd"
 FullScreenEffects="*res://Scenes/Camera/FullScreenEffects/full_screen_effects.tscn"
 Shaker="*uid://b1e15kli1mhw7"
+BeehaveGlobalMetrics="*uid://c3ktl6ontsdt7"
+BeehaveGlobalDebugger="*uid://bl3ma400hpvsh"
 
 [display]
 
@@ -52,7 +54,7 @@ script/templates_search_path="res://Utils/ScriptTemplates"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/gs_logger/plugin.cfg", "res://addons/gut/plugin.cfg", "res://addons/shaker/plugin.cfg")
+enabled=PackedStringArray("res://addons/beehave/plugin.cfg", "res://addons/gs_logger/plugin.cfg", "res://addons/gut/plugin.cfg", "res://addons/shaker/plugin.cfg")
 
 [global_group]
 

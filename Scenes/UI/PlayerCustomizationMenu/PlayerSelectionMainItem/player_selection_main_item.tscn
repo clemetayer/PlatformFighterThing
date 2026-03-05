@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://8sxwa25paubj"]
+[gd_scene format=3 uid="uid://8sxwa25paubj"]
 
 [ext_resource type="Script" uid="uid://cutd2aboblxaa" path="res://Scenes/UI/PlayerCustomizationMenu/PlayerSelectionMainItem/player_selection_main_item.gd" id="1_10qpb"]
 [ext_resource type="Texture2D" uid="uid://j4xdgdied5dy" path="res://Scenes/Weapons/Primary/Revolver/Revolver.png" id="1_g1m43"]
@@ -11,7 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://8xsse27mchdn" path="res://Scenes/UI/PlayerCustomizationMenu/joystick.svg" id="7_jre07"]
 [ext_resource type="PackedScene" uid="uid://tx5an1q2tqo3" path="res://Scenes/UI/PlayerCustomizationMenu/PlayerConfigDisplay/player_config_display.tscn" id="8_el3m1"]
 
-[node name="Main" type="HBoxContainer"]
+[node name="Main" type="HBoxContainer" unique_id=1208496835]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -19,41 +19,41 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_10qpb")
 
-[node name="Buttons" type="VBoxContainer" parent="."]
+[node name="Buttons" type="VBoxContainer" parent="." unique_id=1462320008]
 custom_minimum_size = Vector2(32, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("2_fv8mp")
 
-[node name="Preset" type="Button" parent="Buttons"]
+[node name="Preset" type="Button" parent="Buttons" unique_id=358422945]
 layout_mode = 2
 size_flags_vertical = 3
 icon = ExtResource("4_10qpb")
 icon_alignment = 1
 expand_icon = true
 
-[node name="PrimaryWeapon" type="Button" parent="Buttons"]
+[node name="PrimaryWeapon" type="Button" parent="Buttons" unique_id=1472675707]
 layout_mode = 2
 size_flags_vertical = 3
 icon = ExtResource("1_g1m43")
 icon_alignment = 1
 expand_icon = true
 
-[node name="MovementBonus" type="Button" parent="Buttons"]
+[node name="MovementBonus" type="Button" parent="Buttons" unique_id=262650455]
 layout_mode = 2
 size_flags_vertical = 3
 icon = ExtResource("2_mmeor")
 icon_alignment = 1
 expand_icon = true
 
-[node name="Powerup" type="Button" parent="Buttons"]
+[node name="Powerup" type="Button" parent="Buttons" unique_id=1345452478]
 layout_mode = 2
 size_flags_vertical = 3
 icon = ExtResource("3_el3m1")
 icon_alignment = 1
 expand_icon = true
 
-[node name="PlayerType" type="Button" parent="Buttons"]
+[node name="PlayerType" type="Button" parent="Buttons" unique_id=1386182107]
 layout_mode = 2
 size_flags_vertical = 3
 icon = ExtResource("7_jre07")
@@ -61,7 +61,7 @@ icon_alignment = 1
 expand_icon = true
 script = ExtResource("7_10qpb")
 
-[node name="DeletePlayer" type="Button" parent="Buttons"]
+[node name="DeletePlayer" type="Button" parent="Buttons" unique_id=2091585580]
 layout_mode = 2
 size_flags_vertical = 3
 theme_type_variation = &"StdCancelButton"
@@ -69,7 +69,7 @@ icon = ExtResource("7_fv8mp")
 icon_alignment = 1
 expand_icon = true
 
-[node name="PlayerConfigDisplay" parent="." instance=ExtResource("8_el3m1")]
+[node name="PlayerConfigDisplay" parent="." unique_id=504434886 instance=ExtResource("8_el3m1")]
 layout_mode = 2
 
 [connection signal="pressed" from="Buttons/Preset" to="." method="_on_preset_pressed"]
