@@ -15,8 +15,9 @@ metadata/_custom_type_script = "uid://cceeupk77aehe"
 
 [resource]
 script = ExtResource("1_uyaes")
+LEVEL = 3
 PLAYER_NAME = "GroggyGary"
-DESCRIPTION = "Groggy Gary won't use fancy movement or powerup techniques, however, he will follow you. And he will shoot you."
+DESCRIPTION = "Groggy Gary won't use fancy movement or powerup techniques, however, you can be sure he will follow you. And he will shoot you."
 ACTION_HANDLER = 2
 SPRITE_CUSTOMIZATION = SubResource("Resource_614na")
 ELIMINATION_TEXT = "Woah"

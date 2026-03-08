@@ -7,6 +7,10 @@ var _current_target: Node2D
 var _player: Node2D
 
 #==== ONREADY ====
+@onready var onready_paths := {
+	"hold_fire_key_timer": $"HoldFireKeyTime",
+	"search_target_timer": $"SearchTargetTimer",
+}
 @onready var onready_hold_fire_key_timer: Timer = $"HoldFireKeyTime"
 
 
@@ -65,9 +69,13 @@ func fire() -> void:
 
 ##### PROTECTED METHODS #####
 func _select_random_player_target() -> void:
+	if is_instance_valid(_current_target):
+		_current_target.disconnect("tree_exited", _on_current_target_tree_exited)
 	var players = get_tree().get_nodes_in_group(GroupUtils.PLAYER_GROUP_NAME)
 	players.erase(_player)
 	_current_target = players.pick_random()
+	if is_instance_valid(_current_target):
+		_current_target.connect("tree_exited", _on_current_target_tree_exited)
 
 
 ##### SIGNAL MANAGEMENT #####
@@ -77,3 +85,13 @@ func _on_change_target_timer_timeout() -> void:
 
 func _on_hold_fire_key_time_timeout() -> void:
 	_action_states[actions.FIRE] = states.INACTIVE
+
+
+func _on_search_target_timer_timeout() -> void:
+	_select_random_player_target()
+	if not is_instance_valid(_current_target):
+		onready_paths.search_target_timer.start()
+
+
+func _on_current_target_tree_exited() -> void:
+	onready_paths.search_target_timer.start()

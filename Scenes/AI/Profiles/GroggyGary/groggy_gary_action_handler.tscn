@@ -12,7 +12,7 @@ script = ExtResource("1_upcsj")
 
 [node name="MovementTree" type="Node" parent="." unique_id=1726090410 node_paths=PackedStringArray("blackboard", "actor")]
 script = ExtResource("3_e0cmi")
-blackboard = NodePath("@Node@20795")
+blackboard = NodePath("@Node@33674")
 actor = NodePath("..")
 metadata/_custom_type_script = "uid://bb0t2ovl7wifo"
 
@@ -22,7 +22,7 @@ metadata/_custom_type_script = "uid://cv74jjdrwevpr"
 
 [node name="PrimaryWeaponTree" type="Node" parent="." unique_id=2077552027 node_paths=PackedStringArray("blackboard", "actor")]
 script = ExtResource("3_e0cmi")
-blackboard = NodePath("@Node@20796")
+blackboard = NodePath("@Node@33675")
 actor = NodePath("..")
 metadata/_custom_type_script = "uid://bb0t2ovl7wifo"
 
@@ -47,5 +47,10 @@ autostart = true
 wait_time = 0.1
 one_shot = true
 
+[node name="SearchTargetTimer" type="Timer" parent="." unique_id=190824938]
+wait_time = 0.1
+one_shot = true
+
 [connection signal="timeout" from="ChangeTargetTimer" to="." method="_on_change_target_timer_timeout"]
 [connection signal="timeout" from="HoldFireKeyTime" to="." method="_on_hold_fire_key_time_timeout"]
+[connection signal="timeout" from="SearchTargetTimer" to="." method="_on_search_target_timer_timeout"]

@@ -19,6 +19,7 @@ const NO_DESCRIPTION_TEXT := "No description"
 	"movement_bonus": $"VBoxContainer/Elements/MovementBonus",
 	"powerup": $"VBoxContainer/Elements/Powerup",
 	"description": $"VBoxContainer/ScrollContainer/Description",
+	"level": $"VBoxContainer/Elements/Level",
 	"sprite": {
 		"body": $"VBoxContainer/Elements/Sprite/Body",
 		"eyes": $"VBoxContainer/Elements/Sprite/Eyes",
@@ -47,6 +48,9 @@ func set_preset(preset: PlayerConfig) -> void:
 	onready_paths.sprite.eyes.modulate = preset.SPRITE_CUSTOMIZATION.EYES_COLOR
 	onready_paths.sprite.mouth.texture = load(preset.SPRITE_CUSTOMIZATION.MOUTH_TEXTURE_PATH)
 	onready_paths.sprite.mouth.modulate = preset.SPRITE_CUSTOMIZATION.MOUTH_COLOR
+	if preset is AIPlayerConfig:
+		onready_paths.level.visible = true
+		onready_paths.level.set_level(preset.LEVEL)
 
 
 ##### PROTECTED METHODS #####
