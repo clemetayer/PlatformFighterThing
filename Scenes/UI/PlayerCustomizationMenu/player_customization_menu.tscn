@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://4jmohk06tq0d"]
+[gd_scene format=3 uid="uid://4jmohk06tq0d"]
 
 [ext_resource type="Theme" uid="uid://bc0o65m108hf6" path="res://Misc/Themes/nord.tres" id="1_k606k"]
 [ext_resource type="Script" uid="uid://hkt70ko3amkd" path="res://Scenes/UI/PlayerCustomizationMenu/player_customization_menu.gd" id="2_5ugvj"]
@@ -11,7 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://ch7ktmnnktu7d" path="res://Scenes/UI/PlayerCustomizationMenu/ItemsGridMenu/items_grid_menu.tscn" id="6_riqtp"]
 [ext_resource type="Script" uid="uid://d1go3hm03uhhp" path="res://Scenes/UI/PlayerCustomizationMenu/save_preset_popup.gd" id="9_brcbt"]
 
-[node name="PlayerCustomizationMenu" type="Control"]
+[node name="PlayerCustomizationMenu" type="Control" unique_id=1086812101]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -21,7 +21,7 @@ grow_vertical = 2
 theme = ExtResource("1_k606k")
 script = ExtResource("2_5ugvj")
 
-[node name="Panel" type="Panel" parent="."]
+[node name="Panel" type="Panel" parent="." unique_id=1890877109]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -29,7 +29,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=718961154]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -41,11 +41,11 @@ theme_override_constants/margin_top = 32
 theme_override_constants/margin_right = 32
 theme_override_constants/margin_bottom = 32
 
-[node name="TabContainer" type="TabContainer" parent="MarginContainer"]
+[node name="TabContainer" type="TabContainer" parent="MarginContainer" unique_id=2003632754]
 layout_mode = 2
 current_tab = 0
 
-[node name="PlayerConfig" type="MarginContainer" parent="MarginContainer/TabContainer"]
+[node name="PlayerConfig" type="MarginContainer" parent="MarginContainer/TabContainer" unique_id=1977404554]
 layout_mode = 2
 theme_override_constants/margin_left = 50
 theme_override_constants/margin_top = 50
@@ -53,31 +53,31 @@ theme_override_constants/margin_right = 50
 theme_override_constants/margin_bottom = 50
 metadata/_tab_index = 0
 
-[node name="PlayerConfigDisplay" parent="MarginContainer/TabContainer/PlayerConfig" instance=ExtResource("2_rn5dx")]
+[node name="PlayerConfigDisplay" parent="MarginContainer/TabContainer/PlayerConfig" unique_id=246232612 instance=ExtResource("2_rn5dx")]
 layout_mode = 2
 
-[node name="Presets" parent="MarginContainer/TabContainer" instance=ExtResource("3_gcrrk")]
+[node name="Presets" parent="MarginContainer/TabContainer" unique_id=1526555288 instance=ExtResource("3_gcrrk")]
 visible = false
 layout_mode = 2
 CAN_BE_CLOSED = false
 CAN_ADD_ELEMENTS = true
 metadata/_tab_index = 1
 
-[node name="Name" parent="MarginContainer/TabContainer" instance=ExtResource("3_muyi0")]
+[node name="Name" parent="MarginContainer/TabContainer" unique_id=1565408172 instance=ExtResource("3_muyi0")]
 visible = false
 layout_mode = 2
 metadata/_tab_index = 2
 
-[node name="EliminationText" parent="MarginContainer/TabContainer" instance=ExtResource("6_6j346")]
+[node name="EliminationText" parent="MarginContainer/TabContainer" unique_id=551230514 instance=ExtResource("6_6j346")]
 visible = false
 layout_mode = 2
 
-[node name="Customization" parent="MarginContainer/TabContainer" instance=ExtResource("5_riqtp")]
+[node name="Customization" parent="MarginContainer/TabContainer" unique_id=488857422 instance=ExtResource("5_riqtp")]
 visible = false
 layout_mode = 2
 metadata/_tab_index = 4
 
-[node name="PrimaryWeapon" parent="MarginContainer/TabContainer" instance=ExtResource("6_riqtp")]
+[node name="PrimaryWeapon" parent="MarginContainer/TabContainer" unique_id=1455824541 instance=ExtResource("6_riqtp")]
 visible = false
 layout_mode = 2
 TITLE = "Primary weapon"
@@ -85,7 +85,7 @@ CAN_BE_CLOSED = false
 SMALL = false
 metadata/_tab_index = 5
 
-[node name="MovementBonus" parent="MarginContainer/TabContainer" instance=ExtResource("6_riqtp")]
+[node name="MovementBonus" parent="MarginContainer/TabContainer" unique_id=1147372623 instance=ExtResource("6_riqtp")]
 visible = false
 layout_mode = 2
 TITLE = "Movement bonus"
@@ -93,7 +93,7 @@ CAN_BE_CLOSED = false
 SMALL = false
 metadata/_tab_index = 6
 
-[node name="Powerup" parent="MarginContainer/TabContainer" instance=ExtResource("6_riqtp")]
+[node name="Powerup" parent="MarginContainer/TabContainer" unique_id=33484411 instance=ExtResource("6_riqtp")]
 visible = false
 layout_mode = 2
 TITLE = "Powerup"
@@ -101,7 +101,7 @@ CAN_BE_CLOSED = false
 SMALL = false
 metadata/_tab_index = 7
 
-[node name="BackButton" type="Button" parent="."]
+[node name="BackButton" type="Button" parent="." unique_id=1721370922]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 0
 offset_right = 32.0
@@ -109,7 +109,7 @@ offset_bottom = 32.0
 icon = ExtResource("3_k8yph")
 expand_icon = true
 
-[node name="SavePresetPopup" type="ConfirmationDialog" parent="."]
+[node name="SavePresetPopup" type="ConfirmationDialog" parent="." unique_id=848322658]
 oversampling_override = 1.0
 title = "Choose the preset name"
 initial_position = 2
@@ -117,21 +117,21 @@ size = Vector2i(397, 115)
 dialog_hide_on_ok = false
 script = ExtResource("9_brcbt")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="SavePresetPopup"]
+[node name="VBoxContainer" type="VBoxContainer" parent="SavePresetPopup" unique_id=1491260010]
 offset_left = 8.0
 offset_top = 8.0
 offset_right = 389.0
 offset_bottom = 66.0
 
-[node name="Label" type="Label" parent="SavePresetPopup/VBoxContainer"]
+[node name="Label" type="Label" parent="SavePresetPopup/VBoxContainer" unique_id=932786600]
 layout_mode = 2
 text = "Choose the preset name to save"
 
-[node name="LineEdit" type="LineEdit" parent="SavePresetPopup/VBoxContainer"]
+[node name="LineEdit" type="LineEdit" parent="SavePresetPopup/VBoxContainer" unique_id=457554802]
 layout_mode = 2
 placeholder_text = "preset name"
 
-[node name="OverridePresetPopup" type="ConfirmationDialog" parent="."]
+[node name="OverridePresetPopup" type="ConfirmationDialog" parent="." unique_id=2053144049]
 oversampling_override = 1.0
 initial_position = 2
 size = Vector2i(312, 100)
@@ -139,6 +139,7 @@ dialog_text = "This preset already exists, override it ?"
 
 [connection signal="preset_selected" from="MarginContainer/TabContainer/Presets" to="." method="_on_presets_preset_selected"]
 [connection signal="save_preset_triggered" from="MarginContainer/TabContainer/Presets" to="." method="_on_presets_save_preset_triggered"]
+[connection signal="description_changed" from="MarginContainer/TabContainer/Name" to="." method="_on_name_description_changed"]
 [connection signal="name_selected" from="MarginContainer/TabContainer/Name" to="." method="_on_name_name_selected"]
 [connection signal="elimination_text_updated" from="MarginContainer/TabContainer/EliminationText" to="." method="_on_elimination_text_elimination_text_updated"]
 [connection signal="body_color_changed" from="MarginContainer/TabContainer/Customization" to="." method="_on_customization_body_color_changed"]

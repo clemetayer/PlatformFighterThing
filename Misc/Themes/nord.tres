@@ -1,5 +1,6 @@
 [gd_resource type="Theme" format=3 uid="uid://bc0o65m108hf6"]
 
+[ext_resource type="FontFile" uid="uid://dncl7x8virtei" path="res://Misc/InterDisplay-LightItalic.ttf" id="1_w5wb8"]
 [ext_resource type="SystemFont" uid="uid://25yexk2q7ssr" path="res://Misc/InterDisplayLight.tres" id="1_x3xmh"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b4210"]
@@ -262,6 +263,10 @@ Button/styles/focus = SubResource("StyleBoxFlat_j0bi3")
 Button/styles/hover = SubResource("StyleBoxFlat_hysg6")
 Button/styles/normal = SubResource("StyleBoxFlat_153pj")
 Button/styles/pressed = SubResource("StyleBoxFlat_rb1vk")
+DescriptionLabel/base_type = &"Label"
+DescriptionLabel/colors/font_color = Color(0.62310004, 0.63951504, 0.67, 1)
+DescriptionLabel/font_sizes/font_size = 14
+DescriptionLabel/fonts/font = ExtResource("1_w5wb8")
 ItemList/colors/font_color = Color(0.5058824, 0.6313726, 0.75686276, 1)
 ItemList/colors/font_hovered_color = Color(0.9254902, 0.9372549, 0.95686275, 1)
 ItemList/colors/font_selected_color = Color(0.9254902, 0.9372549, 0.95686275, 1)

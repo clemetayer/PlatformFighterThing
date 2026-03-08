@@ -1,10 +1,12 @@
 extends Resource
+
 class_name PlayerConfig
 # Parameters to give to the player to fine tune it easily
 
 ##### VARIABLES #####
 #---- EXPORTS -----
 @export var PLAYER_NAME: String
+@export var DESCRIPTION: String
 @export var ACTION_HANDLER: StaticActionHandler.handlers
 @export var PRIMARY_WEAPON: StaticPrimaryWeaponHandler.handlers
 @export var MOVEMENT_BONUS_HANDLER: StaticMovementBonusHandler.handlers
@@ -12,20 +14,24 @@ class_name PlayerConfig
 @export var SPRITE_CUSTOMIZATION: SpriteCustomizationResource
 @export var ELIMINATION_TEXT: String
 
+
 ##### PUBLIC METHODS #####
 func serialize() -> Dictionary:
 	return {
 		"player_name": PLAYER_NAME,
+		"description": DESCRIPTION,
 		"action_handler": ACTION_HANDLER,
 		"primary_weapon": PRIMARY_WEAPON,
 		"movement_bonus_handler": MOVEMENT_BONUS_HANDLER,
 		"powerup_handler": POWERUP_HANDLER,
 		"sprite_customization": SPRITE_CUSTOMIZATION.serialize(),
-		"elimination_text": ELIMINATION_TEXT
+		"elimination_text": ELIMINATION_TEXT,
 	}
+
 
 func deserialize(data: Dictionary) -> void:
 	StaticUtils.map_if_exists(data, "player_name", self, "PLAYER_NAME")
+	StaticUtils.map_if_exists(data, "description", self, "DESCCRIPTION")
 	StaticUtils.map_if_exists(data, "action_handler", self, "ACTION_HANDLER")
 	StaticUtils.map_if_exists(data, "primary_weapon", self, "PRIMARY_WEAPON")
 	StaticUtils.map_if_exists(data, "movement_bonus_handler", self, "MOVEMENT_BONUS_HANDLER")
