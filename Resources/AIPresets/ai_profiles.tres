@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="ResourceList" format=3 uid="uid://cecao5ew7agsc"]
+
+[ext_resource type="Resource" uid="uid://h28oe7qfgw7l" path="res://Resources/AIPresets/groggy_gary.tres" id="1_c8j6w"]
+[ext_resource type="Script" uid="uid://binfueo51iwfy" path="res://Utils/Resources/resource_list.gd" id="1_ocufk"]
+
+[resource]
+script = ExtResource("1_ocufk")
+RESOURCES = [ExtResource("1_c8j6w")]
+metadata/_custom_type_script = "uid://binfueo51iwfy"
