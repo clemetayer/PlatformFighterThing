@@ -2,23 +2,6 @@
 class_name ActionMoveTowardsTarget
 extends ActionLeaf
 
-##### VARIABLES #####
-#---- CONSTANTS -----
-# const constant := 10 # Optionnal comment
-
-#---- EXPORTS -----
-# @export var EXPORT_NAME := 10.0 # Optionnal comment
-
-#---- STANDARD -----
-#==== PUBLIC ====
-# var public_var # Optionnal comment
-
-#==== PRIVATE ====
-# var _private_var # Optionnal comment
-
-#==== ONREADY ====
-# @onready var onready_var # Optionnal comment
-
 ##### PROCESSING #####
 func tick(actor: Node, blackboard: Blackboard) -> int:
 	var player = actor.get_player()

@@ -1,16 +1,22 @@
-[gd_scene load_steps=2 format=3 uid="uid://djtk77ngldepd"]
+[gd_scene format=3 uid="uid://djtk77ngldepd"]
 
 [ext_resource type="Script" uid="uid://cwe7ebx1wc8sw" path="res://Utils/Debug/debug_interface.gd" id="1_6c7tv"]
 
-[node name="DebugInterface" type="CanvasLayer"]
+[node name="DebugInterface" type="CanvasLayer" unique_id=573997032]
 layer = 128
 script = ExtResource("1_6c7tv")
 
-[node name="Control" type="Control" parent="."]
+[node name="Control" type="Control" parent="." unique_id=130186210]
 layout_mode = 3
 anchors_preset = 0
 
-[node name="Label" type="Label" parent="Control"]
+[node name="Label" type="Label" parent="Control" unique_id=157940790]
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 23.0
+
+[node name="ClearPositionIndicators" type="Timer" parent="." unique_id=1682164180]
+wait_time = 0.25
+autostart = true
+
+[connection signal="timeout" from="ClearPositionIndicators" to="." method="_on_clear_position_indicators_timeout"]

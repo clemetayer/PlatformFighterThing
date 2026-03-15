@@ -2,8 +2,9 @@
 
 [ext_resource type="Resource" uid="uid://df4wfyhshdjnc" path="res://Resources/AIPresets/groggy_gary.tres" id="1_c8j6w"]
 [ext_resource type="Script" uid="uid://binfueo51iwfy" path="res://Utils/Resources/resource_list.gd" id="1_ocufk"]
+[ext_resource type="Resource" uid="uid://3rhb0r1vo4uf" path="res://Resources/AIPresets/scared_sarah.tres" id="2_8u5d7"]
 
 [resource]
 script = ExtResource("1_ocufk")
-RESOURCES = [ExtResource("1_c8j6w")]
+RESOURCES = [ExtResource("1_c8j6w"), ExtResource("2_8u5d7")]
 metadata/_custom_type_script = "uid://binfueo51iwfy"

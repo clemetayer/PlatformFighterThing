@@ -9,6 +9,7 @@ const PROJECTILE_GROUP_NAME := "projectile"
 const PLAYER_GROUP_NAME := "player"
 const DESTRUCTIBLE_WALL_GROUP_NAME := "destructible_wall"
 const STATIC_OBSTACLE_GROUP_NAME := "static_obstacle"
+const LEVEL_BOUNDS_GROUP_NAME := "level_bounds"
 
 
 ##### PUBLIC METHODS #####

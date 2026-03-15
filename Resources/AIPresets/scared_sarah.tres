@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="AIPlayerConfig" format=3 uid="uid://3rhb0r1vo4uf"]
+
+[ext_resource type="Script" uid="uid://bc0codxs7fxpo" path="res://Scenes/Player/ai_player_config.gd" id="1_bh6h1"]
+[ext_resource type="Script" uid="uid://cceeupk77aehe" path="res://Scenes/Player/sprite_customization_resource.gd" id="1_spswf"]
+
+[sub_resource type="Resource" id="Resource_3gcny"]
+script = ExtResource("1_spswf")
+BODY_COLOR = Color(0.6081997, 0.7152168, 0.9890462, 1)
+OUTLINE_COLOR = Color(0.22000453, 0.34133658, 0.6236359, 1)
+EYES_TEXTURE_PATH = "res://Scenes/Player/Eyes/eyes_14.PNG"
+EYES_COLOR = Color(0.18999998, 0.41799992, 0.95, 1)
+MOUTH_TEXTURE_PATH = "res://Scenes/Player/Mouths/mouth_11.PNG"
+MOUTH_COLOR = Color(0.1882353, 0.41960785, 0.9490196, 1)
+metadata/_custom_type_script = "uid://cceeupk77aehe"
+
+[resource]
+script = ExtResource("1_bh6h1")
+LEVEL = 5
+PLAYER_NAME = "Scared Sarah"
+DESCRIPTION = "Sarah does not like this game, she finds everything spooky, so she will do her best to avoid, well, everything."
+ACTION_HANDLER = 3
+SPRITE_CUSTOMIZATION = SubResource("Resource_3gcny")
+ELIMINATION_TEXT = "AaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaH"
+metadata/_custom_type_script = "uid://bc0codxs7fxpo"

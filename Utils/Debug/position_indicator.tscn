@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://rystjwpq3ivl"]
+
+[ext_resource type="Texture2D" uid="uid://3gnpary1fu44" path="res://Utils/Debug/position_indicator.png" id="1_u571w"]
+
+[node name="PositionIndicator" type="Sprite2D" unique_id=1970035262]
+z_index = 1
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("1_u571w")

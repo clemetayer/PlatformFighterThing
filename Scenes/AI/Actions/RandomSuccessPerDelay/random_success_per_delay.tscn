@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://b7bikvs85gy7u"]
+
+[ext_resource type="Script" uid="uid://dp3v1m2lgla0i" path="res://Scenes/AI/Actions/RandomSuccessPerDelay/random_success_per_delay.gd" id="1_5saad"]
+
+[node name="RandomSuccessPerDelay" type="Node" unique_id=572929243]
+script = ExtResource("1_5saad")
+metadata/_custom_type_script = "uid://cbnbvj8prv63i"
+
+[node name="Timer" type="Timer" parent="." unique_id=1561015353]
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
