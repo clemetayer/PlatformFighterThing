@@ -107,4 +107,7 @@ func _on_player_powerup_updated(player_id: int, value) -> void:
 	emit_signal("powerup_updated", player_id, value)
 
 func _on_player_game_message_triggered(id: int) -> void:
-	emit_signal("game_message_triggered", _players_data[id].config.ELIMINATION_TEXT)
+	if _players_data.has(id):
+		emit_signal("game_message_triggered", _players_data[id].config.ELIMINATION_TEXT)
+		return
+	GSLogger.error("Error when triggering game message : %s" % [get_stack()])

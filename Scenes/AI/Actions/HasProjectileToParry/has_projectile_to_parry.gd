@@ -10,8 +10,6 @@ const PARRY_DISTANCE := 75.0 # Distance from the projectile where the AI should 
 ##### PROCESSING #####
 func tick(actor: Node, _blackboard: Blackboard) -> int:
 	var has_close_projectile = _get_min_distance_to_projectile(actor.get_player(), actor.get_projectiles()) <= PARRY_DISTANCE
-	if has_close_projectile:
-		GSLogger.debug("has close projectile")
 	return SUCCESS if has_close_projectile else FAILURE
 
 

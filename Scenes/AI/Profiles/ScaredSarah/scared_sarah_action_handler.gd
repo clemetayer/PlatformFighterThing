@@ -56,7 +56,6 @@ func get_level_bounds() -> Array:
 
 
 func set_desired_position(desired_position: Vector2) -> void:
-	DebugInterface.set_debug_position("scared_sarah_desired_pos", desired_position, Color.GREEN)
 	_desired_position = desired_position
 
 
