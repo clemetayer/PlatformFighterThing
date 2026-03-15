@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="AIPlayerConfig" format=3 uid="uid://cyfmbhej8j1ge"]
+
+[ext_resource type="Script" uid="uid://bc0codxs7fxpo" path="res://Scenes/Player/ai_player_config.gd" id="1_whiun"]
+[ext_resource type="Script" uid="uid://cceeupk77aehe" path="res://Scenes/Player/sprite_customization_resource.gd" id="1_wvsjb"]
+
+[sub_resource type="Resource" id="Resource_6i3te"]
+script = ExtResource("1_wvsjb")
+BODY_COLOR = Color(0.20811792, 0.13296914, 0.12934004, 1)
+OUTLINE_COLOR = Color(0.14058532, 0.5075585, 0.9749248, 1)
+EYES_TEXTURE_PATH = "res://Scenes/Player/Eyes/eyes_7.PNG"
+EYES_COLOR = Color(0.18725744, 0.47157145, 0.2207041, 1)
+MOUTH_TEXTURE_PATH = "res://Scenes/Player/Mouths/mouth_1.PNG"
+MOUTH_COLOR = Color(0.1882353, 0.47058824, 0.21960784, 1)
+metadata/_custom_type_script = "uid://cceeupk77aehe"
+
+[resource]
+script = ExtResource("1_whiun")
+PLAYER_NAME = "ConfusedCharlie"
+DESCRIPTION = "Charlie just installed the game, he just started the game and is confused on how the game works. So he's just pretty much pressing buttons."
+ACTION_HANDLER = 4
+SPRITE_CUSTOMIZATION = SubResource("Resource_6i3te")
+ELIMINATION_TEXT = "[wave amp=50.0 freq=5.0 connected=1]Hmmmmmmmmmmmmm...[/wave]"
+metadata/_custom_type_script = "uid://cb2tt7tw3qdjn"
