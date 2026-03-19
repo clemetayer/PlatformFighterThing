@@ -17,14 +17,15 @@ func _process(delta):
 
 
 ##### PUBLIC METHODS #####
-func tick(actor: Node, blackboard: Blackboard) -> int:
-	var player = actor.get_player()
-	var target = actor.get_target()
+func tick(_actor: Node, blackboard: Blackboard) -> int:
+	if not blackboard is CommonBlackboard:
+		return SUCCESS
+	var player = blackboard.get_value(CommonBlackboard.PLAYER_KEY)
+	var target = blackboard.get_value(CommonBlackboard.TARGET_KEY)
 	if is_instance_valid(player) and is_instance_valid(target):
-		var aim_position = actor.get_relative_aim_position()
+		var aim_position = blackboard.get_value(CommonBlackboard.RELATIVE_AIM_POSITION_KEY)
 		var global_aim_position: Vector2 = player.get_global_position() + aim_position
 		global_aim_position = global_aim_position.move_toward(target.get_global_position(), _delta * ACQUIRE_TARGET_SPEED)
 		aim_position = global_aim_position - player.get_global_position()
-		actor.set_relative_aim_position(aim_position)
+		blackboard.set_value(CommonBlackboard.RELATIVE_AIM_POSITION_KEY, aim_position)
 	return SUCCESS
-	

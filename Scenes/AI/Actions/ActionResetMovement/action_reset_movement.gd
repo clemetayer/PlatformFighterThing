@@ -4,7 +4,9 @@ class_name ActionResetMovement
 # action that resets the desired movement for the player
 
 ##### PROCESSING #####
-func tick(actor: Node, _blackboard: Blackboard) -> int:
-	actor.set_jump(false)
-	actor.set_movement_direction(0)
+func tick(_actor: Node, blackboard: Blackboard) -> int:
+	if not blackboard is CommonBlackboard:
+		return SUCCESS
+	blackboard.set_value(CommonBlackboard.JUMP_KEY, false)
+	blackboard.set_value(CommonBlackboard.MOVEMENT_DIRECTION_KEY, CommonBlackboard.DIRECTION.NONE)
 	return SUCCESS

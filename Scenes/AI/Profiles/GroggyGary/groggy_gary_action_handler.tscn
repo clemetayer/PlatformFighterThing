@@ -1,28 +1,42 @@
 [gd_scene format=3 uid="uid://cd2jv6qbjlspc"]
 
-[ext_resource type="Script" uid="uid://cos7ttin26dvs" path="res://Scenes/AI/Profiles/GroggyGary/groggy_gary_action_handler.gd" id="1_upcsj"]
+[ext_resource type="Script" uid="uid://1bp0qgp61kh3" path="res://Scenes/AI/Profiles/ai_action_handler.gd" id="1_0dmxo"]
+[ext_resource type="PackedScene" uid="uid://dw5h058a3iq3m" path="res://Scenes/AI/Blackboard/blackboard.tscn" id="2_hdci0"]
 [ext_resource type="Script" uid="uid://bb0t2ovl7wifo" path="res://addons/beehave/nodes/beehave_tree.gd" id="3_e0cmi"]
-[ext_resource type="Script" uid="uid://bjlststs7q0vs" path="res://Scenes/AI/Actions/MoveTowardTarget/move_toward_target.gd" id="3_upcsj"]
-[ext_resource type="Script" uid="uid://ds36escklxmgx" path="res://Scenes/AI/Actions/Fire/fire.gd" id="4_6q46x"]
+[ext_resource type="Script" uid="uid://tebc3hswrvae" path="res://Scenes/AI/Actions/SetDesiredPositionAsTarget/set_desired_position_as_target.gd" id="3_upcsj"]
+[ext_resource type="Script" uid="uid://ds36escklxmgx" path="res://Scenes/AI/Actions/TriggerAction/trigger_action.gd" id="4_6q46x"]
 [ext_resource type="Script" uid="uid://c2t4cu8eagliu" path="res://Scenes/AI/Actions/AimAtTarget/aim_at_target.gd" id="4_e0cmi"]
 [ext_resource type="Script" uid="uid://cg016dbe7gs1x" path="res://addons/beehave/nodes/composites/sequence.gd" id="4_hdci0"]
+[ext_resource type="Script" uid="uid://840htl6a0i34" path="res://Scenes/AI/Actions/MoveTowardsDesiredPosition/move_towards_desired_position.gd" id="6_7bopu"]
+[ext_resource type="Script" uid="uid://r8oxes5ochd" path="res://Scenes/AI/Actions/TargetRandomOpponent/target_random_opponent.gd" id="8_0dmxo"]
 
-[node name="GroggyGaryActionHandler" type="Node2D" unique_id=63314586]
-script = ExtResource("1_upcsj")
+[node name="GroggyGaryActionHandler" type="Node2D" unique_id=63314586 node_paths=PackedStringArray("BLACKBOARD")]
+script = ExtResource("1_0dmxo")
+BLACKBOARD = NodePath("Blackboard")
+
+[node name="Blackboard" parent="." unique_id=1094239327 instance=ExtResource("2_hdci0")]
 
 [node name="MovementTree" type="Node" parent="." unique_id=1726090410 node_paths=PackedStringArray("blackboard", "actor")]
 script = ExtResource("3_e0cmi")
-blackboard = NodePath("@Node@43770")
+blackboard = NodePath("../Blackboard")
 actor = NodePath("..")
 metadata/_custom_type_script = "uid://bb0t2ovl7wifo"
 
-[node name="MoveTowardTarget" type="Node" parent="MovementTree" unique_id=430240061]
+[node name="SequenceComposite" type="Node" parent="MovementTree" unique_id=1046969544]
+script = ExtResource("4_hdci0")
+metadata/_custom_type_script = "uid://cg016dbe7gs1x"
+
+[node name="SetDesiredPositionAsTarget" type="Node" parent="MovementTree/SequenceComposite" unique_id=1378131470]
 script = ExtResource("3_upcsj")
-metadata/_custom_type_script = "uid://cv74jjdrwevpr"
+metadata/_custom_type_script = "uid://tebc3hswrvae"
+
+[node name="MoveTowardsDesiredPosition" type="Node" parent="MovementTree/SequenceComposite" unique_id=499087744]
+script = ExtResource("6_7bopu")
+metadata/_custom_type_script = "uid://840htl6a0i34"
 
 [node name="PrimaryWeaponTree" type="Node" parent="." unique_id=2077552027 node_paths=PackedStringArray("blackboard", "actor")]
 script = ExtResource("3_e0cmi")
-blackboard = NodePath("@Node@43771")
+blackboard = NodePath("../Blackboard")
 actor = NodePath("..")
 metadata/_custom_type_script = "uid://bb0t2ovl7wifo"
 
@@ -35,22 +49,16 @@ script = ExtResource("4_e0cmi")
 ACQUIRE_TARGET_SPEED = 400.0
 metadata/_custom_type_script = "uid://cv74jjdrwevpr"
 
-[node name="Fire" type="Node" parent="PrimaryWeaponTree/SequenceComposite" unique_id=754419626]
+[node name="Fire" type="Node" parent="PrimaryWeaponTree/SequenceComposite" unique_id=1657174050]
 script = ExtResource("4_6q46x")
-metadata/_custom_type_script = "uid://cv74jjdrwevpr"
+metadata/_custom_type_script = "uid://ds36escklxmgx"
 
-[node name="ChangeTargetTimer" type="Timer" parent="." unique_id=2096720591]
-wait_time = 10.0
-autostart = true
+[node name="SelectTargetTree" type="Node" parent="." unique_id=1147918824 node_paths=PackedStringArray("blackboard", "actor")]
+script = ExtResource("3_e0cmi")
+blackboard = NodePath("../Blackboard")
+actor = NodePath("..")
+metadata/_custom_type_script = "uid://bb0t2ovl7wifo"
 
-[node name="HoldFireKeyTime" type="Timer" parent="." unique_id=886012852]
-wait_time = 0.1
-one_shot = true
-
-[node name="SearchTargetTimer" type="Timer" parent="." unique_id=190824938]
-wait_time = 0.1
-one_shot = true
-
-[connection signal="timeout" from="ChangeTargetTimer" to="." method="_on_change_target_timer_timeout"]
-[connection signal="timeout" from="HoldFireKeyTime" to="." method="_on_hold_fire_key_time_timeout"]
-[connection signal="timeout" from="SearchTargetTimer" to="." method="_on_search_target_timer_timeout"]
+[node name="ActionTargetRandomOpponent" type="Node" parent="SelectTargetTree" unique_id=2046056567]
+script = ExtResource("8_0dmxo")
+metadata/_custom_type_script = "uid://r8oxes5ochd"

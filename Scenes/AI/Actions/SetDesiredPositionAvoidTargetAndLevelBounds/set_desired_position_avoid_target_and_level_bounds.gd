@@ -4,18 +4,28 @@ class_name SetDesiredPositionAvoidPlayersAndLevelBounds
 # Computes a desired position to avoid players and level bounds
 
 ##### PROCESSING #####
-func tick(actor: Node, _blackboard: Blackboard) -> int:
-	var opponents_positions = actor.get_opponents_positions()
-	var level_bounds = actor.get_level_bounds()
+func tick(_actor: Node, blackboard: Blackboard) -> int:
+	if not blackboard is CommonBlackboard:
+		return SUCCESS
+	var opponents_positions = _nodes_to_position(blackboard.get_value(CommonBlackboard.OPPONENTS_KEY))
+	var level_bounds = blackboard.get_value(CommonBlackboard.LEVEL_BOUNDS_KEY)
 	if not (_all_positions_valid(opponents_positions) and _all_positions_valid(level_bounds)):
 		return SUCCESS
 	var opponents_center_position := _get_polygon_center(opponents_positions)
 	var furthest_corner := _get_furthest_bound_corner_from_point(opponents_center_position, level_bounds)
-	actor.set_desired_position((opponents_center_position + furthest_corner) / 2.0)
+	blackboard.set_value(CommonBlackboard.DESIRED_POSITION_KEY, (opponents_center_position + furthest_corner) / 2.0)
 	return SUCCESS
 
 
 ##### PROTECTED METHODS #####
+func _nodes_to_position(nodes: Array) -> Array:
+	var positions = []
+	for node in nodes:
+		if is_instance_valid(node):
+			positions.append(node.get_global_position())
+	return positions
+
+
 func _all_positions_valid(positions: Array) -> bool:
 	if positions.size() <= 0:
 		return false

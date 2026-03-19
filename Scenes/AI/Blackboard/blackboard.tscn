@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://dw5h058a3iq3m"]
+
+[ext_resource type="Script" uid="uid://gnefiv1losdx" path="res://Scenes/AI/Blackboard/blackboard.gd" id="1_j0agk"]
+
+[node name="Blackboard" type="Node" unique_id=1094239327]
+script = ExtResource("1_j0agk")
+blackboard = {
+"desired_position": Vector2(0, 0),
+"fire_triggered": false,
+"jump": false,
+"level_bounds": [],
+"movement_bonus_triggered": false,
+"movement_direction": 0,
+"opponents": [],
+"parry_triggered": false,
+"player": null,
+"powerup_triggered": false,
+"projectiles": [],
+"relative_aim_position": Vector2(0, 0),
+"target": null
+}
+metadata/_custom_type_script = "uid://dme5f24l0edsf"

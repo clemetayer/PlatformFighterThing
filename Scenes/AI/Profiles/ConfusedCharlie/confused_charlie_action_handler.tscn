@@ -1,23 +1,26 @@
 [gd_scene format=3 uid="uid://c8m6op0qx4ekb"]
 
-[ext_resource type="Script" uid="uid://cf6hgmgawkkui" path="res://Scenes/AI/Profiles/ConfusedCharlie/confused_charlie_action_handler.gd" id="1_chpa4"]
+[ext_resource type="Script" uid="uid://1bp0qgp61kh3" path="res://Scenes/AI/Profiles/ai_action_handler.gd" id="1_3fw6g"]
+[ext_resource type="PackedScene" uid="uid://dw5h058a3iq3m" path="res://Scenes/AI/Blackboard/blackboard.tscn" id="2_7mxp2"]
 [ext_resource type="Script" uid="uid://bb0t2ovl7wifo" path="res://addons/beehave/nodes/beehave_tree.gd" id="2_ql5hi"]
 [ext_resource type="Script" uid="uid://cg016dbe7gs1x" path="res://addons/beehave/nodes/composites/sequence.gd" id="3_cctmw"]
 [ext_resource type="PackedScene" uid="uid://b7bikvs85gy7u" path="res://Scenes/AI/Actions/RandomSuccessPerDelay/random_success_per_delay.tscn" id="4_6brkv"]
 [ext_resource type="Script" uid="uid://befji7cta4am4" path="res://Scenes/AI/Actions/ActionResetMovement/action_reset_movement.gd" id="4_w56cs"]
-[ext_resource type="Script" uid="uid://iamopdu3ebox" path="res://Scenes/AI/Actions/UseMovementBonus/use_movement_bonus.gd" id="5_s302v"]
-[ext_resource type="Script" uid="uid://bq1b0v2slwjr6" path="res://Scenes/AI/Actions/Parry/parry.gd" id="5_uhbwq"]
-[ext_resource type="Script" uid="uid://bjlststs7q0vs" path="res://Scenes/AI/Actions/MoveTowardTarget/move_toward_target.gd" id="5_vp01d"]
 [ext_resource type="Script" uid="uid://c2t4cu8eagliu" path="res://Scenes/AI/Actions/AimAtTarget/aim_at_target.gd" id="6_3fw6g"]
-[ext_resource type="Script" uid="uid://co0bkx01um28q" path="res://Scenes/AI/Actions/UsePowerup/action_use_powerup.gd" id="8_7mxp2"]
-[ext_resource type="Script" uid="uid://ds36escklxmgx" path="res://Scenes/AI/Actions/Fire/fire.gd" id="9_w56cs"]
+[ext_resource type="Script" uid="uid://840htl6a0i34" path="res://Scenes/AI/Actions/MoveTowardsDesiredPosition/move_towards_desired_position.gd" id="8_w56cs"]
+[ext_resource type="Script" uid="uid://ds36escklxmgx" path="res://Scenes/AI/Actions/TriggerAction/trigger_action.gd" id="9_w56cs"]
+[ext_resource type="Script" uid="uid://r8oxes5ochd" path="res://Scenes/AI/Actions/TargetRandomOpponent/target_random_opponent.gd" id="10_vp01d"]
+[ext_resource type="Script" uid="uid://tebc3hswrvae" path="res://Scenes/AI/Actions/SetDesiredPositionAsTarget/set_desired_position_as_target.gd" id="11_w56cs"]
 
-[node name="ConfusedCharlieActionHandler" type="Node2D" unique_id=1891259273]
-script = ExtResource("1_chpa4")
+[node name="ConfusedCharlieActionHandler" type="Node2D" unique_id=1891259273 node_paths=PackedStringArray("BLACKBOARD")]
+script = ExtResource("1_3fw6g")
+BLACKBOARD = NodePath("Blackboard")
+
+[node name="Blackboard" parent="." unique_id=1094239327 instance=ExtResource("2_7mxp2")]
 
 [node name="MovementTree" type="Node" parent="." unique_id=909112521 node_paths=PackedStringArray("blackboard", "actor")]
 script = ExtResource("2_ql5hi")
-blackboard = NodePath("@Node@20797")
+blackboard = NodePath("../Blackboard")
 actor = NodePath("..")
 metadata/_custom_type_script = "uid://bb0t2ovl7wifo"
 
@@ -29,6 +32,10 @@ metadata/_custom_type_script = "uid://cg016dbe7gs1x"
 script = ExtResource("3_cctmw")
 metadata/_custom_type_script = "uid://cg016dbe7gs1x"
 
+[node name="SetDesiredPositionAsTarget" type="Node" parent="MovementTree/SimpleParallelComposite/Movement" unique_id=1049112810]
+script = ExtResource("11_w56cs")
+metadata/_custom_type_script = "uid://tebc3hswrvae"
+
 [node name="ActionResetMovement" type="Node" parent="MovementTree/SimpleParallelComposite/Movement" unique_id=1985682346]
 script = ExtResource("4_w56cs")
 metadata/_custom_type_script = "uid://cv74jjdrwevpr"
@@ -36,9 +43,9 @@ metadata/_custom_type_script = "uid://cv74jjdrwevpr"
 [node name="RandomSuccessPerDelay" parent="MovementTree/SimpleParallelComposite/Movement" unique_id=572929243 instance=ExtResource("4_6brkv")]
 DELAY_TIME = 3.0
 
-[node name="ActionMoveTowardsTarget" type="Node" parent="MovementTree/SimpleParallelComposite/Movement" unique_id=1346348532]
-script = ExtResource("5_vp01d")
-metadata/_custom_type_script = "uid://bjlststs7q0vs"
+[node name="MoveTowardsDesiredPosition" type="Node" parent="MovementTree/SimpleParallelComposite/Movement" unique_id=1850380159]
+script = ExtResource("8_w56cs")
+metadata/_custom_type_script = "uid://840htl6a0i34"
 
 [node name="MovementBonus" type="Node" parent="MovementTree/SimpleParallelComposite" unique_id=486799049]
 script = ExtResource("3_cctmw")
@@ -48,13 +55,14 @@ metadata/_custom_type_script = "uid://cg016dbe7gs1x"
 SUCCESS_CHANCE = 0.1
 DELAY_TIME = 0.5
 
-[node name="ActionUseMovementBonus" type="Node" parent="MovementTree/SimpleParallelComposite/MovementBonus" unique_id=1079164085]
-script = ExtResource("5_s302v")
-metadata/_custom_type_script = "uid://iamopdu3ebox"
+[node name="MovementBonus" type="Node" parent="MovementTree/SimpleParallelComposite/MovementBonus" unique_id=301449855]
+script = ExtResource("9_w56cs")
+ACTION = 1
+metadata/_custom_type_script = "uid://ds36escklxmgx"
 
 [node name="PrimaryWeaponTree" type="Node" parent="." unique_id=1411834694 node_paths=PackedStringArray("blackboard", "actor")]
 script = ExtResource("2_ql5hi")
-blackboard = NodePath("@Node@20798")
+blackboard = NodePath("../Blackboard")
 actor = NodePath("..")
 metadata/_custom_type_script = "uid://bb0t2ovl7wifo"
 
@@ -81,13 +89,13 @@ metadata/_custom_type_script = "uid://cg016dbe7gs1x"
 [node name="RandomSuccessPerDelay" parent="PrimaryWeaponTree/SequenceComposite/Fire" unique_id=922378517 instance=ExtResource("4_6brkv")]
 SUCCESS_CHANCE = 0.25
 
-[node name="ActionShootTarget" type="Node" parent="PrimaryWeaponTree/SequenceComposite/Fire" unique_id=1908982412]
+[node name="Fire" type="Node" parent="PrimaryWeaponTree/SequenceComposite/Fire" unique_id=1908982412]
 script = ExtResource("9_w56cs")
 metadata/_custom_type_script = "uid://ds36escklxmgx"
 
 [node name="PowerupTree" type="Node" parent="." unique_id=191701735 node_paths=PackedStringArray("blackboard", "actor")]
 script = ExtResource("2_ql5hi")
-blackboard = NodePath("@Node@20799")
+blackboard = NodePath("../Blackboard")
 actor = NodePath("..")
 metadata/_custom_type_script = "uid://bb0t2ovl7wifo"
 
@@ -99,13 +107,14 @@ metadata/_custom_type_script = "uid://cg016dbe7gs1x"
 SUCCESS_CHANCE = 0.1
 DELAY_TIME = 0.5
 
-[node name="ActionUsePowerup" type="Node" parent="PowerupTree/SequenceComposite" unique_id=1295467911]
-script = ExtResource("8_7mxp2")
-metadata/_custom_type_script = "uid://cv74jjdrwevpr"
+[node name="UsePowerup" type="Node" parent="PowerupTree/SequenceComposite" unique_id=514647848]
+script = ExtResource("9_w56cs")
+ACTION = 2
+metadata/_custom_type_script = "uid://ds36escklxmgx"
 
 [node name="ParryTree" type="Node" parent="." unique_id=530799753 node_paths=PackedStringArray("blackboard", "actor")]
 script = ExtResource("2_ql5hi")
-blackboard = NodePath("@Node@20800")
+blackboard = NodePath("../Blackboard")
 actor = NodePath("..")
 metadata/_custom_type_script = "uid://bb0t2ovl7wifo"
 
@@ -117,22 +126,17 @@ metadata/_custom_type_script = "uid://cg016dbe7gs1x"
 SUCCESS_CHANCE = 0.05
 DELAY_TIME = 0.5
 
-[node name="ActionParry" type="Node" parent="ParryTree/SequenceComposite" unique_id=263879414]
-script = ExtResource("5_uhbwq")
-metadata/_custom_type_script = "uid://bq1b0v2slwjr6"
+[node name="Parry" type="Node" parent="ParryTree/SequenceComposite" unique_id=1188086906]
+script = ExtResource("9_w56cs")
+ACTION = 3
+metadata/_custom_type_script = "uid://ds36escklxmgx"
 
-[node name="ChangeTargetTimer" type="Timer" parent="." unique_id=1214549642]
-wait_time = 10.0
-autostart = true
+[node name="SelectTargetTree" type="Node" parent="." unique_id=2029324809 node_paths=PackedStringArray("blackboard", "actor")]
+script = ExtResource("2_ql5hi")
+blackboard = NodePath("../Blackboard")
+actor = NodePath("..")
+metadata/_custom_type_script = "uid://bb0t2ovl7wifo"
 
-[node name="HoldFireKeyTime" type="Timer" parent="." unique_id=101657075]
-wait_time = 0.1
-one_shot = true
-
-[node name="SearchTargetTimer" type="Timer" parent="." unique_id=826084993]
-wait_time = 0.1
-one_shot = true
-
-[connection signal="timeout" from="ChangeTargetTimer" to="." method="_on_change_target_timer_timeout"]
-[connection signal="timeout" from="HoldFireKeyTime" to="." method="_on_hold_fire_key_time_timeout"]
-[connection signal="timeout" from="SearchTargetTimer" to="." method="_on_search_target_timer_timeout"]
+[node name="ActionTargetRandomOpponent" type="Node" parent="SelectTargetTree" unique_id=915176717]
+script = ExtResource("10_vp01d")
+metadata/_custom_type_script = "uid://r8oxes5ochd"

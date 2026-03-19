@@ -8,8 +8,12 @@ const PARRY_DISTANCE := 75.0 # Distance from the projectile where the AI should 
 
 
 ##### PROCESSING #####
-func tick(actor: Node, _blackboard: Blackboard) -> int:
-	var has_close_projectile = _get_min_distance_to_projectile(actor.get_player(), actor.get_projectiles()) <= PARRY_DISTANCE
+func tick(_actor: Node, blackboard: Blackboard) -> int:
+	if not blackboard is CommonBlackboard:
+		return SUCCESS
+	var player = blackboard.get_value(CommonBlackboard.PLAYER_KEY)
+	var projectiles = blackboard.get_value(CommonBlackboard.PROJECTILES_KEY)
+	var has_close_projectile = _get_min_distance_to_projectile(player, projectiles) <= PARRY_DISTANCE
 	return SUCCESS if has_close_projectile else FAILURE
 
 

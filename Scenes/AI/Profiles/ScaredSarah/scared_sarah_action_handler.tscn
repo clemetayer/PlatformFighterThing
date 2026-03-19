@@ -1,24 +1,27 @@
 [gd_scene format=3 uid="uid://bxy4jbjtqyodw"]
 
+[ext_resource type="Script" uid="uid://1bp0qgp61kh3" path="res://Scenes/AI/Profiles/ai_action_handler.gd" id="1_1i8g3"]
 [ext_resource type="Script" uid="uid://bb0t2ovl7wifo" path="res://addons/beehave/nodes/beehave_tree.gd" id="1_3nd0f"]
-[ext_resource type="Script" uid="uid://cyutt4ftd52qo" path="res://Scenes/AI/Profiles/ScaredSarah/scared_sarah_action_handler.gd" id="1_ruwsw"]
+[ext_resource type="PackedScene" uid="uid://dw5h058a3iq3m" path="res://Scenes/AI/Blackboard/blackboard.tscn" id="2_1i8g3"]
 [ext_resource type="Script" uid="uid://cg016dbe7gs1x" path="res://addons/beehave/nodes/composites/sequence.gd" id="2_ytuat"]
 [ext_resource type="Script" uid="uid://b111qw523jltk" path="res://Scenes/AI/Actions/SetDesiredPositionAvoidTargetAndLevelBounds/set_desired_position_avoid_target_and_level_bounds.gd" id="3_f8inr"]
 [ext_resource type="PackedScene" uid="uid://b7bikvs85gy7u" path="res://Scenes/AI/Actions/RandomSuccessPerDelay/random_success_per_delay.tscn" id="4_jiamp"]
 [ext_resource type="Script" uid="uid://840htl6a0i34" path="res://Scenes/AI/Actions/MoveTowardsDesiredPosition/move_towards_desired_position.gd" id="4_p03b1"]
-[ext_resource type="Script" uid="uid://ds36escklxmgx" path="res://Scenes/AI/Actions/Fire/fire.gd" id="4_ytuat"]
+[ext_resource type="Script" uid="uid://ds36escklxmgx" path="res://Scenes/AI/Actions/TriggerAction/trigger_action.gd" id="4_ytuat"]
 [ext_resource type="Script" uid="uid://kce8ngtftiag" path="res://Scenes/AI/Actions/IsPlayerClose/is_player_close.gd" id="5_iudu7"]
-[ext_resource type="Script" uid="uid://iamopdu3ebox" path="res://Scenes/AI/Actions/UseMovementBonus/use_movement_bonus.gd" id="6_ruwsw"]
 [ext_resource type="Script" uid="uid://c2t4cu8eagliu" path="res://Scenes/AI/Actions/AimAtTarget/aim_at_target.gd" id="9_dyd43"]
 [ext_resource type="Script" uid="uid://b2jve3m61wl2k" path="res://Scenes/AI/Actions/HasProjectileToParry/has_projectile_to_parry.gd" id="9_iudu7"]
-[ext_resource type="Script" uid="uid://bq1b0v2slwjr6" path="res://Scenes/AI/Actions/Parry/parry.gd" id="10_ruwsw"]
+[ext_resource type="Script" uid="uid://r8oxes5ochd" path="res://Scenes/AI/Actions/TargetRandomOpponent/target_random_opponent.gd" id="13_oxjoh"]
 
-[node name="ScaredSarah" type="Node2D" unique_id=1238996551]
-script = ExtResource("1_ruwsw")
+[node name="ScaredSarah" type="Node2D" unique_id=1238996551 node_paths=PackedStringArray("BLACKBOARD")]
+script = ExtResource("1_1i8g3")
+BLACKBOARD = NodePath("Blackboard")
+
+[node name="Blackboard" parent="." unique_id=1094239327 instance=ExtResource("2_1i8g3")]
 
 [node name="MovementTree" type="Node" parent="." unique_id=1496779669 node_paths=PackedStringArray("blackboard", "actor")]
 script = ExtResource("1_3nd0f")
-blackboard = NodePath("@Node@20796")
+blackboard = NodePath("../Blackboard")
 actor = NodePath("..")
 metadata/_custom_type_script = "uid://bb0t2ovl7wifo"
 
@@ -38,13 +41,14 @@ metadata/_custom_type_script = "uid://cv74jjdrwevpr"
 script = ExtResource("5_iudu7")
 metadata/_custom_type_script = "uid://cbnbvj8prv63i"
 
-[node name="UseMovementBonus" type="Node" parent="MovementTree/SequenceComposite" unique_id=1743204656]
-script = ExtResource("6_ruwsw")
-metadata/_custom_type_script = "uid://cv74jjdrwevpr"
+[node name="MovementBonus" type="Node" parent="MovementTree/SequenceComposite" unique_id=1447084878]
+script = ExtResource("4_ytuat")
+ACTION = 1
+metadata/_custom_type_script = "uid://ds36escklxmgx"
 
 [node name="PrimaryWeaponTree" type="Node" parent="." unique_id=1399874199 node_paths=PackedStringArray("blackboard", "actor")]
 script = ExtResource("1_3nd0f")
-blackboard = NodePath("@Node@20797")
+blackboard = NodePath("../Blackboard")
 actor = NodePath("..")
 metadata/_custom_type_script = "uid://bb0t2ovl7wifo"
 
@@ -60,13 +64,13 @@ metadata/_custom_type_script = "uid://c2t4cu8eagliu"
 SUCCESS_CHANCE = 0.25
 DELAY_TIME = 0.25
 
-[node name="ActionShootTarget" type="Node" parent="PrimaryWeaponTree/SequenceComposite" unique_id=2072241711]
+[node name="Fire" type="Node" parent="PrimaryWeaponTree/SequenceComposite" unique_id=320002481]
 script = ExtResource("4_ytuat")
 metadata/_custom_type_script = "uid://ds36escklxmgx"
 
 [node name="ParryTree" type="Node" parent="." unique_id=1638414495 node_paths=PackedStringArray("blackboard", "actor")]
 script = ExtResource("1_3nd0f")
-blackboard = NodePath("@Node@20798")
+blackboard = NodePath("../Blackboard")
 actor = NodePath("..")
 metadata/_custom_type_script = "uid://bb0t2ovl7wifo"
 
@@ -82,22 +86,17 @@ metadata/_custom_type_script = "uid://cbnbvj8prv63i"
 SUCCESS_CHANCE = 0.1
 DELAY_TIME = 0.5
 
-[node name="Parry" type="Node" parent="ParryTree/SequenceComposite" unique_id=120168164]
-script = ExtResource("10_ruwsw")
-metadata/_custom_type_script = "uid://cv74jjdrwevpr"
+[node name="Parry" type="Node" parent="ParryTree/SequenceComposite" unique_id=198741950]
+script = ExtResource("4_ytuat")
+ACTION = 3
+metadata/_custom_type_script = "uid://ds36escklxmgx"
 
-[node name="SearchTargetTimer" type="Timer" parent="." unique_id=1339779458]
-wait_time = 0.1
-one_shot = true
+[node name="SelectTargetTree" type="Node" parent="." unique_id=2012944359 node_paths=PackedStringArray("blackboard", "actor")]
+script = ExtResource("1_3nd0f")
+blackboard = NodePath("../Blackboard")
+actor = NodePath("..")
+metadata/_custom_type_script = "uid://bb0t2ovl7wifo"
 
-[node name="ChangeTargetTimer" type="Timer" parent="." unique_id=2073246884]
-wait_time = 10.0
-autostart = true
-
-[node name="HoldFireKeyTime" type="Timer" parent="." unique_id=1129350308]
-wait_time = 0.1
-one_shot = true
-
-[connection signal="timeout" from="SearchTargetTimer" to="." method="_on_search_target_timer_timeout"]
-[connection signal="timeout" from="ChangeTargetTimer" to="." method="_on_change_target_timer_timeout"]
-[connection signal="timeout" from="HoldFireKeyTime" to="." method="_on_hold_fire_key_time_timeout"]
+[node name="ActionTargetRandomOpponent" type="Node" parent="SelectTargetTree" unique_id=1892120543]
+script = ExtResource("13_oxjoh")
+metadata/_custom_type_script = "uid://r8oxes5ochd"
