@@ -4,14 +4,17 @@ extends "res://addons/gut/test.gd"
 #---- VARIABLES -----
 var player_config
 
+
 ##### SETUP #####
 func before_each():
 	player_config = PlayerConfig.new()
+
 
 ##### TESTS #####
 func test_serialize():
 	# given
 	player_config.PLAYER_NAME = "Funky Franklin"
+	player_config.DESCRIPTION = "description"
 	player_config.ACTION_HANDLER = StaticActionHandler.handlers.RECORD
 	player_config.PRIMARY_WEAPON = StaticPrimaryWeaponHandler.handlers.REVOLVER
 	player_config.MOVEMENT_BONUS_HANDLER = StaticMovementBonusHandler.handlers.DASH
@@ -27,6 +30,7 @@ func test_serialize():
 	player_config.ELIMINATION_TEXT = "test"
 	var expected = {
 		"player_name": "Funky Franklin",
+		"description": "description",
 		"action_handler": StaticActionHandler.handlers.RECORD,
 		"primary_weapon": StaticPrimaryWeaponHandler.handlers.REVOLVER,
 		"movement_bonus_handler": StaticMovementBonusHandler.handlers.DASH,
@@ -37,19 +41,21 @@ func test_serialize():
 			"eyes_texture_path": "res://Scenes/Player/Eyes/eyes_1.PNG",
 			"eyes_color": Color.RED.to_html(),
 			"mouth_texture_path": "res://Scenes/Player/Mouths/mouth_1.PNG",
-			"mouth_color": Color.FIREBRICK.to_html()
+			"mouth_color": Color.FIREBRICK.to_html(),
 		},
-		"elimination_text": "test"
+		"elimination_text": "test",
 	}
 	# when
 	var res = player_config.serialize()
 	# then
 	assert_eq(res, expected)
 
+
 func test_deserialize():
 	# given
 	var data = {
 		"player_name": "Funky Franklin",
+		"description": "description",
 		"action_handler": StaticActionHandler.handlers.RECORD,
 		"primary_weapon": StaticPrimaryWeaponHandler.handlers.REVOLVER,
 		"movement_bonus_handler": StaticMovementBonusHandler.handlers.DASH,
@@ -60,9 +66,9 @@ func test_deserialize():
 			"eyes_texture_path": "res://Scenes/Player/Eyes/eyes_1.PNG",
 			"eyes_color": Color.RED.to_html(),
 			"mouth_texture_path": "res://Scenes/Player/Mouths/mouth_1.PNG",
-			"mouth_color": Color.FIREBRICK.to_html()
+			"mouth_color": Color.FIREBRICK.to_html(),
 		},
-		"elimination_text": "test"
+		"elimination_text": "test",
 	}
 	# when
 	player_config.deserialize(data)

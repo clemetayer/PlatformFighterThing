@@ -6,11 +6,13 @@ var scene
 var helper
 var initial_preset_count
 
+
 ##### SETUP #####
 func before_all():
 	helper = load("res://test/integration/PlayerSelectionMenu/helper_player_selection_menu.gd").new()
 	initial_preset_count = helper.count_saved_presets()
 	helper.save_std_preset()
+
 
 func before_each():
 	scene = load("res://Scenes/UI/PlayerCustomizationMenu/player_selection_menu.tscn").instantiate()
@@ -18,33 +20,36 @@ func before_each():
 	await wait_for_signal(scene.tree_entered, 0.1)
 	helper.set_selection_menu(scene)
 
+
 ##### TEARDOWN #####
 func after_all():
 	helper.remove_std_preset()
 	await wait_seconds(0.1)
 	helper.free()
 
+
 ##### TESTS #####
 func test_add_remove_players():
 	# given
 	var items = helper.get_player_selection_items()
-	# then 
+	# then
 	for item in items:
-		assert_true(helper.is_add_player_visible(item))
+		assert_true(helper.is_empty_menu_visible(item))
 	for item in items:
 		# when
 		helper.add_player_on_item(item)
 		await wait_process_frames(3)
 		# then
-		assert_false(helper.is_add_player_visible(item))
+		assert_false(helper.is_empty_menu_visible(item))
 		assert_true(helper.is_main_menu_visible(item))
 	for item in items:
 		# when
 		helper.remove_player_on_item(item)
 		await wait_process_frames(3)
 		# then
-		assert_true(helper.is_add_player_visible(item))
+		assert_true(helper.is_empty_menu_visible(item))
 		assert_false(helper.is_main_menu_visible(item))
+
 
 func test_main_menu() -> void:
 	# given
@@ -60,6 +65,7 @@ func test_main_menu() -> void:
 	helper.select_preset_config(config, item)
 	# then
 	assert_true(helper.is_config_equals_display(config, item))
+
 
 func test_presets() -> void:
 	# given
@@ -83,7 +89,8 @@ func test_presets() -> void:
 	assert_false(helper.is_preset_menu_visible(item))
 	assert_true(helper.is_main_menu_visible(item))
 	assert_true(helper.is_config_equals_display(configs[0], item))
-	
+
+
 func test_primary_weapons() -> void:
 	# given
 	var items = helper.get_player_selection_items()
@@ -101,7 +108,8 @@ func test_primary_weapons() -> void:
 	assert_true(helper.is_primary_weapon_selected(StaticPrimaryWeaponHandler.handlers.REVOLVER, item))
 	assert_true(helper.is_main_menu_visible(item))
 	assert_false(helper.is_primary_weapon_menu_visible(item))
-	
+
+
 func test_movement_bonus() -> void:
 	# given
 	var items = helper.get_player_selection_items()
@@ -120,6 +128,7 @@ func test_movement_bonus() -> void:
 	assert_true(helper.is_main_menu_visible(item))
 	assert_false(helper.is_movement_bonus_menu_visible(item))
 
+
 func test_powerup() -> void:
 	# given
 	var items = helper.get_player_selection_items()
@@ -137,3 +146,4 @@ func test_powerup() -> void:
 	assert_true(helper.is_powerup_selected(StaticPowerupHandler.handlers.SPLITTER, item))
 	assert_true(helper.is_main_menu_visible(item))
 	assert_false(helper.is_powerup_menu_visible(item))
+

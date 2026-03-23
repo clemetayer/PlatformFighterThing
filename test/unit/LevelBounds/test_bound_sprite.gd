@@ -4,14 +4,17 @@ extends "res://addons/gut/test.gd"
 #---- VARIABLES -----
 var sprite: Sprite2D
 
+
 ##### SETUP #####
 func before_each():
 	sprite = load("res://Scenes/LevelBounds/bound_sprite.gd").new()
+
 
 ##### TEARDOWN #####
 func after_each():
 	if is_instance_valid(sprite):
 		sprite.free()
+
 
 ##### TESTS #####
 func test_ready_no_associated_shape():
@@ -24,6 +27,7 @@ func test_ready_no_associated_shape():
 	# then
 	assert_called(mock_sprite, "_get_collision_shape")
 	assert_not_called(mock_sprite, "_set_scale_with_shape")
+
 
 func test_ready_with_shape():
 	# given
@@ -39,6 +43,7 @@ func test_ready_with_shape():
 	# cleanup
 	shape.free()
 
+
 func test_process():
 	# given
 	var mock_sprite = partial_double(load("res://Scenes/LevelBounds/bound_sprite.gd")).new()
@@ -51,9 +56,10 @@ func test_process():
 	assert_called(mock_sprite, "_get_players_positions")
 	assert_called(mock_sprite, "_set_shader_players_positions", [positions])
 
+
 func test_get_collision_shape_ok():
 	# given
-	var parent = Node2D.new()
+	var parent = load("res://test/unit/LevelBounds/level_bounds_stub.tscn").instantiate()
 	var shape = CollisionShape2D.new()
 	parent.add_child(shape)
 	parent.add_child(sprite)
@@ -65,9 +71,10 @@ func test_get_collision_shape_ok():
 	shape.free()
 	parent.free()
 
+
 func test_get_collision_shape_ko():
 	# given
-	var parent = Node2D.new()
+	var parent = load("res://test/unit/LevelBounds/level_bounds_stub.tscn").instantiate()
 	parent.add_child(sprite)
 	# when
 	var res = sprite._get_collision_shape()
@@ -75,6 +82,7 @@ func test_get_collision_shape_ko():
 	assert_null(res)
 	# cleanup
 	parent.free()
+
 
 func test_get_players_positions():
 	# given
@@ -91,7 +99,8 @@ func test_get_players_positions():
 	var res = mock_sprite._get_players_positions()
 	# then
 	assert_eq(res, [Vector2.RIGHT, Vector2.LEFT])
-	
+
+
 func test_get_players_positions_no_players():
 	# given
 	var mock_sprite = partial_double(load("res://Scenes/LevelBounds/bound_sprite.gd")).new()
@@ -101,10 +110,13 @@ func test_get_players_positions_no_players():
 	# then
 	assert_eq(res, [])
 
+
 var set_scale_with_shape_params := [
 	[Vector2.ONE],
-	[4.0 * Vector2.ONE]
+	[4.0 * Vector2.ONE],
 ]
+
+
 func test_set_scale_with_shape(params = use_parameters(set_scale_with_shape_params)):
 	# given
 	var shape_size = params[0]
@@ -122,6 +134,7 @@ func test_set_scale_with_shape(params = use_parameters(set_scale_with_shape_para
 	assert_eq(sprite.material.get_shader_parameter(sprite.SHADER_PARAM_SPRITE_SCALE_NAME), expected_scale)
 	# cleanup
 	collision_shape.free()
+
 
 func test_set_shader_players_positions():
 	# given
@@ -144,6 +157,7 @@ func test_set_shader_players_positions():
 		assert_almost_eq(shader_uv_positions[position_idx].x, expected_uv_positions[position_idx].x, 0.01)
 		assert_almost_eq(shader_uv_positions[position_idx].y, expected_uv_positions[position_idx].y, 0.01)
 
+
 var convert_to_shader_uv_position_params := [
 	[Vector2.ZERO, Vector2.ONE, 2.0 * Vector2.RIGHT],
 	[Vector2.ZERO, Vector2(2.0, 1.5), 3.0 * Vector2.ONE],
@@ -151,6 +165,8 @@ var convert_to_shader_uv_position_params := [
 	[Vector2.ZERO, Vector2.ONE, 2048.0 * Vector2.RIGHT],
 	[Vector2.ZERO, Vector2.ONE, 2048.0 * Vector2.UP],
 ]
+
+
 func test_convert_to_shader_uv_position(params = use_parameters(convert_to_shader_uv_position_params)):
 	# given
 	var origin = params[0]
@@ -158,7 +174,6 @@ func test_convert_to_shader_uv_position(params = use_parameters(convert_to_shade
 	var position = params[2]
 	sprite.free()
 	sprite = load("res://Scenes/LevelBounds/bound_sprite.tscn").instantiate()
-	add_child_autofree(sprite)
 	sprite.global_position = origin
 	sprite.scale = scale
 	# when

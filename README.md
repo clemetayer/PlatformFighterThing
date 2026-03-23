@@ -20,4 +20,5 @@ The source code is under the Apache v2 license. If you download the code, modify
 - RythmNotifier v 1.0
 - [TilemapCollisionBaker](https://github.com/popcar2/GodotTilemapBaker/blob/main/TilemapCollisionBaker.gd)
 - [GUT](https://github.com/bitwes/Gut?tab=readme-ov-file) v 9.5.0
+- [BeeHave](https://github.com/bitbrain/beehave) v 2.9.2
 
