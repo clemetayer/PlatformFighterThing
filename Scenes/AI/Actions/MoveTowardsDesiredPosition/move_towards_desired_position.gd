@@ -1,12 +1,12 @@
 extends ActionLeaf
 
-class_name MoveTowardsDesiredPosition
+class_name ActionMoveTowardsDesiredPosition
 # makes the player move towards a specific position
 
 ##### PROCESSING #####
 func tick(_actor: Node, blackboard: Blackboard) -> int:
 	if not blackboard is CommonBlackboard:
-		return SUCCESS
+		return FAILURE
 	blackboard.set_value(CommonBlackboard.MOVEMENT_DIRECTION_KEY, CommonBlackboard.DIRECTION.NONE)
 	blackboard.set_value(CommonBlackboard.JUMP_KEY, false)
 	var player = blackboard.get_value(CommonBlackboard.PLAYER_KEY)

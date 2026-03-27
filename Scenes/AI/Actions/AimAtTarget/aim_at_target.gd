@@ -19,7 +19,7 @@ func _process(delta):
 ##### PUBLIC METHODS #####
 func tick(_actor: Node, blackboard: Blackboard) -> int:
 	if not blackboard is CommonBlackboard:
-		return SUCCESS
+		return FAILURE
 	var player = blackboard.get_value(CommonBlackboard.PLAYER_KEY)
 	var target = blackboard.get_value(CommonBlackboard.TARGET_KEY)
 	if is_instance_valid(player) and is_instance_valid(target):

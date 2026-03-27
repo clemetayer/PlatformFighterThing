@@ -12,7 +12,7 @@ class_name ConditionIsPlayerClose
 ##### PROCESSING #####
 func tick(_actor: Node, blackboard: Blackboard) -> int:
 	if not blackboard is CommonBlackboard:
-		return SUCCESS
+		return FAILURE
 	var player = blackboard.get_value(CommonBlackboard.PLAYER_KEY)
 	var opponents_positions = _nodes_to_position(blackboard.get_value(CommonBlackboard.OPPONENTS_KEY))
 	if is_instance_valid(player) and _all_positions_valid(opponents_positions) and _get_min_distance_to_player(player.get_global_position(), opponents_positions) <= DISTANCE_TRESHOLD:

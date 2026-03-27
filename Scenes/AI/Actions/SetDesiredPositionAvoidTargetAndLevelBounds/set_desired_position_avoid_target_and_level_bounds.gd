@@ -6,11 +6,11 @@ class_name SetDesiredPositionAvoidPlayersAndLevelBounds
 ##### PROCESSING #####
 func tick(_actor: Node, blackboard: Blackboard) -> int:
 	if not blackboard is CommonBlackboard:
-		return SUCCESS
+		return FAILURE
 	var opponents_positions = _nodes_to_position(blackboard.get_value(CommonBlackboard.OPPONENTS_KEY))
 	var level_bounds = blackboard.get_value(CommonBlackboard.LEVEL_BOUNDS_KEY)
 	if not (_all_positions_valid(opponents_positions) and _all_positions_valid(level_bounds)):
-		return SUCCESS
+		return FAILURE
 	var opponents_center_position := _get_polygon_center(opponents_positions)
 	var furthest_corner := _get_furthest_bound_corner_from_point(opponents_center_position, level_bounds)
 	blackboard.set_value(CommonBlackboard.DESIRED_POSITION_KEY, (opponents_center_position + furthest_corner) / 2.0)

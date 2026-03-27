@@ -1,4 +1,4 @@
-class_name TriggerAction
+class_name ActionTriggerAction
 extends ActionLeaf
 
 ##### ENUMS #####
@@ -25,7 +25,7 @@ var _hold_trigger_timer: Timer
 ##### PUBLIC METHODS #####
 func tick(_actor: Node, blackboard: Blackboard) -> int:
 	if not blackboard is CommonBlackboard:
-		return SUCCESS
+		return FAILURE
 	blackboard.set_value(ACTION_TO_BLACKBOARD_MAP[ACTION], true)
 	_create_hold_trigger_timer(blackboard)
 	return SUCCESS

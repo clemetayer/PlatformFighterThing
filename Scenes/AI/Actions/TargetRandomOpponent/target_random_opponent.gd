@@ -35,7 +35,7 @@ func _ready():
 
 func tick(_actor: Node, blackboard: Blackboard) -> int:
 	if not blackboard is CommonBlackboard:
-		return SUCCESS
+		return FAILURE
 	if _search_new_target:
 		_select_target(blackboard)
 	elif _search_new_target_after_kill:

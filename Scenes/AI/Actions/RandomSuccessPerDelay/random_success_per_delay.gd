@@ -1,6 +1,8 @@
 @tool
 extends ConditionLeaf
 
+class_name ConditionRandomSuccessPerDelay
+
 # randomly returns success or failure and change the return value after the defined time
 
 ##### VARIABLES #####
