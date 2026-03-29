@@ -1,19 +1,19 @@
-[gd_scene load_steps=3 format=4 uid="uid://dj2v1edgseshs"]
+[gd_scene format=4 uid="uid://dj2v1edgseshs"]
 
 [ext_resource type="Script" uid="uid://cbw5nekq4e1t0" path="res://Scenes/Levels/level_map_base.gd" id="1_11j2t"]
 [ext_resource type="TileSet" uid="uid://c8i1jwmobi66o" path="res://Scenes/Levels/Tilesets/tileset.tres" id="2_tgml2"]
 
-[node name="BasicLevel" type="Node2D"]
+[node name="BasicLevel" type="Node2D" unique_id=1970995100]
 script = ExtResource("1_11j2t")
 
-[node name="TileMapLayer" type="TileMapLayer" parent="."]
+[node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=1709029343]
 tile_map_data = PackedByteArray("AAAHAAEAAAALAAMAAAAHAAAAAAALAAAAAAAGAAEAAAAJAAMAAAAGAAAAAAAKAAAAAAAFAAEAAAAJAAMAAAAFAAAAAAAKAAAAAAAEAAEAAAAJAAMAAAAEAAAAAAAKAAAAAAADAAEAAAAJAAMAAAADAAAAAAAKAAAAAAACAAEAAAAJAAMAAAACAAAAAAAKAAAAAAABAAEAAAAJAAMAAAABAAAAAAAKAAAAAAAAAAEAAAAJAAMAAAAAAAAAAAAKAAAAAAD//wEAAAAJAAMAAAD//wAAAAAKAAAAAAD+/wEAAAAJAAMAAAD+/wAAAAAKAAAAAAD9/wEAAAAJAAMAAAD9/wAAAAAKAAAAAAD8/wEAAAAJAAMAAAD8/wAAAAAKAAAAAAD7/wEAAAAJAAMAAAD7/wAAAAAKAAAAAAD6/wEAAAAJAAMAAAD6/wAAAAAKAAAAAAD5/wEAAAAJAAMAAAD5/wAAAAAKAAAAAAD4/wEAAAAIAAMAAAD4/wAAAAAIAAAAAAA=")
 tile_set = ExtResource("2_tgml2")
 
-[node name="SpawnPoints" type="Node2D" parent="."]
+[node name="SpawnPoints" type="Node2D" parent="." unique_id=987347674]
 
-[node name="SpawnPoint" type="Node2D" parent="SpawnPoints"]
+[node name="SpawnPoint" type="Node2D" parent="SpawnPoints" unique_id=54695921]
 position = Vector2(-173, -104)
 
-[node name="SpawnPoint2" type="Node2D" parent="SpawnPoints"]
+[node name="SpawnPoint2" type="Node2D" parent="SpawnPoints" unique_id=14393281]
 position = Vector2(221, -114)
