@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bxy4jbjtqyodw"]
 
-[ext_resource type="Script" uid="uid://1bp0qgp61kh3" path="res://Scenes/AI/Profiles/ai_action_handler.gd" id="1_1i8g3"]
+[ext_resource type="Script" uid="uid://1bp0qgp61kh3" path="res://Scenes/ActionHandlers/ActionHandlerAI/ai_action_handler.gd" id="1_1i8g3"]
 [ext_resource type="Script" uid="uid://bb0t2ovl7wifo" path="res://addons/beehave/nodes/beehave_tree.gd" id="1_3nd0f"]
 [ext_resource type="PackedScene" uid="uid://dw5h058a3iq3m" path="res://Scenes/AI/Blackboard/blackboard.tscn" id="2_1i8g3"]
 [ext_resource type="Script" uid="uid://cg016dbe7gs1x" path="res://addons/beehave/nodes/composites/sequence.gd" id="2_ytuat"]

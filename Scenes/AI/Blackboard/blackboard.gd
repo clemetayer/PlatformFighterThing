@@ -23,6 +23,9 @@ const RELATIVE_AIM_POSITION_KEY := "relative_aim_position"
 const TARGET_KEY := "target"
 const PARRY_TRIGGERED_KEY := "parry_triggered"
 
+#==== PUBLIC ====
+var get_tree_callable: Callable = get_tree # mostly for test purposes, to stub the get_tree easily
+
 
 ##### PROCESSING #####
 # Called when the node enters the scene tree for the first time.
@@ -38,16 +41,16 @@ func _process(_delta):
 
 ##### PROTECTED METHODS #####
 func _set_projectiles() -> void:
-	set_value(PROJECTILES_KEY, get_tree().get_nodes_in_group(GroupUtils.PROJECTILE_GROUP_NAME))
+	set_value(PROJECTILES_KEY, get_tree_callable.call().get_nodes_in_group(GroupUtils.PROJECTILE_GROUP_NAME))
 
 
 func _set_level_bounds() -> void:
-	var level_bounds = get_tree().get_nodes_in_group(GroupUtils.LEVEL_BOUNDS_GROUP_NAME)
+	var level_bounds = get_tree_callable.call().get_nodes_in_group(GroupUtils.LEVEL_BOUNDS_GROUP_NAME)
 	set_value(LEVEL_BOUNDS_KEY, level_bounds[0].get_bounds())
 
 
 func _set_opponents() -> void:
-	var players = get_tree().get_nodes_in_group(GroupUtils.PLAYER_GROUP_NAME)
+	var players = get_tree_callable.call().get_nodes_in_group(GroupUtils.PLAYER_GROUP_NAME)
 	var player = get_value(PLAYER_KEY)
 	if is_instance_valid(player):
 		players.erase(player)

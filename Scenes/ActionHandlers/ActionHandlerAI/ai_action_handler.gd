@@ -35,7 +35,7 @@ func _next_button_state(current_state: states, active: bool) -> states:
 			if active:
 				next_state = states.JUST_ACTIVE
 		states.JUST_ACTIVE:
-			next_state = states.INACTIVE
+			next_state = states.JUST_INACTIVE
 			if active:
 				next_state = states.ACTIVE
 		states.ACTIVE:
