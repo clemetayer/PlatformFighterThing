@@ -4,6 +4,7 @@ extends "res://addons/gut/test.gd"
 #---- VARIABLES -----
 var preset
 
+
 ##### SETUP #####
 func before_each():
 	preset = load("res://Scenes/UI/PlayerCustomizationMenu/PresetsMenu/preset.tscn").instantiate()
@@ -13,8 +14,10 @@ func before_each():
 ##### TESTS #####
 var ready_params := [
 	[true],
-	[false]
+	[false],
 ]
+
+
 func test_ready(params = use_parameters(ready_params)):
 	# given
 	var small = params[0]
@@ -24,6 +27,7 @@ func test_ready(params = use_parameters(ready_params)):
 	await wait_process_frames(3)
 	# then
 	assert_eq(preset.size.y, preset.HEIGHT_SMALL if small else preset.HEIGHT_BIG)
+
 
 func test_set_preset():
 	# given
@@ -53,3 +57,18 @@ func test_set_preset():
 	assert_eq(preset.onready_paths.sprite.eyes.modulate, Color.TAN)
 	assert_not_null(preset.onready_paths.sprite.mouth.texture)
 	assert_eq(preset.onready_paths.sprite.mouth.modulate, Color.YELLOW)
+	assert_false(preset.onready_paths.level.visible)
+
+
+func test_set_ai_preset():
+	# given
+	var config = load("res://Resources/AIPresets/groggy_gary.tres")
+	var level = double(load("res://Scenes/UI/PlayerCustomizationMenu/PresetsMenu/ai_level.tscn")).instantiate()
+	stub(level, "set_level").to_do_nothing()
+	preset.onready_paths.level = level
+	# when
+	preset.set_preset(config)
+	# then
+	assert_eq(preset.onready_paths.name_label.text, config.PLAYER_NAME)
+	assert_true(preset.onready_paths.level.visible)
+	assert_called(level, "set_level")

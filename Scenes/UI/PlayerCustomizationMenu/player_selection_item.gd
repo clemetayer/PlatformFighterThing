@@ -19,6 +19,7 @@ var _current_config: PlayerConfig
 	"movement_bonus_menu": $"Panel/MovementBonusGrid",
 	"powerup_menu": $"Panel/PowerupGrid",
 	"ai_menu": $"Panel/AiSelectionMenu",
+	"add_ai_button": $"Panel/EmptyMenu/AddAI",
 }
 
 

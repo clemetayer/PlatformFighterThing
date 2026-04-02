@@ -235,6 +235,37 @@ func test_on_main_player_type_changed():
 	assert_eq(config.ACTION_HANDLER, handler)
 
 
+func test_add_ai_pressed():
+	# given
+	var ai_menu = double(load("res://Scenes/UI/PlayerCustomizationMenu/AISelectionMenu/ai_selection_menu.tscn")).instantiate()
+	stub(ai_menu, "open").to_do_nothing()
+	item.onready_paths.ai_menu = ai_menu
+	# when
+	item.onready_paths.add_ai_button.pressed.emit()
+	# then
+	assert_called(ai_menu, "open")
+	assert_true(ai_menu.visible)
+	assert_false(item.onready_paths.empty_menu.visible)
+
+
+func test_ai_selection_menu_close():
+	# given
+	# when
+	item.onready_paths.ai_menu.close_triggered.emit()
+	# then
+	assert_false(item.onready_paths.ai_menu.visible)
+	assert_true(item.onready_paths.empty_menu.visible)
+
+
+func test_ai_selection_menu_preset_selected():
+	# given
+	var config = load("res://Resources/AIPresets/groggy_gary.tres")
+	# when
+	item.onready_paths.ai_menu.preset_selected.emit(config)
+	# then
+	assert_eq(item._current_config, config)
+
+
 ##### UTILS #####
 func _on_player_added() -> void:
 	player_added_times_called += 1

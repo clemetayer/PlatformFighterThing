@@ -5,6 +5,9 @@ extends "res://addons/gut/test.gd"
 var menu
 var name_selected_times_called := 0
 var name_selected_args := []
+var description_changed_times_called := 0
+var description_changed_args := []
+
 
 ##### SETUP #####
 func before_each():
@@ -13,9 +16,12 @@ func before_each():
 	await wait_for_signal(menu.tree_entered, 0.1)
 	name_selected_times_called = 0
 	name_selected_args = []
+	description_changed_times_called = 0
+	description_changed_args = []
 
 ##### TESTS #####
 # _ready and _load_name_list a bit tough to test since it interacts with an external file on the system
+
 
 func test_update_player_name():
 	# given
@@ -30,6 +36,7 @@ func test_update_player_name():
 	assert_eq(menu.onready_paths.name_list.get_item_text(0), "red")
 	assert_eq(menu.onready_paths.name_list.get_item_text(1), "green")
 
+
 func test_init_name_list():
 	# given
 	var name_list = NameListResource.new()
@@ -39,6 +46,7 @@ func test_init_name_list():
 	menu._init_name_list()
 	# then
 	assert_eq(menu.onready_paths.name_list.item_count, 3)
+
 
 func test_fill_item_list_with_names():
 	# given
@@ -51,6 +59,7 @@ func test_fill_item_list_with_names():
 	assert_eq(menu.onready_paths.name_list.get_item_text(1), "test 2")
 	assert_eq(menu.onready_paths.name_list.get_item_text(2), "test 3")
 
+
 func test_filter_name_list():
 	# given
 	var name_list = NameListResource.new()
@@ -62,6 +71,7 @@ func test_filter_name_list():
 	assert_eq(menu.onready_paths.name_list.item_count, 2)
 	assert_eq(menu.onready_paths.name_list.get_item_text(0), "red")
 	assert_eq(menu.onready_paths.name_list.get_item_text(1), "green")
+
 
 func test_on_item_list_item_activated():
 	# given
@@ -77,6 +87,7 @@ func test_on_item_list_item_activated():
 	assert_eq(menu.onready_paths.name_list.item_count, 1)
 	assert_eq(name_selected_times_called, 1)
 	assert_eq(name_selected_args, [["test"]])
+
 
 func test_on_add_presssed():
 	# given
@@ -94,8 +105,9 @@ func test_on_add_presssed():
 	assert_eq(name_selected_times_called, 1)
 	assert_eq(name_selected_args, [["test"]])
 
+
 func test_on_line_edit_text_changed():
-	# given	
+	# given
 	var name_list = NameListResource.new()
 	name_list.NAME_LIST = ["red", "blue", "green"]
 	menu._name_list = name_list
@@ -110,7 +122,24 @@ func test_on_line_edit_text_changed():
 	assert_eq(menu.onready_paths.name_list.get_item_text(1), "blue")
 	assert_eq(menu.onready_paths.name_list.get_item_text(2), "green")
 
+
+func test_description_changed_trigger_signal():
+	# given
+	menu.description_changed.connect(_on_description_changed)
+	# when
+	menu.onready_paths.description.text_changed.emit("test")
+	# then
+	assert_eq(description_changed_times_called, 1)
+	assert_eq(description_changed_args, [["test"]])
+
+
 ##### UTILS #####
 func _on_name_selected(p_name: String) -> void:
 	name_selected_times_called += 1
 	name_selected_args.append([p_name])
+
+
+func _on_description_changed(description: String) -> void:
+	description_changed_times_called += 1
+	description_changed_args.append([description])
+

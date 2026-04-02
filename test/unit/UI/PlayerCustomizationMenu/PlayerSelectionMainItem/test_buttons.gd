@@ -4,13 +4,16 @@ extends "res://addons/gut/test.gd"
 #---- VARIABLES -----
 var buttons
 
+
 ##### SETUP #####
 func before_each():
 	buttons = load("res://Scenes/UI/PlayerCustomizationMenu/PlayerSelectionMainItem/buttons.gd").new()
 
+
 ##### TEARDOWN #####
 func after_each():
 	buttons.free()
+
 
 ##### TESTS #####
 func test_set_primary_weapon_icon():
@@ -24,6 +27,7 @@ func test_set_primary_weapon_icon():
 	# cleanup
 	primary_weapon.free()
 
+
 func test_set_movement_bonus_icon():
 	# given
 	var movement_bonus = Button.new()
@@ -35,6 +39,7 @@ func test_set_movement_bonus_icon():
 	# cleanup
 	movement_bonus.free()
 
+
 func test_set_powerup_icon():
 	# given
 	var powerup = Button.new()
@@ -45,6 +50,7 @@ func test_set_powerup_icon():
 	assert_not_null(buttons.onready_paths.powerup.icon)
 	# cleanup
 	powerup.free()
+
 
 func test_reset_player_type():
 	# given

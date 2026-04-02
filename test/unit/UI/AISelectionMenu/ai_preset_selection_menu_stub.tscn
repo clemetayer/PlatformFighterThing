@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://btavyywjyv3th"]
+
+[ext_resource type="Script" uid="uid://cuqja3y02ktcf" path="res://Scenes/UI/PlayerCustomizationMenu/AISelectionMenu/ai_preset_selection_menu.gd" id="1_xhh7u"]
+
+[node name="AiPresetSelectionMenuStub" type="MarginContainer" unique_id=1168391393]
+script = ExtResource("1_xhh7u")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=680655811]
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer" unique_id=970308527]
+layout_mode = 2
+
+[node name="PresetsRoot" type="Control" parent="VBoxContainer/ScrollContainer" unique_id=2102847127]
+layout_mode = 2

@@ -47,12 +47,32 @@ func add_player_on_item(item: Node) -> void:
 	item.onready_paths.empty_menu.get_node("AddUser").emit_signal("pressed")
 
 
+func add_ai_player_on_item(item: Node) -> void:
+	item.onready_paths.empty_menu.get_node("AddAI").emit_signal("pressed")
+
+
 func is_empty_menu_visible(item: Node) -> bool:
 	return item.onready_paths.empty_menu.visible
 
 
 func is_main_menu_visible(item: Node) -> bool:
 	return item.onready_paths.main_menu.visible
+
+
+func is_ai_preset_menu_visible(item: Node) -> bool:
+	return item.onready_paths.ai_menu.onready_paths.presets.visible
+
+
+func is_ai_visualisation_menu_visible(item: Node) -> bool:
+	return item.onready_paths.ai_menu.onready_paths.visualisation.visible
+
+
+func select_first_ai_preset(item: Node) -> void:
+	item.onready_paths.ai_menu.onready_paths.presets.presets_root.get_child(0).pressed.emit()
+
+
+func remove_ai_player_on_item(item: Node) -> void:
+	item.onready_paths.ai_menu.close_triggered.emit()
 
 
 func remove_player_on_item(item: Node) -> void:
@@ -174,4 +194,3 @@ func is_powerup_menu_visible(item: Node) -> bool:
 
 func is_powerup_selected(powerup: StaticPowerupHandler.handlers, item: Node) -> bool:
 	return item.get_config().POWERUP_HANDLER == powerup
-

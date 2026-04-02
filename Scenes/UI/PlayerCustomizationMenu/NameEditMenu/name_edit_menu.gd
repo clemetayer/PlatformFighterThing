@@ -18,6 +18,7 @@ var _name_list: NameListResource
 @onready var onready_paths := {
 	"name_list": $"VBoxContainer/NameList",
 	"current_name": $"VBoxContainer/HBoxContainer/LineEdit",
+	"description": $"VBoxContainer/Description/DescriptionLineEdit",
 }
 
 

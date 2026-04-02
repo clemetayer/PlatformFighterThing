@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://cahnfa2crcpxt"]
+
+[ext_resource type="Script" uid="uid://dh24piy1jowtn" path="res://Scenes/UI/PlayerCustomizationMenu/PresetsMenu/ai_level.gd" id="1_kt32n"]
+
+[node name="AILevel" type="Label" unique_id=819638938]
+visible = false
+tooltip_text = "AI Level estimation (might be inaccurate, check the description to see the playstyle)"
+mouse_filter = 0
+mouse_default_cursor_shape = 16
+text = "01"
+script = ExtResource("1_kt32n")

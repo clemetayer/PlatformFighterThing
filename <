@@ -1,0 +1,37 @@
+extends "res://addons/gut/test.gd"
+
+##### VARIABLES #####
+#---- CONSTANTS -----
+# const CONST := "value"
+
+#---- VARIABLES -----
+var visualisation
+
+
+##### SETUP #####
+func before_each():
+	visualisation = load("res://Scenes/UI/PlayerCustomizationMenu/AISelectionMenu/ai_visualisation.tscn").instantiate()
+
+
+##### TEARDOWN #####
+func after_all():
+	pass
+
+
+func after_each():
+	pass
+
+
+##### TESTS #####
+func test_something():
+	# given
+
+	# when
+
+	# then
+	pass
+
+
+##### UTILS #####
+func _something_useful():
+	pass

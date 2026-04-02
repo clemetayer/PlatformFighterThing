@@ -1,0 +1,50 @@
+[gd_scene format=3 uid="uid://be1vwhgfcb142"]
+
+[ext_resource type="Script" uid="uid://cuqja3y02ktcf" path="res://Scenes/UI/PlayerCustomizationMenu/AISelectionMenu/ai_preset_selection_menu.gd" id="1_8mvb7"]
+[ext_resource type="PackedScene" uid="uid://bsacswwskki17" path="res://Scenes/UI/PlayerCustomizationMenu/PresetsMenu/preset.tscn" id="2_pybd7"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_6tvx2"]
+font_size = 24
+
+[node name="AIPresetSelectionMenu" type="MarginContainer" unique_id=1451426524]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+script = ExtResource("1_8mvb7")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1042976918]
+layout_mode = 2
+
+[node name="AIPresetsLabel" type="Label" parent="VBoxContainer" unique_id=942078615]
+layout_mode = 2
+text = "AI"
+label_settings = SubResource("LabelSettings_6tvx2")
+horizontal_alignment = 1
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer" unique_id=1123153255]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="PresetsRoot" type="VBoxContainer" parent="VBoxContainer/ScrollContainer" unique_id=1123216993]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Preset" parent="VBoxContainer/ScrollContainer/PresetsRoot" unique_id=41884632 instance=ExtResource("2_pybd7")]
+layout_mode = 2
+
+[node name="Preset2" parent="VBoxContainer/ScrollContainer/PresetsRoot" unique_id=1816361386 instance=ExtResource("2_pybd7")]
+layout_mode = 2
+
+[node name="Preset3" parent="VBoxContainer/ScrollContainer/PresetsRoot" unique_id=1691008652 instance=ExtResource("2_pybd7")]
+layout_mode = 2
+
+[node name="Preset4" parent="VBoxContainer/ScrollContainer/PresetsRoot" unique_id=716888680 instance=ExtResource("2_pybd7")]
+layout_mode = 2

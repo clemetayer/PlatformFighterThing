@@ -51,6 +51,31 @@ func test_add_remove_players():
 		assert_false(helper.is_main_menu_visible(item))
 
 
+func test_add_remove_ai_players():
+	# given
+	var items = helper.get_player_selection_items()
+	# then
+	for item in items:
+		assert_true(helper.is_empty_menu_visible(item))
+	for item in items:
+		# when
+		helper.add_ai_player_on_item(item)
+		await wait_process_frames(3)
+		# then
+		assert_false(helper.is_empty_menu_visible(item))
+		assert_true(helper.is_ai_preset_menu_visible(item))
+		helper.select_first_ai_preset(item)
+		assert_true(helper.is_ai_visualisation_menu_visible(item))
+		assert_false(helper.is_ai_preset_menu_visible(item))
+	for item in items:
+		# when
+		helper.remove_ai_player_on_item(item)
+		await wait_process_frames(3)
+		# then
+		assert_true(helper.is_empty_menu_visible(item))
+		assert_false(helper.is_ai_preset_menu_visible(item))
+
+
 func test_main_menu() -> void:
 	# given
 	var items = helper.get_player_selection_items()
@@ -146,4 +171,3 @@ func test_powerup() -> void:
 	assert_true(helper.is_powerup_selected(StaticPowerupHandler.handlers.SPLITTER, item))
 	assert_true(helper.is_main_menu_visible(item))
 	assert_false(helper.is_powerup_menu_visible(item))
-

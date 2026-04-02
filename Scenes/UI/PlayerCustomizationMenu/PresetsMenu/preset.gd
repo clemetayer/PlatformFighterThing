@@ -19,7 +19,7 @@ const NO_DESCRIPTION_TEXT := "No description"
 	"movement_bonus": $"VBoxContainer/Elements/MovementBonus",
 	"powerup": $"VBoxContainer/Elements/Powerup",
 	"description": $"VBoxContainer/ScrollContainer/Description",
-	"level": $"VBoxContainer/Elements/Level",
+	"level": $"VBoxContainer/Elements/AILevel",
 	"sprite": {
 		"body": $"VBoxContainer/Elements/Sprite/Body",
 		"eyes": $"VBoxContainer/Elements/Sprite/Eyes",
