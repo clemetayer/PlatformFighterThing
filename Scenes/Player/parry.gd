@@ -1,4 +1,5 @@
 extends Area2D
+
 # script for the parry system
 
 ##### SIGNALS #####
@@ -27,14 +28,15 @@ var _scene_utils := SceneUtils
 	"parry_active_sound": $"ParryActive",
 	"parry_timer": $"ParryTimer",
 	"lockout_timer": $"LockoutTimer",
-	"disable_after_fire_timer": $"DisableAfterFireTimer"
+	"disable_after_fire_timer": $"DisableAfterFireTimer",
 }
+
 
 ##### PUBLIC METHODS #####
 func toggle_parry_enabled(active: bool) -> void:
 	_enabled = active
 
-@rpc("authority", "call_local", "reliable")
+
 func parry() -> void:
 	if _enabled:
 		if _can_parry and not _parrying:
@@ -45,16 +47,18 @@ func parry() -> void:
 		else:
 			onready_paths.parry_disabled_sound.play()
 
-@rpc("authority", "call_local", "reliable")
+
 func disable_parry_after_firing() -> void:
 	if _enabled:
 		onready_paths.disable_after_fire_timer.start()
 		_toggle_can_parry(false)
 
+
 ##### PROTECTED METHODS #####
 func _toggle_can_parry(enabled: bool) -> void:
 	_can_parry = enabled
 	onready_paths.parry_lockout_sprite.visible = not enabled
+
 
 ##### SIGNAL MANAGEMENT #####
 func _on_area_entered(area):
@@ -69,14 +73,17 @@ func _on_area_entered(area):
 		_scene_utils.freeze_scene_parry(PARRY_FREEZE_TIME)
 		emit_signal("parried")
 
+
 func _on_lockout_timer_timeout():
 	_toggle_can_parry(true)
 	_parrying = false
+
 
 func _on_parry_timer_timeout():
 	_toggle_can_parry(false)
 	_parrying = false
 	onready_paths.lockout_timer.start()
+
 
 func _on_disable_after_fire_timer_timeout() -> void:
 	_toggle_can_parry(true)

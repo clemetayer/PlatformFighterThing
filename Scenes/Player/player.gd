@@ -1,4 +1,5 @@
 extends CharacterBody2D
+
 # player script
 
 ##### SIGNALS #####
@@ -65,6 +66,7 @@ func _ready():
 	_scene_utils.connect("toggle_scene_freeze", _on_SceneUtils_toggle_scene_freeze)
 	_load_sync_physics()
 
+
 func _physics_process(delta: float) -> void:
 	if not _frozen:
 		_load_sync_physics()
@@ -89,7 +91,7 @@ func _physics_process(delta: float) -> void:
 
 		var acceleration = FLOOR_ACCELERATION if _is_on_floor() else AIR_ACCELERATION
 		velocity.x = move_toward(velocity.x, direction.x * TARGET_SPEED, acceleration * delta)
-		
+
 		if onready_paths_node.hitstun_manager.hitstunned:
 			_predict_bounces()
 			var collision_normal = _get_collisions_normal()
@@ -102,6 +104,7 @@ func _physics_process(delta: float) -> void:
 
 		_save_sync_physics()
 
+
 ##### PUBLIC METHODS #####
 func hurt(p_damage: float, knockback: float, kb_direction: Vector2, p_owner: Node2D = null) -> void:
 	if _damage_enabled:
@@ -113,15 +116,15 @@ func hurt(p_damage: float, knockback: float, kb_direction: Vector2, p_owner: Nod
 		onready_paths_node.hit_particles.hit(knockback_velocity)
 		onready_paths_node.hit_sound.play()
 
-@rpc("authority", "call_local", "reliable")
+
 func kill() -> void:
 	onready_paths_node.death_manager.kill()
 
-@rpc("authority", "call_local", "reliable")
+
 func override_velocity(velocity_override: Vector2) -> void:
 	_velocity_override += velocity_override
 
-@rpc("authority", "call_local", "reliable")
+
 func toggle_freeze(active: bool) -> void:
 	_freeze_buffer_velocity = velocity
 	set_deferred("freeze", active)
@@ -130,7 +133,8 @@ func toggle_freeze(active: bool) -> void:
 	toggle_damage(not active)
 	_frozen = active
 
-# Activates the player's abilities (fire, powerup, movement). Especially usefull waiting for the game startup screen to end 
+
+# Activates the player's abilities (fire, powerup, movement). Especially usefull waiting for the game startup screen to end
 func toggle_abilities(active: bool) -> void:
 	if not _truce_active:
 		onready_paths_node.primary_weapon.active = active
@@ -138,23 +142,29 @@ func toggle_abilities(active: bool) -> void:
 		onready_paths_node.powerup_manager.active = active
 		onready_paths_node.parry_area.toggle_parry_enabled(active)
 
+
 func toggle_damage(active: bool) -> void:
 	_damage_enabled = active
 
+
 func toggle_truce(active: bool) -> void:
-	# Note : calls the toggle abilities twice to make sure it is updated 
+	# Note : calls the toggle abilities twice to make sure it is updated
 	toggle_abilities(not active)
 	_truce_active = active
 	toggle_abilities(not active)
 
+
 func get_config() -> PlayerConfig:
 	return get_node(GAME_PROXY_PATH).get_player_config(id)
+
 
 func get_velocity_buffer() -> Array:
 	return _velocity_buffer
 
+
 func get_direction() -> Vector2:
 	return direction
+
 
 ##### PROTECTED METHODS #####
 func _appear() -> void:
@@ -163,19 +173,23 @@ func _appear() -> void:
 	toggle_damage(false)
 	onready_paths_node.appear_elements.play_spawn_animation()
 
+
 func _buffer_velocity(vel_to_buffer: Vector2) -> void:
 	_velocity_buffer.pop_back()
 	_velocity_buffer.push_front(vel_to_buffer)
+
 
 func _save_sync_physics() -> void:
 	if _runtime_utils.is_authority():
 		sync_velocity = velocity
 		sync_position = global_position
 
+
 func _load_sync_physics() -> void:
 	if not _runtime_utils.is_authority():
 		velocity = sync_velocity
 		global_position = sync_position
+
 
 func _get_collisions_normal() -> Vector2:
 	var collision_normal_sum = Vector2.ZERO
@@ -185,17 +199,21 @@ func _get_collisions_normal() -> Vector2:
 		return collision_normal_sum
 	return (collision_normal_sum / get_slide_collision_count()).normalized()
 
+
 # mostly for test purposes because _process is really important to test here
 func _is_on_floor() -> bool:
 	return is_on_floor()
+
 
 # also mostly for test purposes to avoid mocking the predict bounces node every time
 func _predict_bounces() -> void:
 	onready_paths_node.predict_bounces_ray_cast.predict_bounces()
 
+
 ##### SIGNAL MANAGEMENT #####
 func _on_SceneUtils_toggle_scene_freeze(value: bool) -> void:
 	toggle_freeze(value)
+
 
 func _on_appear_elements_appear_animation_finished() -> void:
 	toggle_freeze(false)

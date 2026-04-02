@@ -1,6 +1,7 @@
 @abstract
 class_name PowerupBase
 extends Node2D
+
 # Base class for the powerups
 
 ##### SIGNALS #####
@@ -12,7 +13,8 @@ signal value_updated(value)
 #==== PUBLIC ====
 var active := false
 
+
 ##### PUBLIC METHODS #####
 # to be overrided by children classes
-@rpc("authority", "call_local", "reliable")
 @abstract func use() -> void
+

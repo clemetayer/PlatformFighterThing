@@ -1,4 +1,5 @@
 extends Node2D
+
 # Powerups that duplicates a projectile in multiple projectiles
 
 ##### SIGNALS #####
@@ -17,17 +18,19 @@ var _runtime_utils := RuntimeUtils
 
 #==== ONREADY ====
 @onready var onready_paths := {
-	"audio":$"AudioStreamPlayer2D",
+	"audio": $"AudioStreamPlayer2D",
 	"collision": $"Hitbox/CollisionShape2D",
 	"sprite": $"Sprite2D",
 	"circles": $"Circles",
-	"hit_effect": $"HitEffect"
+	"hit_effect": $"HitEffect",
 }
+
 
 ##### PROCESSING #####
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	onready_paths.circles.init(MAX_CONTACTS)
+
 
 ##### PROTECTED METHODS #####
 func _spawn_projectile(projectile) -> void:
@@ -35,10 +38,11 @@ func _spawn_projectile(projectile) -> void:
 		var game_root = _runtime_utils.get_game_root()
 		if game_root != null and game_root.has_method("spawn_projectile"):
 			game_root.spawn_projectile(projectile)
-		else: 
+		else:
 			GSLogger.error("Game root does not exist or does not have the method '%s'" % "spawn_projectile")
 
-func _duplicate_projectile_with_angle(projectile : Node, angle : float) -> void:
+
+func _duplicate_projectile_with_angle(projectile: Node, angle: float) -> void:
 	var duplicated_projectile = projectile.duplicate()
 	duplicated_projectile.current_owner = projectile.current_owner
 	duplicated_projectile.init_rotation = duplicated_projectile.rotation + angle
@@ -46,13 +50,13 @@ func _duplicate_projectile_with_angle(projectile : Node, angle : float) -> void:
 	_spawn_projectile(duplicated_projectile)
 	_whitelist.append(duplicated_projectile)
 
-@rpc("authority", "call_local", "reliable")
+
 func _handle_feedback() -> void:
 	onready_paths.hit_effect.emitting = true
 	onready_paths.audio.play()
 	onready_paths.circles.remove_circle()
 
-@rpc("authority", "call_local", "reliable")
+
 func _prepare_for_deletion() -> void:
 	onready_paths.collision.set_deferred("disabled", true)
 	onready_paths.sprite.hide()
@@ -61,16 +65,17 @@ func _prepare_for_deletion() -> void:
 	emit_signal("destroyed", self)
 	queue_free()
 
+
 ##### SIGNAL MANAGEMENT #####
 # Note : the PROJECTILE_DUPLICATES + 1 thing seems weird, but it's actually needed to spawn an even amount of bullets
 func _on_hitbox_area_entered(area):
 	if _runtime_utils.is_authority():
 		if GroupUtils.is_projectile(area) and not _whitelist.has(area):
-			rpc("_handle_feedback")
-			for duplicate_idx in range(1,PROJECTILE_DUPLICATES + 1):
-				var dup_angle = (duplicate_idx * ((PI/2)/(PROJECTILE_DUPLICATES+1))) - PI/4
-				if dup_angle != PI/2: # PI/2 angle (forward) is reserved for the original projectile
-					_duplicate_projectile_with_angle(area,dup_angle)
+			_handle_feedback()
+			for duplicate_idx in range(1, PROJECTILE_DUPLICATES + 1):
+				var dup_angle = (duplicate_idx * ((PI / 2) / (PROJECTILE_DUPLICATES + 1))) - PI / 4
+				if dup_angle != PI / 2: # PI/2 angle (forward) is reserved for the original projectile
+					_duplicate_projectile_with_angle(area, dup_angle)
 			if PROJECTILE_DUPLICATES % 2 == 0:
 				area.queue_free()
 			else:
@@ -78,7 +83,8 @@ func _on_hitbox_area_entered(area):
 			if _contacts_count < MAX_CONTACTS - 1:
 				_contacts_count += 1
 			else:
-				rpc("_prepare_for_deletion")
+				_prepare_for_deletion()
+
 
 func _on_hitbox_area_exited(area):
 	if _whitelist.has(area) and _runtime_utils.is_authority():

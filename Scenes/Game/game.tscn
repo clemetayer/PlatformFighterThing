@@ -168,30 +168,6 @@ script = ExtResource("10_a6ftd")
 [node name="Camera" parent="." unique_id=1533414058 instance=ExtResource("2_0bomf")]
 enabled = false
 
-[node name="PlayerSpawner" type="MultiplayerSpawner" parent="." unique_id=494070830]
-_spawnable_scenes = PackedStringArray("uid://fgxha8wl55pa")
-spawn_path = NodePath("../Players")
-spawn_limit = 4
-
-[node name="LevelSpawner" type="MultiplayerSpawner" parent="." unique_id=97593403]
-_spawnable_scenes = PackedStringArray("uid://b1lft1oovl50b")
-spawn_path = NodePath("../Level")
-spawn_limit = 1
-
-[node name="ProjectileSpawner" type="MultiplayerSpawner" parent="." unique_id=508602494]
-_spawnable_scenes = PackedStringArray("uid://cra571gjijhyj")
-spawn_path = NodePath("../Projectiles")
-spawn_limit = 100
-
-[node name="PowerupSpawner" type="MultiplayerSpawner" parent="." unique_id=1509792952]
-_spawnable_scenes = PackedStringArray("uid://cto1bewda5gwm")
-spawn_path = NodePath("../Powerups")
-
-[node name="BackgroundSpawner" type="MultiplayerSpawner" parent="." unique_id=1618548761]
-_spawnable_scenes = PackedStringArray("uid://lpdxuv2lqgps")
-spawn_path = NodePath("../Background")
-spawn_limit = 1
-
 [node name="IntroOutroSounds" type="AudioStreamPlayer" parent="." unique_id=463894482]
 volume_db = -5.0
 bus = &"Effects"

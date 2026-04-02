@@ -1,4 +1,5 @@
 extends PrimaryWeaponBase
+
 # Basic revolver
 
 ##### VARIABLES #####
@@ -19,16 +20,17 @@ var _runtime_utils := RuntimeUtils
 	"line_of_sight": $"Line2D",
 	"shoot_cooldown_timer": $"ShootCooldown",
 	"sprite": $"Sprite2D",
-	"gunshot": $"Gunshot"
+	"gunshot": $"Gunshot",
 }
+
 
 ##### PROCESSING #####
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	_set_los_init_modulate()
 
+
 ##### PUBLIC METHODS #####
-@rpc("authority", "call_local", "reliable")
 func fire() -> void:
 	if not _on_cooldown and active:
 		_fire_anim()
@@ -38,6 +40,7 @@ func fire() -> void:
 		_on_cooldown = true
 		onready_paths.shoot_cooldown_timer.start()
 
+
 func aim(relative_aim_position: Vector2) -> void:
 	var analog_angle = Vector2.ZERO.angle_to_point(relative_aim_position)
 	rotation = analog_angle
@@ -45,7 +48,7 @@ func aim(relative_aim_position: Vector2) -> void:
 		onready_paths.sprite.scale.y = abs(onready_paths.sprite.scale.y) * -1
 	else:
 		onready_paths.sprite.scale.y = abs(onready_paths.sprite.scale.y)
-	
+
 
 ##### PROTECTED METHODS #####
 func _create_projectile() -> Node:
@@ -56,6 +59,7 @@ func _create_projectile() -> Node:
 	projectile.trail_color = owner_color
 	return projectile
 
+
 func _fire_anim() -> void:
 	if _fire_anim_tween:
 		_fire_anim_tween.kill() # Abort the previous animation.
@@ -65,11 +69,14 @@ func _fire_anim() -> void:
 	_fire_anim_tween.tween_property(onready_paths.line_of_sight, "modulate", owner_color, FIRE_ANIM_TIME)
 	_fire_anim_tween.tween_property(onready_paths.line_of_sight, "width", LOS_DEFAULT_WIDTH, FIRE_ANIM_TIME)
 
+
 func _play_gunshot() -> void:
 	onready_paths.gunshot.play()
 
+
 func _set_los_init_modulate() -> void:
 	onready_paths.line_of_sight.modulate = owner_color
+
 
 ##### SIGNAL MANAGEMENT #####
 func _on_shoot_cooldown_timeout():

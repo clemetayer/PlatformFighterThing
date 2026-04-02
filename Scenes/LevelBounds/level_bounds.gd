@@ -22,4 +22,4 @@ func get_bounds() -> Array:
 ##### SIGNAL MANAGEMENT #####
 func _on_body_exited(body: Node2D) -> void:
 	if GroupUtils.is_player(body):
-		body.rpc("kill")
+		body.kill()

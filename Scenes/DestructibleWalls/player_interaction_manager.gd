@@ -1,4 +1,5 @@
 extends Node
+
 # handles the player interactions with the destructible wall
 
 ##### VARIABLES #####
@@ -12,18 +13,21 @@ var _runtime_utils := RuntimeUtils
 
 #==== ONREADY ====
 @onready var onready_paths := {
-	"freeze_player_timers" : $"FreezePlayerTimers",
+	"freeze_player_timers": $"FreezePlayerTimers",
 	"audio_manager": $"../AudioManager",
-	"health_manager" : $"../HealthManager"
+	"health_manager": $"../HealthManager",
 }
+
 
 ##### PUBLIC METHODS #####
 func handle_player_hit(player: Node2D, bounce_direction: Vector2, bounce_force: float) -> void:
-	player.rpc("toggle_freeze", true)
+	player.toggle_freeze(true)
 	_start_freeze_timeout_timer_for_player(player, bounce_direction, bounce_force)
 
+
 func kill_player(player: Node2D) -> void:
-	player.rpc("kill")
+	player.kill()
+
 
 ##### PROTECTED METHODS #####
 func _start_freeze_timeout_timer_for_player(player: Node2D, bounce_direction: Vector2, bounce_force: float, time: float = FREEZE_PLAYER_TIMEOUT) -> void:
@@ -34,13 +38,14 @@ func _start_freeze_timeout_timer_for_player(player: Node2D, bounce_direction: Ve
 	onready_paths.freeze_player_timers.add_child(timer)
 	timer.start()
 
+
 ##### SIGNAL MANAGEMENT #####
 func _on_freeze_player_timer_timeout(timer_to_free: Timer, player: Node2D, bounce_direction: Vector2, bounce_force: float) -> void:
 	if _runtime_utils.is_authority() and is_instance_valid(player):
 		onready_paths.audio_manager.stop_trebble()
-		player.rpc("toggle_freeze", false)
+		player.toggle_freeze(false)
 		if onready_paths.health_manager.is_destroyed():
-			player.rpc("override_velocity", -bounce_direction.normalized() * WALL_BREAK_KNOCKBACK_STRENGTH)
+			player.override_velocity(-bounce_direction.normalized() * WALL_BREAK_KNOCKBACK_STRENGTH)
 		else:
-			player.rpc("override_velocity", bounce_direction.normalized() * bounce_force)
+			player.override_velocity(bounce_direction.normalized() * bounce_force)
 		timer_to_free.queue_free()
