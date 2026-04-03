@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://cto1bewda5gwm"]
+[gd_scene format=3 uid="uid://cto1bewda5gwm"]
 
 [ext_resource type="Script" uid="uid://bb4hrw2b5jtmk" path="res://Scenes/Weapons/Powerups/Splitter/splitter.gd" id="1_tp6dn"]
 [ext_resource type="Texture2D" uid="uid://cfdv2q6wok3qm" path="res://Misc/Inkscape/white_circle.svg" id="2_gcc30"]
@@ -34,15 +34,10 @@ hue_variation_max = 0.99999994
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_06q05"]
 size = Vector2(128, 128)
 
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_risov"]
-properties/0/path = NodePath(".:position")
-properties/0/spawn = true
-properties/0/replication_mode = 2
-
-[node name="Splitter" type="Node2D"]
+[node name="Splitter" type="Node2D" unique_id=489423910]
 script = ExtResource("1_tp6dn")
 
-[node name="Circles" type="HBoxContainer" parent="."]
+[node name="Circles" type="HBoxContainer" parent="." unique_id=1600124135]
 offset_left = -64.0
 offset_top = -83.0
 offset_right = 64.0
@@ -52,7 +47,7 @@ alignment = 1
 script = ExtResource("2_risov")
 texture = ExtResource("2_gcc30")
 
-[node name="HitEffect" type="GPUParticles2D" parent="."]
+[node name="HitEffect" type="GPUParticles2D" parent="." unique_id=154510012]
 emitting = false
 amount = 5
 texture = ExtResource("2_jxrl0")
@@ -60,24 +55,21 @@ lifetime = 0.33
 one_shot = true
 process_material = SubResource("ParticleProcessMaterial_risov")
 
-[node name="Hitbox" type="Area2D" parent="."]
+[node name="Hitbox" type="Area2D" parent="." unique_id=751208943]
 collision_layer = 8
 collision_mask = 12
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=1844993583]
 shape = SubResource("RectangleShape2D_06q05")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1445488839]
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("2_jxrl0")
 
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=502102807]
 stream = ExtResource("3_o5ews")
 volume_db = 5.0
 bus = &"Effects"
-
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
-replication_config = SubResource("SceneReplicationConfig_risov")
 
 [connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]
 [connection signal="area_exited" from="Hitbox" to="." method="_on_hitbox_area_exited"]

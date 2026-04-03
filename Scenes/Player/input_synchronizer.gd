@@ -1,4 +1,4 @@
-extends MultiplayerSynchronizer
+extends Node
 
 # Input synchronizer
 

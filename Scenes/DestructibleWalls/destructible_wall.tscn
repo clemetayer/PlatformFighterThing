@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://dwikem0xs7d8t"]
+[gd_scene format=3 uid="uid://dwikem0xs7d8t"]
 
 [ext_resource type="Script" uid="uid://boqypfe62ckdo" path="res://Scenes/DestructibleWalls/destructible_wall.gd" id="1_8dscf"]
 [ext_resource type="Texture2D" uid="uid://olwb2yraeuqe" path="res://Scenes/Levels/Tilesets/LevelPlatformsTileset.png" id="1_megce"]
@@ -429,112 +429,104 @@ size = Vector2(32, 32)
 resource_local_to_scene = true
 size = Vector2(32, 32)
 
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_0lr1d"]
-properties/0/path = NodePath("HealthManager:HEALTH")
-properties/0/spawn = true
-properties/0/replication_mode = 1
-
-[node name="DestructibleWall" type="TileMapLayer" groups=["destructible_wall", "static_obstacle"]]
+[node name="DestructibleWall" type="TileMapLayer" unique_id=1188682467 groups=["destructible_wall", "static_obstacle"]]
 tile_set = SubResource("TileSet_50xy0")
 script = ExtResource("1_8dscf")
 
-[node name="HealthManager" type="Node" parent="."]
+[node name="HealthManager" type="Node" parent="." unique_id=1534582272]
 script = ExtResource("3_5dy7q")
 
-[node name="VisualEffectsManager" type="Node2D" parent="."]
+[node name="VisualEffectsManager" type="Node2D" parent="." unique_id=701641330]
 script = ExtResource("4_jedvq")
 
-[node name="Particles" type="Node2D" parent="VisualEffectsManager"]
+[node name="Particles" type="Node2D" parent="VisualEffectsManager" unique_id=1384905208]
 script = ExtResource("12_4kfsc")
 
-[node name="Sparks" type="GPUParticles2D" parent="VisualEffectsManager/Particles"]
+[node name="Sparks" type="GPUParticles2D" parent="VisualEffectsManager/Particles" unique_id=2111604690]
 emitting = false
 amount = 16
 texture = ExtResource("12_c1uyt")
 lifetime = 0.08
 process_material = SubResource("ParticleProcessMaterial_c1uyt")
 
-[node name="Sparks2" type="GPUParticles2D" parent="VisualEffectsManager/Particles"]
+[node name="Sparks2" type="GPUParticles2D" parent="VisualEffectsManager/Particles" unique_id=2118434730]
 emitting = false
 amount = 16
 texture = ExtResource("13_1oe48")
 lifetime = 0.08
 process_material = SubResource("ParticleProcessMaterial_c1uyt")
 
-[node name="MovingPattern" type="ColorRect" parent="VisualEffectsManager"]
+[node name="MovingPattern" type="ColorRect" parent="VisualEffectsManager" unique_id=2110011743]
 material = SubResource("ShaderMaterial_qcnym")
 script = ExtResource("4_2peem")
 metadata/_edit_use_anchors_ = true
 
-[node name="Cracks" type="ColorRect" parent="VisualEffectsManager"]
+[node name="Cracks" type="ColorRect" parent="VisualEffectsManager" unique_id=231857026]
 material = SubResource("ShaderMaterial_h6emg")
 script = ExtResource("4_2peem")
 
-[node name="SpawnAnimation" type="Node" parent="VisualEffectsManager"]
+[node name="SpawnAnimation" type="Node" parent="VisualEffectsManager" unique_id=2115737940]
 script = ExtResource("3_jis8i")
 
-[node name="SpawnSound" type="AudioStreamPlayer" parent="VisualEffectsManager/SpawnAnimation"]
+[node name="SpawnSound" type="AudioStreamPlayer" parent="VisualEffectsManager/SpawnAnimation" unique_id=1048281793]
 stream = ExtResource("15_0lr1d")
 bus = &"Effects"
 
-[node name="PlayerInteractionsManager" type="Node" parent="."]
+[node name="PlayerInteractionsManager" type="Node" parent="." unique_id=1948337881]
 script = ExtResource("5_k5ou3")
 
-[node name="FreezePlayerTimers" type="Node" parent="PlayerInteractionsManager"]
+[node name="FreezePlayerTimers" type="Node" parent="PlayerInteractionsManager" unique_id=428525253]
 
-[node name="CollisionManager" type="Node2D" parent="."]
+[node name="CollisionManager" type="Node2D" parent="." unique_id=374335475]
 script = ExtResource("6_yj50p")
 
-[node name="DamageWallArea" type="Area2D" parent="CollisionManager"]
+[node name="DamageWallArea" type="Area2D" parent="CollisionManager" unique_id=614716658]
 visible = false
 collision_mask = 2
 script = ExtResource("6_d5y80")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CollisionManager/DamageWallArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CollisionManager/DamageWallArea" unique_id=753244032]
 shape = SubResource("RectangleShape2D_iceyh")
 
-[node name="AudioManager" type="Node" parent="."]
+[node name="AudioManager" type="Node" parent="." unique_id=1590325410]
 script = ExtResource("7_k68wi")
 
-[node name="WallHit" type="AudioStreamPlayer" parent="AudioManager"]
+[node name="WallHit" type="AudioStreamPlayer" parent="AudioManager" unique_id=583560851]
 stream = ExtResource("8_wwj4h")
 volume_db = -3.0
 bus = &"EffectsBGMSidechain"
 
-[node name="WallHitBreakTrebble" type="AudioStreamPlayer" parent="AudioManager"]
+[node name="WallHitBreakTrebble" type="AudioStreamPlayer" parent="AudioManager" unique_id=365858587]
 stream = ExtResource("9_kwvrj")
 bus = &"EffectsBGMSidechain"
 
-[node name="WallBreak" type="AudioStreamPlayer" parent="AudioManager"]
+[node name="WallBreak" type="AudioStreamPlayer" parent="AudioManager" unique_id=1265437328]
 stream = ExtResource("10_7vn65")
 volume_db = -3.0
 bus = &"EffectsBGMSidechain"
 
-[node name="RespawnManager" type="Node2D" parent="."]
+[node name="RespawnManager" type="Node2D" parent="." unique_id=1090911787]
 script = ExtResource("8_v2ebb")
 
-[node name="RespawnTimer" type="Timer" parent="RespawnManager"]
+[node name="RespawnTimer" type="Timer" parent="RespawnManager" unique_id=1600278363]
 wait_time = 20.0
 one_shot = true
 
-[node name="WaitRespawnTimer" type="Timer" parent="RespawnManager"]
+[node name="WaitRespawnTimer" type="Timer" parent="RespawnManager" unique_id=74855398]
 wait_time = 0.5
 one_shot = true
 
-[node name="CollisionDetectionArea" type="Area2D" parent="RespawnManager"]
+[node name="CollisionDetectionArea" type="Area2D" parent="RespawnManager" unique_id=1143533312]
 visible = false
 collision_mask = 2
 script = ExtResource("6_d5y80")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="RespawnManager/CollisionDetectionArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RespawnManager/CollisionDetectionArea" unique_id=1310612243]
 shape = SubResource("RectangleShape2D_iaxsf")
 
-[node name="VelocityBufferTimer" type="Timer" parent="."]
+[node name="VelocityBufferTimer" type="Timer" parent="." unique_id=531604742]
 wait_time = 0.05
 one_shot = true
-
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
-replication_config = SubResource("SceneReplicationConfig_0lr1d")
 
 [connection signal="health_changed" from="HealthManager" to="." method="_on_health_manager_health_changed"]
 [connection signal="health_empty" from="HealthManager" to="." method="_on_health_manager_health_empty"]

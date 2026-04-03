@@ -29,13 +29,7 @@ const WEIGHT := 2.5 # multiplier for the gravity
 @export var GAME_PROXY_PATH := ".."
 
 #==== MOSTLY FOR MULTIPLAYER PURPOSES ====
-@export var id := 1:
-	set(player_idx):
-		id = player_idx
-		# Give authority over the player input to the appropriate peer.
-		$InputSynchronizer.set_multiplayer_authority(id)
-@export var sync_velocity: Vector2
-@export var sync_position: Vector2
+@export var id := 1
 
 #---- STANDARD -----
 #==== PUBLIC ====

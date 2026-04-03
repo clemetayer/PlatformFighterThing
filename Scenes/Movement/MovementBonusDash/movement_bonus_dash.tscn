@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://cj7gldqg3okbr"]
+[gd_scene format=3 uid="uid://cj7gldqg3okbr"]
 
 [ext_resource type="Script" uid="uid://0fviikt4atpx" path="res://Scenes/Movement/MovementBonusDash/movement_bonus_dash.gd" id="1_eshou"]
 [ext_resource type="Texture2D" uid="uid://btcmiq31qee7d" path="res://Scenes/Player/CharacterBody.png" id="2_3l0pl"]
@@ -18,31 +18,23 @@ scale_min = 0.3
 scale_max = 0.33
 color_ramp = SubResource("GradientTexture1D_kj2cf")
 
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_v5urw"]
-properties/0/path = NodePath(".:DASHES_AVAILABLE")
-properties/0/spawn = true
-properties/0/replication_mode = 2
-
-[node name="MovementBonusDash" type="Node2D"]
+[node name="MovementBonusDash" type="Node2D" unique_id=933204212]
 script = ExtResource("1_eshou")
 handler_type = 1
 
-[node name="DashParticles" type="GPUParticles2D" parent="."]
+[node name="DashParticles" type="GPUParticles2D" parent="." unique_id=1865040120]
 emitting = false
 texture = ExtResource("2_3l0pl")
 lifetime = 0.33
 one_shot = true
 process_material = SubResource("ParticleProcessMaterial_k6q73")
 
-[node name="DashSound" type="AudioStreamPlayer2D" parent="."]
+[node name="DashSound" type="AudioStreamPlayer2D" parent="." unique_id=661392056]
 stream = ExtResource("3_yj5pv")
 volume_db = -3.0
 
-[node name="ReloadDashTimer" type="Timer" parent="."]
+[node name="ReloadDashTimer" type="Timer" parent="." unique_id=267351545]
 wait_time = 2.0
 one_shot = true
-
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
-replication_config = SubResource("SceneReplicationConfig_v5urw")
 
 [connection signal="timeout" from="ReloadDashTimer" to="." method="_on_reload_dash_timer_timeout"]

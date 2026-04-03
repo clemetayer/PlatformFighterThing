@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://c3ys4badrjjgc"]
+[gd_scene format=3 uid="uid://c3ys4badrjjgc"]
 
 [ext_resource type="Script" uid="uid://kgy8wqspjowj" path="res://Scenes/Weapons/Primary/Revolver/revolver.gd" id="1_71ky4"]
 [ext_resource type="Texture2D" uid="uid://j4xdgdied5dy" path="res://Scenes/Weapons/Primary/Revolver/Revolver.png" id="2_di3r8"]
@@ -8,31 +8,23 @@
 offsets = PackedFloat32Array(0, 0.01, 1)
 colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0)
 
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_jsuls"]
-properties/0/path = NodePath(".:rotation")
-properties/0/spawn = true
-properties/0/replication_mode = 1
-
-[node name="Revolver" type="Node2D"]
+[node name="Revolver" type="Node2D" unique_id=1083447546]
 script = ExtResource("1_71ky4")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1201147951]
 scale = Vector2(0.25, 0.25)
 texture = ExtResource("2_di3r8")
 
-[node name="Line2D" type="Line2D" parent="."]
+[node name="Line2D" type="Line2D" parent="." unique_id=895049122]
 points = PackedVector2Array(31, 0, 64, 0, 500, 0)
 width = 2.0
 gradient = SubResource("Gradient_5vcv6")
 
-[node name="ShootCooldown" type="Timer" parent="."]
+[node name="ShootCooldown" type="Timer" parent="." unique_id=961176986]
 wait_time = 0.5
 
-[node name="Gunshot" type="AudioStreamPlayer2D" parent="."]
+[node name="Gunshot" type="AudioStreamPlayer2D" parent="." unique_id=1256980991]
 stream = ExtResource("3_105xf")
 bus = &"Effects"
-
-[node name="RevolverSynchronizer" type="MultiplayerSynchronizer" parent="."]
-replication_config = SubResource("SceneReplicationConfig_jsuls")
 
 [connection signal="timeout" from="ShootCooldown" to="." method="_on_shoot_cooldown_timeout"]

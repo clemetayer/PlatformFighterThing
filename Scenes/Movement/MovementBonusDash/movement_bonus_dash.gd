@@ -40,8 +40,9 @@ func _emit_particles() -> void:
 func _play_sound() -> void:
 	onready_paths.sound.play()
 
+
 ##### PUBLIC METHODS #####
-ftivate( -> void:
+func activate() -> void:
 	if DASHES_AVAILABLE > 0 and active:
 		player.override_velocity(player.get_direction().normalized() * DASH_VELOCITY)
 		DASHES_AVAILABLE -= 1
