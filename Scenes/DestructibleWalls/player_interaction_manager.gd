@@ -8,9 +8,6 @@ const FREEZE_PLAYER_TIMEOUT := 1.0 # seconds
 const WALL_BREAK_KNOCKBACK_STRENGTH := 10000
 
 #---- STANDARD -----
-#==== PRIVATE ====
-var _runtime_utils := RuntimeUtils
-
 #==== ONREADY ====
 @onready var onready_paths := {
 	"freeze_player_timers": $"FreezePlayerTimers",
@@ -41,7 +38,7 @@ func _start_freeze_timeout_timer_for_player(player: Node2D, bounce_direction: Ve
 
 ##### SIGNAL MANAGEMENT #####
 func _on_freeze_player_timer_timeout(timer_to_free: Timer, player: Node2D, bounce_direction: Vector2, bounce_force: float) -> void:
-	if _runtime_utils.is_authority() and is_instance_valid(player):
+	if is_instance_valid(player):
 		onready_paths.audio_manager.stop_trebble()
 		player.toggle_freeze(false)
 		if onready_paths.health_manager.is_destroyed():

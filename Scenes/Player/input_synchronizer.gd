@@ -8,19 +8,11 @@ extends Node
 @export var action_states: Dictionary
 @export var relative_aim_position := Vector2.ZERO
 
-#==== PRIVATE ====
-var _runtime_utils := RuntimeUtils
-
 #==== ONREADY ====
 @onready var onready_paths_node := $"../Paths"
 
 
 ##### PROCESSING #####
-func _ready():
-	# Start the process at false by default, to wait for everything to be initialized to detect if one should process inputs or not
-	set_process(false)
-
-
 # Called every frame. 'delta' is the elapsed time since the previous frame. Remove the "_" to use it.
 func _process(_delta):
 	if is_instance_valid(onready_paths_node.action_handler):
@@ -29,13 +21,6 @@ func _process(_delta):
 
 
 ##### PUBLIC METHODS #####
-func start_input_detection() -> void:
-	set_process(
-		_runtime_utils.is_own_id(onready_paths_node.player_root.id)
-		or _runtime_utils.is_offline_game,
-	)
-
-
 func set_action_handler(handler: StaticActionHandler.handlers) -> void:
 	onready_paths_node.action_handler = StaticActionHandler.get_handler(handler)
 	onready_paths_node.action_handler.name = "ActionHandler"

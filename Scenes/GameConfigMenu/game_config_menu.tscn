@@ -1,8 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://45nkjou6barn"]
+[gd_scene format=3 uid="uid://45nkjou6barn"]
 
 [ext_resource type="Script" uid="uid://wj80oliiclpj" path="res://Scenes/GameConfigMenu/game_config_menu.gd" id="1_a137b"]
 
-[node name="GameConfigMenu" type="Control"]
+[node name="GameConfigMenu" type="Control" unique_id=1290807402]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -11,7 +11,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_a137b")
 
-[node name="GameTypeMenu" type="CenterContainer" parent="."]
+[node name="GameTypeMenu" type="CenterContainer" parent="." unique_id=1525536980]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -19,25 +19,25 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Containers" type="VBoxContainer" parent="GameTypeMenu"]
+[node name="Containers" type="VBoxContainer" parent="GameTypeMenu" unique_id=780098918]
 layout_mode = 2
 
-[node name="CommonMenu" type="VBoxContainer" parent="GameTypeMenu/Containers"]
+[node name="CommonMenu" type="VBoxContainer" parent="GameTypeMenu/Containers" unique_id=615841343]
 layout_mode = 2
 
-[node name="ToggleMusic" type="CheckButton" parent="GameTypeMenu/Containers/CommonMenu"]
+[node name="ToggleMusic" type="CheckButton" parent="GameTypeMenu/Containers/CommonMenu" unique_id=1469330673]
 layout_mode = 2
 button_pressed = true
 text = "Music : "
 
-[node name="VisualIntensity" type="HBoxContainer" parent="GameTypeMenu/Containers/CommonMenu"]
+[node name="VisualIntensity" type="HBoxContainer" parent="GameTypeMenu/Containers/CommonMenu" unique_id=1918945984]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="GameTypeMenu/Containers/CommonMenu/VisualIntensity"]
+[node name="Label" type="Label" parent="GameTypeMenu/Containers/CommonMenu/VisualIntensity" unique_id=1889878142]
 layout_mode = 2
 text = "Background intensity : "
 
-[node name="VisualIntensityOption" type="OptionButton" parent="GameTypeMenu/Containers/CommonMenu/VisualIntensity"]
+[node name="VisualIntensityOption" type="OptionButton" parent="GameTypeMenu/Containers/CommonMenu/VisualIntensity" unique_id=1236646515]
 layout_mode = 2
 selected = 1
 item_count = 4
@@ -50,14 +50,14 @@ popup/item_2/id = 2
 popup/item_3/text = "MELT MY EYES"
 popup/item_3/id = 3
 
-[node name="CameraEffectsIntensity" type="HBoxContainer" parent="GameTypeMenu/Containers/CommonMenu"]
+[node name="CameraEffectsIntensity" type="HBoxContainer" parent="GameTypeMenu/Containers/CommonMenu" unique_id=1145606443]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="GameTypeMenu/Containers/CommonMenu/CameraEffectsIntensity"]
+[node name="Label" type="Label" parent="GameTypeMenu/Containers/CommonMenu/CameraEffectsIntensity" unique_id=217137228]
 layout_mode = 2
 text = "Camera effects intensity :"
 
-[node name="CameraEffectsIntensityOption" type="OptionButton" parent="GameTypeMenu/Containers/CommonMenu/CameraEffectsIntensity"]
+[node name="CameraEffectsIntensityOption" type="OptionButton" parent="GameTypeMenu/Containers/CommonMenu/CameraEffectsIntensity" unique_id=1873084412]
 layout_mode = 2
 selected = 1
 item_count = 4
@@ -70,76 +70,11 @@ popup/item_2/id = 2
 popup/item_3/text = "E A R T H Q U A K E"
 popup/item_3/id = 3
 
-[node name="PlayerCustomization" type="Button" parent="GameTypeMenu/Containers/CommonMenu"]
+[node name="PlayerCustomization" type="Button" parent="GameTypeMenu/Containers/CommonMenu" unique_id=1679031572]
 layout_mode = 2
 text = "Character customization"
 
-[node name="ConfigMenu" type="VBoxContainer" parent="GameTypeMenu/Containers"]
-layout_mode = 2
-theme_override_constants/separation = 20
-
-[node name="Label" type="Label" parent="GameTypeMenu/Containers/ConfigMenu"]
-layout_mode = 2
-text = "Choose a game type"
-
-[node name="OptionButton" type="OptionButton" parent="GameTypeMenu/Containers/ConfigMenu"]
-layout_mode = 2
-selected = 0
-item_count = 3
-popup/item_0/text = "offline"
-popup/item_0/id = 0
-popup/item_1/text = "host"
-popup/item_1/id = 1
-popup/item_2/text = "client"
-popup/item_2/id = 2
-
-[node name="HostMenu" type="VBoxContainer" parent="GameTypeMenu/Containers/ConfigMenu"]
-visible = false
-layout_mode = 2
-
-[node name="Port" type="HBoxContainer" parent="GameTypeMenu/Containers/ConfigMenu/HostMenu"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="GameTypeMenu/Containers/ConfigMenu/HostMenu/Port"]
-layout_mode = 2
-text = "Port : "
-
-[node name="LineEdit" type="LineEdit" parent="GameTypeMenu/Containers/ConfigMenu/HostMenu/Port"]
-layout_mode = 2
-text = "4433"
-placeholder_text = "4433"
-
-[node name="ClientMenu" type="VBoxContainer" parent="GameTypeMenu/Containers/ConfigMenu"]
-visible = false
-layout_mode = 2
-
-[node name="IP" type="HBoxContainer" parent="GameTypeMenu/Containers/ConfigMenu/ClientMenu"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="GameTypeMenu/Containers/ConfigMenu/ClientMenu/IP"]
-layout_mode = 2
-text = "IP : "
-
-[node name="LineEdit" type="LineEdit" parent="GameTypeMenu/Containers/ConfigMenu/ClientMenu/IP"]
-custom_minimum_size = Vector2(320, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-text = "127.0.0.1"
-placeholder_text = "127.0.0.1"
-
-[node name="Port" type="HBoxContainer" parent="GameTypeMenu/Containers/ConfigMenu/ClientMenu"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="GameTypeMenu/Containers/ConfigMenu/ClientMenu/Port"]
-layout_mode = 2
-text = "Port : "
-
-[node name="LineEdit" type="LineEdit" parent="GameTypeMenu/Containers/ConfigMenu/ClientMenu/Port"]
-layout_mode = 2
-text = "4433"
-placeholder_text = "4433"
-
-[node name="StartButton" type="Button" parent="GameTypeMenu/Containers/ConfigMenu"]
+[node name="StartButton" type="Button" parent="GameTypeMenu/Containers" unique_id=1773113306]
 layout_mode = 2
 text = "Start ! "
 
@@ -147,5 +82,4 @@ text = "Start ! "
 [connection signal="item_selected" from="GameTypeMenu/Containers/CommonMenu/VisualIntensity/VisualIntensityOption" to="." method="_on_visual_intensity_option_item_selected"]
 [connection signal="item_selected" from="GameTypeMenu/Containers/CommonMenu/CameraEffectsIntensity/CameraEffectsIntensityOption" to="." method="_on_camera_effects_intensity_option_item_selected"]
 [connection signal="pressed" from="GameTypeMenu/Containers/CommonMenu/PlayerCustomization" to="." method="_on_player_customization_pressed"]
-[connection signal="item_selected" from="GameTypeMenu/Containers/ConfigMenu/OptionButton" to="." method="_on_option_button_item_selected"]
-[connection signal="pressed" from="GameTypeMenu/Containers/ConfigMenu/StartButton" to="." method="_on_start_button_pressed"]
+[connection signal="pressed" from="GameTypeMenu/Containers/StartButton" to="." method="_on_start_button_pressed"]

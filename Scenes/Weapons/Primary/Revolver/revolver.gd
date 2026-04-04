@@ -13,7 +13,6 @@ const FIRE_ANIM_TIME := 0.2
 #==== PRIVATE ====
 var _on_cooldown := false
 var _fire_anim_tween: Tween
-var _runtime_utils := RuntimeUtils
 
 #==== ONREADY ====
 @onready var onready_paths := {
@@ -35,8 +34,7 @@ func fire() -> void:
 	if not _on_cooldown and active:
 		_fire_anim()
 		_play_gunshot()
-		if _runtime_utils.is_authority():
-			_spawn_projectile(_create_projectile())
+		_spawn_projectile(_create_projectile())
 		_on_cooldown = true
 		onready_paths.shoot_cooldown_timer.start()
 

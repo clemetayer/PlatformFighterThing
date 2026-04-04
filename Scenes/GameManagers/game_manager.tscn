@@ -23,7 +23,5 @@ script = ExtResource("2_gyiv4")
 [node name="Game" parent="." unique_id=519562420 instance=ExtResource("3_inig3")]
 
 [connection signal="players_ready" from="PlayerSelectionMenuStrategy" to="." method="_on_player_selection_menu_strategy_players_ready"]
-[connection signal="init_client" from="GameConfigMenu" to="." method="_on_game_config_menu_init_client"]
-[connection signal="init_host" from="GameConfigMenu" to="." method="_on_game_config_menu_init_host"]
-[connection signal="init_offline" from="GameConfigMenu" to="." method="_on_game_config_menu_init_offline"]
+[connection signal="init" from="GameConfigMenu" to="." method="_on_game_config_menu_init"]
 [connection signal="game_over" from="Game" to="." method="_on_game_game_over"]

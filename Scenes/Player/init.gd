@@ -1,4 +1,5 @@
 extends Node
+
 # Tool to initalize the player's config
 
 ##### VARIABLES #####
@@ -10,9 +11,9 @@ extends Node
 @export var MOVEMENT_BONUS_HANDLER: StaticMovementBonusHandler.handlers
 @export var POWERUP_HANDLER: StaticPowerupHandler.handlers
 
+
 ##### PUBLIC METHODS #####
 func initialize(config: PlayerConfig) -> void:
-	onready_paths_node.input_synchronizer.start_input_detection()
 	onready_paths_node.sprites.load_sprite_preset(config.SPRITE_CUSTOMIZATION)
 	ACTION_HANDLER = config.ACTION_HANDLER
 	PRIMARY_WEAPON = config.PRIMARY_WEAPON

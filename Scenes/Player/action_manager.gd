@@ -77,7 +77,7 @@ func _handle_parry() -> void:
 
 
 func _handle_powerup() -> void:
-	if _is_action_just_active(_action_handler_base.actions.POWERUP) and _runtime_utils.is_authority():
+	if _is_action_just_active(_action_handler_base.actions.POWERUP):
 		onready_paths_node.powerup_manager.use()
 
 

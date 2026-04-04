@@ -48,23 +48,19 @@ func init_screen_game_message() -> void:
 
 
 func update_movement(player_id: int, value) -> void:
-	if RuntimeUtils.is_authority():
-		onready_paths.game_ui.update_movement(player_id, value)
+	onready_paths.game_ui.update_movement(player_id, value)
 
 
 func update_powerup(player_id: int, value) -> void:
-	if RuntimeUtils.is_authority():
-		onready_paths.game_ui.update_powerup(player_id, value)
+	onready_paths.game_ui.update_powerup(player_id, value)
 
 
 func update_lives(idx: int, lives: int) -> void:
-	if RuntimeUtils.is_authority():
-		onready_paths.game_ui.update_lives(idx, lives)
+	onready_paths.game_ui.update_lives(idx, lives)
 
 
 func display_message(message: String, display_all_characters: bool = false) -> void:
-	if RuntimeUtils.is_authority():
-		onready_paths.screen_message.display_message(message, PLAYER_GAME_MESSAGE_DURATION, display_all_characters)
+	onready_paths.screen_message.display_message(message, PLAYER_GAME_MESSAGE_DURATION, display_all_characters)
 
 
 func reset() -> void:

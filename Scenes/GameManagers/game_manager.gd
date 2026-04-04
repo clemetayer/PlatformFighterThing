@@ -13,7 +13,6 @@ const DEFAULT_LEVEL_PATH := "res://Scenes/Levels/Level1/level_1_map.tscn"
 const DEFAULT_BACKGROUND_PATH := "res://Scenes/Levels/Backgrounds/TriangleCity/triangle_city.tscn"
 
 #---- EXPORTS -----
-@export var mode := StaticUtils.GAME_TYPES.OFFLINE
 @export var level_data: LevelConfig
 
 #---- STANDARD -----
@@ -36,46 +35,12 @@ func _ready():
 	level_data = _create_level_data()
 
 
-func _exit_tree():
-	if not multiplayer.is_server():
-		return
-	multiplayer.peer_connected.disconnect(_add_player)
-	multiplayer.peer_disconnected.disconnect(_delete_player)
-
-
 ##### PUBLIC METHODS #####
 func get_game_root() -> Node:
 	return onready_paths.game
 
 
 ##### PROTECTED METHODS #####
-func _init_server(port: int) -> void:
-	GSLogger.info("starting as host on port %s" % [port])
-	var peer = ENetMultiplayerPeer.new()
-	peer.create_server(port)
-	if peer.get_connection_status() == MultiplayerPeer.CONNECTION_DISCONNECTED:
-		GSLogger.error("Failed to start multiplayer server.")
-		OS.alert("Failed to start multiplayer server.")
-		return
-	multiplayer.multiplayer_peer = peer
-	multiplayer.peer_connected.connect(_add_player)
-	multiplayer.peer_disconnected.connect(_delete_player)
-	RuntimeUtils.is_offline_game = false
-
-
-func _connect_to_server(ip: String, port: int) -> void:
-	GSLogger.info("starting as client on %s:%s" % [ip, port])
-	# Start as client.
-	var peer = ENetMultiplayerPeer.new()
-	peer.create_client(ip, port)
-	if peer.get_connection_status() == MultiplayerPeer.CONNECTION_DISCONNECTED:
-		GSLogger.error("Failed to start multiplayer client.")
-		OS.alert("Failed to start multiplayer client.")
-		return
-	multiplayer.multiplayer_peer = peer
-	RuntimeUtils.is_offline_game = false
-
-
 func _create_player_data(config_path: String) -> PlayerConfig:
 	var sprite_presets: SpriteCustomizationPresetsResource = load(SPRITE_PRESETS_PATH)
 	sprite_presets.presets.shuffle() # to avoid picking the same element every time
@@ -138,32 +103,17 @@ func _init_connected_players(players: Dictionary) -> void:
 
 
 ##### SIGNAL MANAGEMENT #####
-func _on_game_config_menu_init_offline() -> void:
-	GSLogger.debug("going to the player selection menu - offline")
+func _on_game_config_menu_init() -> void:
+	GSLogger.debug("going to the player selection menu")
 	onready_paths.game_config_menu.visible = false
 	onready_paths.player_selection_menu.visible = true
-	onready_paths.player_selection_menu.init_offline()
-
-
-func _on_game_config_menu_init_host(port: int) -> void:
-	_init_server(port)
-	onready_paths.game_config_menu.visible = false
-	onready_paths.player_selection_menu.visible = true
-	onready_paths.player_selection_menu.init_host()
-
-
-func _on_game_config_menu_init_client(ip: String, port: int) -> void:
-	_connect_to_server(ip, port)
-	onready_paths.game_config_menu.visible = false
-	onready_paths.player_selection_menu.visible = true
-	onready_paths.player_selection_menu.init_client()
+	onready_paths.player_selection_menu.init()
 
 
 func _on_game_game_over() -> void:
 	GSLogger.debug("game over")
 	onready_paths.game.reset()
 	onready_paths.game_config_menu.visible = true
-	onready_paths.game_config_menu.reset()
 	FullScreenEffects.toggle_active(false)
 
 

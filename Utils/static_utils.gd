@@ -3,9 +3,6 @@ extends RefCounted
 class_name StaticUtils
 # contains various static elements common to the entire game (enums, const, static functions, etc.)
 
-##### ENUMS #####
-enum GAME_TYPES { OFFLINE, HOST, CLIENT }
-
 ##### VARIABLES #####
 #---- CONSTANTS -----
 const DEFAULT_CONFIG_PATH := "res://Scenes/Player/PlayerConfigs/default_player_config.tres"

@@ -1,8 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://c8dp63orlv8fe"]
+[gd_scene format=3 uid="uid://c8dp63orlv8fe"]
 
 [ext_resource type="Script" uid="uid://2qbry14oq0t4" path="res://Scenes/UI/PlayersData/players_data_ui.gd" id="1_on3sm"]
 
-[node name="PlayerDataUi" type="HBoxContainer"]
+[node name="PlayerDataUi" type="HBoxContainer" unique_id=1607316333]
 custom_minimum_size = Vector2(0, 162)
 anchors_preset = 12
 anchor_top = 1.0

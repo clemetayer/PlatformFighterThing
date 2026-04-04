@@ -34,12 +34,11 @@ func _ready():
 
 ##### PROTECTED METHODS #####
 func _spawn_projectile(projectile) -> void:
-	if _runtime_utils.is_authority():
-		var game_root = _runtime_utils.get_game_root()
-		if game_root != null and game_root.has_method("spawn_projectile"):
-			game_root.spawn_projectile(projectile)
-		else:
-			GSLogger.error("Game root does not exist or does not have the method '%s'" % "spawn_projectile")
+	var game_root = _runtime_utils.get_game_root()
+	if game_root != null and game_root.has_method("spawn_projectile"):
+		game_root.spawn_projectile(projectile)
+	else:
+		GSLogger.error("Game root does not exist or does not have the method '%s'" % "spawn_projectile")
 
 
 func _duplicate_projectile_with_angle(projectile: Node, angle: float) -> void:
@@ -69,23 +68,22 @@ func _prepare_for_deletion() -> void:
 ##### SIGNAL MANAGEMENT #####
 # Note : the PROJECTILE_DUPLICATES + 1 thing seems weird, but it's actually needed to spawn an even amount of bullets
 func _on_hitbox_area_entered(area):
-	if _runtime_utils.is_authority():
-		if GroupUtils.is_projectile(area) and not _whitelist.has(area):
-			_handle_feedback()
-			for duplicate_idx in range(1, PROJECTILE_DUPLICATES + 1):
-				var dup_angle = (duplicate_idx * ((PI / 2) / (PROJECTILE_DUPLICATES + 1))) - PI / 4
-				if dup_angle != PI / 2: # PI/2 angle (forward) is reserved for the original projectile
-					_duplicate_projectile_with_angle(area, dup_angle)
-			if PROJECTILE_DUPLICATES % 2 == 0:
-				area.queue_free()
-			else:
-				_whitelist.append(area)
-			if _contacts_count < MAX_CONTACTS - 1:
-				_contacts_count += 1
-			else:
-				_prepare_for_deletion()
+	if GroupUtils.is_projectile(area) and not _whitelist.has(area):
+		_handle_feedback()
+		for duplicate_idx in range(1, PROJECTILE_DUPLICATES + 1):
+			var dup_angle = (duplicate_idx * ((PI / 2) / (PROJECTILE_DUPLICATES + 1))) - PI / 4
+			if dup_angle != PI / 2: # PI/2 angle (forward) is reserved for the original projectile
+				_duplicate_projectile_with_angle(area, dup_angle)
+		if PROJECTILE_DUPLICATES % 2 == 0:
+			area.queue_free()
+		else:
+			_whitelist.append(area)
+		if _contacts_count < MAX_CONTACTS - 1:
+			_contacts_count += 1
+		else:
+			_prepare_for_deletion()
 
 
 func _on_hitbox_area_exited(area):
-	if _whitelist.has(area) and _runtime_utils.is_authority():
+	if _whitelist.has(area):
 		_whitelist.erase(area)

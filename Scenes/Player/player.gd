@@ -46,7 +46,6 @@ var _damage_enabled := true
 var _truce_active := false # allows for players to move freely but can't shoot or use abilities. Usefull during the start countdown of the game
 var _velocity_buffer := [Vector2.ZERO, Vector2.ZERO, Vector2.ZERO] # 3 frame buffer for the velocity. Usefull to keep track of the velocity when elements are going too fast
 var _scene_utils := SceneUtils
-var _runtime_utils := RuntimeUtils
 
 #==== ONREADY ====
 @onready var onready_paths_node := $"Paths"
@@ -58,13 +57,10 @@ func _ready():
 	onready_paths_node.init.initialize(get_node(GAME_PROXY_PATH).get_player_config(id))
 	_appear()
 	_scene_utils.connect("toggle_scene_freeze", _on_SceneUtils_toggle_scene_freeze)
-	_load_sync_physics()
 
 
 func _physics_process(delta: float) -> void:
 	if not _frozen:
-		_load_sync_physics()
-
 		if not _is_on_floor():
 			velocity.y += _gravity * delta
 		elif velocity.y > 0 and _is_on_floor(): # to bounce back on horizontal destroyable walls
@@ -95,8 +91,6 @@ func _physics_process(delta: float) -> void:
 		move_and_slide()
 
 		_buffer_velocity(velocity)
-
-		_save_sync_physics()
 
 
 ##### PUBLIC METHODS #####
@@ -171,18 +165,6 @@ func _appear() -> void:
 func _buffer_velocity(vel_to_buffer: Vector2) -> void:
 	_velocity_buffer.pop_back()
 	_velocity_buffer.push_front(vel_to_buffer)
-
-
-func _save_sync_physics() -> void:
-	if _runtime_utils.is_authority():
-		sync_velocity = velocity
-		sync_position = global_position
-
-
-func _load_sync_physics() -> void:
-	if not _runtime_utils.is_authority():
-		velocity = sync_velocity
-		global_position = sync_position
 
 
 func _get_collisions_normal() -> Vector2:
