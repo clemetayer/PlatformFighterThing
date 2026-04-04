@@ -1,7 +1,7 @@
 extends Node
 
 class_name GameManager
-# Manages the game (online or offline)
+# Manages the game
 
 ##### VARIABLES #####
 #---- CONSTANTS -----

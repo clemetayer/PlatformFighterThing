@@ -7,9 +7,7 @@ signal init
 
 ##### VARIABLES #####
 #---- CONSTANTS -----
-const WAITING_TEXT_HOST_TEMPLATE := "[wave amp=50.0 freq=5.0 connected=1]Waiting for players, currently connected : %d [/wave] "
-const GAME_MANAGER_PATH := "res://Scenes/GameManagers/game_manager.tscn"
-const PLAYER_CUSTOMZATION_MENU_PATH := "res://Scenes/UI/PlayerCustomizationMenu/player_customization_menu.tscn"
+const PLAYER_CUSTOMIZATION_MENU_PATH := "res://Scenes/UI/PlayerCustomizationMenu/player_customization_menu.tscn"
 
 
 ##### SIGNAL MANAGEMENT #####
@@ -46,4 +44,4 @@ func _on_start_button_pressed() -> void:
 
 
 func _on_player_customization_pressed() -> void:
-	get_tree().change_scene_to_file(PLAYER_CUSTOMZATION_MENU_PATH)
+	get_tree().change_scene_to_file(PLAYER_CUSTOMIZATION_MENU_PATH)
