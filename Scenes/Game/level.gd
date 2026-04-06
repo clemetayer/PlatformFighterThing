@@ -1,31 +1,37 @@
 extends CanvasLayer
+
 # Manages the level within the scene
 
 ##### VARIABLES #####
 #---- STANDARD -----
 #==== PRIVATE ====
-var _level_data : LevelConfig
-var _level : Node
-var _spawn_positions : Array
+var _level_data: LevelConfig
+var _level: Node
+var _spawn_positions: Array
+
 
 ##### PUBLIC METHODS #####
-func init_level_data(p_level_data : Dictionary) -> void:
-	_level_data = LevelConfig.new()
-	_level_data.deserialize(p_level_data)
+func init_level_data(p_level_data: LevelConfig) -> void:
+	_level_data = p_level_data
+
 
 func add_level() -> void:
 	reset()
 	_spawn_level()
 
+
 func reset() -> void:
 	for c in get_children():
 		c.queue_free()
 
+
 func get_spawn_positions() -> Array:
-	return _spawn_positions	
+	return _spawn_positions
+
 
 func get_background_path() -> String:
 	return _level_data.background_and_music
+
 
 ##### PROTECTED METHODS #####
 func _spawn_level() -> void:

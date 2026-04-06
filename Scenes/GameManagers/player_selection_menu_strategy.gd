@@ -31,5 +31,5 @@ func init() -> void:
 ##### SIGNAL MANAGEMENT #####
 func _on_players_ready(player_configs: Array) -> void:
 	for player_idx in range(0, player_configs.size()):
-		_player_configs[player_idx] = player_configs[player_idx].serialize()
+		_player_configs[player_idx] = player_configs[player_idx]
 	emit_signal("players_ready", _player_configs)

@@ -34,7 +34,7 @@ func _ready():
 
 
 ##### PUBLIC METHODS #####
-func init_level_data(p_level_data: Dictionary) -> void:
+func init_level_data(p_level_data: LevelConfig) -> void:
 	onready_paths.level.init_level_data(p_level_data)
 
 

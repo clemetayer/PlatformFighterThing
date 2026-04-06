@@ -14,9 +14,11 @@ var movement_updated_args := []
 var game_message_triggered_times_called := 0
 var game_message_triggered_args := []
 
+
 ##### SETUP #####
 func before_all():
 	pass
+
 
 func before_each():
 	players = load("res://Scenes/Game/players.gd").new()
@@ -31,59 +33,50 @@ func before_each():
 	game_message_triggered_times_called = 0
 	game_message_triggered_args = []
 
+
 ##### TEARDOWN #####
 func after_all():
 	pass
 
+
 func after_each():
 	players.free()
+
 
 ##### TESTS #####
 func test_init_players_data():
 	# given
+	var player_1_config: PlayerConfig = create_default_player_config()
+	player_1_config.SPRITE_CUSTOMIZATION.BODY_COLOR = Color.ALICE_BLUE
+	player_1_config.SPRITE_CUSTOMIZATION.OUTLINE_COLOR = Color.ANTIQUE_WHITE
+	player_1_config.ELIMINATION_TEXT = "test"
 	var player_1_data = {
-		"config": {
-			"action_handler": StaticActionHandler.handlers.INPUT,
-			"primary_weapon": StaticPrimaryWeaponHandler.handlers.REVOLVER,
-			"movement_bonus_handler": StaticMovementBonusHandler.handlers.DASH,
-			"powerup_handler": StaticPowerupHandler.handlers.SPLITTER,
-			"sprite_customization": {
-				"body_color": Color.ALICE_BLUE.to_html(),
-				"outline_color": Color.ANTIQUE_WHITE.to_html()
-			},
-			"elmination_text": "test"
-		},
-		"lives": 3
+		"config": player_1_config,
+		"lives": 3,
 	}
+	var player_2_config: PlayerConfig = create_default_player_config()
+	player_2_config.SPRITE_CUSTOMIZATION.BODY_COLOR = Color.ALICE_BLUE
+	player_2_config.SPRITE_CUSTOMIZATION.OUTLINE_COLOR = Color.ANTIQUE_WHITE
+	player_2_config.ELIMINATION_TEXT = "test"
+
 	var player_2_data = {
-		"config": {
-			"action_handler": StaticActionHandler.handlers.RECORD,
-			"primary_weapon": StaticPrimaryWeaponHandler.handlers.REVOLVER,
-			"movement_bonus_handler": StaticMovementBonusHandler.handlers.DASH,
-			"powerup_handler": StaticPowerupHandler.handlers.SPLITTER,
-			"sprite_customization": {
-				"body_color": Color.REBECCA_PURPLE.to_html(),
-				"outline_color": Color.TURQUOISE.to_html()
-			},
-			"elmination_text": "test2"
-		},
-		"lives": 3
+		"config": player_2_config,
+		"lives": 3,
 	}
-	var player_1_data_deserialized = PlayerConfig.new()
-	player_1_data_deserialized.deserialize(player_1_data.config)
-	var player_2_data_deserialized = PlayerConfig.new()
-	player_2_data_deserialized.deserialize(player_2_data.config)
 	# when
-	players.init_players_data({
-		1: player_1_data,
-		2: player_2_data
-	})
+	players.init_players_data(
+		{
+			1: player_1_data,
+			2: player_2_data,
+		},
+	)
 	# then
 	assert_eq(players._players_data.size(), 2)
 	assert_eq(players._players_data[1].lives, 3)
-	compare_player_configs(players._players_data[1].config, player_1_data_deserialized)
+	compare_player_configs(players._players_data[1].config, player_1_config)
 	assert_eq(players._players_data[2].lives, 3)
-	compare_player_configs(players._players_data[2].config, player_2_data_deserialized)
+	compare_player_configs(players._players_data[2].config, player_2_config)
+
 
 func test_init_spawn_positions():
 	# given
@@ -95,15 +88,18 @@ func test_init_spawn_positions():
 	assert_eq(players._current_spawn_idx, 0)
 	assert_eq(players._spawn_positions, spawn_positions)
 
+
 var toggle_player_truce_params := [
 	[true],
-	[false]
+	[false],
 ]
+
+
 func test_toggle_players_truce(params = use_parameters(toggle_player_truce_params)):
 	# given
 	players._players_data = {
-		1: {},
-		2: {}
+		1: { },
+		2: { },
 	}
 	var player_1_mock = double(load("res://Scenes/Player/player.gd")).new()
 	player_1_mock.name = "player_1"
@@ -119,24 +115,26 @@ func test_toggle_players_truce(params = use_parameters(toggle_player_truce_param
 	assert_called(player_1_mock, "toggle_truce", [params[0]])
 	assert_called(player_2_mock, "toggle_truce", [params[0]])
 
+
 func test_reset():
 	# given
 	players._players_data = {
-		1: {},
-		2: {}
+		1: { },
+		2: { },
 	}
 	# when
 	players.reset()
 	# then
-	assert_eq(players._players_data, {})
+	assert_eq(players._players_data, { })
 	# won't test clean players because queue_free not works well with GUT
+
 
 func test_add_players():
 	# given
 	players._spawn_positions = [Vector2.RIGHT, Vector2.UP]
 	players._players_data = {
-		1: {},
-		2: {}
+		1: { },
+		2: { },
 	}
 	# when
 	players.add_players()
@@ -153,6 +151,7 @@ func test_add_players():
 		assert_true(player.is_connected("powerup_updated", players._on_player_powerup_updated))
 		assert_true(player.is_connected("game_message_triggered", players._on_player_game_message_triggered))
 
+
 func test_get_player_instance():
 	# given
 	var node = Node2D.new()
@@ -166,24 +165,26 @@ func test_get_player_instance():
 	# cleanup
 	node.free()
 
+
 func test_get_player_config():
 	# given
 	var config = PlayerConfig.new()
 	players._players_data = {
 		1: {
-			"config": config
-		}
+			"config": config,
+		},
 	}
 	# when
 	var res = players.get_player_config(1)
 	# then
 	assert_eq(res, config)
 
+
 func test_get_players_data():
 	# given
 	var data = {
-		1: {},
-		2: {}
+		1: { },
+		2: { },
 	}
 	players._players_data = data
 	# when
@@ -191,11 +192,12 @@ func test_get_players_data():
 	# then
 	assert_eq(res, data)
 
+
 func test_spawn_player():
 	# given
 	players._players_data = {
-		1: {},
-		2: {}
+		1: { },
+		2: { },
 	}
 	# when
 	players._spawn_player(1, Vector2.LEFT)
@@ -211,6 +213,7 @@ func test_spawn_player():
 	assert_true(player.is_connected("powerup_updated", players._on_player_powerup_updated))
 	assert_true(player.is_connected("game_message_triggered", players._on_player_game_message_triggered))
 
+
 func test_get_spawn_position_and_go_next():
 	# given
 	players._spawn_positions = [Vector2.RIGHT, Vector2.LEFT]
@@ -223,46 +226,49 @@ func test_get_spawn_position_and_go_next():
 	assert_eq(res2, Vector2.LEFT)
 	assert_eq(res3, Vector2.RIGHT)
 
+
 var is_only_one_player_alive_params := [
 	[
 		{
-			1: {"lives": 2},
-			2: {"lives": 1},
-			3: {"lives": 4}
+			1: { "lives": 2 },
+			2: { "lives": 1 },
+			3: { "lives": 4 },
 		},
-		false
+		false,
 	],
 	[
 		{
-			1: {"lives": 0},
-			2: {"lives": 1},
-			3: {"lives": 4}
+			1: { "lives": 0 },
+			2: { "lives": 1 },
+			3: { "lives": 4 },
 		},
-		false
+		false,
 	],
 	[
 		{
-			1: {"lives": 0},
-			2: {"lives": 0},
-			3: {"lives": 4}
+			1: { "lives": 0 },
+			2: { "lives": 0 },
+			3: { "lives": 4 },
 		},
-		true
+		true,
 	],
 	[
 		{
-			1: {"lives": 0},
-			2: {"lives": 0},
-			3: {"lives": 0}
+			1: { "lives": 0 },
+			2: { "lives": 0 },
+			3: { "lives": 0 },
 		},
-		true
+		true,
 	],
 	[
 		{
-			1: {"lives": 1}
+			1: { "lives": 1 },
 		},
-		true
+		true,
 	],
 ]
+
+
 func test_is_only_one_player_alive(params = use_parameters(is_only_one_player_alive_params)):
 	# given
 	players._players_data = params[0]
@@ -271,15 +277,16 @@ func test_is_only_one_player_alive(params = use_parameters(is_only_one_player_al
 	# then
 	assert_eq(res, params[1])
 
+
 func test_on_player_killed_not_end_game():
 	# given
 	players._players_data = {
 		1: {
-			"lives": 2
+			"lives": 2,
 		},
 		2: {
-			"lives": 3
-		}
+			"lives": 3,
+		},
 	}
 	players.connect("lives_updated", _on_lives_updated)
 	players.connect("player_won", _on_player_won)
@@ -298,18 +305,19 @@ func test_on_player_killed_not_end_game():
 	assert_eq(player_won_times_called, 0)
 	assert_eq(players._players_data[1].lives, 1)
 	assert_eq(players._players_data[2].lives, 3)
-	# cleanup 
+	# cleanup
 	timer.free()
+
 
 func test_on_player_killed_end_game():
 	# given
 	players._players_data = {
 		1: {
-			"lives": 2
+			"lives": 2,
 		},
 		2: {
-			"lives": 1
-		}
+			"lives": 1,
+		},
 	}
 	players.connect("lives_updated", _on_lives_updated)
 	players.connect("player_won", _on_player_won)
@@ -322,6 +330,7 @@ func test_on_player_killed_end_game():
 	assert_eq(players._players_data[1].lives, 2)
 	assert_eq(players._players_data[2].lives, 0)
 
+
 func test_on_player_movement_updated():
 	# given
 	players.connect("movement_updated", _on_movement_updated)
@@ -331,14 +340,16 @@ func test_on_player_movement_updated():
 	assert_eq(movement_updated_times_called, 1)
 	assert_eq(movement_updated_args, [[1, 2]])
 
+
 func test_on_player_powerup_updated():
 	# given
 	players.connect("powerup_updated", _on_powerup_updated)
-	# when 
+	# when
 	players._on_player_powerup_updated(2, 0.5)
 	# then
 	assert_eq(powerup_updated_times_called, 1)
 	assert_eq(powerup_updated_args, [[2, 0.5]])
+
 
 func test_on_player_game_message_triggered():
 	# given
@@ -346,8 +357,8 @@ func test_on_player_game_message_triggered():
 	config.ELIMINATION_TEXT = "test"
 	players._players_data = {
 		1: {
-			"config": config
-		}
+			"config": config,
+		},
 	}
 	players.connect("game_message_triggered", _on_game_message_triggered)
 	# when
@@ -356,26 +367,51 @@ func test_on_player_game_message_triggered():
 	assert_eq(game_message_triggered_times_called, 1)
 	assert_eq(game_message_triggered_args, [["test"]])
 
+
 ##### UTILS #####
+func create_default_player_config() -> PlayerConfig:
+	var config = PlayerConfig.new()
+	config.PLAYER_NAME = "name"
+	config.DESCRIPTION = "description"
+	config.ACTION_HANDLER = StaticActionHandler.handlers.INPUT
+	config.PRIMARY_WEAPON = StaticPrimaryWeaponHandler.handlers.REVOLVER
+	config.MOVEMENT_BONUS_HANDLER = StaticMovementBonusHandler.handlers.DASH
+	config.POWERUP_HANDLER = StaticPowerupHandler.handlers.SPLITTER
+	config.SPRITE_CUSTOMIZATION = SpriteCustomizationResource.new()
+	config.SPRITE_CUSTOMIZATION.BODY_COLOR = Color.RED
+	config.SPRITE_CUSTOMIZATION.OUTLINE_COLOR = Color.BLUE
+	config.SPRITE_CUSTOMIZATION.EYES_TEXTURE_PATH = "res://icon.svg"
+	config.SPRITE_CUSTOMIZATION.MOUTH_TEXTURE_PATH = "res://icon.svg"
+	config.SPRITE_CUSTOMIZATION.EYES_COLOR = Color.CYAN
+	config.SPRITE_CUSTOMIZATION.MOUTH_COLOR = Color.GREEN
+	config.ELIMINATION_TEXT = "elimination text"
+	return config
+
+
 func _on_lives_updated(player_idx: int, new_value: int) -> void:
 	lives_updated_times_called += 1
 	lives_updated_args.append([player_idx, new_value])
+
 
 func _on_player_won() -> void:
 	player_won_times_called += 1
 	player_won_args.append([])
 
+
 func _on_powerup_updated(player_idx: int, new_value) -> void:
 	powerup_updated_times_called += 1
 	powerup_updated_args.append([player_idx, new_value])
+
 
 func _on_movement_updated(player_id: int, value) -> void:
 	movement_updated_times_called += 1
 	movement_updated_args.append([player_id, value])
 
+
 func _on_game_message_triggered(message: String) -> void:
 	game_message_triggered_times_called += 1
 	game_message_triggered_args.append([message])
+
 
 func compare_player_configs(conf1: PlayerConfig, conf2: PlayerConfig) -> void:
 	assert_eq(conf1.ACTION_HANDLER, conf2.ACTION_HANDLER)

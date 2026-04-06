@@ -2,40 +2,42 @@ extends "res://addons/gut/test.gd"
 
 ##### VARIABLES #####
 #---- VARIABLES -----
-var game : Node = load("res://Scenes/Game/game.gd").new()
-var time_over_times_called := 0 
+var game: Node = load("res://Scenes/Game/game.gd").new()
+var time_over_times_called := 0
 var time_over_args := []
 var game_over_times_called := 0
+
 
 ##### SETUP #####
 func before_each():
 	game = load("res://Scenes/Game/game.gd").new()
-	time_over_times_called = 0 
+	time_over_times_called = 0
 	time_over_args = []
 	game_over_times_called = 0
+
 
 ##### TEARDOWN #####
 func after_each():
 	game.free()
 
+
 ##### TESTS #####
 func test_init_level_data():
 	# given
-	var level_data = {
-		"test":0
-	}
+	var level_data = LevelConfig.new()
 	var mock_level = double(load("res://Scenes/Game/level.gd")).new()
 	stub(mock_level, "init_level_data").to_do_nothing()
 	game.onready_paths.level = mock_level
 	# when
 	game.init_level_data(level_data)
 	# then
-	assert_called(mock_level,"init_level_data", [level_data])
+	assert_called(mock_level, "init_level_data", [level_data])
+
 
 func test_init_players_data():
 	# given
 	var players_data = {
-		"test": 0
+		"test": 0,
 	}
 	var mock_players = double(load("res://Scenes/Game/players.gd")).new()
 	stub(mock_players, "init_players_data").to_do_nothing()
@@ -44,6 +46,7 @@ func test_init_players_data():
 	game.init_players_data(players_data)
 	# then
 	assert_called(mock_players, "init_players_data", [players_data])
+
 
 func test_add_game_elements():
 	# given
@@ -68,17 +71,18 @@ func test_add_game_elements():
 	game.add_game_elements()
 	# then
 	assert_called(mock_level, "add_level")
-	assert_called(mock_players, "init_spawn_positions",[[Vector2.RIGHT]])
+	assert_called(mock_players, "init_spawn_positions", [[Vector2.RIGHT]])
 	assert_called(mock_players, "add_players")
 	assert_eq(mock_camera.PLAYERS_ROOT_PATH, mock_camera.get_path_to(mock_players))
 	assert_called(mock_background, "add_background", ["res://test"])
 	# cleanup
 	mock_camera.free()
 
+
 func test_init_game_elements():
 	# given
 	var players_data = {
-		"test": 0
+		"test": 0,
 	}
 	var mock_fse = double(load("res://Scenes/Camera/FullScreenEffects/full_screen_effects.gd")).new()
 	var mock_ui = double(load("res://Scenes/Game/ui.gd")).new()
@@ -108,6 +112,7 @@ func test_init_game_elements():
 	# cleanup
 	mock_camera.free()
 
+
 func test_spawn_powerup():
 	# given
 	stub(Node, "call_deferred").to_do_nothing()
@@ -119,9 +124,10 @@ func test_spawn_powerup():
 	game.spawn_powerup(powerup)
 	# then
 	assert_eq(powerup.name, "powerup_2")
-	assert_called(mock_powerups, "call_deferred",["add_child", [powerup, true]])
+	assert_called(mock_powerups, "call_deferred", ["add_child", [powerup, true]])
 	# cleanup
 	powerup.free()
+
 
 func test_spawn_projectile():
 	# given
@@ -132,14 +138,17 @@ func test_spawn_projectile():
 	# when
 	game.spawn_projectile(projectile)
 	# then
-	assert_called(mock_projectiles, "call_deferred",["add_child", [projectile, true]])
+	assert_called(mock_projectiles, "call_deferred", ["add_child", [projectile, true]])
 	# cleanup
 	projectile.free()
 
+
 var toggle_players_truce_params := [
 	[true],
-	[false]
+	[false],
 ]
+
+
 func test_toggle_players_truce(params = use_parameters(toggle_players_truce_params)):
 	# given
 	var players_mock = double(load("res://Scenes/Game/players.gd")).new()
@@ -149,6 +158,7 @@ func test_toggle_players_truce(params = use_parameters(toggle_players_truce_para
 	game.toggle_players_truce(params[0])
 	# then
 	assert_called(players_mock, "toggle_players_truce", [params[0]])
+
 
 func test_reset():
 	# given
@@ -166,10 +176,10 @@ func test_reset():
 	var powerups = Node2D.new()
 	game.onready_paths.projectiles = projectiles
 	game.onready_paths.powerups = powerups
-	stub(mock_players,"reset").to_do_nothing()
-	stub(mock_ui,"reset").to_do_nothing()
-	stub(mock_level,"reset").to_do_nothing()
-	stub(mock_background,"reset").to_do_nothing()
+	stub(mock_players, "reset").to_do_nothing()
+	stub(mock_ui, "reset").to_do_nothing()
+	stub(mock_level, "reset").to_do_nothing()
+	stub(mock_background, "reset").to_do_nothing()
 	# when
 	game.reset()
 	# then
@@ -181,10 +191,11 @@ func test_reset():
 	# cleanup
 	mock_camera.free()
 
+
 func test_init_start_game_animation():
 	# given
 	var mock_ap = double(AnimationPlayer).new()
-	stub(mock_ap,"play").to_do_nothing()
+	stub(mock_ap, "play").to_do_nothing()
 	game.onready_paths.animation_player = mock_ap
 	# when
 	game._init_start_game_animation()
@@ -193,10 +204,11 @@ func test_init_start_game_animation():
 
 # cannot really test _clean_node_tree because of the queue_free
 
+
 func test_end_game():
 	# given
 	var mock_ap = double(AnimationPlayer).new()
-	stub(mock_ap,"play").to_do_nothing()
+	stub(mock_ap, "play").to_do_nothing()
 	game.onready_paths.animation_player = mock_ap
 	# when
 	game._end_game()
@@ -205,62 +217,71 @@ func test_end_game():
 
 # on_ui_time_over and _on_players_player_won not really usefull to test since we already tested _end_game
 
+
 func test_on_players_lives_updated():
 	# given
 	var mock_ui = double(load("res://Scenes/Game/ui.gd")).new()
-	stub(mock_ui,"update_lives").to_do_nothing()
+	stub(mock_ui, "update_lives").to_do_nothing()
 	game.onready_paths.ui = mock_ui
 	# when
-	game._on_players_lives_updated(1,4)
+	game._on_players_lives_updated(1, 4)
 	# then
-	assert_called(mock_ui, "update_lives", [1,4])
+	assert_called(mock_ui, "update_lives", [1, 4])
+
 
 func test_on_players_movement_updated():
 	# given
 	var mock_ui = double(load("res://Scenes/Game/ui.gd")).new()
-	stub(mock_ui,"update_movement").to_do_nothing()
+	stub(mock_ui, "update_movement").to_do_nothing()
 	game.onready_paths.ui = mock_ui
 	# when
-	game._on_players_movement_updated(1,4.75)
+	game._on_players_movement_updated(1, 4.75)
 	# then
-	assert_called(mock_ui, "update_movement", [1,4.75])
+	assert_called(mock_ui, "update_movement", [1, 4.75])
+
 
 func test_on_players_powerup_updated():
 	# given
 	var mock_ui = double(load("res://Scenes/Game/ui.gd")).new()
-	stub(mock_ui,"update_powerup").to_do_nothing()
+	stub(mock_ui, "update_powerup").to_do_nothing()
 	game.onready_paths.ui = mock_ui
 	# when
-	game._on_players_powerup_updated(1,0.75)
+	game._on_players_powerup_updated(1, 0.75)
 	# then
-	assert_called(mock_ui, "update_powerup", [1,0.75])
+	assert_called(mock_ui, "update_powerup", [1, 0.75])
+
 
 func test_on_players_game_message_triggered():
 	# given
 	var mock_ui = double(load("res://Scenes/Game/ui.gd")).new()
-	stub(mock_ui,"display_message").to_do_nothing()
+	stub(mock_ui, "display_message").to_do_nothing()
 	game.onready_paths.ui = mock_ui
 	# when
 	game._on_players_game_message_triggered("test")
 	# then
-	assert_called(mock_ui, "display_message", ["test",false])
+	assert_called(mock_ui, "display_message", ["test", false])
+
 
 var _on_animation_player_animation_finished_params := [
 	["end_game", 1],
-	["not_end_game", 0]
+	["not_end_game", 0],
 ]
+
+
 func test_on_animation_player_animation_finished(params = use_parameters(_on_animation_player_animation_finished_params)):
 	# given
-	game.connect("game_over",_on_game_over)
+	game.connect("game_over", _on_game_over)
 	# when
 	game._on_animation_player_animation_finished(params[0])
 	# then
-	assert_eq(game_over_times_called,params[1])
+	assert_eq(game_over_times_called, params[1])
+
 
 ##### UTILS #####
 func _on_time_over(time: float, message: String) -> void:
 	time_over_times_called += 1
-	time_over_args.append([time,message])
+	time_over_args.append([time, message])
+
 
 func _on_game_over() -> void:
 	game_over_times_called += 1

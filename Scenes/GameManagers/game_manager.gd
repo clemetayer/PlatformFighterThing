@@ -66,15 +66,6 @@ func _delete_player(id: int) -> void:
 	onready_paths.player_selection_menu.remove_connected_player(id)
 
 
-func serialize_players(players: Dictionary) -> Dictionary:
-	var serialized_players = { }
-	for player_key in players.keys():
-		serialized_players[player_key] = {
-			"config": players[player_key].config.serialize(),
-		}
-	return serialized_players
-
-
 func _enrich_player_configs(player_configs: Dictionary) -> Dictionary:
 	var formatted_players := { }
 	for player_id in player_configs.keys():
@@ -121,7 +112,7 @@ func _on_player_selection_menu_strategy_players_ready(player_configs: Dictionary
 	GSLogger.debug("starting game")
 	_connected_players = _enrich_player_configs(player_configs)
 	_hide_and_reset_player_selection_menus()
-	onready_paths.game.init_level_data(level_data.serialize())
+	onready_paths.game.init_level_data(level_data)
 	onready_paths.game.init_players_data(_connected_players)
 	onready_paths.game.add_game_elements()
 	onready_paths.game.init_game_elements()

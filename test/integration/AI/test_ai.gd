@@ -46,18 +46,18 @@ func _generate_ai_fight(config_partition: Array):
 	if config_partition.size() == 1:
 		data = {
 			0: {
-				"config": config_partition[0].serialize(),
+				"config": config_partition[0],
 				"lives": LIVES,
 			},
 			1: {
-				"config": config_partition[0].serialize(),
+				"config": config_partition[0],
 				"lives": LIVES,
 			},
 		}
 	else:
 		for config_idx in range(config_partition.size()):
 			data[config_idx] = {
-				"config": config_partition[config_idx].serialize(),
+				"config": config_partition[config_idx],
 				"lives": LIVES,
 			}
 	scene.init_players_data(data)

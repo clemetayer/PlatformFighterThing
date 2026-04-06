@@ -49,10 +49,8 @@ func test_players_ready():
 	# when
 	child_menu.players_ready.emit([player_1, player_2])
 	# then
-	var player_1_serialized = player_1.serialize()
-	var player_2_serialized = player_2.serialize()
 	assert_eq(players_ready_times_called, 1)
-	assert_eq(players_ready_args, [[{ 0: player_1_serialized, 1: player_2_serialized }]])
+	assert_eq(players_ready_args, [[{ 0: player_1, 1: player_2 }]])
 	# cleanup
 	child_menu.free()
 

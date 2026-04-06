@@ -1,4 +1,5 @@
 extends CanvasLayer
+
 # handles the communication between the player and the game root
 
 ##### SIGNALS #####
@@ -15,7 +16,7 @@ const RESPAWN_TIME := 1 # seconds
 
 #---- STANDARD -----
 #==== PRIVATE ====
-var _players_data := {}
+var _players_data := { }
 var _spawn_positions: Array
 var _current_spawn_idx := 0
 var _game_ending := false
@@ -24,46 +25,55 @@ var _game_ending := false
 @onready var root = $".."
 @onready var tree = get_tree()
 
+
 ##### PUBLIC METHODS #####
 func init_players_data(p_players_data: Dictionary) -> void:
 	for player_idx in p_players_data.keys():
-		var player_config = PlayerConfig.new()
-		player_config.deserialize(p_players_data[player_idx].config)
+		var player_config = p_players_data[player_idx].config
 		_players_data[player_idx] = {
 			"config": player_config,
-			"lives": p_players_data[player_idx].lives
+			"lives": p_players_data[player_idx].lives,
 		}
+
 
 func init_spawn_positions(spawn_positions: Array) -> void:
 	_spawn_positions = spawn_positions
 	_current_spawn_idx = 0
 
+
 func toggle_players_truce(active: bool) -> void:
 	for player_idx in _players_data.keys():
 		get_player_instance(player_idx).toggle_truce(active)
 
+
 func reset() -> void:
-	_players_data = {}
+	_players_data = { }
 	clean_players()
 	_game_ending = false
+
 
 func clean_players() -> void:
 	for player in get_children():
 		player.queue_free()
+
 
 func add_players() -> void:
 	clean_players()
 	for player_idx in _players_data.keys():
 		_spawn_player(player_idx, _get_spawn_position_and_go_next())
 
+
 func get_player_instance(idx: int) -> Node2D:
 	return get_node("player_%d" % idx)
+
 
 func get_player_config(idx: int) -> PlayerConfig:
 	return _players_data[idx].config
 
+
 func get_players_data() -> Dictionary:
 	return _players_data
+
 
 ##### PROTECTED METHODS #####
 func _spawn_player(player_idx: int, spawn_position: Vector2) -> void:
@@ -77,10 +87,12 @@ func _spawn_player(player_idx: int, spawn_position: Vector2) -> void:
 	player_instance.connect("powerup_updated", _on_player_powerup_updated)
 	player_instance.connect("game_message_triggered", _on_player_game_message_triggered)
 
+
 func _get_spawn_position_and_go_next() -> Vector2:
 	var spawn_position = _spawn_positions[_current_spawn_idx]
 	_current_spawn_idx = (_current_spawn_idx + 1) % _spawn_positions.size()
 	return spawn_position
+
 
 func _is_only_one_player_alive() -> bool:
 	var players_alive := 0
@@ -88,6 +100,7 @@ func _is_only_one_player_alive() -> bool:
 		if _players_data[player_idx].lives > 0:
 			players_alive += 1
 	return players_alive <= 1
+
 
 ##### SIGNAL MANAGEMENT #####
 func _on_player_killed(idx: int) -> void:
@@ -100,11 +113,14 @@ func _on_player_killed(idx: int) -> void:
 		if _is_only_one_player_alive():
 			emit_signal("player_won")
 
+
 func _on_player_movement_updated(player_id: int, value) -> void:
 	emit_signal("movement_updated", player_id, value)
 
+
 func _on_player_powerup_updated(player_id: int, value) -> void:
 	emit_signal("powerup_updated", player_id, value)
+
 
 func _on_player_game_message_triggered(id: int) -> void:
 	if _players_data.has(id):
