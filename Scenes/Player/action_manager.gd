@@ -7,7 +7,6 @@ extends Node
 #==== PRIVATE ====
 var _frozen: bool
 var _action_handler_base = ActionHandlerBase
-var _runtime_utils := RuntimeUtils
 
 #==== ONREADY ====
 @onready var onready_paths_node := $"../Paths"

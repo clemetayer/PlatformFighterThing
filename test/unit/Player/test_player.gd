@@ -7,20 +7,22 @@ const MOCK_GAME_ROOT_PATH := "res://test/unit/Player/test_player/mock_game_root.
 #---- VARIABLES -----
 var player
 
+
 ##### SETUP #####
 func before_each():
 	player = load("res://Scenes/Player/player.gd").new()
 
+
 ##### TEARDOWN #####
 func after_each():
 	player.free()
+
 
 ##### TESTS #####
 func test_ready():
 	# given
 	var mock_player = partial_double(load("res://Scenes/Player/player.gd")).new()
 	stub(mock_player, "_appear").to_do_nothing()
-	stub(mock_player, "_load_sync_physics").to_do_nothing()
 	var scene_utils = load("res://Utils/scene_utils.gd").new()
 	mock_player._scene_utils = scene_utils
 	var onready_paths_node = load("res://Scenes/Player/paths.gd").new()
@@ -34,8 +36,8 @@ func test_ready():
 	var player_config = PlayerConfig.new()
 	game_proxy._players_data = {
 		1: {
-			"config": player_config
-		}
+			"config": player_config,
+		},
 	}
 	game_proxy.add_child(mock_player)
 	# when
@@ -43,44 +45,43 @@ func test_ready():
 	# then
 	assert_called(init, "initialize", [player_config])
 	assert_called(mock_player, "_appear")
-	assert_called(mock_player, "_load_sync_physics")
 	assert_true(scene_utils.is_connected("toggle_scene_freeze", mock_player._on_SceneUtils_toggle_scene_freeze))
 	# cleanup
 	scene_utils.free()
 	onready_paths_node.free()
 	game_proxy.free()
 
+
 func test_physics_process_frozen():
 	# given
 	var mock_player = partial_double(load("res://Scenes/Player/player.gd"), DOUBLE_STRATEGY.INCLUDE_NATIVE).new()
 	mock_player._frozen = true
-	stub(mock_player, "_load_sync_physics").to_do_nothing()
 	stub(mock_player, "_predict_bounces").to_do_nothing()
 	stub(mock_player, "move_and_slide").to_do_nothing()
 	stub(mock_player, "_buffer_velocity").to_do_nothing()
-	stub(mock_player, "_save_sync_physics").to_do_nothing()
 	# when
 	mock_player._physics_process(1.0 / 60.0)
 	# then
-	assert_not_called(mock_player, "_load_sync_physics")
 	assert_not_called(mock_player, "_predict_bounces")
 	assert_not_called(mock_player, "move_and_slide")
 	assert_not_called(mock_player, "_buffer_velocity")
-	assert_not_called(mock_player, "_save_sync_physics")
+
 
 var physics_process_falling_params := [
 	[Vector2.ZERO, false],
 	[Vector2.RIGHT, false],
-	[Vector2.ZERO, true]
+	[Vector2.ZERO, true],
 ]
+
+
 func test_physics_process_falling(params = use_parameters(physics_process_falling_params)):
 	# given
 	var game_proxy = load("res://Scenes/Game/players.gd").new()
 	var player_config = load("res://test/unit/Player/default_player_config.tres")
 	game_proxy._players_data = {
 		1: {
-			"config": player_config
-		}
+			"config": player_config,
+		},
 	}
 	var mock_player = partial_double(load("res://Scenes/Player/player.gd"), DOUBLE_STRATEGY.INCLUDE_NATIVE).new()
 	game_proxy.add_child(mock_player)
@@ -99,10 +100,8 @@ func test_physics_process_falling(params = use_parameters(physics_process_fallin
 	onready_paths_node.hitstun_manager = hitstun_manager
 	mock_player.onready_paths_node = onready_paths_node
 	stub(mock_player, "_is_on_floor").to_return(false)
-	stub(mock_player, "_load_sync_physics").to_do_nothing()
 	stub(mock_player, "_predict_bounces").to_do_nothing()
 	stub(mock_player, "_buffer_velocity").to_do_nothing()
-	stub(mock_player, "_save_sync_physics").to_do_nothing()
 	var expected_velocity = Vector2.ZERO + Vector2.DOWN * ProjectSettings.get_setting("physics/2d/default_gravity") * mock_player.WEIGHT * 1.0 / 60.0 # falling velocity
 	if params[0] != Vector2.ZERO:
 		expected_velocity.x = move_toward(expected_velocity.x, params[0].x * mock_player.TARGET_SPEED, mock_player.AIR_ACCELERATION * 1.0 / 60.0)
@@ -110,27 +109,28 @@ func test_physics_process_falling(params = use_parameters(physics_process_fallin
 	mock_player._physics_process(1.0 / 60.0)
 	# then
 	assert_eq(mock_player.velocity, expected_velocity)
-	assert_called(mock_player, "_load_sync_physics")
 	assert_not_called(mock_player, "_predict_bounces")
 	assert_called(mock_player, "_buffer_velocity", [expected_velocity])
-	assert_called(mock_player, "_save_sync_physics")
 	# cleanup
 	hitstun_manager.free()
 	onready_paths_node.free()
 
+
 var physics_process_on_floor_params := [
 	[Vector2.ZERO, Vector2.ZERO],
 	[Vector2.LEFT, Vector2.ZERO],
-	[Vector2.ZERO, Vector2.DOWN * 100]
+	[Vector2.ZERO, Vector2.DOWN * 100],
 ]
+
+
 func test_physics_process_on_floor(params = use_parameters(physics_process_on_floor_params)):
 	# given
 	var game_proxy = load("res://Scenes/Game/players.gd").new()
 	var player_config = load("res://test/unit/Player/default_player_config.tres")
 	game_proxy._players_data = {
 		1: {
-			"config": player_config
-		}
+			"config": player_config,
+		},
 	}
 	var mock_player = partial_double(load("res://Scenes/Player/player.gd"), DOUBLE_STRATEGY.INCLUDE_NATIVE).new()
 	game_proxy.add_child(mock_player)
@@ -148,23 +148,20 @@ func test_physics_process_on_floor(params = use_parameters(physics_process_on_fl
 	onready_paths_node.hitstun_manager = hitstun_manager
 	mock_player.onready_paths_node = onready_paths_node
 	stub(mock_player, "_is_on_floor").to_return(true)
-	stub(mock_player, "_load_sync_physics").to_do_nothing()
 	stub(mock_player, "_predict_bounces").to_do_nothing()
 	stub(mock_player, "_buffer_velocity").to_do_nothing()
-	stub(mock_player, "_save_sync_physics").to_do_nothing()
 	var expected_velocity = Vector2.ZERO
 	expected_velocity.x = move_toward(params[1].x, params[0].x * mock_player.TARGET_SPEED, mock_player.FLOOR_ACCELERATION * 1.0 / 60.0)
 	# when
 	mock_player._physics_process(1.0 / 60.0)
 	# then
 	assert_eq(mock_player.velocity, expected_velocity)
-	assert_called(mock_player, "_load_sync_physics")
 	assert_not_called(mock_player, "_predict_bounces")
 	assert_called(mock_player, "_buffer_velocity", [expected_velocity])
-	assert_called(mock_player, "_save_sync_physics")
 	# cleanup
 	hitstun_manager.free()
 	onready_paths_node.free()
+
 
 func test_physics_process_jumping():
 	# given
@@ -172,8 +169,8 @@ func test_physics_process_jumping():
 	var player_config = load("res://test/unit/Player/default_player_config.tres")
 	game_proxy._players_data = {
 		1: {
-			"config": player_config
-		}
+			"config": player_config,
+		},
 	}
 	var mock_player = partial_double(load("res://Scenes/Player/player.gd"), DOUBLE_STRATEGY.INCLUDE_NATIVE).new()
 	game_proxy.add_child(mock_player)
@@ -192,23 +189,20 @@ func test_physics_process_jumping():
 	onready_paths_node.hitstun_manager = hitstun_manager
 	mock_player.onready_paths_node = onready_paths_node
 	stub(mock_player, "_is_on_floor").to_return(true)
-	stub(mock_player, "_load_sync_physics").to_do_nothing()
 	stub(mock_player, "_predict_bounces").to_do_nothing()
 	stub(mock_player, "_buffer_velocity").to_do_nothing()
-	stub(mock_player, "_save_sync_physics").to_do_nothing()
 	var expected_velocity = Vector2.ZERO
 	expected_velocity.y = mock_player.JUMP_VELOCITY
 	# when
 	mock_player._physics_process(1.0 / 60.0)
 	# then
 	assert_eq(mock_player.velocity, expected_velocity)
-	assert_called(mock_player, "_load_sync_physics")
 	assert_not_called(mock_player, "_predict_bounces")
 	assert_called(mock_player, "_buffer_velocity", [expected_velocity])
-	assert_called(mock_player, "_save_sync_physics")
 	# cleanup
 	hitstun_manager.free()
 	onready_paths_node.free()
+
 
 func test_physics_process_hitstunned():
 	# given
@@ -216,8 +210,8 @@ func test_physics_process_hitstunned():
 	var player_config = load("res://test/unit/Player/default_player_config.tres")
 	game_proxy._players_data = {
 		1: {
-			"config": player_config
-		}
+			"config": player_config,
+		},
 	}
 	var mock_player = partial_double(load("res://Scenes/Player/player.gd"), DOUBLE_STRATEGY.INCLUDE_NATIVE).new()
 	game_proxy.add_child(mock_player)
@@ -237,23 +231,20 @@ func test_physics_process_hitstunned():
 	mock_player.onready_paths_node = onready_paths_node
 	stub(mock_player, "_is_on_floor").to_return(true)
 	stub(mock_player, "_get_collisions_normal").to_return(Vector2.LEFT)
-	stub(mock_player, "_load_sync_physics").to_do_nothing()
 	stub(mock_player, "_predict_bounces").to_do_nothing()
 	stub(mock_player, "_buffer_velocity").to_do_nothing()
-	stub(mock_player, "_save_sync_physics").to_do_nothing()
 	var expected_velocity = Vector2.ZERO
 	expected_velocity.x = move_toward(Vector2.RIGHT.x, 0.0, mock_player.FLOOR_ACCELERATION * 1.0 / 60.0) # when
 	expected_velocity.bounce(Vector2.LEFT)
 	mock_player._physics_process(1.0 / 60.0)
 	# then
 	assert_eq(mock_player.velocity, expected_velocity)
-	assert_called(mock_player, "_load_sync_physics")
 	assert_called(mock_player, "_predict_bounces")
 	assert_called(mock_player, "_buffer_velocity", [expected_velocity])
-	assert_called(mock_player, "_save_sync_physics")
 	# cleanup
 	hitstun_manager.free()
 	onready_paths_node.free()
+
 
 func test_physics_process_freeze_buffer_velocity():
 	# given
@@ -261,8 +252,8 @@ func test_physics_process_freeze_buffer_velocity():
 	var player_config = load("res://test/unit/Player/default_player_config.tres")
 	game_proxy._players_data = {
 		1: {
-			"config": player_config
-		}
+			"config": player_config,
+		},
 	}
 	var mock_player = partial_double(load("res://Scenes/Player/player.gd"), DOUBLE_STRATEGY.INCLUDE_NATIVE).new()
 	game_proxy.add_child(mock_player)
@@ -283,23 +274,20 @@ func test_physics_process_freeze_buffer_velocity():
 	mock_player.onready_paths_node = onready_paths_node
 	stub(mock_player, "_is_on_floor").to_return(true)
 	stub(mock_player, "_get_collisions_normal").to_return(Vector2.LEFT)
-	stub(mock_player, "_load_sync_physics").to_do_nothing()
 	stub(mock_player, "_predict_bounces").to_do_nothing()
 	stub(mock_player, "_buffer_velocity").to_do_nothing()
-	stub(mock_player, "_save_sync_physics").to_do_nothing()
 	var expected_velocity = Vector2.ZERO
 	expected_velocity.x = move_toward(Vector2.LEFT.x, 0.0, mock_player.FLOOR_ACCELERATION * 1.0 / 60.0) # when
 	mock_player._physics_process(1.0 / 60.0)
 	# then
 	assert_eq(mock_player.velocity, expected_velocity)
-	assert_called(mock_player, "_load_sync_physics")
 	assert_not_called(mock_player, "_predict_bounces")
 	assert_called(mock_player, "_buffer_velocity", [expected_velocity])
-	assert_called(mock_player, "_save_sync_physics")
 	assert_eq(mock_player._freeze_buffer_velocity, Vector2.ZERO)
 	# cleanup
 	hitstun_manager.free()
 	onready_paths_node.free()
+
 
 func test_physics_process_override_velocity():
 	# given
@@ -307,8 +295,8 @@ func test_physics_process_override_velocity():
 	var player_config = load("res://test/unit/Player/default_player_config.tres")
 	game_proxy._players_data = {
 		1: {
-			"config": player_config
-		}
+			"config": player_config,
+		},
 	}
 	var mock_player = partial_double(load("res://Scenes/Player/player.gd"), DOUBLE_STRATEGY.INCLUDE_NATIVE).new()
 	game_proxy.add_child(mock_player)
@@ -329,23 +317,20 @@ func test_physics_process_override_velocity():
 	mock_player.onready_paths_node = onready_paths_node
 	stub(mock_player, "_is_on_floor").to_return(true)
 	stub(mock_player, "_get_collisions_normal").to_return(Vector2.LEFT)
-	stub(mock_player, "_load_sync_physics").to_do_nothing()
 	stub(mock_player, "_predict_bounces").to_do_nothing()
 	stub(mock_player, "_buffer_velocity").to_do_nothing()
-	stub(mock_player, "_save_sync_physics").to_do_nothing()
 	var expected_velocity = Vector2.ZERO
 	expected_velocity.x = move_toward(Vector2.LEFT.x, 0.0, mock_player.FLOOR_ACCELERATION * 1.0 / 60.0) # when
 	mock_player._physics_process(1.0 / 60.0)
 	# then
 	assert_eq(mock_player.velocity, expected_velocity)
-	assert_called(mock_player, "_load_sync_physics")
 	assert_not_called(mock_player, "_predict_bounces")
 	assert_called(mock_player, "_buffer_velocity", [expected_velocity])
-	assert_called(mock_player, "_save_sync_physics")
 	assert_eq(mock_player._velocity_override, Vector2.ZERO)
 	# cleanup
 	hitstun_manager.free()
 	onready_paths_node.free()
+
 
 func test_add_velocity():
 	# given
@@ -353,8 +338,8 @@ func test_add_velocity():
 	var player_config = load("res://test/unit/Player/default_player_config.tres")
 	game_proxy._players_data = {
 		1: {
-			"config": player_config
-		}
+			"config": player_config,
+		},
 	}
 	var mock_player = partial_double(load("res://Scenes/Player/player.gd"), DOUBLE_STRATEGY.INCLUDE_NATIVE).new()
 	game_proxy.add_child(mock_player)
@@ -375,29 +360,28 @@ func test_add_velocity():
 	mock_player.onready_paths_node = onready_paths_node
 	stub(mock_player, "_is_on_floor").to_return(true)
 	stub(mock_player, "_get_collisions_normal").to_return(Vector2.LEFT)
-	stub(mock_player, "_load_sync_physics").to_do_nothing()
 	stub(mock_player, "_predict_bounces").to_do_nothing()
 	stub(mock_player, "_buffer_velocity").to_do_nothing()
-	stub(mock_player, "_save_sync_physics").to_do_nothing()
 	var expected_velocity = Vector2.ZERO
 	expected_velocity.x = move_toward(Vector2.LEFT.x * 2.0, 0.0, mock_player.FLOOR_ACCELERATION * 1.0 / 60.0) # when
 	mock_player._physics_process(1.0 / 60.0)
 	# then
 	assert_eq(mock_player.velocity, expected_velocity)
-	assert_called(mock_player, "_load_sync_physics")
 	assert_not_called(mock_player, "_predict_bounces")
 	assert_called(mock_player, "_buffer_velocity", [expected_velocity])
-	assert_called(mock_player, "_save_sync_physics")
 	assert_eq(mock_player._additional_vector, Vector2.ZERO)
 	# cleanup
 	hitstun_manager.free()
 	onready_paths_node.free()
 
+
 var hurt_params := [
 	[false, 400, 400],
 	[true, 400, 900.0],
-	[true, 600, 999.0]
+	[true, 600, 999.0],
 ]
+
+
 func test_hurt(params = use_parameters(hurt_params)):
 	# given
 	player._damage_enabled = params[0]
@@ -452,6 +436,7 @@ func test_hurt_update_damage():
 	await wait_process_frames(2)
 	assert_true(player_scene.onready_paths_node.damage_label.text.contains("[color=ffff33ff]100[/color]"))
 
+
 func test_kill():
 	# given
 	var onready_paths_node = load("res://Scenes/Player/paths.gd").new()
@@ -465,7 +450,8 @@ func test_kill():
 	assert_called(death_manager, "kill")
 	# cleanup
 	onready_paths_node.free()
-	
+
+
 func test_override_velocity():
 	# given
 	player._velocity_override = Vector2.RIGHT
@@ -474,12 +460,15 @@ func test_override_velocity():
 	# then
 	assert_eq(player._velocity_override, 2 * Vector2.RIGHT)
 
+
 var toggle_freeze_params := [
 	[true],
-	[false]
+	[false],
 ]
+
+
 func test_toggle_freeze(params = use_parameters(toggle_freeze_params)): # note : set deferred not tested here
-		# given
+	# given
 	var onready_paths_node = load("res://Scenes/Player/paths.gd").new()
 	var primary_weapon = StaticPrimaryWeaponHandler.get_weapon(StaticPrimaryWeaponHandler.handlers.REVOLVER)
 	onready_paths_node.primary_weapon = primary_weapon
@@ -502,13 +491,16 @@ func test_toggle_freeze(params = use_parameters(toggle_freeze_params)): # note :
 	assert_eq(primary_weapon.active, not params[0])
 	assert_eq(movement_bonus.active, not params[0])
 	assert_eq(powerup_manager.active, not params[0])
-	assert_called(parry_area, "toggle_parry_enabled", [ not params[0]])
+	assert_called(parry_area, "toggle_parry_enabled", [not params[0]])
+
 
 var toggle_abilities_params := [
 	[false, false],
 	[true, false],
-	[true, true]
+	[true, true],
 ]
+
+
 func test_toggle_abilities(params = use_parameters(toggle_abilities_params)):
 	# given
 	player._truce_active = params[0]
@@ -539,10 +531,13 @@ func test_toggle_abilities(params = use_parameters(toggle_abilities_params)):
 	powerup_manager.free()
 	onready_paths_node.free()
 
+
 var toggle_damage_params := [
 	[true],
-	[false]
+	[false],
 ]
+
+
 func test_toggle_damage(params = use_parameters(toggle_damage_params)):
 	# given
 	# when
@@ -550,10 +545,13 @@ func test_toggle_damage(params = use_parameters(toggle_damage_params)):
 	# then
 	assert_eq(player._damage_enabled, params[0])
 
+
 var toggle_truce_params := [
 	[true],
-	[false]
+	[false],
 ]
+
+
 func test_toggle_truce(params = use_parameters(toggle_truce_params)):
 	# given
 	var mock_player = partial_double(load("res://Scenes/Player/player.gd")).new()
@@ -561,8 +559,9 @@ func test_toggle_truce(params = use_parameters(toggle_truce_params)):
 	# when
 	mock_player.toggle_truce(params[0])
 	# then
-	assert_called(mock_player, "toggle_abilities", [ not params[0]])
+	assert_called(mock_player, "toggle_abilities", [not params[0]])
 	assert_eq(mock_player._truce_active, params[0])
+
 
 func test_get_config():
 	# given
@@ -575,6 +574,7 @@ func test_get_config():
 	# then
 	assert_eq(res, player_config)
 
+
 func test_get_velocity_buffer():
 	# given
 	player._velocity_buffer = [Vector2.RIGHT]
@@ -583,6 +583,7 @@ func test_get_velocity_buffer():
 	# then
 	assert_eq(res, [Vector2.RIGHT])
 
+
 func test_get_direction():
 	# given
 	player.direction = Vector2.LEFT
@@ -590,6 +591,7 @@ func test_get_direction():
 	var res = player.get_direction()
 	# then
 	assert_eq(res, Vector2.LEFT)
+
 
 func test_appear():
 	# given
@@ -612,6 +614,7 @@ func test_appear():
 	# cleanup
 	onready_paths_node.free()
 
+
 func test_buffer_velocity():
 	# given
 	player._velocity_buffer = [Vector2.DOWN, Vector2.LEFT, Vector2.RIGHT]
@@ -620,55 +623,14 @@ func test_buffer_velocity():
 	# then
 	assert_eq(player._velocity_buffer, [Vector2.UP, Vector2.DOWN, Vector2.LEFT])
 
-
-var save_sync_physics_params := [
-	[true],
-	[false]
-]
-func test_save_sync_physics(params = use_parameters(save_sync_physics_params)):
-	# given
-	var runtime_utils = double(load("res://Utils/runtime_utils.gd")).new()
-	stub(runtime_utils, "is_authority").to_return(params[0])
-	player._runtime_utils = runtime_utils
-	player.velocity = Vector2.RIGHT
-	player.global_position = Vector2.LEFT
-	# when
-	player._save_sync_physics()
-	# then
-	if params[0]:
-		assert_eq(player.sync_velocity, Vector2.RIGHT)
-		assert_eq(player.sync_position, Vector2.LEFT)
-	else:
-		assert_eq(player.sync_velocity, Vector2.ZERO)
-		assert_eq(player.sync_position, Vector2.ZERO)
-
-var load_sync_physics_params := [
-	[true],
-	[false]
-]
-func test_load_sync_physics(params = use_parameters(load_sync_physics_params)):
-	# given
-	var runtime_utils = double(load("res://Utils/runtime_utils.gd")).new()
-	stub(runtime_utils, "is_authority").to_return(params[0])
-	player._runtime_utils = runtime_utils
-	player.sync_velocity = Vector2.RIGHT
-	player.sync_position = Vector2.LEFT
-	# when
-	player._load_sync_physics()
-	# then
-	if params[0]:
-		assert_eq(player.velocity, Vector2.ZERO)
-		assert_eq(player.global_position, Vector2.ZERO)
-	else:
-		assert_eq(player.velocity, Vector2.RIGHT)
-		assert_eq(player.global_position, Vector2.LEFT)
-
 # weirdly, _get_collisions_normal can't really be tested, even with a partial double including native methods, get_slide_count still returns 0.
 
 var on_SceneUtils_toggle_scene_freeze_params := [
 	[true],
-	[false]
+	[false],
 ]
+
+
 func test_on_SceneUtils_toggle_scene_freeze(params = use_parameters(on_SceneUtils_toggle_scene_freeze_params)):
 	# given
 	var mock_player = partial_double(load("res://Scenes/Player/player.gd")).new()
@@ -677,6 +639,7 @@ func test_on_SceneUtils_toggle_scene_freeze(params = use_parameters(on_SceneUtil
 	mock_player._on_SceneUtils_toggle_scene_freeze(params[0])
 	# then
 	assert_called(mock_player, "toggle_freeze", [params[0]])
+
 
 func test_on_appear_elements_appear_animation_finished():
 	# given

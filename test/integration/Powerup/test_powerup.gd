@@ -4,11 +4,13 @@ extends "res://addons/gut/test.gd"
 #---- VARIABLES -----
 var scene
 
+
 ##### SETUP #####
 func before_each():
 	scene = load("res://test/integration/Powerup/scene_powerup.tscn").instantiate()
 	add_child_autofree(scene)
 	await wait_process_frames(1)
+
 
 ##### TESTS #####
 func test_splitter():
@@ -16,7 +18,6 @@ func test_splitter():
 	var bullet_load = load("res://Scenes/Weapons/Projectiles/Bullet/bullet.tscn")
 	var splitter = load("res://Scenes/Weapons/Powerups/Splitter/splitter.tscn").instantiate()
 	var runtime_utils = double(load("res://Utils/runtime_utils.gd")).new()
-	stub(runtime_utils, "is_authority").to_return(true)
 	stub(runtime_utils, "get_game_root").to_return(scene)
 	scene.spawn_powerup(splitter)
 	await wait_seconds(0.1)
@@ -38,6 +39,7 @@ func test_splitter():
 		await wait_seconds(0.5)
 	assert_false(is_instance_valid(splitter))
 
+
 func test_splitter_manager():
 	# given
 	var splitter_manager = load("res://Scenes/Weapons/Powerups/Splitter/splitter_manager.tscn").instantiate()
@@ -45,7 +47,6 @@ func test_splitter_manager():
 	splitter_manager.active = true
 	splitter_manager.global_position = scene.get_powerup_position_node().global_position
 	var runtime_utils = double(load("res://Utils/runtime_utils.gd")).new()
-	stub(runtime_utils, "is_authority").to_return(true)
 	stub(runtime_utils, "get_game_root").to_return(scene)
 	scene.add_child(splitter_manager)
 	await wait_seconds(0.1)
@@ -82,6 +83,7 @@ func test_splitter_manager():
 	scene.clean_powerups()
 	scene.clean_projectiles()
 	await wait_seconds(0.5)
+
 
 ##### UTILS #####
 func _has_projectile_with_angle(projectiles, angle) -> bool:

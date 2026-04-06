@@ -1,24 +1,22 @@
 extends "res://addons/gut/test.gd"
 
 ##### VARIABLES #####
-#---- CONSTANTS -----
-# const CONST := "value"
-
 #---- VARIABLES -----
 var action_manager
 var action_handler
-var use_called_times_called := 0
+
 
 ##### SETUP #####
 func before_each():
 	action_manager = partial_double(load("res://Scenes/Player/action_manager.gd")).new()
 	action_handler = StaticActionHandler.get_handler(StaticActionHandler.handlers.RECORD)
 	action_manager._action_handler_base = action_handler
-	use_called_times_called = 0
+
 
 ##### TEARDOWN #####
 func after_each():
 	action_handler.free()
+
 
 ##### TESTS #####
 func test_handle_actions():
@@ -41,12 +39,15 @@ func test_handle_actions():
 	assert_called(action_manager, "_handle_parry")
 	assert_called(action_manager, "_handle_powerup")
 
+
 var handle_direction_params := [
 	[ActionHandlerBase.actions.LEFT, Vector2(-1, 0)],
 	[ActionHandlerBase.actions.RIGHT, Vector2(1, 0)],
 	[ActionHandlerBase.actions.UP, Vector2(0, -1)],
-	[ActionHandlerBase.actions.DOWN, Vector2(0, 1)]
+	[ActionHandlerBase.actions.DOWN, Vector2(0, 1)],
 ]
+
+
 func test_handle_direction(params = use_parameters(handle_direction_params)):
 	# given
 	stub(action_manager, "_is_action_active").to_return(false)
@@ -62,7 +63,8 @@ func test_handle_direction(params = use_parameters(handle_direction_params)):
 	# cleanup
 	player_root.free()
 	onready_paths_node.free()
-	
+
+
 func test_handle_aim():
 	# given
 	var primary_weapon = double(load("res://Scenes/Weapons/Primary/Revolver/revolver.gd")).new()
@@ -86,10 +88,13 @@ func test_handle_aim():
 	crosshair.free()
 	onready_paths_node.free()
 
+
 var handle_jump_params := [
 	[true],
-	[false]
+	[false],
 ]
+
+
 func test_handle_jump(params = use_parameters(handle_jump_params)):
 	# given
 	var player_root = load("res://Scenes/Player/player.gd").new()
@@ -105,17 +110,20 @@ func test_handle_jump(params = use_parameters(handle_jump_params)):
 	player_root.free()
 	onready_paths_node.free()
 
+
 var handle_fire_params := [
 	[true],
-	[false]
+	[false],
 ]
+
+
 func test_handle_fire(params = use_parameters(handle_fire_params)):
 	# given
 	stub(action_manager, "_is_action_active").to_return(params[0])
 	var primary_weapon = double(load("res://Scenes/Weapons/Primary/Revolver/revolver.gd")).new()
 	stub(primary_weapon, "fire").to_do_nothing()
-	var parry_area = partial_double(Node).new()
-	stub(parry_area, "rpc").to_do_nothing()
+	var parry_area = double(load("res://Scenes/Player/parry.gd")).new()
+	stub(parry_area, "disable_parry_after_firing").to_do_nothing()
 	var onready_paths_node = load("res://Scenes/Player/paths.gd").new()
 	onready_paths_node.primary_weapon = primary_weapon
 	onready_paths_node.parry_area = parry_area
@@ -125,17 +133,20 @@ func test_handle_fire(params = use_parameters(handle_fire_params)):
 	# then
 	if params[0]:
 		assert_called(primary_weapon, "fire")
-		assert_called(parry_area, "rpc", ["disable_parry_after_firing", []])
+		assert_called(parry_area, "disable_parry_after_firing")
 	else:
 		assert_not_called(primary_weapon, "fire")
-		assert_not_called(parry_area, "rpc")
+		assert_not_called(parry_area, "disable_parry_after_firing")
 	# cleanup
 	onready_paths_node.free()
 
+
 var handle_movement_params := [
 	[true],
-	[false]
+	[false],
 ]
+
+
 func test_handle_movement_bonus(params = use_parameters(handle_movement_params)):
 	# given
 	stub(action_manager, "_is_action_just_active").to_return(params[0])
@@ -154,10 +165,13 @@ func test_handle_movement_bonus(params = use_parameters(handle_movement_params))
 	# cleanup
 	onready_paths_node.free()
 
+
 var handle_parry_params := [
 	[true],
-	[false]
+	[false],
 ]
+
+
 func test_handle_parry(params = use_parameters(handle_parry_params)):
 	# given
 	stub(action_manager, "_is_action_just_active").to_return(params[0])
@@ -176,42 +190,44 @@ func test_handle_parry(params = use_parameters(handle_parry_params)):
 	# cleanup
 	onready_paths_node.free()
 
+
 var handle_powerup_params := [
-	[true, false, false],
-	[false, true, false],
-	[true, true, true]
+	[true],
+	[false],
 ]
+
+
 func test_handle_powerup(params = use_parameters(handle_powerup_params)):
 	# given
 	stub(action_manager, "_is_action_just_active").to_return(params[0])
-	var runtime_utils = double(load("res://Utils/runtime_utils.gd")).new()
-	stub(runtime_utils, "is_authority").to_return(params[1])
-	action_manager._runtime_utils = runtime_utils
-	var powerup_manager = load("res://test/unit/Player/test_action_manager_mocks/mock_powerup_manager.gd").new()
-	add_child(powerup_manager)
-	wait_for_signal(powerup_manager.tree_entered, 0.25)
-	powerup_manager.connect("use_called", _on_use_called)
+	var powerup_manager = double(load("res://Scenes/Weapons/Powerups/Splitter/splitter_manager.gd")).new()
+	stub(powerup_manager, "use").to_do_nothing()
 	var onready_paths_node = load("res://Scenes/Player/paths.gd").new()
 	onready_paths_node.powerup_manager = powerup_manager
 	action_manager.onready_paths_node = onready_paths_node
 	# when
 	action_manager._handle_powerup()
 	# then
-	assert_eq(use_called_times_called, 1 if params[2] else 0)
+	if params[0]:
+		assert_called(powerup_manager, "use")
+	else:
+		assert_not_called(powerup_manager, "use")
 	# cleanup
-	powerup_manager.free()
 	onready_paths_node.free()
+
 
 var is_action_active_params = [
 	[true],
-	[false]
+	[false],
 ]
+
+
 func test_is_action_active(params = use_parameters(is_action_active_params)):
 	# given
 	var onready_paths_node = load("res://Scenes/Player/paths.gd").new()
 	var input_synchronizer = load("res://Scenes/Player/input_synchronizer.gd").new()
 	var action_states = {
-		ActionHandlerBase.actions.JUMP: ActionHandlerBase.states.ACTIVE if params[0] else ActionHandlerBase.states.INACTIVE
+		ActionHandlerBase.actions.JUMP: ActionHandlerBase.states.ACTIVE if params[0] else ActionHandlerBase.states.INACTIVE,
 	}
 	input_synchronizer.action_states = action_states
 	onready_paths_node.input_synchronizer = input_synchronizer
@@ -224,16 +240,19 @@ func test_is_action_active(params = use_parameters(is_action_active_params)):
 	input_synchronizer.free()
 	onready_paths_node.free()
 
+
 var is_action_just_active_params = [
 	[true],
-	[false]
+	[false],
 ]
+
+
 func test_is_action_just_active(params = use_parameters(is_action_just_active_params)):
 	# given
 	var onready_paths_node = load("res://Scenes/Player/paths.gd").new()
 	var input_synchronizer = load("res://Scenes/Player/input_synchronizer.gd").new()
 	var action_states = {
-		ActionHandlerBase.actions.JUMP: ActionHandlerBase.states.JUST_ACTIVE if params[0] else ActionHandlerBase.states.INACTIVE
+		ActionHandlerBase.actions.JUMP: ActionHandlerBase.states.JUST_ACTIVE if params[0] else ActionHandlerBase.states.INACTIVE,
 	}
 	input_synchronizer.action_states = action_states
 	onready_paths_node.input_synchronizer = input_synchronizer
@@ -245,6 +264,7 @@ func test_is_action_just_active(params = use_parameters(is_action_just_active_pa
 	# cleanup
 	input_synchronizer.free()
 	onready_paths_node.free()
+
 
 func test_get_relative_aim_position():
 	# given
@@ -261,17 +281,16 @@ func test_get_relative_aim_position():
 	input_synchronizer.free()
 	onready_paths_node.free()
 
+
 var on_SceneUtils_toggle_scene_freeze_params := [
 	[true],
-	[false]
+	[false],
 ]
+
+
 func test_on_SceneUtils_toggle_scene_freeze(params = use_parameters(on_SceneUtils_toggle_scene_freeze_params)):
 	# given
 	# when
 	action_manager._on_SceneUtils_toggle_scene_freeze(params[0])
 	# then
 	assert_eq(action_manager._frozen, params[0])
-
-##### UTILS #####
-func _on_use_called() -> void:
-	use_called_times_called += 1

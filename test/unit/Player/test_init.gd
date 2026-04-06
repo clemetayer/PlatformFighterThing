@@ -4,13 +4,16 @@ extends "res://addons/gut/test.gd"
 #---- VARIABLES -----
 var init
 
+
 ##### SETUP #####
 func before_each():
 	init = load("res://Scenes/Player/init.gd").new()
 
+
 ##### TEARDOWN #####
 func after_each():
 	init.free()
+
 
 ##### TESTS #####
 func test_initialize():
@@ -18,7 +21,6 @@ func test_initialize():
 	var onready_paths_node = load("res://Scenes/Player/paths.gd").new()
 	var input_synchronizer = double(load("res://Scenes/Player/input_synchronizer.gd")).new()
 	onready_paths_node.input_synchronizer = input_synchronizer
-	stub(input_synchronizer, "start_input_detection").to_do_nothing()
 	stub(input_synchronizer, "set_action_handler").to_do_nothing()
 	var sprites = double(load("res://Scenes/Player/sprites.gd")).new()
 	onready_paths_node.sprites = sprites
@@ -48,7 +50,6 @@ func test_initialize():
 	init.initialize(config)
 	wait_frames(2)
 	# then
-	assert_called(input_synchronizer, "start_input_detection")
 	assert_called(sprites, "load_sprite_preset", [config.SPRITE_CUSTOMIZATION])
 	assert_eq(init.ACTION_HANDLER, config.ACTION_HANDLER)
 	assert_eq(init.PRIMARY_WEAPON, config.PRIMARY_WEAPON)
@@ -72,6 +73,7 @@ func test_initialize():
 	# cleanup
 	player_root.free()
 	onready_paths_node.free()
+
 
 ##### UTILS #####
 func generate_test_config() -> PlayerConfig:

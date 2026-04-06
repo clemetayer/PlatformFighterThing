@@ -30,7 +30,7 @@ var _action_states := {
 ##### PUBLIC METHODS #####
 # Mostly used by AI action handlers
 # does nothing by default
-func set_player(player: Node2D) -> void:
+func set_player(_player: Node2D) -> void:
 	pass
 
 

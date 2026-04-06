@@ -4,9 +4,11 @@ extends "res://addons/gut/test.gd"
 #---- VARIABLES -----
 var revolver
 
+
 ##### SETUP #####
 func before_each():
 	revolver = load("res://Scenes/Weapons/Primary/Revolver/revolver.gd").new()
+
 
 ##### TEARDOWN #####
 func after_each():
@@ -17,8 +19,10 @@ var fire_params := [
 	[true, true, true],
 	[false, true, true],
 	[true, false, true],
-	[true, true, false]
+	[true, true, false],
 ]
+
+
 func test_fire(params = use_parameters(fire_params)):
 	# given
 	var on_cooldown = params[0]
@@ -29,9 +33,6 @@ func test_fire(params = use_parameters(fire_params)):
 	stub(mock_revolver, "_fire_anim").to_do_nothing()
 	stub(mock_revolver, "_play_gunshot").to_do_nothing()
 	stub(mock_revolver, "_create_projectile").to_return(projectile)
-	var runtime_utils = double(load("res://Utils/runtime_utils.gd")).new()
-	stub(runtime_utils, "is_authority").to_return(is_authority)
-	mock_revolver._runtime_utils = runtime_utils
 	var shoot_cooldown_timer = double(Timer).new()
 	stub(shoot_cooldown_timer, "start").to_do_nothing()
 	mock_revolver.onready_paths.shoot_cooldown_timer = shoot_cooldown_timer
@@ -57,10 +58,13 @@ func test_fire(params = use_parameters(fire_params)):
 	# cleanup
 	projectile.free()
 
+
 var aim_params := [
 	[Vector2.RIGHT],
-	[Vector2.LEFT]
+	[Vector2.LEFT],
 ]
+
+
 func test_aim(params = use_parameters(aim_params)):
 	# given
 	var aim_pos = params[0]
@@ -70,29 +74,31 @@ func test_aim(params = use_parameters(aim_params)):
 	# when
 	revolver.aim(aim_pos)
 	# then
-	assert_eq(sprite.scale.y, -1 if abs(analog_angle) >= PI/2.0 else 1)
+	assert_eq(sprite.scale.y, -1 if abs(analog_angle) >= PI / 2.0 else 1)
 	assert_eq(revolver.rotation, analog_angle)
 	# cleanup
 	sprite.free()
+
 
 func test_create_projectile():
 	# given
 	var projectile_owner = Node2D.new()
 	revolver.projectile_owner = projectile_owner
 	revolver.global_position = Vector2.RIGHT
-	revolver.rotation = PI/4.0
+	revolver.rotation = PI / 4.0
 	revolver.owner_color = Color.ANTIQUE_WHITE
 	# when
 	var res = revolver._create_projectile()
-	# then 
+	# then
 	assert_not_null(res)
 	assert_eq(res.current_owner, projectile_owner)
 	assert_eq(res.init_position, Vector2.RIGHT)
-	assert_almost_eq(res.init_rotation, PI/4.0, 0.01)
+	assert_almost_eq(res.init_rotation, PI / 4.0, 0.01)
 	assert_eq(res.trail_color, Color.ANTIQUE_WHITE)
 	# cleanup
 	projectile_owner.free()
 	res.free()
+
 
 func test_fire_anim():
 	# given
@@ -107,6 +113,7 @@ func test_fire_anim():
 	# cleanup
 	los.free()
 
+
 func test_play_gunshot():
 	# given
 	var gunshot = double(AudioStreamPlayer2D).new()
@@ -116,6 +123,7 @@ func test_play_gunshot():
 	revolver._play_gunshot()
 	# then
 	assert_called(gunshot, "play")
+
 
 func test_set_los_init_modulate():
 	# given
@@ -128,6 +136,7 @@ func test_set_los_init_modulate():
 	assert_eq(los.modulate, Color.ALICE_BLUE)
 	# cleanup
 	los.free()
+
 
 func test_on_shoot_cooldown_timeout():
 	# given

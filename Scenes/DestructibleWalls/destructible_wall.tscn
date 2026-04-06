@@ -8,7 +8,6 @@
 [ext_resource type="Script" uid="uid://5vcccnltjpq7" path="res://Scenes/DestructibleWalls/spawn_animation.gd" id="3_jis8i"]
 [ext_resource type="Script" uid="uid://bvmoyw03d0aie" path="res://Scenes/DestructibleWalls/moving_pattern.gd" id="4_2peem"]
 [ext_resource type="Script" uid="uid://brbgj6mk2j1j8" path="res://Scenes/DestructibleWalls/visual_effects_manager.gd" id="4_jedvq"]
-[ext_resource type="Script" uid="uid://cf8hh2im4rr1y" path="res://Scenes/DestructibleWalls/player_interaction_manager.gd" id="5_k5ou3"]
 [ext_resource type="Script" uid="uid://bhp1lra78ushv" path="res://Scenes/DestructibleWalls/damage_wall_area.gd" id="6_d5y80"]
 [ext_resource type="Script" uid="uid://bog2kobtsf4lm" path="res://Scenes/DestructibleWalls/collision_manager.gd" id="6_yj50p"]
 [ext_resource type="Script" uid="uid://dlbqibed860nw" path="res://Scenes/DestructibleWalls/audio_manager.gd" id="7_k68wi"]
@@ -20,6 +19,7 @@
 [ext_resource type="Script" uid="uid://dk6hvh846p5s4" path="res://Scenes/DestructibleWalls/particles.gd" id="12_4kfsc"]
 [ext_resource type="Texture2D" uid="uid://defsg2qoo1m2f" path="res://Misc/Particles/kenney_particle-pack/spark_05.png" id="12_c1uyt"]
 [ext_resource type="Texture2D" uid="uid://b4t0oogv0yrr8" path="res://Misc/Particles/kenney_particle-pack/spark_02.png" id="13_1oe48"]
+[ext_resource type="Script" uid="uid://cf8hh2im4rr1y" path="res://Scenes/DestructibleWalls/player_interactions_manager.gd" id="14_jedvq"]
 [ext_resource type="AudioStream" uid="uid://bj8mwit43p5q4" path="res://Scenes/DestructibleWalls/wall_spawn.mp3" id="15_0lr1d"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_yaxuf"]
@@ -472,10 +472,10 @@ script = ExtResource("3_jis8i")
 stream = ExtResource("15_0lr1d")
 bus = &"Effects"
 
-[node name="PlayerInteractionsManager" type="Node" parent="." unique_id=1948337881]
-script = ExtResource("5_k5ou3")
+[node name="PlayerInteractionsManager" type="Node" parent="." unique_id=1021424381]
+script = ExtResource("14_jedvq")
 
-[node name="FreezePlayerTimers" type="Node" parent="PlayerInteractionsManager" unique_id=428525253]
+[node name="FreezePlayerTimers" type="Node" parent="PlayerInteractionsManager" unique_id=1836021509]
 
 [node name="CollisionManager" type="Node2D" parent="." unique_id=374335475]
 script = ExtResource("6_yj50p")

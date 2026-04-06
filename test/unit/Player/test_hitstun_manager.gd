@@ -4,9 +4,11 @@ extends "res://addons/gut/test.gd"
 #---- VARIABLES -----
 var hitstun_manager
 
+
 ##### SETUP #####
 func before_each():
 	hitstun_manager = load("res://Scenes/Player/hitstun_manager.gd").new()
+
 
 ##### TEARDOWN #####
 func after_each():
@@ -15,8 +17,10 @@ func after_each():
 ##### TESTS #####
 var stop_hitstun_params := [
 	[true],
-	[false]
+	[false],
 ]
+
+
 func test_stop_hitstun(params = use_parameters(stop_hitstun_params)):
 	# given
 	var mock_hitstun_manager = partial_double(load("res://Scenes/Player/hitstun_manager.gd")).new()
@@ -39,6 +43,7 @@ func test_stop_hitstun(params = use_parameters(stop_hitstun_params)):
 	# cleanup
 	onready_paths_node.free()
 
+
 func test_start_hitstun():
 	# given
 	var onready_paths_node = load("res://Scenes/Player/paths.gd").new()
@@ -46,7 +51,7 @@ func test_start_hitstun():
 	stub(hitstun_timer, "start").to_do_nothing()
 	onready_paths_node.hitstun_timer = hitstun_timer
 	var animation_player = double(AnimationPlayer).new()
-	stub(animation_player,"play").to_do_nothing()
+	stub(animation_player, "play").to_do_nothing()
 	onready_paths_node.animation_player = animation_player
 	var bounce_area = double(load("res://Scenes/Player/bounce_area.gd")).new()
 	stub(bounce_area, "toggle_active").to_do_nothing()
@@ -62,12 +67,13 @@ func test_start_hitstun():
 	# cleanup
 	onready_paths_node.free()
 
+
 func test_on_hitstun_timeout():
 	# given
 	var onready_paths_node = load("res://Scenes/Player/paths.gd").new()
 	var animation_player = double(AnimationPlayer).new()
-	stub(animation_player,"stop").to_do_nothing()
-	stub(animation_player,"play").to_do_nothing()
+	stub(animation_player, "stop").to_do_nothing()
+	stub(animation_player, "play").to_do_nothing()
 	onready_paths_node.animation_player = animation_player
 	var bounce_area = double(load("res://Scenes/Player/bounce_area.gd")).new()
 	stub(bounce_area, "toggle_active").to_do_nothing()
@@ -82,7 +88,3 @@ func test_on_hitstun_timeout():
 	assert_false(hitstun_manager.hitstunned)
 	# cleanup
 	onready_paths_node.free()
-
-##### UTILS #####
-func _something_useful():
-	pass
