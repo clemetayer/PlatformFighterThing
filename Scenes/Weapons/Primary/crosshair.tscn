@@ -4,5 +4,7 @@
 [ext_resource type="Script" uid="uid://db24f7eyxv87t" path="res://Scenes/Weapons/Primary/crosshair.gd" id="2_baei3"]
 
 [node name="Crosshair" type="Sprite2D" unique_id=2119184864]
+z_index = 5
+scale = Vector2(3, 3)
 texture = ExtResource("1_vkofa")
 script = ExtResource("2_baei3")

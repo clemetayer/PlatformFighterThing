@@ -16,8 +16,8 @@ scale = Vector2(0.25, 0.25)
 texture = ExtResource("2_di3r8")
 
 [node name="Line2D" type="Line2D" parent="." unique_id=895049122]
-points = PackedVector2Array(31, 0, 64, 0, 500, 0)
-width = 2.0
+points = PackedVector2Array(31, 0, 96, 0, 800, 0)
+width = 8.0
 gradient = SubResource("Gradient_5vcv6")
 
 [node name="ShootCooldown" type="Timer" parent="." unique_id=961176986]

@@ -5,7 +5,7 @@ extends PrimaryWeaponBase
 ##### VARIABLES #####
 #---- CONSTANTS -----
 const PROJECTILE_SCENE_PATH := "res://Scenes/Weapons/Projectiles/Bullet/bullet.tscn"
-const LOS_DEFAULT_WIDTH := 2
+const LOS_DEFAULT_WIDTH := 8
 const FIRE_ANIM_MAX_WIDTH := 20
 const FIRE_ANIM_TIME := 0.2
 
