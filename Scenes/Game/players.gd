@@ -78,7 +78,7 @@ func get_players_data() -> Dictionary:
 ##### PROTECTED METHODS #####
 func _spawn_player(player_idx: int, spawn_position: Vector2) -> void:
 	var player_instance = load(PLAYER_SCENE_PATH).instantiate()
-	player_instance.id = player_idx
+	player_instance.PLAYER_ID = player_idx
 	player_instance.name = "player_%d" % player_idx
 	add_child(player_instance)
 	player_instance.global_position = spawn_position

@@ -44,7 +44,7 @@ func test_stop_hitstun(params = use_parameters(stop_hitstun_params)):
 	onready_paths_node.free()
 
 
-func test_start_hitstun():
+func test_on_player_damage_received():
 	# given
 	var onready_paths_node = load("res://Scenes/Player/paths.gd").new()
 	var hitstun_timer = double(Timer).new()
@@ -58,7 +58,7 @@ func test_start_hitstun():
 	onready_paths_node.bounce_area = bounce_area
 	hitstun_manager.onready_paths_node = onready_paths_node
 	# when
-	hitstun_manager.start_hitstun(123)
+	hitstun_manager._on_player_damage_received(100.0, 123.0, Vector2.ONE)
 	# then
 	assert_called(hitstun_timer, "start")
 	assert_called(animation_player, "play", ["hitstun", null, null, null])

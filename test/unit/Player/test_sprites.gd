@@ -4,13 +4,16 @@ extends "res://addons/gut/test.gd"
 #---- VARIABLES -----
 var sprites
 
+
 ##### SETUP #####
 func before_each():
 	sprites = load("res://Scenes/Player/sprites.gd").new()
 
+
 ##### TEARDOWN #####
 func after_each():
 	sprites.free()
+
 
 ##### TESTS #####
 func test_load_sprite_preset():
@@ -44,3 +47,39 @@ func test_load_sprite_preset():
 	outline.free()
 	eyes.free()
 	mouth.free()
+
+
+var aim_params := [
+	[-1 * Vector2.ONE],
+	[Vector2.ONE],
+]
+
+
+func test_aim(params = use_parameters(aim_params)):
+	# given
+	var relative_aim_position = params[0]
+	var rotate_elements = Node2D.new()
+	sprites.onready_paths.rotate_elements = rotate_elements
+	# when
+	sprites.aim(relative_aim_position)
+	# then
+	if relative_aim_position.x < 0:
+		assert_almost_eq(rotate_elements.rotation, -3 * PI / 4.0, 0.001)
+		assert_eq(rotate_elements.scale.y, -1)
+	else:
+		assert_almost_eq(rotate_elements.rotation, PI / 4.0, 0.001)
+		assert_eq(rotate_elements.scale.y, 1)
+	# cleanup
+	rotate_elements.free()
+
+
+func test_set_player_indicator():
+	# given
+	var player_indicator = double(load("res://Scenes/Player/player_indicator_outline.gd")).new()
+	stub(player_indicator, "set_player_color").to_do_nothing()
+	sprites.onready_paths.player_indicator_outline = player_indicator
+	# when
+	sprites.set_player_indicator(1)
+	# then
+	assert_called(player_indicator, "set_player_color", [1])
+

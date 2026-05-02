@@ -1,10 +1,11 @@
-[gd_scene load_steps=12 format=3 uid="uid://bvec14mifjb10"]
+[gd_scene format=3 uid="uid://bvec14mifjb10"]
 
 [ext_resource type="Texture2D" uid="uid://btcmiq31qee7d" path="res://Scenes/Player/CharacterBody.png" id="1_d8p1a"]
 [ext_resource type="FontFile" uid="uid://dncl7x8virtei" path="res://Misc/InterDisplay-LightItalic.ttf" id="1_lmlyt"]
 [ext_resource type="Texture2D" uid="uid://dy0q7mppvj7j1" path="res://Scenes/Player/CharacterOutline.png" id="2_8m0b7"]
 [ext_resource type="Script" uid="uid://gnrl3lw6w35u" path="res://Scenes/UI/PlayersData/PlayerData/player_data_ui.gd" id="2_lmlyt"]
 [ext_resource type="Script" uid="uid://cuvvsdedto8fs" path="res://Scenes/UI/PlayersData/PlayerData/players_sprite.gd" id="3_e5y0j"]
+[ext_resource type="Script" uid="uid://b4xrjk1t8r8sa" path="res://Scenes/UI/PlayersData/PlayerData/player_indicator_outline.gd" id="3_nipxg"]
 [ext_resource type="Texture2D" uid="uid://d3usi3hq1jbes" path="res://Scenes/Player/Mouths/mouth_1.PNG" id="6_lmlyt"]
 [ext_resource type="Texture2D" uid="uid://dcr14i6u2i7da" path="res://Scenes/Player/Eyes/eyes_1.PNG" id="7_nipxg"]
 
@@ -30,7 +31,7 @@ HSeparator/styles/separator = SubResource("StyleBoxLine_8m0b7")
 ProgressBar/styles/background = SubResource("StyleBoxFlat_lmlyt")
 ProgressBar/styles/fill = SubResource("StyleBoxFlat_nipxg")
 
-[node name="PlayerDataUI" type="Control"]
+[node name="PlayerDataUI" type="Control" unique_id=1537075113]
 layout_mode = 3
 anchors_preset = 8
 anchor_left = 0.5
@@ -44,7 +45,7 @@ size_flags_vertical = 3
 theme = SubResource("Theme_nhaxf")
 script = ExtResource("2_lmlyt")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=993433563]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -59,18 +60,33 @@ grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
 
-[node name="Data" type="HBoxContainer" parent="VBoxContainer"]
+[node name="Data" type="HBoxContainer" parent="VBoxContainer" unique_id=618531594]
 layout_mode = 2
 
-[node name="CenterContainer" type="CenterContainer" parent="VBoxContainer/Data"]
+[node name="CenterContainer" type="CenterContainer" parent="VBoxContainer/Data" unique_id=988480500]
 layout_mode = 2
 
-[node name="Sprite" type="Control" parent="VBoxContainer/Data/CenterContainer"]
+[node name="PlayerIndicatorOutline" type="Control" parent="VBoxContainer/Data/CenterContainer" unique_id=1907831559]
+layout_mode = 2
+script = ExtResource("3_nipxg")
+
+[node name="PlayerIndicatorOutline" type="TextureRect" parent="VBoxContainer/Data/CenterContainer/PlayerIndicatorOutline" unique_id=1079802112]
+layout_mode = 0
+offset_left = -42.5
+offset_top = -42.5
+offset_right = 42.5
+offset_bottom = 42.5
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_d8p1a")
+expand_mode = 3
+
+[node name="Sprite" type="Control" parent="VBoxContainer/Data/CenterContainer" unique_id=207710085]
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
 script = ExtResource("3_e5y0j")
 
-[node name="Body" type="TextureRect" parent="VBoxContainer/Data/CenterContainer/Sprite"]
+[node name="Body" type="TextureRect" parent="VBoxContainer/Data/CenterContainer/Sprite" unique_id=135031285]
 modulate = Color(1, 0, 0, 1)
 layout_mode = 1
 anchors_preset = 15
@@ -81,7 +97,7 @@ grow_vertical = 2
 texture = ExtResource("1_d8p1a")
 expand_mode = 3
 
-[node name="Outline" type="TextureRect" parent="VBoxContainer/Data/CenterContainer/Sprite"]
+[node name="Outline" type="TextureRect" parent="VBoxContainer/Data/CenterContainer/Sprite" unique_id=1230633115]
 modulate = Color(0, 0, 1, 1)
 layout_mode = 1
 anchors_preset = 15
@@ -92,7 +108,7 @@ grow_vertical = 2
 texture = ExtResource("2_8m0b7")
 expand_mode = 3
 
-[node name="Mouth" type="TextureRect" parent="VBoxContainer/Data/CenterContainer/Sprite"]
+[node name="Mouth" type="TextureRect" parent="VBoxContainer/Data/CenterContainer/Sprite" unique_id=1045548777]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -103,7 +119,7 @@ texture = ExtResource("6_lmlyt")
 expand_mode = 5
 stretch_mode = 5
 
-[node name="Eyes" type="TextureRect" parent="VBoxContainer/Data/CenterContainer/Sprite"]
+[node name="Eyes" type="TextureRect" parent="VBoxContainer/Data/CenterContainer/Sprite" unique_id=1676578218]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -114,11 +130,11 @@ texture = ExtResource("7_nipxg")
 expand_mode = 5
 stretch_mode = 5
 
-[node name="ImportantData" type="VBoxContainer" parent="VBoxContainer/Data"]
+[node name="ImportantData" type="VBoxContainer" parent="VBoxContainer/Data" unique_id=1273131922]
 layout_mode = 2
 alignment = 1
 
-[node name="Name" type="Label" parent="VBoxContainer"]
+[node name="Name" type="Label" parent="VBoxContainer" unique_id=1144468290]
 layout_mode = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 text = "Player 1"

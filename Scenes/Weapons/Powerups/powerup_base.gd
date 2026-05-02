@@ -18,3 +18,7 @@ var active := false
 # to be overrided by children classes
 @abstract func use() -> void
 
+
+##### SIGNAL MANAGEMENT #####
+func _on_player_abilities_toggled(p_active: bool) -> void:
+	active = p_active

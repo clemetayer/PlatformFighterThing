@@ -88,3 +88,7 @@ func _on_parry_timer_timeout():
 func _on_disable_after_fire_timer_timeout() -> void:
 	_toggle_can_parry(true)
 	_parrying = false
+
+
+func _on_player_abilities_toggled(active: bool) -> void:
+	_toggle_can_parry(active)

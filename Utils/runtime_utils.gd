@@ -1,10 +1,16 @@
 extends Node
 
-# Runtime utilitary functions
+# Runtime utilitary functions that are usefull when the game is launched
 
 ##### VARIABLES #####
 #---- CONSTANTS -----
 const GAME_ROOT_GROUP_NAME := "game_root"
+const PLAYER_INDICATOR_COLORS := [
+	Color("ff0000"), # red
+	Color("0000ff"), # blue
+	Color("00ff00"), # green
+	Color("ffff00"), # yellow
+]
 
 
 ##### PUBLIC METHODS #####

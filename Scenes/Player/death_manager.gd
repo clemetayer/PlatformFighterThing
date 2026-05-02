@@ -25,10 +25,6 @@ func set_particles_color(color: Color) -> void:
 	onready_paths.particles.modulate = color
 
 
-func set_last_hit_owner(last_hit_owner: Node2D) -> void:
-	_last_hit_owner = last_hit_owner
-
-
 # Triggers the death animation
 func kill() -> void:
 	_camera_effects.emit_signal_start_camera_impact(CAMERA_DEATH_IMPACT_TIME, CameraEffects.CAMERA_IMPACT_INTENSITY.HIGH, CameraEffects.CAMERA_IMPACT_PRIORITY.HIGH)
@@ -51,12 +47,13 @@ func kill() -> void:
 
 ##### PROTECTED METHODS #####
 func _get_last_hit_owner_id(last_hit_owner: Node2D) -> int:
-	if "id" in last_hit_owner:
-		return last_hit_owner.id
-	GSLogger.warn("Error while getting the opponent id to show the elmination message")
-	return -1
+	return last_hit_owner.PLAYER_ID
 
 
 func _on_death_anim_time_timeout() -> void:
-	onready_paths_node.player_root.emit_signal("killed", onready_paths_node.player_root.id)
+	onready_paths_node.player_root.emit_signal("killed", onready_paths_node.player_root.PLAYER_ID)
 	onready_paths_node.player_root.queue_free()
+
+
+func _on_player_last_hit_owner_changed(hit_owner: Node2D) -> void:
+	_last_hit_owner = hit_owner

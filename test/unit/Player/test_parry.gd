@@ -5,10 +5,12 @@ extends "res://addons/gut/test.gd"
 var parry
 var parried_times_called := 0
 
+
 ##### SETUP #####
 func before_each():
 	parried_times_called = 0
 	parry = load("res://Scenes/Player/parry.gd").new()
+
 
 ##### TEARDOWN #####
 func after_each():
@@ -17,8 +19,10 @@ func after_each():
 ##### TESTS #####
 var toggle_parry_enabled_params := [
 	[true],
-	[false]
+	[false],
 ]
+
+
 func test_toggle_parry_enabled(params = use_parameters(toggle_parry_enabled_params)):
 	# given
 	# when
@@ -26,11 +30,14 @@ func test_toggle_parry_enabled(params = use_parameters(toggle_parry_enabled_para
 	# then
 	assert_eq(parry._enabled, params[0])
 
+
 var parry_params := [
 	[false, false],
 	[true, false],
-	[true, true]
+	[true, true],
 ]
+
+
 func test_parry(params = use_parameters(parry_params)):
 	# given
 	var enabled = params[0]
@@ -73,10 +80,13 @@ func test_parry(params = use_parameters(parry_params)):
 		assert_not_called(parry_active_sound, "play")
 		assert_not_called(parry_disabled_sound, "play")
 
+
 var disable_parry_after_firing_params := [
 	[true],
-	[false]
+	[false],
 ]
+
+
 func test_disable_parry_after_firing(params = use_parameters(disable_parry_after_firing_params)):
 	# given
 	var enabled = params[0]
@@ -102,10 +112,13 @@ func test_disable_parry_after_firing(params = use_parameters(disable_parry_after
 	# cleanup
 	parry_lockout_sprite.free()
 
+
 var toggle_can_parry_params := [
 	[true],
-	[false]
+	[false],
 ]
+
+
 func test_toggle_can_parry(params = use_parameters(toggle_can_parry_params)):
 	# given
 	var enabled = params[0]
@@ -126,8 +139,10 @@ var on_area_entered_params := [
 	[false, false, true],
 	[true, true, false],
 	[false, true, true],
-	[true, true, true]
+	[true, true, true],
 ]
+
+
 func test_on_area_entered(params = use_parameters(on_area_entered_params)):
 	# given
 	var is_projectile = params[0]
@@ -195,6 +210,7 @@ func test_on_area_entered(params = use_parameters(on_area_entered_params)):
 	onready_paths_node.free()
 	parry_owner.free()
 
+
 func test_on_lockout_timer_timeout():
 	# given
 	var parry_lockout_sprite = Sprite2D.new()
@@ -210,6 +226,7 @@ func test_on_lockout_timer_timeout():
 	# cleanup
 	parry_lockout_sprite.free()
 
+
 func test_on_disable_after_fire_timer_timeout():
 	# given
 	var parry_lockout_sprite = Sprite2D.new()
@@ -224,6 +241,7 @@ func test_on_disable_after_fire_timer_timeout():
 	assert_false(parry_lockout_sprite.visible)
 	# cleanup
 	parry_lockout_sprite.free()
+
 
 func test_on_parry_timer_timeout():
 	# given
@@ -244,6 +262,21 @@ func test_on_parry_timer_timeout():
 	assert_called(lockout_timer, "start")
 	# cleanup
 	parry_lockout_sprite.free()
+
+
+func test_on_player_abilities_toggled():
+	# given
+	var enabled = false
+	var parry_lockout_sprite = Sprite2D.new()
+	parry.onready_paths.parry_lockout_sprite = parry_lockout_sprite
+	# when
+	parry._on_player_abilities_toggled(enabled)
+	# then
+	assert_eq(parry._can_parry, enabled)
+	assert_eq(parry_lockout_sprite.visible, not enabled)
+	# cleanup
+	parry_lockout_sprite.free()
+
 
 ##### UTILS #####
 func _on_parried() -> void:

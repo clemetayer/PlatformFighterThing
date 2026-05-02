@@ -144,7 +144,7 @@ func test_add_players():
 	for player_idx in range(1, 3):
 		var player = players.get_node_or_null("player_%d" % player_idx)
 		assert_not_null(player)
-		assert_eq(player.id, player_idx)
+		assert_eq(player.PLAYER_ID, player_idx)
 		assert_eq(player.global_position, players._spawn_positions[player_idx - 1])
 		assert_true(player.is_connected("killed", players._on_player_killed))
 		assert_true(player.is_connected("movement_updated", players._on_player_movement_updated))
@@ -206,7 +206,7 @@ func test_spawn_player():
 	assert_eq(players.get_child_count(), 1)
 	var player = players.get_node_or_null("player_%d" % 1)
 	assert_not_null(player)
-	assert_eq(player.id, 1)
+	assert_eq(player.PLAYER_ID, 1)
 	assert_eq(player.global_position, Vector2.LEFT)
 	assert_true(player.is_connected("killed", players._on_player_killed))
 	assert_true(player.is_connected("movement_updated", players._on_player_movement_updated))

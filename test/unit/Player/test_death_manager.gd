@@ -32,17 +32,6 @@ func test_set_particles_color():
 	particles.free()
 
 
-func test_set_last_hit_owner():
-	# given
-	var last_hit_owner = Node2D.new()
-	# when
-	death_manager.set_last_hit_owner(last_hit_owner)
-	# then
-	assert_eq(death_manager._last_hit_owner, last_hit_owner)
-	# cleanup
-	last_hit_owner.free()
-
-
 func test_kill():
 	# given
 	var camera_effects = double(load("res://Scenes/Camera/camera_effects.gd")).new()
@@ -51,7 +40,7 @@ func test_kill():
 	var onready_paths_node = load("res://Scenes/Player/paths.gd").new()
 	death_manager.onready_paths_node = onready_paths_node
 	var last_hit_owner = load("res://Scenes/Player/player.tscn").instantiate()
-	last_hit_owner.id = 123
+	last_hit_owner.PLAYER_ID = 123
 	death_manager._last_hit_owner = last_hit_owner
 	var particles = GPUParticles2D.new()
 	death_manager.onready_paths.particles = particles
@@ -99,23 +88,11 @@ func test_get_last_hit_owner_id_valid():
 	# given
 	var last_hit_owner = load("res://Scenes/Player/player.tscn").instantiate()
 	death_manager._last_hit_owner = last_hit_owner
-	last_hit_owner.id = 123
+	last_hit_owner.PLAYER_ID = 123
 	# when
 	var res = death_manager._get_last_hit_owner_id(last_hit_owner)
 	# then
 	assert_eq(res, 123)
-	# cleanup
-	last_hit_owner.free()
-
-
-func test_get_last_hit_owner_id_invalid():
-	# given
-	var last_hit_owner = Node2D.new()
-	death_manager._last_hit_owner = last_hit_owner
-	# when
-	var res = death_manager._get_last_hit_owner_id(last_hit_owner)
-	# then
-	assert_eq(res, -1)
 	# cleanup
 	last_hit_owner.free()
 
@@ -126,7 +103,7 @@ func test_on_death_anim_time_timeout():
 	var onready_paths_node = load("res://Scenes/Player/paths.gd").new()
 	onready_paths_node.player_root = player_root
 	player_root.connect("killed", _on_killed, 0)
-	player_root.id = 123
+	player_root.PLAYER_ID = 123
 	death_manager.onready_paths_node = onready_paths_node
 	# when
 	death_manager._on_death_anim_time_timeout()
@@ -136,6 +113,17 @@ func test_on_death_anim_time_timeout():
 	# cleanup
 	player_root.free()
 	onready_paths_node.free()
+
+
+func test_on_player_last_hit_owner_changed():
+	# given
+	var hit_owner = Node2D.new()
+	# when
+	death_manager._on_player_last_hit_owner_changed(hit_owner)
+	# then
+	assert_eq(death_manager._last_hit_owner, hit_owner)
+	# cleanup
+	hit_owner.free()
 
 
 ##### UTILS #####

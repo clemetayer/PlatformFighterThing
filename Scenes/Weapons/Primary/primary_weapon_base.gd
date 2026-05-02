@@ -29,3 +29,8 @@ func _spawn_projectile(projectile: Node) -> void:
 		game_root.spawn_projectile(projectile)
 	else:
 		GSLogger.error("Game root does not exist or does not have the method '%s'" % "spawn_projectile")
+
+
+##### SIGNAL MANAGEMENT #####
+func _on_player_abilities_toggled(p_active: bool) -> void:
+	active = p_active

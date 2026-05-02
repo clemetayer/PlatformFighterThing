@@ -25,6 +25,7 @@ func test_initialize():
 	var sprites = double(load("res://Scenes/Player/sprites.gd")).new()
 	onready_paths_node.sprites = sprites
 	stub(sprites, "load_sprite_preset").to_do_nothing()
+	stub(sprites, "set_player_indicator").to_do_nothing()
 	var crosshair = double(load("res://Scenes/Weapons/Primary/crosshair.gd")).new()
 	onready_paths_node.crosshair = crosshair
 	stub(crosshair, "set_color").to_do_nothing()
@@ -37,7 +38,8 @@ func test_initialize():
 	var appear_elements = double(load("res://Scenes/Player/appear_elements.gd")).new()
 	stub(appear_elements, "init").to_do_nothing()
 	onready_paths_node.appear_elements = appear_elements
-	var player_root = Node2D.new()
+	var player_root = load("res://test/unit/Player/test_init/player_mock.gd").new()
+	player_root.PLAYER_ID = 0
 	onready_paths_node.player_root = player_root
 	add_child(player_root)
 	wait_for_signal(player_root.tree_entered, 0.25)
@@ -48,9 +50,9 @@ func test_initialize():
 	# when
 	var config = generate_test_config()
 	init.initialize(config)
-	wait_frames(2)
 	# then
 	assert_called(sprites, "load_sprite_preset", [config.SPRITE_CUSTOMIZATION])
+	assert_called(sprites, "set_player_indicator", [0])
 	assert_eq(init.ACTION_HANDLER, config.ACTION_HANDLER)
 	assert_eq(init.PRIMARY_WEAPON, config.PRIMARY_WEAPON)
 	assert_eq(init.MOVEMENT_BONUS_HANDLER, config.MOVEMENT_BONUS_HANDLER)
@@ -59,6 +61,9 @@ func test_initialize():
 	assert_not_null(onready_paths_node.primary_weapon)
 	assert_not_null(onready_paths_node.movement_bonus)
 	assert_not_null(onready_paths_node.powerup_manager)
+	assert_true(player_root.abilities_toggled.is_connected(onready_paths_node.primary_weapon._on_player_abilities_toggled))
+	assert_true(player_root.abilities_toggled.is_connected(onready_paths_node.movement_bonus._on_player_abilities_toggled))
+	assert_true(player_root.abilities_toggled.is_connected(onready_paths_node.powerup_manager._on_player_abilities_toggled))
 	assert_called(input_synchronizer, "set_action_handler", [config.ACTION_HANDLER])
 	assert_eq(onready_paths_node.movement_bonus.player, player_root)
 	assert_eq(onready_paths_node.primary_weapon.projectile_owner, player_root)

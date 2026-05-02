@@ -4,13 +4,16 @@ extends "res://addons/gut/test.gd"
 #---- VARIABLES -----
 var player_data
 
+
 ##### SETUP #####
 func before_each():
 	player_data = load("res://Scenes/UI/PlayersData/PlayerData/player_data_ui.gd").new()
 
+
 ##### TEARDOWN #####
 func after_each():
 	player_data.free()
+
 
 ##### TESTS #####
 func test_init():
@@ -18,6 +21,7 @@ func test_init():
 	var mock_player_data = partial_double(load("res://Scenes/UI/PlayersData/PlayerData/player_data_ui.gd")).new()
 	stub(mock_player_data, "_clean").to_do_nothing()
 	stub(mock_player_data, "_init_sprites").to_do_nothing()
+	stub(mock_player_data, "_init_player_outline").to_do_nothing()
 	stub(mock_player_data, "_init_movement").to_do_nothing()
 	stub(mock_player_data, "_add_h_separator").to_do_nothing()
 	stub(mock_player_data, "_init_powerup").to_do_nothing()
@@ -29,15 +33,17 @@ func test_init():
 	sprites.EYES_TEXTURE_PATH = "res://Scenes/Player/Eyes/eyes_1.PNG"
 	sprites.MOUTH_TEXTURE_PATH = "res://Scenes/Player/Mouth/mouth_1.PNG"
 	# when
-	mock_player_data.init(sprites, 1, 2, "Funky Franklin", 3)
+	mock_player_data.init(sprites, 1, 2, "Funky Franklin", 1, 3)
 	# then
 	assert_called(mock_player_data, "_clean")
 	assert_called(mock_player_data, "_init_sprites", [sprites])
+	assert_called(mock_player_data, "_init_player_outline", [1])
 	assert_called(mock_player_data, "_init_movement", [1])
 	assert_called(mock_player_data, "_add_h_separator")
 	assert_called(mock_player_data, "_init_powerup", [2])
 	assert_called(mock_player_data, "_init_lives", [3])
 	assert_called(mock_player_data, "_init_name", ["Funky Franklin"])
+
 
 func test_update_movement():
 	# given
@@ -49,6 +55,7 @@ func test_update_movement():
 	# then
 	assert_called(movement_ui, "set_value", [2])
 
+
 func test_update_powerup():
 	# given
 	var powerup_ui = double(load("res://Scenes/UI/PlayersData/PlayerData/Templates/counter_block.gd")).new()
@@ -58,6 +65,7 @@ func test_update_powerup():
 	player_data.update_powerup(2)
 	# then
 	assert_called(powerup_ui, "set_value", [2])
+
 
 func test_update_lives():
 	# given
@@ -70,6 +78,7 @@ func test_update_lives():
 	assert_called(lives_ui, "set_value", [2])
 
 # _clean hard to test because it's mostly a queue_free thing
+
 
 func test_add_h_separator():
 	# given
@@ -84,6 +93,7 @@ func test_add_h_separator():
 	# cleanup
 	important_data.free()
 
+
 func test_init_sprites():
 	# given
 	var body = Sprite2D.new()
@@ -95,8 +105,8 @@ func test_init_sprites():
 			"body": body,
 			"outline": outline,
 			"eyes": eyes,
-			"mouth": mouth
-		}
+			"mouth": mouth,
+		},
 	}
 	var sprite_resource = SpriteCustomizationResource.new()
 	sprite_resource.BODY_COLOR = Color.ALICE_BLUE
@@ -116,6 +126,7 @@ func test_init_sprites():
 	eyes.free()
 	mouth.free()
 
+
 func test_init_movement():
 	# given
 	var important_data = Node2D.new()
@@ -129,6 +140,7 @@ func test_init_movement():
 	assert_not_null(player_data._movement_ui)
 	# cleanup
 	important_data.free()
+
 
 func test_init_powerup():
 	# given
@@ -144,6 +156,7 @@ func test_init_powerup():
 	# cleanup
 	important_data.free()
 
+
 func test_init_lives():
 	# given
 	var important_data = Node2D.new()
@@ -158,6 +171,7 @@ func test_init_lives():
 	# cleanup
 	important_data.free()
 
+
 func test_init_name():
 	# given
 	var l_name = Label.new()
@@ -169,6 +183,7 @@ func test_init_name():
 	# cleanup
 	l_name.free()
 
+
 func test_on_movement_update_ui():
 	# given
 	var movement_ui = double(load("res://Scenes/UI/PlayersData/PlayerData/Templates/counter_block.gd")).new()
@@ -179,6 +194,13 @@ func test_on_movement_update_ui():
 	# then
 	assert_called(movement_ui, "set_value", [123])
 
-##### UTILS #####
-func _something_useful():
-	pass
+
+func test_init_player_outline():
+	# given
+	var player_indicator = double(load("res://Scenes/UI/PlayersData/PlayerData/player_indicator_outline.gd")).new()
+	stub(player_indicator, "set_player_color").to_do_nothing()
+	player_data.onready_paths.player_indicator = player_indicator
+	# when
+	player_data._init_player_outline(1)
+	# then
+	assert_called(player_indicator, "set_player_color", [1])

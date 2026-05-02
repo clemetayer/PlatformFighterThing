@@ -18,7 +18,7 @@ func clean() -> void:
 func add_player(player_id: int, config: PlayerConfig, lives: int) -> void:
 	var player_data = _player_data_ui_scene.instantiate()
 	add_child(player_data, true)
-	player_data.init(config.SPRITE_CUSTOMIZATION, config.MOVEMENT_BONUS_HANDLER, config.POWERUP_HANDLER, config.PLAYER_NAME, lives)
+	player_data.init(config.SPRITE_CUSTOMIZATION, config.MOVEMENT_BONUS_HANDLER, config.POWERUP_HANDLER, config.PLAYER_NAME, player_id, lives)
 	_players[player_id] = player_data
 
 

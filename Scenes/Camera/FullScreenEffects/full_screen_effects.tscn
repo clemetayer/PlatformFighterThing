@@ -9,7 +9,7 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_11kyp"]
 shader = ExtResource("2_o1h5g")
-shader_parameter/strength = 34.7310016497225
+shader_parameter/strength = 0.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8dkx5"]
 shader = ExtResource("2_duef4")

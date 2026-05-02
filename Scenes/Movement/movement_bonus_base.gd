@@ -21,3 +21,8 @@ var active := false
 
 ##### PUBLIC METHODS #####
 @abstract func activate() -> void
+
+
+##### SIGNAL MANAGEMENT #####
+func _on_player_abilities_toggled(p_active: bool) -> void:
+	active = p_active

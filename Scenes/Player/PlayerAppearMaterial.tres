@@ -1,0 +1,8 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://jr4p5q28a60x"]
+
+[ext_resource type="Shader" uid="uid://brtieiqtxhkp6" path="res://Scenes/Player/player_sprites_material.gdshader" id="1_60sh3"]
+
+[resource]
+resource_local_to_scene = true
+shader = ExtResource("1_60sh3")
+shader_parameter/spawn_animation_progress = 1.0

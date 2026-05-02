@@ -1,4 +1,5 @@
 extends Node2D
+
 # script to handle the look of the character
 
 ##### VARIABLES #####
@@ -10,10 +11,12 @@ extends Node2D
 @onready var onready_paths := {
 	"body": $"Body",
 	"outline": $"Outline",
+	"player_indicator_outline": $"PlayerIndicatorOutline",
 	"rotate_elements": $"RotateElements",
 	"eyes": $"RotateElements/Eyes",
-	"mouth": $"RotateElements/Mouth"
+	"mouth": $"RotateElements/Mouth",
 }
+
 
 ##### PUBLIC METHODS #####
 func load_sprite_preset(sprite_customization: SpriteCustomizationResource) -> void:
@@ -24,6 +27,11 @@ func load_sprite_preset(sprite_customization: SpriteCustomizationResource) -> vo
 	onready_paths.eyes.modulate = sprite_customization.EYES_COLOR
 	onready_paths.mouth.texture = load(sprite_customization.MOUTH_TEXTURE_PATH)
 	onready_paths.mouth.modulate = sprite_customization.MOUTH_COLOR
+
+
+func set_player_indicator(player_idx: int) -> void:
+	onready_paths.player_indicator_outline.set_player_color(player_idx)
+
 
 func aim(relative_aim_position: Vector2) -> void:
 	var analog_angle = Vector2.ZERO.angle_to_point(relative_aim_position)

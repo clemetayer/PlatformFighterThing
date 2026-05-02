@@ -11,6 +11,9 @@ signal movement_updated(id: int, value)
 signal powerup_updated(id: int, value)
 @warning_ignore("unused_signal")
 signal game_message_triggered(id: int)
+signal damage_received(old_damage: float, new_damage: float, knockback: Vector2)
+signal last_hit_owner_changed(hit_owner: Node2D)
+signal abilities_toggled(active: bool)
 
 ##### VARIABLES #####
 #---- CONSTANTS -----
@@ -27,9 +30,7 @@ const WEIGHT := 2.5 # multiplier for the gravity
 #---- EXPORTS -----
 @export var DAMAGE := 0.0
 @export var GAME_PROXY_PATH := ".."
-
-#==== MOSTLY FOR MULTIPLAYER PURPOSES ====
-@export var id := 1
+@export var PLAYER_ID := 1
 
 #---- STANDARD -----
 #==== PUBLIC ====
@@ -54,7 +55,7 @@ var _scene_utils := SceneUtils
 ##### PROCESSING #####
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	onready_paths_node.init.initialize(get_node(GAME_PROXY_PATH).get_player_config(id))
+	onready_paths_node.init.initialize(get_node(GAME_PROXY_PATH).get_player_config(PLAYER_ID))
 	_appear()
 	_scene_utils.connect("toggle_scene_freeze", _on_SceneUtils_toggle_scene_freeze)
 
@@ -96,13 +97,12 @@ func _physics_process(delta: float) -> void:
 ##### PUBLIC METHODS #####
 func hurt(p_damage: float, knockback: float, kb_direction: Vector2, p_owner: Node2D = null) -> void:
 	if _damage_enabled:
+		var old_damage = DAMAGE
 		DAMAGE = min(DAMAGE + p_damage, MAX_DAMAGE)
 		var knockback_velocity = kb_direction.normalized() * DAMAGE * knockback
 		_additional_vector += knockback_velocity
-		onready_paths_node.hitstun_manager.start_hitstun(DAMAGE)
-		onready_paths_node.death_manager.set_last_hit_owner(p_owner)
-		onready_paths_node.hit_particles.hit(knockback_velocity)
-		onready_paths_node.hit_sound.play()
+		damage_received.emit(old_damage, DAMAGE, knockback_velocity)
+		last_hit_owner_changed.emit(p_owner)
 
 
 func kill() -> void:
@@ -125,10 +125,7 @@ func toggle_freeze(active: bool) -> void:
 # Activates the player's abilities (fire, powerup, movement). Especially usefull waiting for the game startup screen to end
 func toggle_abilities(active: bool) -> void:
 	if not _truce_active:
-		onready_paths_node.primary_weapon.active = active
-		onready_paths_node.movement_bonus.active = active
-		onready_paths_node.powerup_manager.active = active
-		onready_paths_node.parry_area.toggle_parry_enabled(active)
+		abilities_toggled.emit(active)
 
 
 func toggle_damage(active: bool) -> void:
@@ -143,7 +140,7 @@ func toggle_truce(active: bool) -> void:
 
 
 func get_config() -> PlayerConfig:
-	return get_node(GAME_PROXY_PATH).get_player_config(id)
+	return get_node(GAME_PROXY_PATH).get_player_config(PLAYER_ID)
 
 
 func get_velocity_buffer() -> Array:

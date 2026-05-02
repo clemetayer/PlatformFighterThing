@@ -1,4 +1,5 @@
 extends Control
+
 # Manages the player data ui
 
 ##### VARIABLES #####
@@ -25,16 +26,19 @@ var _lives_ui
 		"body": $"VBoxContainer/Data/CenterContainer/Sprite/Body",
 		"outline": $"VBoxContainer/Data/CenterContainer/Sprite/Outline",
 		"mouth": $"VBoxContainer/Data/CenterContainer/Sprite/Mouth",
-		"eyes": $"VBoxContainer/Data/CenterContainer/Sprite/Eyes"
+		"eyes": $"VBoxContainer/Data/CenterContainer/Sprite/Eyes",
 	},
+	"player_indicator": $"VBoxContainer/Data/CenterContainer/PlayerIndicatorOutline",
 	"important_data": $"VBoxContainer/Data/ImportantData",
-	"name": $"VBoxContainer/Name"
+	"name": $"VBoxContainer/Name",
 }
 
+
 ##### PUBLIC METHODS #####
-func init(sprites: SpriteCustomizationResource, movement: int, powerup: int, player_name: String, lives: int) -> void:
+func init(sprites: SpriteCustomizationResource, movement: int, powerup: int, player_name: String, player_idx: int, lives: int) -> void:
 	_clean()
 	_init_sprites(sprites)
+	_init_player_outline(player_idx)
 	_init_movement(movement)
 	_add_h_separator()
 	_init_powerup(powerup)
@@ -42,26 +46,32 @@ func init(sprites: SpriteCustomizationResource, movement: int, powerup: int, pla
 	_init_lives(lives)
 	_init_name(player_name)
 
+
 func update_movement(value) -> void:
 	if is_instance_valid(_movement_ui):
 		_movement_ui.set_value(value)
+
 
 func update_powerup(value) -> void:
 	if is_instance_valid(_powerup_ui):
 		_powerup_ui.set_value(value)
 
+
 func update_lives(value: int) -> void:
 	if is_instance_valid(_lives_ui):
 		_lives_ui.set_value(value)
+
 
 ##### PROTECTED METHODS #####
 func _clean() -> void:
 	for child in onready_paths.important_data.get_children():
 		child.queue_free()
 
+
 func _add_h_separator() -> void:
 	var separator = _separator.instantiate()
 	onready_paths.important_data.add_child(separator, true)
+
 
 func _init_sprites(sprite: SpriteCustomizationResource) -> void:
 	onready_paths.sprites.body.modulate = sprite.BODY_COLOR
@@ -71,12 +81,18 @@ func _init_sprites(sprite: SpriteCustomizationResource) -> void:
 	onready_paths.sprites.eyes.texture = load(sprite.EYES_TEXTURE_PATH)
 	onready_paths.sprites.eyes.modulate = sprite.EYES_COLOR
 
+
+func _init_player_outline(player_idx: int) -> void:
+	onready_paths.player_indicator.set_player_color(player_idx)
+
+
 func _init_movement(handler: int) -> void:
 	var ui = StaticMovementBonusHandler.get_ui_scene(handler)
 	_movement_ui = ui
 	onready_paths.important_data.add_child(ui, true)
 	ui.set_icon(StaticMovementBonusHandler.get_icon_path(handler))
 	ui.modulate = MOVEMENT_UI_COLOR
+
 
 func _init_powerup(powerup: int) -> void:
 	var ui = StaticPowerupHandler.get_ui_scene(powerup)
@@ -85,6 +101,7 @@ func _init_powerup(powerup: int) -> void:
 	ui.set_icon(StaticPowerupHandler.get_icon_path(powerup))
 	ui.modulate = POWERUP_UI_COLOR
 
+
 func _init_lives(lives: int) -> void:
 	var ui = _lives_ui_load.instantiate()
 	_lives_ui = ui
@@ -92,8 +109,10 @@ func _init_lives(lives: int) -> void:
 	ui.set_value(lives)
 	ui.modulate = LIVES_UI_COLOR
 
+
 func _init_name(p_name: String) -> void:
 	onready_paths.name.text = p_name
+
 
 ##### SIGNAL MANAGEMENT #####
 func _on_movement_update_ui(value) -> void:

@@ -17,12 +17,14 @@
 [ext_resource type="Texture2D" uid="uid://xtprt5lwbpqn" path="res://Scenes/Player/Octagon.png" id="8_mtvak"]
 [ext_resource type="AudioStream" uid="uid://cvduad6i4tj47" path="res://Scenes/Player/parry_active.mp3" id="8_tyrm3"]
 [ext_resource type="AudioStream" uid="uid://ddmvud7r6r4ap" path="res://Scenes/Player/death.mp3" id="9_aqm4k"]
+[ext_resource type="Script" uid="uid://bavwj5rl8wew2" path="res://Scenes/Player/player_audio.gd" id="10_1agin"]
 [ext_resource type="AudioStream" uid="uid://d12a5q1fgxygm" path="res://Scenes/Player/hitsound.mp3" id="10_rukb4"]
 [ext_resource type="PackedScene" uid="uid://ete32krtenc4" path="res://Scenes/Weapons/Primary/crosshair.tscn" id="12_0h0ho"]
 [ext_resource type="SystemFont" uid="uid://25yexk2q7ssr" path="res://Misc/InterDisplayLight.tres" id="17_h8ma5"]
 [ext_resource type="Script" uid="uid://b77r2c5lue24w" path="res://Scenes/Player/damage_text.gd" id="17_rcvs5"]
 [ext_resource type="Script" uid="uid://1bmf2lndpaei" path="res://Scenes/Player/rich_text_hit.gd" id="18_eksi1"]
 [ext_resource type="Shader" uid="uid://brtieiqtxhkp6" path="res://Scenes/Player/player_sprites_material.gdshader" id="20_jincj"]
+[ext_resource type="Script" uid="uid://4hw5y7pm5kjd" path="res://Scenes/Player/player_indicator_outline.gd" id="22_fcwna"]
 [ext_resource type="Texture2D" uid="uid://dcr14i6u2i7da" path="res://Scenes/Player/Eyes/eyes_1.PNG" id="23_4no11"]
 [ext_resource type="Script" uid="uid://c57lrmlx8bwo7" path="res://Scenes/Player/appear_elements.gd" id="23_bmb2s"]
 [ext_resource type="Texture2D" uid="uid://2ebef4pu2k81" path="res://Scenes/Player/CharacterSpawnSprite.png" id="23_rqdc0"]
@@ -245,21 +247,53 @@ _data = {
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qh2ge"]
 size = Vector2(120, 120)
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1agin"]
+resource_local_to_scene = true
+shader = ExtResource("20_jincj")
+shader_parameter/spawn_animation_progress = 1.0
+
+[sub_resource type="Animation" id="Animation_1agin"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1.3, 1.3)]
+}
+
+[sub_resource type="Animation" id="Animation_fcwna"]
+resource_name = "scale_wave"
+length = 2.0
+loop_mode = 1
+step = 0.01
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1, 2),
+"transitions": PackedFloat32Array(0.5176326, 1.9318752, 0.517),
+"update": 0,
+"values": [Vector2(1.05, 1.05), Vector2(1.2, 1.2), Vector2(1.05, 1.05)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_1agin"]
+_data = {
+&"RESET": SubResource("Animation_1agin"),
+&"scale_wave": SubResource("Animation_fcwna")
+}
+
 [sub_resource type="RichTextEffect" id="RichTextEffect_eksi1"]
 script = ExtResource("18_eksi1")
 metadata/_custom_type_script = "uid://1bmf2lndpaei"
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_rqdc0"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_jincj"]
-resource_local_to_scene = true
-shader = ExtResource("20_jincj")
-shader_parameter/spawn_animation_progress = 1.0
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_qr1w5"]
-resource_local_to_scene = true
-shader = ExtResource("20_jincj")
-shader_parameter/spawn_animation_progress = 1.0
 
 [sub_resource type="Gradient" id="Gradient_ythyg"]
 offsets = PackedFloat32Array(0, 0.5, 1)
@@ -271,7 +305,7 @@ gradient = SubResource("Gradient_ythyg")
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ythyg"]
 particle_flag_disable_z = true
 emission_shape = 3
-emission_box_extents = Vector3(256, 256, 1)
+emission_box_extents = Vector3(512, 512, 1)
 direction = Vector3(0, 1, 0)
 spread = 0.0
 initial_velocity_min = 200.0
@@ -346,50 +380,98 @@ tracks/4/keys = {
 tracks/5/type = "value"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("Sprites/Body:material:shader_parameter/spawn_animation_progress")
+tracks/5/path = NodePath("AppearElements/MainColor:emitting")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [1.0]
+"update": 1,
+"values": [false]
 }
 tracks/6/type = "value"
 tracks/6/imported = false
 tracks/6/enabled = true
-tracks/6/path = NodePath("Sprites/Outline:material:shader_parameter/spawn_animation_progress")
+tracks/6/path = NodePath("AppearElements/SecondaryColor:emitting")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [1.0]
+"update": 1,
+"values": [false]
 }
 tracks/7/type = "value"
 tracks/7/imported = false
 tracks/7/enabled = true
-tracks/7/path = NodePath("AppearElements/MainColor:emitting")
+tracks/7/path = NodePath("Sprites/PlayerIndicatorOutline:material:shader_parameter/spawn_animation_progress")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
+"update": 0,
+"values": [1.0]
 }
 tracks/8/type = "value"
 tracks/8/imported = false
 tracks/8/enabled = true
-tracks/8/path = NodePath("AppearElements/SecondaryColor:emitting")
+tracks/8/path = NodePath("Sprites/Body:material:shader_parameter/spawn_animation_progress")
 tracks/8/interp = 1
 tracks/8/loop_wrap = true
 tracks/8/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
+"update": 0,
+"values": [1.0]
+}
+tracks/9/type = "value"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("Sprites/Outline:material:shader_parameter/spawn_animation_progress")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.0]
+}
+tracks/10/type = "value"
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/path = NodePath("Sprites/Flash:material:shader_parameter/spawn_animation_progress")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.0]
+}
+tracks/11/type = "value"
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/path = NodePath("Sprites/RotateElements/Eyes:material:shader_parameter/spawn_animation_progress")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.0]
+}
+tracks/12/type = "value"
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/path = NodePath("Sprites/RotateElements/Mouth:material:shader_parameter/spawn_animation_progress")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.0]
 }
 
 [sub_resource type="Animation" id="Animation_ythyg"]
@@ -418,55 +500,103 @@ tracks/1/keys = {
 "times": PackedFloat32Array(0, 0.5),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector2(0, -128), Vector2(0, 128)]
+"values": [Vector2(0, -300), Vector2(0, 300)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Sprites/Body:material:shader_parameter/spawn_animation_progress")
+tracks/2/path = NodePath("AppearElements/MainColor:emitting")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
 "times": PackedFloat32Array(0, 0.5),
 "transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [-0.3, 1.0]
+"update": 1,
+"values": [true, false]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("Sprites/Outline:material:shader_parameter/spawn_animation_progress")
+tracks/3/path = NodePath("AppearElements/SecondaryColor:emitting")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
 "times": PackedFloat32Array(0, 0.5),
 "transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [-0.3, 1.0]
+"update": 1,
+"values": [true, false]
 }
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("AppearElements/MainColor:emitting")
+tracks/4/path = NodePath("Sprites/PlayerIndicatorOutline:material:shader_parameter/spawn_animation_progress")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
 "times": PackedFloat32Array(0, 0.5),
 "transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [true, false]
+"update": 0,
+"values": [-0.30000001192093, 1.0]
 }
 tracks/5/type = "value"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("AppearElements/SecondaryColor:emitting")
+tracks/5/path = NodePath("Sprites/Body:material:shader_parameter/spawn_animation_progress")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
 "times": PackedFloat32Array(0, 0.5),
 "transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [true, false]
+"update": 0,
+"values": [-0.30000001192093, 1.0]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Sprites/Outline:material:shader_parameter/spawn_animation_progress")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [-0.30000001192093, 1.0]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("Sprites/Flash:material:shader_parameter/spawn_animation_progress")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [-0.30000001192093, 1.0]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("Sprites/RotateElements/Eyes:material:shader_parameter/spawn_animation_progress")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [-0.30000001192093, 1.0]
+}
+tracks/9/type = "value"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("Sprites/RotateElements/Mouth:material:shader_parameter/spawn_animation_progress")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [-0.30000001192093, 1.0]
 }
 
 [sub_resource type="Animation" id="Animation_8vk0k"]
@@ -510,11 +640,6 @@ _data = {
 collision_layer = 2
 collision_mask = 5
 script = ExtResource("1_b1dbg")
-DAMAGE = null
-GAME_PROXY_PATH = null
-id = null
-sync_velocity = null
-sync_position = null
 
 [node name="InputSynchronizer" type="Node" parent="." unique_id=554876520]
 script = ExtResource("5_uow23")
@@ -535,7 +660,7 @@ ACTION_MANAGER_PATH = NodePath("../ActionManager")
 INIT_PATH = NodePath("../Init")
 HITSTUN_MANAGER = NodePath("../HitstunManager")
 CROSSHAIR_PATH = NodePath("../Crosshair")
-HIT_SOUND_PATH = NodePath("../Audio/Hit")
+AUDIO_MANAGER_PATH = NodePath("../Audio")
 DEATH_MANAGER_PATH = NodePath("../DeathManager")
 APPEAR_ELEMENTS = NodePath("../AppearElements")
 PREDICT_BOUNCES_RAY_CAST = NodePath("../PredictBouncesRayCast")
@@ -575,6 +700,7 @@ scale = Vector2(0.33, 0.33)
 polygon = PackedVector2Array(64, -128, -64, -128, -128, -64, -128, 64, -64, 128, 64, 128, 128, 64, 128, -64)
 
 [node name="Audio" type="Node2D" parent="." unique_id=623764203]
+script = ExtResource("10_1agin")
 
 [node name="Hit" type="AudioStreamPlayer2D" parent="Audio" unique_id=709807897]
 stream = ExtResource("10_rukb4")
@@ -628,10 +754,10 @@ one_shot = true
 libraries/ = SubResource("AnimationLibrary_owers")
 
 [node name="ParryLockout" type="Sprite2D" parent="ParryArea" unique_id=24609239]
-visible = false
 modulate = Color(0.396078, 0.396078, 0.396078, 0.784314)
 z_index = 1
-scale = Vector2(0.33, 0.33)
+position = Vector2(-1.5000019, 1.5000086)
+scale = Vector2(0.50390625, 0.50390625)
 texture = ExtResource("2_pi5cj")
 
 [node name="BounceArea" type="Area2D" parent="." unique_id=1936910212]
@@ -643,6 +769,48 @@ script = ExtResource("4_d6e7m")
 shape = SubResource("RectangleShape2D_qh2ge")
 disabled = true
 
+[node name="Sprites" type="Node2D" parent="." unique_id=993602004]
+scale = Vector2(0.5, 0.5)
+script = ExtResource("5_b3kqx")
+
+[node name="PlayerIndicatorOutline" type="Sprite2D" parent="Sprites" unique_id=1531393407]
+modulate = Color(1, 1, 0, 1)
+material = SubResource("ShaderMaterial_1agin")
+scale = Vector2(1.3, 1.3)
+texture = ExtResource("2_pi5cj")
+script = ExtResource("22_fcwna")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Sprites/PlayerIndicatorOutline" unique_id=1001557363]
+libraries/ = SubResource("AnimationLibrary_1agin")
+autoplay = &"scale_wave"
+
+[node name="Body" type="Sprite2D" parent="Sprites" unique_id=490366403]
+modulate = Color(0, 1, 1, 1)
+material = SubResource("ShaderMaterial_1agin")
+texture = ExtResource("2_pi5cj")
+
+[node name="Outline" type="Sprite2D" parent="Sprites" unique_id=750553046]
+modulate = Color(0, 0.454902, 1, 1)
+material = SubResource("ShaderMaterial_1agin")
+texture = ExtResource("3_b0wk1")
+
+[node name="Flash" type="Sprite2D" parent="Sprites" unique_id=1844027907]
+visible = false
+modulate = Color(1, 1, 1, 0.607843)
+material = SubResource("ShaderMaterial_1agin")
+texture = ExtResource("2_pi5cj")
+
+[node name="RotateElements" type="Node2D" parent="Sprites" unique_id=1333242983]
+scale = Vector2(0.9999999, 0.9999999)
+
+[node name="Eyes" type="Sprite2D" parent="Sprites/RotateElements" unique_id=395115402]
+material = SubResource("ShaderMaterial_1agin")
+texture = ExtResource("23_4no11")
+
+[node name="Mouth" type="Sprite2D" parent="Sprites/RotateElements" unique_id=1830395862]
+material = SubResource("ShaderMaterial_1agin")
+texture = ExtResource("24_fcwna")
+
 [node name="DamageLabel" type="RichTextLabel" parent="." unique_id=35999088]
 clip_contents = false
 anchors_preset = 8
@@ -651,9 +819,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -75.0
-offset_top = -132.0
+offset_top = -150.0
 offset_right = 75.0
-offset_bottom = -57.0
+offset_bottom = -75.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/default_color = Color(1, 1, 1, 1)
@@ -670,35 +838,6 @@ horizontal_alignment = 1
 custom_effects = [SubResource("RichTextEffect_eksi1")]
 script = ExtResource("17_rcvs5")
 
-[node name="Sprites" type="Node2D" parent="." unique_id=993602004]
-material = SubResource("ShaderMaterial_rqdc0")
-scale = Vector2(0.33, 0.33)
-script = ExtResource("5_b3kqx")
-
-[node name="Body" type="Sprite2D" parent="Sprites" unique_id=490366403]
-modulate = Color(0, 1, 1, 1)
-material = SubResource("ShaderMaterial_jincj")
-texture = ExtResource("2_pi5cj")
-
-[node name="Outline" type="Sprite2D" parent="Sprites" unique_id=750553046]
-modulate = Color(0, 0.454902, 1, 1)
-material = SubResource("ShaderMaterial_qr1w5")
-texture = ExtResource("3_b0wk1")
-
-[node name="Flash" type="Sprite2D" parent="Sprites" unique_id=1844027907]
-visible = false
-modulate = Color(1, 1, 1, 0.607843)
-texture = ExtResource("2_pi5cj")
-
-[node name="RotateElements" type="Node2D" parent="Sprites" unique_id=1333242983]
-scale = Vector2(0.9999999, 0.9999999)
-
-[node name="Eyes" type="Sprite2D" parent="Sprites/RotateElements" unique_id=395115402]
-texture = ExtResource("23_4no11")
-
-[node name="Mouth" type="Sprite2D" parent="Sprites/RotateElements" unique_id=1830395862]
-texture = ExtResource("24_fcwna")
-
 [node name="AppearElements" type="Node2D" parent="." unique_id=524002685]
 scale = Vector2(0.33, 0.33)
 script = ExtResource("23_bmb2s")
@@ -707,7 +846,7 @@ script = ExtResource("23_bmb2s")
 modulate = Color(0.5, 1, 0.991667, 1)
 self_modulate = Color(1, 1, 1, 0)
 position = Vector2(0, -128)
-scale = Vector2(2, 2)
+scale = Vector2(3, 3)
 texture = ExtResource("23_rqdc0")
 
 [node name="MainColor" type="GPUParticles2D" parent="AppearElements" unique_id=919559798]
@@ -750,6 +889,12 @@ collision_mask = 3
 [node name="PredictBouncesRayCast" type="Node2D" parent="." unique_id=2023343987]
 script = ExtResource("27_bmb2s")
 
+[connection signal="abilities_toggled" from="." to="ParryArea" method="_on_player_abilities_toggled"]
+[connection signal="damage_received" from="." to="HitstunManager" method="_on_player_damage_received"]
+[connection signal="damage_received" from="." to="Audio" method="_on_player_damage_received"]
+[connection signal="damage_received" from="." to="Sprites/PlayerIndicatorOutline" method="_on_player_damage_received"]
+[connection signal="damage_received" from="." to="HitParticles" method="_on_player_damage_received"]
+[connection signal="last_hit_owner_changed" from="." to="DeathManager" method="_on_player_last_hit_owner_changed"]
 [connection signal="timeout" from="DeathManager/DeathAnimTime" to="DeathManager" method="_on_death_anim_time_timeout"]
 [connection signal="area_entered" from="ParryArea" to="ParryArea" method="_on_area_entered"]
 [connection signal="timeout" from="ParryArea/ParryTimer" to="ParryArea" method="_on_parry_timer_timeout"]

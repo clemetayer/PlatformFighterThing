@@ -56,7 +56,7 @@ func get_game_message() -> String:
 
 func get_player(id: int) -> Node2D:
 	for player in onready_paths.game.onready_paths.players.get_children():
-		if player.id == id:
+		if player.PLAYER_ID == id:
 			return player
 	return null
 
